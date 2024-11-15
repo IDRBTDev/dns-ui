@@ -3,19 +3,67 @@
     color: black;
     cursor: pointer;
 }
-#signInDropdown {
-    border: 1px solid transparent;  
-    font-size: 18px;                  
-    color: black;                     
-    padding: 10px 20px;              
-    display: inline-flex;             
-    align-items: center;    
-   padding-top: 20px;
-    padding-bottom: 0px;  
-    margin-right: 50px;     
+ /* Dropdown Button */
+ #signInDropdown {
+    width: auto;  
+    font-size: 18px;
+    color: black;
+    padding: 10px 20px;
+    display: inline-flex;
+    margin-right: 50px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    padding-top: 10px;
+
 }
+  .dropdown-item{
+    font-family: Inter;
+font-size: 20px;
+font-weight: 400;
+line-height: 24.2px;
+text-align: left;
+text-decoration-line: underline;
+text-decoration-style: solid;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:#1E3A8A
 
-
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+    
+    top: 110%;                     /* Position it below the button */
+    left: -193px;                   /* Shift the dropdown to the left (increase this value as needed) */
+    width: 350px;                  /* Increased width */
+    padding: 12px 24px;            /* Padding inside the menu */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Box shadow */
+    border-radius: 4px;            /* Round corners */
+    opacity: 0;                    /* Initially hidden */
+    visibility: hidden;            /* Hidden by default */
+    z-index: 1000;                 /* Ensure visibility */
+    transition: opacity 0.2s ease; /* Smooth transition */
+    margin-left:auto;  
+    padding-left: 10px; 
+    position:absolute;  
+   
+        /* Space from the right */
+  }
+  
+  /* Display dropdown */
+  .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Make dropdown responsive on smaller screens */
+  @media (max-width: 768px) {
+    .dropdown-menu {
+      width: 250px;   /* Adjust width for smaller screens */
+    }
+  }
+  
 .heading{
     font-family: Inter;
 font-size: 40px;
@@ -56,7 +104,7 @@ margin-top: 10px;
 .svg-container {
     width: 792.31px;      
     height: 172px;         
-     
+    
     top: 214px;        
     left: 72px;            
     opacity: 1;           
@@ -82,7 +130,13 @@ margin-top: 10px;
     justify-content: flex-end; 
     position: fixed; 
 }
-
+.header-first{
+    flex-direction:row;
+    opacity: 1;
+    display: flex; 
+    justify-content: flex-start; 
+    position: fixed; 
+}
 
 
 .dropdown .btn {

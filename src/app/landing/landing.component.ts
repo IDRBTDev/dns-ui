@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class LandingComponent {
 
+  isDropdownOpen: boolean = false;
+ 
+ 
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
 }
