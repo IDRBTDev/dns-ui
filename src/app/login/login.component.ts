@@ -45,7 +45,6 @@ export class LoginComponent {
   }
 
   toggleOtpButton() {
-   
     this.showOtpButton = this.email.length > 0; 
   }
 
