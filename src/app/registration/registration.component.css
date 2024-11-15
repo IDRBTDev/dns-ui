@@ -1,0 +1,146 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.background {
+    background: #F5FAFF;
+    position: fixed;
+    top: 50px;            
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;           
+}
+
+#login {
+    background-color: white;
+    width: 600px;
+    position: fixed;
+    top: 90px;            
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 10;            
+    max-width: 100%;
+    height: 643px;
+    margin-bottom: 10px
+}
+.title{
+    margin-bottom: 10px;
+}
+.otp-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+#otp, #password, .form-control {
+    width: 100%;  
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid #ced4da;   
+    border-radius: 5px;         
+    font-size: 14px;
+    line-height: 50px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#otp:focus, #password:focus, .form-control:focus {
+    border-color: #80bdff;  
+    outline: none;         
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.get-email-btn, .get-number-btn, .login-btn {
+    height: 50px;            
+    line-height: 50px;       
+    border-radius: 5px;    
+    border: 1px solid #ced4da;
+    background-color: #007bff;
+    color: white;
+    padding: 0 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+
+.get-email-btn:hover, .get-number-btn:hover, .login-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+
+.get-email-btn:focus, .get-number-btn:focus, .login-btn:focus {
+    box-shadow: 0 0 5px rgba(38, 143, 255, 0.5);  
+    border-color: #80bdff;  
+}
+
+#togglePassword {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 18px;
+}
+
+#eyeIcon {
+    display: inline;
+}
+
+#eyeSlashIcon {
+    display: none;
+}
+
+#togglePassword.show-password #eyeIcon {
+    display: none;
+}
+
+#togglePassword.show-password #eyeSlashIcon {
+    display: inline;
+}
+
+
+.small-text {
+    font-size: 12px;
+    color: gray;
+    text-align: center;
+}
+
+
+.instruction-text {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    #login {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .get-email-btn, .get-number-btn {
+        font-size: 12px;
+        height: 40px;
+    }
+}
