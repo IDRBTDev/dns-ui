@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { RegistrationService } from './service/Registration.service';
+import { lastValueFrom } from 'rxjs';
+import { HttpStatusCode } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -6,6 +11,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
+
+  constructor(private registrationService: RegistrationService,
+    private toastrService: ToastrService,
+    private router: Router
+  ){}
 
   email: string = '';
   showEmailButton: boolean = false; 
@@ -32,6 +42,25 @@ phn:String='';
     if (!this.showNumberButton && this.phn.length > 0) {
       this.showNumberButton = true;
     }
+  }
+
+  user = {
+    name:'',
+    userId: '',
+    encryptedPassword: '',
+    mobileNumber: '',
+    confirmPassword:''
+  }
+
+  async registerUser(){
+    await lastValueFrom(this.registrationService.userRegistationToDR(this.user)).then(
+      response => {
+        if(response.status === HttpStatusCode.Created){
+          this.toastrService.success('User registration successfull');
+          this.router.navigateByUrl('/login')
+        }
+      }
+    )
   }
 
 }

@@ -4,11 +4,18 @@
     cursor: pointer;
 }
 #signInDropdown {
-    border: 1px solid transparent;
-  font-size: 18px;
-    color: black;                  
+    border: 1px solid transparent;  
+    font-size: 18px;                  
+    color: black;                     
     padding: 10px 20px;              
+    display: inline-flex;             
+    align-items: center;    
+   padding-top: 20px;
+    padding-bottom: 0px;  
+    margin-right: 50px;     
 }
+
+
 .heading{
     font-family: Inter;
 font-size: 40px;
@@ -31,57 +38,52 @@ margin-top: 10px;
     border: 1px solid #E6E6E6;
     padding: 5px;
     width: 400px;
-    height: 219px;  /* Corrected this line */
+    height: 219px;  
     margin-bottom: 15px;
 }
 
 .hero-image {
-    width: 100vw; /* Full width of the parent container */
-    height: auto; /* Let the container height adjust based on the aspect ratio of the SVG */
+    width: 100vw; 
+    height: auto; 
     background: linear-gradient(112.15deg, #1E3A8A 1.43%, #1F2937 98.57%);
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     color:white;
-    /* background-image: url(Assects/image.jfif); */
+    
     
 }
 .svg-container {
-    width: 792.31px;       /* Set the width of the container */
-    height: 172px;         /* Set the height of the container */
-       /* Position relative to allow absolute child positioning */
-    top: 214px;            /* Vertical positioning relative to the page */
-    left: 72px;            /* Horizontal positioning relative to the page */
-    opacity: 1;            /* Set opacity for the container */
+    width: 792.31px;      
+    height: 172px;         
+     
+    top: 214px;        
+    left: 72px;            
+    opacity: 1;           
 }
 .hero-image svg {
-    width: 100%; /* Full width of the parent container (no overflow) */
+    width: 100%; 
     height: auto; 
-    position: fixed;/* Auto height to maintain aspect ratio */
+    position: fixed;
 }
 
 
 
 .custom-container {
     width: 100%; 
-    position: fixed;
+  
 }
 
 .custom-element {
-   
-    top: 16px;
-    left: 1118px;
     gap: 24px;
+    flex-direction:row;
     opacity: 1;
     display: flex; 
     justify-content: flex-end; 
-    align-items: center;
     position: fixed; 
 }
 
-.custom-element .text-center {
-    margin-right: 20px;
-}
+
 
 .dropdown .btn {
     padding: 0.5rem 1rem;
@@ -162,7 +164,7 @@ margin-top: 10px;
     gap: 0px;
     opacity: 1;
     background: #1F2937;
-
+width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;

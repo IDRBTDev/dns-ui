@@ -10,6 +10,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HeaderComponent } from './header/header.component';
 import { LandingComponent } from './landing/landing.component';
 import { FormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http'
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,18 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     RegistrationComponent,
     HeaderComponent,
-    LandingComponent
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'right'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
