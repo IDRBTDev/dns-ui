@@ -4,17 +4,29 @@
     cursor: pointer;
 }
  /* Dropdown Button */
- #signInDropdown {
+ /* #signInDropdown {
     width: auto;  
-    font-size: 18px;
+    font-size: 20px;
     color: black;
-    padding: 10px 20px;
-    display: inline-flex;
+   
+    display: flex;
     margin-right: 50px;
     border-radius: 4px;
-    background-color: #f8f9fa;
+    
     padding-top: 10px;
+    padding-bottom: 10
 
+} */
+#signInDropdown {
+    /* Removes the default button border */
+    font-size: 20px;                  /* Adjust font size */
+    color: black;                     /* Button text color */
+    padding: 10px 20px;               /* Padding inside the button */
+    display: inline-flex;             /* Ensures the button aligns properly with other text elements */
+    align-items: center;  
+    margin-right: 50px;  
+  
+    padding-top: 10px;      /* Vertically center the button text */
 }
   .dropdown-item{
     font-family: Inter;
@@ -29,8 +41,7 @@ text-decoration-skip-ink: none;
 color:#1E3A8A
 
   }
-  
-  /* Dropdown Menu */
+    /* Dropdown Menu */
   .dropdown-menu {
     
     top: 110%;                     /* Position it below the button */
@@ -129,7 +140,9 @@ margin-top: 10px;
     display: flex; 
     justify-content: flex-end; 
     position: fixed; 
+    z-index: 100;
 }
+
 .header-first{
     flex-direction:row;
     opacity: 1;
@@ -140,9 +153,12 @@ margin-top: 10px;
 
 
 .dropdown .btn {
-    padding: 0.5rem 1rem;
+   
+    margin-top: 10px;
 }
-
+.all{
+    padding-top: 0px;
+}
 .second {
     width: 100vw; 
     height: 373px;
