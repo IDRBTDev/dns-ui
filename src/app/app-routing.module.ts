@@ -5,13 +5,15 @@ import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HeaderComponent } from './header/header.component';
+import { DomainComponent } from './domain/domain.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'landing', component: LandingComponent},
   {path:'login', component: LoginComponent},
   {path:'registration', component: RegistrationComponent},
-  {path:'header', component: HeaderComponent}
+  {path:'header', component: HeaderComponent},
+  {path:'domains', component: DomainComponent}
 ];
 
 @NgModule({

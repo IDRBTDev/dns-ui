@@ -12,6 +12,13 @@ import { LandingComponent } from './landing/landing.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
 import { ToastrModule } from 'ngx-toastr';
+import { DomainComponent } from './domain/domain.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { SideMenuComponent } from './side-menu/side-menu.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon'
 
 @NgModule({
   declarations: [
@@ -21,6 +28,8 @@ import { ToastrModule } from 'ngx-toastr';
     RegistrationComponent,
     HeaderComponent,
     LandingComponent,
+    DomainComponent,
+    SideMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +40,12 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'right'
-    })
+    }),
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSidenavModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
