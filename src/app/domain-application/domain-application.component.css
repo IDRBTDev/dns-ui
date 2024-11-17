@@ -1,0 +1,38 @@
+.example-container {
+    /* height: 400px; */
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  table tr th{
+    background-color: #ECF4FC;
+  }
+
+  .layout-container {
+    display: flex;
+    height: 100vh; /* Full-height layout */
+  }
+  
+  app-side-menu {
+    flex: 0 0 250px; /* Fixed width for the sidebar */
+    max-width: 90px;
+    min-width: 90px;
+    background-color: #f8f9fa; /* Example background color */
+  }
+  
+  .content-area {
+    flex: 1; /* Fills the remaining space */
+    padding: 0;
+    overflow-y: auto; /* Handles scrolling for content */
+  }
+
+
+  table tr th{
+    font-size: 13px;
+  }
+
+  table tr td{
+    font-size: 13px;
+  }
+  

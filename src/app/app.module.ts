@@ -18,7 +18,8 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import { DomainApplicationComponent } from './domain-application/domain-application.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {MatIconModule} from '@angular/material/icon'
     LandingComponent,
     DomainComponent,
     SideMenuComponent,
+    DomainApplicationComponent,
   ],
   imports: [
     BrowserModule,

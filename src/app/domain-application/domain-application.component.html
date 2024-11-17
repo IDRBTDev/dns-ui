@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row" style="padding-top: 100px;">
           <div class="col-sm-12">
-            <h3>Domains</h3>
+            <h3>Applications</h3>
             <section class="example-container" style="margin-top: 10px;">
               <table id="table1" mat-table [dataSource]="domainsDataSource" matSort class="mat-elevation-z8">
                 <!-- Checkbox Column -->
@@ -25,27 +25,27 @@
                 </ng-container>
   
                 <!-- Domain Name Column -->
+                <ng-container matColumnDef="organisationName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisations Name</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.organizationName}}</td>
+                </ng-container>
+  
+                <!-- Organisation Name Column -->
                 <ng-container matColumnDef="domainName">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain Name</th>
                   <td mat-cell *matCellDef="let domain">{{domain.domainName}}</td>
                 </ng-container>
   
-                <!-- Organisation Name Column -->
-                <ng-container matColumnDef="orgName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisation Name</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.organizationName}}</td>
-                </ng-container>
-  
                 <!-- Registration Date Column -->
-                <ng-container matColumnDef="regDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.registrationDate}}</td>
+                <ng-container matColumnDef="submissionDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Submission Date</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.submissionDate}}</td>
                 </ng-container>
   
                 <!-- Renewal Date Column -->
-                <ng-container matColumnDef="renewalDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Renewal Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.renewalDate}}</td>
+                <ng-container matColumnDef="nsRecordStatus">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>NS Record Status</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.nsRecordStatus}}</td>
                 </ng-container>
   
                 <!-- Status Column -->
@@ -53,6 +53,16 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                   <td mat-cell *matCellDef="let domain">{{domain.status}}</td>
                 </ng-container>
+
+                <ng-container matColumnDef="industry">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Industry</th>
+                    <td mat-cell *matCellDef="let domain">{{domain.industry}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="tenure">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tenure (yrs)</th>
+                    <td mat-cell *matCellDef="let domain">{{domain.numberOfYears}}</td>
+                  </ng-container>
   
                 <!-- Header Row -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
