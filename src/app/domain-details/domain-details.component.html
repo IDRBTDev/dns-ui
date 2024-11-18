@@ -1,1 +1,56 @@
-<p>domain-details works!</p>
+<div class="layout-container">
+    <app-side-menu></app-side-menu>
+    <div class="content-area">
+      <app-header></app-header>
+      <div class="container-fluid">
+        <div class="row" style="padding-top: 100px;">
+          <div class="col-sm-12">
+            <h3>Domain Details</h3><br/>
+                <div class="row row-cols-5" style="background: #F5FAFF;">
+                    <div class="col" style="font-weight: 500;">Domain</div>
+                    <div class="col" style="font-weight: 500;">Organisation</div>
+                    <div class="col" style="font-weight: 500;">Domain Status</div>
+                    <div class="col" style="font-weight: 500;">Registration Date</div>
+                    <div class="col" style="font-weight: 500;">Renewal Date</div>
+                </div>
+                <div class="row row-cols-5" style="padding-top: 20px;">
+                    <div class="col">{{domainDetail.domainName}}</div>
+                    <div class="col">{{domainDetail.organizationName}}</div>
+                    <div class="col">{{domainDetail.status}}</div>
+                    <div class="col">{{domainDetail.registrationDate}}</div>
+                    <div class="col">{{domainDetail.renewalDate}}</div>
+                </div>
+                <br/><br/>
+                <h4>Name Servers</h4>
+                <div class="row row-cols-3" style="background: #F5FAFF;">
+                    <div class="col" style="font-weight: 500;">Host Name</div>
+                    <div class="col" style="font-weight: 500;">IP Address</div>
+                    <div class="col" style="font-weight: 500;">TTL</div>
+                </div>
+                <div class="row row-cols-3" style="padding-top: 20px;" 
+                *ngFor="let ns of domainDetail.nameServers">
+                    <div class="col">{{ns.hostName}}</div>
+                    <div class="col">{{ns.ipAddress}}</div>
+                    <div class="col">{{ns.domainId}}</div>
+                </div>
+                <br/><br/>
+                <h4>Billing History</h4>
+                <div class="row row-cols-4" style="background: #F5FAFF;">
+                    <div class="col" style="font-weight: 500;">Invoice No</div>
+                    <div class="col" style="font-weight: 500;">Amount</div>
+                    <div class="col" style="font-weight: 500;">Invoice Date</div>
+                    <div class="col" style="font-weight: 500;">Status</div>
+                </div>
+                <div class="row row-cols-4" style="padding-top: 20px;" 
+                *ngFor="let bh of domainDetail.billingHistory">
+                    <div class="col">{{bh.invoiceNumber}}</div>
+                    <div class="col">{{bh.amount}}{{"$"}}</div>
+                    <div class="col">{{bh.invoiceDate}}</div>
+                    <div class="col">{{bh.status}}</div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

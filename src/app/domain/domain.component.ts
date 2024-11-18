@@ -56,7 +56,12 @@ export class DomainComponent implements OnInit {
     );
   }
 
+  navigateToDomainDetails(domainId: number){
+    this.router.navigate(['/domain-details'],{queryParams:{domainId:domainId}});
+  }
+
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');
   }
+  
 }

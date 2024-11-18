@@ -14,4 +14,8 @@ export class DomainService{
         return this.httpClient.get<any[]>(`${this.domainsUrl}/all`,{observe: 'response'});
     }
 
+    getDomainByDomainId(domainId: number){
+        return this.httpClient.get<any>(`${this.domainsUrl}/getDetails/${domainId}`, {observe:'response'})
+    }
+
 }
