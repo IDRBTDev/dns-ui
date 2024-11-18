@@ -7,6 +7,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HeaderComponent } from './header/header.component';
 import { DomainComponent } from './domain/domain.component';
 import { DomainApplicationComponent } from './domain-application/domain-application.component';
+import { DomainDetailsComponent } from './domain-details/domain-details.component';
+import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -15,7 +17,11 @@ const routes: Routes = [
   {path:'registration', component: RegistrationComponent},
   {path:'header', component: HeaderComponent},
   {path:'domains', component: DomainComponent},
-  {path:'applications', component: DomainApplicationComponent}
+  {path:'applications', component: DomainApplicationComponent},
+  {path:'domain-details', component: DomainDetailsComponent},
+  {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
+  {path: '',redirectTo:'/landing', pathMatch: 'full'},
+  {path: '',component: LandingComponent}
 ];
 
 @NgModule({

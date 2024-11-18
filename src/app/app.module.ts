@@ -19,7 +19,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
-import { DomainApplicationComponent } from './domain-application/domain-application.component'
+import { DomainApplicationComponent } from './domain-application/domain-application.component';
+import { DomainDetailsComponent } from './domain-details/domain-details.component';
+import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component'
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { DomainApplicationComponent } from './domain-application/domain-applicat
     DomainComponent,
     SideMenuComponent,
     DomainApplicationComponent,
+    DomainDetailsComponent,
+    DomainApplicationDetailsComponent,
   ],
   imports: [
     BrowserModule,
