@@ -46,8 +46,8 @@ import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.compo
     FormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 2000,
-      positionClass: 'right'
+      preventDuplicates:true,
+      timeOut: 2000
     }),
     MatTableModule,
     MatSortModule,

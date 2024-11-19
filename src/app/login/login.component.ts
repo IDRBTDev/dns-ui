@@ -3,6 +3,7 @@ import { LoginService } from './service/login.service';
 import { lastValueFrom } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+  //loggedInUserEmailId: string = localStorage.getItem('email');
 
   constructor(private loginService: LoginService,
     private toastr: ToastrService, private router: Router
@@ -30,13 +33,32 @@ export class LoginComponent {
     loginCountry: ''
   }
 
+  isOtpValid: boolean = false;
   async login(){
-    await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
+    //check if OTP is valid
+    if(this.otp === undefined || this.otp === null){
+      this.otp = 0;
+    }
+    await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
       response => {
-        this.router.navigateByUrl('/home');
-        this.toastr.success('Login Success')
+        if(response.status === HttpStatusCode.Ok){
+          this.isOtpValid = response.body;
+          this.otp = null;
+        }
       }
     )
+    console.log(this.isOtpValid)
+    //login to app
+    if(this.isOtpValid){
+      await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
+        response => {
+          this.router.navigateByUrl('/home');
+          this.toastr.success('Login Success')
+        }
+      )
+    }else{
+      this.toastr.error('Invalid OTP');
+    }
   }
 
   toggleShowPassword() {
@@ -52,6 +74,33 @@ export class LoginComponent {
     if (!this.showOtpButton && this.user.email.length > 0) {
       this.showOtpButton = true;
     }
+  }
+
+  loginUserOtp: number = 0;
+  async getOtpForLoginUser(){
+    await lastValueFrom(this.loginService.getOtpForLoginUserByUserId(this.user.email)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.loginUserOtp = response.body;
+          console.log(this.loginUserOtp)
+          this.toastr.success('An OTP has been sent to you email.')
+        }
+      },error => {
+        if(error.status === HttpStatusCode.InternalServerError){
+          this.toastr.error('Error while fetching otp... please try again.')
+        }
+      }
+    )
+  }
+
+  async verifyOtpOfLoggedInUser(){
+    await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          console.log(this.otp)
+        }
+      }
+    )
   }
 
 }
