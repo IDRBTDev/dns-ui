@@ -1,0 +1,77 @@
+<div class="layout-container">
+    <app-side-menu></app-side-menu>
+    <div class="content-area">
+      <app-header></app-header>
+      <div class="container-fluid">
+        <div class="row" style="padding-top: 100px;">
+          <div class="col-sm-12">
+            <h3>Invoices</h3>
+            <section class="example-container" style="margin-top: 10px;">
+              <table id="table1" mat-table [dataSource]="domainsDataSource" matSort class="mat-elevation-z8">
+                 <!-- Checkbox Column -->
+                <ng-container matColumnDef="checkbox">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <input type="checkbox" id="mainCheckBox" />
+                  </th>
+                  <td mat-cell *matCellDef="let domain; let i = index">
+                    <input type="checkbox" id="subCheckBox{{i}}" class="subCheckBox" value="{{domain.domainId}}" />
+                  </td>
+                </ng-container>
+
+                 <!-- sl no Column -->
+                <ng-container matColumnDef="slno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.No</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.slno}}</td>
+                </ng-container>
+
+                 <!-- organisationname Name Column -->
+                <ng-container matColumnDef="organisationname">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisations Name</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.organisationname}}</td>
+                </ng-container>
+
+                 <!-- invoiceno Column -->
+                <ng-container matColumnDef="invoiceno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice No</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.invoiceno}}</td>
+                </ng-container>
+
+                 <!-- date Column -->
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.date}}</td>
+                </ng-container>
+
+                 <!-- amount Column -->
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.amount}}</td>
+                </ng-container>
+
+                 <!-- duedate Column -->
+                <ng-container matColumnDef="duedate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.duedate}}</td>
+                </ng-container>
+
+                <!-- status Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                  <td mat-cell *matCellDef="let domain">{{domain.status}}</td>
+                </ng-container>
+
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+
+
+
+              </table>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

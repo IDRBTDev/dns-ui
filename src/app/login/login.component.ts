@@ -18,7 +18,7 @@ export class LoginComponent {
   }
 
   showPassword: boolean | undefined;
-  email: string = ''; 
+  
   showOtpButton: boolean = false;
   otp: number ;
 
@@ -31,7 +31,6 @@ export class LoginComponent {
   }
 
   async login(){
-    //this.user.email = this.email;
     await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
       response => {
         this.router.navigateByUrl('/home');
@@ -45,12 +44,12 @@ export class LoginComponent {
   }
 
   toggleOtpButton() {
-    this.showOtpButton = this.email.length > 0; 
+    this.showOtpButton = this.user.email.length > 0; 
   }
 
   onFocus() {
 
-    if (!this.showOtpButton && this.email.length > 0) {
+    if (!this.showOtpButton && this.user.email.length > 0) {
       this.showOtpButton = true;
     }
   }

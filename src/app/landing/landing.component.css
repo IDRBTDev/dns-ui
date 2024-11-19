@@ -3,30 +3,17 @@
     color: black;
     cursor: pointer;
 }
- /* Dropdown Button */
- /* #signInDropdown {
-    width: auto;  
-    font-size: 20px;
-    color: black;
-   
-    display: flex;
-    margin-right: 50px;
-    border-radius: 4px;
-    
-    padding-top: 10px;
-    padding-bottom: 10
-
-} */
+ 
 #signInDropdown {
-    /* Removes the default button border */
-    font-size: 20px;                  /* Adjust font size */
-    color: black;                     /* Button text color */
-    padding: 10px 20px;               /* Padding inside the button */
-    display: inline-flex;             /* Ensures the button aligns properly with other text elements */
+  
+    font-size: 20px;               
+    color: black;                   
+    padding: 10px 20px;               
+    display: inline-flex;            
     align-items: center;  
     margin-right: 50px;  
   
-    padding-top: 10px;      /* Vertically center the button text */
+    padding-top: 10px;      
 }
   .dropdown-item{
     font-family: Inter;
@@ -41,37 +28,35 @@ text-decoration-skip-ink: none;
 color:#1E3A8A
 
   }
-    /* Dropdown Menu */
+    
   .dropdown-menu {
     
-    top: 110%;                     /* Position it below the button */
-    left: -193px;                   /* Shift the dropdown to the left (increase this value as needed) */
-    width: 350px;                  /* Increased width */
-    padding: 12px 24px;            /* Padding inside the menu */
+    top: 110%;                  
+    left: -193px;                  
+    width: 350px;                
+    padding: 12px 24px;            
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Box shadow */
-    border-radius: 4px;            /* Round corners */
-    opacity: 0;                    /* Initially hidden */
-    visibility: hidden;            /* Hidden by default */
-    z-index: 1000;                 /* Ensure visibility */
-    transition: opacity 0.2s ease; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;          
+    opacity: 0;                    
+    visibility: hidden;          
+    z-index: 1000;               
+    transition: opacity 0.2s ease; 
     margin-left:auto;  
     padding-left: 10px; 
     position:absolute;  
    
-        /* Space from the right */
   }
   
-  /* Display dropdown */
+ 
   .dropdown-menu.show {
     opacity: 1;
     visibility: visible;
   }
   
-  /* Make dropdown responsive on smaller screens */
   @media (max-width: 768px) {
     .dropdown-menu {
-      width: 250px;   /* Adjust width for smaller screens */
+      width: 250px;  
     }
   }
   
@@ -141,6 +126,7 @@ margin-top: 10px;
     justify-content: flex-end; 
     position: fixed; 
     z-index: 100;
+    margin-top: 10px;
 }
 
 .header-first{

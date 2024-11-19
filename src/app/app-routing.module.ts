@@ -9,6 +9,7 @@ import { DomainComponent } from './domain/domain.component';
 import { DomainApplicationComponent } from './domain-application/domain-application.component';
 import { DomainDetailsComponent } from './domain-details/domain-details.component';
 import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
+import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -19,9 +20,10 @@ const routes: Routes = [
   {path:'domains', component: DomainComponent},
   {path:'applications', component: DomainApplicationComponent},
   {path:'domain-details', component: DomainDetailsComponent},
-  {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
-  {path: '',redirectTo:'/landing', pathMatch: 'full'},
-  {path: '',component: LandingComponent}
+  {path:'domain-application-details', component: DomainApplicationDetailsComponent},
+  {path:'invoices', component: DomainInvoicesComponent},
+  {path:'',redirectTo:'/landing', pathMatch: 'full'},
+  {path:'',component: LandingComponent},
 ];
 
 @NgModule({

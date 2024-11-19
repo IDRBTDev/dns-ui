@@ -17,29 +17,29 @@ export class RegistrationComponent {
     private router: Router
   ){}
 
-  email: string = '';
+ 
   showEmailButton: boolean = false; 
 showNumberButton:boolean=false;
 phn:String='';
   toggleEmailButton() {
     
-    this.showEmailButton = this.email.length > 0;
+    this.showEmailButton = this.user.userId.length > 0;
   }
 
   onFocus() {
    
-    if (!this.showEmailButton && this.email.length > 0) {
+    if (!this.showEmailButton && this.user.userId.length > 0) {
       this.showEmailButton = true;
     }
   }
   toggleNumberButton() {
  
-    this.showNumberButton = this.phn.length > 0; 
+    this.showNumberButton = this.user.mobileNumber.length > 0; 
   }
 
   onFocus1() {
    
-    if (!this.showNumberButton && this.phn.length > 0) {
+    if (!this.showNumberButton && this.user.mobileNumber.length > 0) {
       this.showNumberButton = true;
     }
   }

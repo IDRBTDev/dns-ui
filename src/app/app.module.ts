@@ -21,7 +21,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import { DomainApplicationComponent } from './domain-application/domain-application.component';
 import { DomainDetailsComponent } from './domain-details/domain-details.component';
-import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component'
+import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
+import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component'
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DomainApplicationDetailsComponent } from './domain-application-details/
     DomainApplicationComponent,
     DomainDetailsComponent,
     DomainApplicationDetailsComponent,
+    DomainInvoicesComponent,
   ],
   imports: [
     BrowserModule,
