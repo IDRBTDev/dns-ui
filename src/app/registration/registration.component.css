@@ -1,67 +1,42 @@
-
-/* * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-} */
+}
 
 body {
     font-family: Arial, sans-serif;
+    overflow: auto;
 }
 
 .background {
     background: #F5FAFF;
     position: fixed;
-    top: 50px;            
+    top: 60px;            
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;           
+    z-index: -1;
 }
 
 #login {
     background-color: white;
     width: 700px;
-    position: fixed;
-    top: 90px;            
+    position:absolute;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    z-index: 10;            
+    z-index: 10;
     max-width: 100%;
-    height: 643px;
-    margin-bottom: 10px
-}
-.title{
-    margin-bottom: 10px;
-}
-.otp-container {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 0;
+    height:auto;
+    padding-top: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 12px;
 }
 
-/* #otp, #password, .form-control {
-    width: 100%;  
-    height: 50px;
-    padding: 0 15px;
-    border: 1px solid #ced4da;   
-    border-radius: 5px;         
-    font-size: 14px;
-    line-height: 50px;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-#otp:focus, #password:focus, .form-control:focus {
-    border-color: #80bdff;  
-    outline: none;         
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
-} */
 .form-control {
     height: 50px;
     border: 1px solid #ced4da;
@@ -72,20 +47,20 @@ body {
     box-sizing: border-box;
     margin-bottom: 5px;
     margin-top: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: #80bdff; 
+    border-color: #80bdff;
     box-shadow: 0 0 5px rgba(38, 143, 255, 0.5);
     outline: none;
 }
 
-.get-email-btn, .get-number-btn, .login-btn  {
-    height: 50px; 
+.get-email-btn, .get-number-btn, .login-btn {
+    height: 50px;
     border: 1px solid #ced4da;
     border-left: none;
-    background-color: #007bff; 
+    background-color: #007bff;
     color: white;
     padding: 0 20px;
     font-size: 14px;
@@ -94,22 +69,34 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; 
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     margin-top: 5px;
 }
 
-.get-email-btn:focus, .get-number-btn:focus, .login-btn:focus  {
+.get-email-btn:focus, .get-number-btn:focus, .login-btn:focus {
     outline: none;
     border-color: #80bdff;
-    box-shadow: 0 0 5px rgba(38, 143, 255, 0.5); 
+    box-shadow: 0 0 5px rgba(38, 143, 255, 0.5);
 }
 
 .get-email-btn:hover, .get-number-btn:hover, .login-btn:hover {
-    background-color: #0056b3; 
-    border-color: #0056b3; 
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
-#togglePassword {
+.required {
+    color: red;
+    font-size: 18px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 2px;
+    padding-bottom: 3px;
+}
+
+#togglePassword, #toggleConfirmPassword {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -121,34 +108,27 @@ body {
     font-size: 18px;
 }
 
-#eyeIcon {
-    display: inline;
+#togglePassword .fas, #toggleConfirmPassword .fas {
+    font-size: 16px;
+    color: #888;
+    padding-right: 20px;
 }
 
-#eyeSlashIcon {
-    display: none;
+.password-container {
+    position: relative;
 }
 
-#togglePassword.show-password #eyeIcon {
-    display: none;
-}
-
-#togglePassword.show-password #eyeSlashIcon {
-    display: inline;
-}
-
-
-.small-text {
-    font-size: 12px;
-    color: gray;
-    text-align: center;
+.password-container input {
+    padding-right: 35px; 
 }
 
 
-.instruction-text {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 20px;
+#mobile-number .get-number-btn {
+    display: block; 
+}
+
+#mobile-number .eye-icon {
+    display: none; 
 }
 
 @media (max-width: 768px) {
