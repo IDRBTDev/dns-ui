@@ -12,7 +12,9 @@
             <div class="input-group">
                 <input type="email" placeholder="Enter your email" class="form-control" [(ngModel)]="user.userId"
                     (input)="toggleEmailButton()" (focus)="onFocus()" />
-                <button *ngIf="showEmailButton" type="button" class="get-email-btn" id="email-btn"> Verify </button>
+                <button *ngIf="showEmailButton" type="button" class="get-email-btn" id="email-btn"
+                data-toggle="modal" data-target="#emailOtpModal"
+                (click)="generateOTPAndVerifyEmail()"> Verify </button>
             </div>
         </div>
         <div id="email">
@@ -53,3 +55,25 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="emailOtpModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+          <h5 style="text-align: center;" class="modal-title">Email Verification</h5>
+          <p style="text-align: center;">Enter the OTP sent to your registered email and verify the email.</p>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="otp" class="form-control"
+          placeholder="Enter OTP"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
