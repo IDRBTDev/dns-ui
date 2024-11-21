@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class SideMenuComponent {
 
+  isSettingsOpen = false;
+
+  toggleSettingsSubmenu() {
+    this.isSettingsOpen = !this.isSettingsOpen;
+  }
+
 }

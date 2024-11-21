@@ -52,11 +52,24 @@ export class LoginComponent {
     if(this.isOtpValid){
       await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
         response => {
-          this.router.navigateByUrl('/home');
-          this.toastr.success('Login Success')
+          localStorage.setItem('userRole',response.headers.get('userRole'));
+          let role = localStorage.getItem('userRole');
+          if(role === 'IDRBTADMIN'){
+            this.router.navigateByUrl('/domains');
+            this.toastr.success('Login Success');
+          }else{
+            this.router.navigateByUrl('/home');
+            this.toastr.success('Login Success');
+          }
+        },error => {
+          if(error.status === HttpStatusCode.Unauthorized){
+            console.log('sdsd')
+            this.toastr.error('Incorrect EmailId or password');
+          }
         }
       )
-    }else{
+    }
+    else{
       this.toastr.error('Invalid OTP');
     }
   }

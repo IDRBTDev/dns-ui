@@ -68,4 +68,35 @@
       background-color: #ffffff; /* Background color for content */
     }
   }
+
+  .sidenav ul li .submenu {
+    position: absolute; /* Position submenu absolutely */
+    top: 0; /* Align with the parent menu item */
+    left: 90px; /* Align to the right of the sidebar */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px; /* Set a fixed width for the submenu */
+    background-color: #1565c0; /* Background color for submenu */
+    z-index: 1000; /* Ensure it appears above other elements */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
+  }
+  
+  .sidenav ul li .submenu li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .sidenav ul li .submenu li:hover {
+    background-color: #0d47a1; /* Change background on hover */
+  }
+  
+  .sidenav ul li {
+    position: relative; /* Ensure submenu is positioned relative to the parent item */
+  }
+  
+  
+  
+
+  
   

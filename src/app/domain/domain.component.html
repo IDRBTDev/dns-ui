@@ -40,13 +40,13 @@
                 <!-- Registration Date Column -->
                 <ng-container matColumnDef="regDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.registrationDate}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.registrationDate |date:'MMM d, y, h:mm a'}}</td>
                 </ng-container>
   
                 <!-- Renewal Date Column -->
                 <ng-container matColumnDef="renewalDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Renewal Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.renewalDate}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.renewalDate |date:'MMM d, y, h:mm a'}}</td>
                 </ng-container>
   
                 <!-- Status Column -->
@@ -61,6 +61,10 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
             </section>
+            <mat-paginator style="font-size: 13px;" [pageSizeOptions]="[5, 10, 20 ]"
+            showFirstLastButtons [pageSize]="10"
+            aria-label="Select page of periodic elements">
+           </mat-paginator>
           </div>
         </div>
       </div>

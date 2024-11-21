@@ -23,7 +23,9 @@ import { DomainApplicationComponent } from './domain-application/domain-applicat
 import { DomainDetailsComponent } from './domain-details/domain-details.component';
 import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
-import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component'
+import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
+import { UserComponent } from './user/user.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
     DomainApplicationDetailsComponent,
     DomainInvoicesComponent,
     DomainInvoiceDetailsComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
     MatSortModule,
     MatPaginatorModule,
     MatSidenavModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
