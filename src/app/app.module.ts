@@ -22,7 +22,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { DomainApplicationComponent } from './domain-application/domain-application.component';
 import { DomainDetailsComponent } from './domain-details/domain-details.component';
 import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
-import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component'
+import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
+import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component'
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.compo
     DomainDetailsComponent,
     DomainApplicationDetailsComponent,
     DomainInvoicesComponent,
+    DomainInvoiceDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,7 @@
             <h3>Invoices</h3>
             <section class="example-container" style="margin-top: 10px;">
               <table id="table1" mat-table [dataSource]="domainsDataSource" matSort class="mat-elevation-z8">
-                 <!-- Checkbox Column -->
+                <!-- Checkbox Column -->
                 <ng-container matColumnDef="checkbox">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     <input type="checkbox" id="mainCheckBox" />
@@ -17,61 +17,61 @@
                     <input type="checkbox" id="subCheckBox{{i}}" class="subCheckBox" value="{{domain.domainId}}" />
                   </td>
                 </ng-container>
-
-                 <!-- sl no Column -->
-                <ng-container matColumnDef="slno">
+  
+                <!-- sl no Column -->
+                <ng-container matColumnDef="billingId">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.No</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.slno}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.billingId}}</td>
                 </ng-container>
-
-                 <!-- organisationname Name Column -->
+  
+                <!-- organisationname Name Column -->
                 <ng-container matColumnDef="organisationname">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisations Name</th>
                   <td mat-cell *matCellDef="let domain">{{domain.organisationname}}</td>
                 </ng-container>
-
-                 <!-- invoiceno Column -->
-                <ng-container matColumnDef="invoiceno">
+  
+                <!-- invoiceno Column -->
+                <ng-container matColumnDef="invoiceNumber">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice No</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.invoiceno}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.invoiceNumber}}</td>
                 </ng-container>
-
-                 <!-- date Column -->
-                <ng-container matColumnDef="date">
+  
+                <!-- invoiceDate Column -->
+                <ng-container matColumnDef="invoiceDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.date}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.invoiceDate | date: 'shortDate'}}</td>
                 </ng-container>
-
-                 <!-- amount Column -->
+  
+                <!-- amount Column -->
                 <ng-container matColumnDef="amount">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.amount}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.amount | currency: 'INR'}}</td>
                 </ng-container>
-
-                 <!-- duedate Column -->
+  
+                <!-- duedate Column -->
                 <ng-container matColumnDef="duedate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
-                  <td mat-cell *matCellDef="let domain">{{domain.duedate}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.duedate | date: 'shortDate'}}</td>
                 </ng-container>
-
+  
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                   <td mat-cell *matCellDef="let domain">{{domain.status}}</td>
                 </ng-container>
-
+  
                 <!-- Header Row -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <!-- Data Rows -->
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
-
-
-
+  
+  
+  
               </table>
             </section>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
