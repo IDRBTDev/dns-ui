@@ -38,6 +38,11 @@ import { MatDialogModule } from '@angular/material/dialog'; // Import MatDialogM
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
+import { UserComponent } from './user/user.component';
+import { DomainInvoices } from './model/domain-invoices.model';
+import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle'
+import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +57,9 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
     DomainApplicationComponent,
     DomainDetailsComponent,
     DomainApplicationDetailsComponent,
-    
+    UserComponent,
+    DomainInvoicesComponent,
+    DomainInvoiceDetailsComponent,
     UserDomainDetailsComponent,
     NameServerFormComponent,
     UserSideMenuComponent,
@@ -85,6 +92,7 @@ import { DocumentUploadComponent } from './document-upload/document-upload.compo
     MatSnackBarModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatSlideToggleModule
     
   ],
   providers: [],

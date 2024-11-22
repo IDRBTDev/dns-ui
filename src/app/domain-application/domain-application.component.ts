@@ -18,7 +18,7 @@ export class DomainApplicationComponent {
   userEmailId = localStorage.getItem('email');
 
   displayedColumns: string[] = [
-    'checkbox',
+   // 'checkbox',
     'domainId',
     'organisationName',
     'domainName',

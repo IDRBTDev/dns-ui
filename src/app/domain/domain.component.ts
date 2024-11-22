@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class DomainComponent implements OnInit {
   displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     'domainId',
     'domainName',
     'orgName',
