@@ -11,14 +11,15 @@
 
   .layout-container {
     display: flex;
-    height: 100vh; /* Full-height layout */
+    height: 100vh;
+   
   }
   
   app-side-menu {
-    flex: 0 0 250px; /* Fixed width for the sidebar */
+    flex: 0 0 250px; 
     max-width: 90px;
     min-width: 90px;
-    background-color: #f8f9fa; /* Example background color */
+    background-color: #f8f9fa;
   }
   
   .content-area {

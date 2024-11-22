@@ -6,7 +6,8 @@ import { Injectable } from "@angular/core";
 })
 export class RegistrationService{
 
-    private drRegUrl = 'http://localhost:9002/dr/user/save'
+    private drRegUrl = 'http://localhost:9002/dr/user/save';
+    private verifyOtpUrl = 'http://localhost:9002/dr/user/verify-otp'; 
 
     constructor(private httpClient: HttpClient){
 
@@ -15,5 +16,9 @@ export class RegistrationService{
     userRegistationToDR(user: any){
         return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response'})
     }
-
+    verifyOtp(userId: string, otp: number){
+        
+        //return this.httpClient.get<boolean>(this.verifyOtpUrl+"/"+userId+"/"+otp,{observe:'response'});
+        return this.httpClient.get<boolean>(`${this.verifyOtpUrl}/${userId}/${otp}`,{observe:'response'});
+      }
 }

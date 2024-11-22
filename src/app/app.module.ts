@@ -26,6 +26,7 @@ import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.compo
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { UserComponent } from './user/user.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MainHeaderComponent } from './main-header/main-header.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     DomainInvoicesComponent,
     DomainInvoiceDetailsComponent,
     UserComponent,
+    MainHeaderComponent,
   ],
   imports: [
     BrowserModule,

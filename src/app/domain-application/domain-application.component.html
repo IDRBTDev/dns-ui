@@ -1,7 +1,7 @@
 <div class="layout-container">
   <app-side-menu></app-side-menu>
   <div class="content-area">
-    <app-header></app-header>
+    <app-main-header></app-main-header>
     <div class="container-fluid">
       <div class="row" style="padding-top: 100px;">
         <div class="col-sm-12">
@@ -70,6 +70,10 @@
               <tr mat-row *matRowDef="let domain; columns: displayedColumns; " ></tr>
             </table>
           </section>
+          <mat-paginator style="font-size: 13px;" [pageSizeOptions]="[5, 10, 20 ]"
+          showFirstLastButtons [pageSize]="10"
+          aria-label="Select page of periodic elements">
+         </mat-paginator>
         </div>
       </div>
     </div>

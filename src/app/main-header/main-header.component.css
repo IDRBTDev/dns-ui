@@ -1,0 +1,29 @@
+.fixed-top{
+    flex-shrink: 0;
+    background: #FAFAFA;
+    box-shadow: #FAFAFA;
+    /* margin-left:-370px; */
+    }
+
+    .header-first{
+        flex-direction:row;
+        opacity: 1;
+        display: flex; 
+        justify-content: flex-start; 
+        position: fixed; 
+    }
+    .custom-element {
+        gap: 30px;
+        flex-direction:row;
+        opacity: 1;
+        display: flex; 
+        justify-content: flex-end; 
+        position: fixed; 
+        z-index: 100;
+        margin-top: 10px;
+        top:10px;
+        right:0;
+        padding-right: 30px;
+        
+    }
+    
