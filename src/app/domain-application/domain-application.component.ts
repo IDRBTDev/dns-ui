@@ -57,7 +57,9 @@ export class DomainApplicationComponent {
       }
     );
   }
-
+  navigateToDomainDetails(domainId: number){
+    this.router.navigate(['/domain-application-details'],{queryParams:{domainId:domainId}});
+  }
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');
   }
