@@ -1,0 +1,72 @@
+.sidenavDiv {
+    .sidenav-container {
+      height: 100vh;
+      width: 140px; /* Restrict the width of the sidenav container */
+      background-color: #f5f5f5;
+      display: flex;
+    }
+  
+    .sidenav {
+      width: 120px; /* Width of the sidenav */
+      background-color: #1976d2; /* Blue color */
+      color: white;
+  
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+  
+        li {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 150px;
+          cursor: pointer;
+          text-align: center;
+  
+          a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            width: 100%;
+            height: 100%;
+  
+            mat-icon {
+              font-size:27px;
+              
+              /* Icon size */
+            }
+  
+            span {
+              font-size: 20px; /* Text font size */
+              margin-top: 15px;
+              font-style: normal;
+              font-family:Arial, Helvetica, sans-serif; /* Spacing between icon and text */
+            }
+          }
+        }
+  
+        li.active {
+          background-color: #1565c0; /* Slightly darker blue for active state */
+        }
+  
+        li.active a {
+          color: #e3f2fd; /* Lighter text for active state */
+        }
+  
+        li:hover {
+          background-color: #1565c0; /* Hover state color */
+        }
+      }
+    }
+  
+    mat-sidenav-content {
+      flex: 1; /* Occupies the remaining space next to the sidenav */
+      padding: 20px; /* Optional padding for main content */
+      background-color: #ffffff; /* Background color for content */
+    }
+  }

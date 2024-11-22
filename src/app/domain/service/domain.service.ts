@@ -10,8 +10,8 @@ export class DomainService{
 
     constructor(private httpClient: HttpClient){}
 
-    getAllDomains(){
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/all`,{observe: 'response'});
+    getAllDomains(userId: string){
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/all?userId=${userId}`,{observe: 'response'});
     }
 
     getDomainByDomainId(domainId: number){

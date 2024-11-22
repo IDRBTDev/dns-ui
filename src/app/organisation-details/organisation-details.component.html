@@ -1,0 +1,291 @@
+<div class="container-fluid w-100">
+
+
+
+
+    <!-- Main Content -->
+
+
+
+    <!-- <div class="row mt-4"> -->
+
+
+
+
+
+        <!-- Form Section -->
+
+
+
+        <div class="card mt-5" style="border: none;">
+
+
+
+
+                <div class="card-body">
+
+
+
+                    <h3 class="card-title">Organisation Details</h3>
+
+
+
+                    <p>Please fill in the details of your organisation.</p>
+
+
+
+
+
+                    <!-- Form Starts -->
+
+
+
+                    <form [formGroup]="organisationForm">
+
+
+
+
+
+                        <!-- Institution Name -->
+
+
+
+                        <div class="mb-3">
+
+
+
+                            <label for="institutionName"  class="form-label">Institution Name</label><span
+                                style="color: red">*</span>
+
+
+
+                            <input type="text" id="institutionName"  class="form-control" formControlName="institutionName"
+                                placeholder="Enter institution name" required />
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- Pincode and Location -->
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-4 mb-3">
+
+
+
+                                <label for="pincode" class="form-label">Pincode</label><span style="color: red">*</span>
+
+
+
+                                <input type="text" id="pincode" class="form-control" placeholder="Enter pincode"
+                                    formControlName="pincode" (input)="onPincodeChange()" required />
+
+
+
+                            </div>
+
+
+
+                            <div class="col-md-4 mb-3">
+
+
+
+                                <label for="city" class="form-label">City</label><span style="color: red">*</span>
+
+
+
+                                <select id="city" class="form-select" formControlName="city" required>
+
+
+
+                                    <option *ngFor="let city of cityOptions" [value]="city.name">
+
+
+
+                                        {{ city.name }}
+
+
+
+                                    </option>
+
+
+
+                                </select>
+
+
+
+                            </div>
+
+
+
+                            <div class="col-md-4 mb-3">
+
+
+
+                                <label for="state" class="form-label">State</label><span style="color: red">*</span>
+
+
+
+                                <input type="text" id="state" class="form-control" placeholder="State"
+                                    formControlName="state" [value]="organisationForm.get('state')?.value" readonly
+                                    required />
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <!-- Address Section -->
+
+
+
+                        <div class="mb-3">
+
+
+
+                            <label for="address" class="form-label">Address</label><span style="color: red">*</span>
+
+
+
+                            <input id="address" class="form-control" placeholder="Enter address" formControlName="address" required />
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- Contact Information -->
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-6 mb-3">
+
+
+
+                                <label for="stdTelephone" class="form-label">STD Telephone</label><span
+                                    style="color: red">*</span>
+
+
+
+                                <input type="text" id="stdTelephone" class="form-control"
+                                    placeholder="Enter STD telephone" formControlName ="stdTelephone" required />
+
+
+
+                            </div>
+
+
+
+                            <div class="col-md-6 mb-3">
+
+
+
+                                <label for="mobileNumber" class="form-label">Mobile Number</label><span
+                                    style="color: red">*</span>
+
+
+
+                                <input type="text" id="mobileNumber" class="form-control"
+                                    placeholder="Enter mobile number" formControlName="mobileNumber" required />
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+                        <!-- Email -->
+
+
+
+                        <div class="mb-3">
+
+                            <label for="organisationEmail" class="form-label">Organisation Email</label><span
+                                style="color: red">*</span>
+
+                            <input type="email" id="organisationEmail" class="form-control"
+                                placeholder="Enter email address" formControlName= "organisationEmail" required />
+
+                        </div>
+
+
+
+                        <!-- Document Upload Section -->
+
+                        <div>
+
+                            <label for="documentsToUpload" class="form-label">Documents</label><span
+                                style="color: red">*</span>
+
+                            <app-document-upload id="documentsToUpload" [uploadedDocs]="uploadedDocs"
+                                [submissionAttempted]="submissionAttempted"
+                                (onValidationChange)="handleValidationChange($event)"
+                                (setUploadedDocs)="setUploadedDocuments($event)"></app-document-upload>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+
+                            <button (click)="handleSubmit()" class="btn btn-primary">Submit</button>
+
+                        </div>
+
+                    </form>
+
+
+
+
+
+
+
+                    <!-- Form Ends -->
+
+
+
+                </div>
+
+
+
+
+        </div>
+
+
+
+    <!-- </div> -->
+
+
+
+</div>

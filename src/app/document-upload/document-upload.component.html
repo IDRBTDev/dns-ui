@@ -1,0 +1,121 @@
+<div>
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+
+        <!-- Document Type Dropdown -->
+
+        <div style="flex: 1;">
+
+            <!-- <label for="docType" class="form-label">Select Document Type *</label> -->
+
+            <select id="docType" class="form-select" [(ngModel)]="selectedDocType"
+                (change)="handleDocTypeChange($event)" required>
+
+                <option value="" disabled selected>Select Document Type</option>
+
+                <option *ngFor="let doc of docTypes" [value]="doc" [disabled]="isDocUploaded(doc)">
+
+                    {{ doc }}
+
+                </option>
+
+            </select>
+
+            <div *ngIf="errors.type === 'docType'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
+
+                {{ errors.message }}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Input Field -->
+
+        <div *ngIf="
+    
+    selectedDocType === 'License No' ||
+    
+    selectedDocType === 'Organisation GSTIN' ||
+    
+    selectedDocType === 'PAN'" style="flex: 1;">
+
+            <!-- <label for="docInput" class="form-label">Enter {{ selectedDocType }}</label> -->
+
+            <input id="docInput" type="text" class="form-control" [(ngModel)]="inputValue"
+                (ngModelChange)="handleInputChange($event)" placeholder="Enter {{ selectedDocType }}" />
+
+            <div *ngIf="errors.type === 'inputValue'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
+
+                {{ errors.message }}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Upload Button -->
+
+        <button class="btn btn-primary" (click)="handleFileUploadClick()">Select File & Upload</button>
+
+        <input type="file" id="fileInput" hidden (change)="handleFileChange($event)" multiple
+            accept=".png,.jpg,.jpeg,.pdf" />
+
+    </div>
+
+
+
+    <!-- Uploaded Documents Section -->
+
+    <div *ngIf="uploadedDocs.length > 0" style="margin-top: 20px;">
+
+        <h6 style="font-size: 1rem;">Uploaded Documents</h6>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+
+            <div *ngFor="let doc of uploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+
+                <i class="bi bi-check-circle text-success"></i> <!-- Bootstrap icon -->
+
+                <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+
+                <button class="btn btn-sm btn-danger" (click)="handleRemoveDoc(i)">
+
+                    <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Submit Button -->
+
+    <div class="d-flex justify-content-center mt-3">
+
+        <button class="btn btn-success submitDocumentsButton" (click)="handleDocumentsSubmit()">Submit All
+            Documents</button>
+
+    </div>
+
+
+
+    <div class="d-flex justify-content-center mt-1">
+
+        <p *ngIf="submissionAttempted && missingDocs.length > 0" style="color: red; margin-top: 20px;">
+
+            Please upload the following documents: {{ missingDocs.join(', ') }}
+
+        </p>
+
+    </div>
+
+
+
+</div>

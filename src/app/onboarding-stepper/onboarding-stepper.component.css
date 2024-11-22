@@ -1,0 +1,33 @@
+
+
+.mat-mdc-form-field {
+    margin-top: 16px;
+  }
+  .card {
+    border: none;
+  }
+  /* Ensure the stepper takes up the full width */
+  .full-width-stepper {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Ensures stepper steps stack vertically */
+  }
+  
+  /* Optional: Ensure the stepper header and each step take full width */
+  .mat-step {
+    width: 100%;
+  }
+  
+  /* Optional: Center content of each step */
+  .mat-step-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  ::ng-deep .mat-step-header .mat-step-icon {
+    background-color: #0d6efd;
+    height: 30px;
+    width: 30px;
+    font-size: 20px;
+  }

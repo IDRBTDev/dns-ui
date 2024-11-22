@@ -14,8 +14,11 @@ import { MatSort } from '@angular/material/sort';
 })
 export class DomainApplicationComponent {
 
+  role: string = localStorage.getItem('userRole');
+  userEmailId = localStorage.getItem('email');
+
   displayedColumns: string[] = [
-    'checkbox',
+   // 'checkbox',
     'domainId',
     'organisationName',
     'domainName',
@@ -35,11 +38,19 @@ export class DomainApplicationComponent {
   }
 
   ngOnInit(): void {
-    this.getAllDomainsList();
+    console.log(this.role)
+    console.log(this.userEmailId)
+    if(this.role !== 'IDRBTADMIN'){
+      console.log('exe')
+      this.getAllDomainsList(this.userEmailId);
+    }else{
+      console.log('exe 1')
+      this.getAllDomainsList("");
+    }
   }
 
-  async getAllDomainsList() {
-    await lastValueFrom(this.domainService.getAllDomains()).then(
+  async getAllDomainsList(userId: string) {
+    await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;

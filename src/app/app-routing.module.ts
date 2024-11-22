@@ -9,6 +9,9 @@ import { DomainComponent } from './domain/domain.component';
 import { DomainApplicationComponent } from './domain-application/domain-application.component';
 import { DomainDetailsComponent } from './domain-details/domain-details.component';
 import { DomainApplicationDetailsComponent } from './domain-application-details/domain-application-details.component';
+import { UserDomainDetailsComponent } from './user-domain-details/user-domain-details.component';
+import { OnboardingStepperComponent } from './onboarding-stepper/onboarding-stepper.component';
+import { UserSideMenuComponent } from './user-side-menu/user-side-menu.component';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { UserComponent } from './user/user.component';
@@ -23,15 +26,23 @@ const routes: Routes = [
   {path:'domains', component: DomainComponent},
   {path:'applications', component: DomainApplicationComponent},
   {path:'domain-details', component: DomainDetailsComponent},
-  {path:'domain-application-details', component: DomainApplicationDetailsComponent},
+  {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
+  {path: '',redirectTo:'/landing', pathMatch: 'full'},
+  {path: '',component: LandingComponent},
+  {path: 'user-domain-details', component:UserDomainDetailsComponent},
+  {path: 'onboarding-stepper', component:OnboardingStepperComponent},
+  {path: 'user-side-menu', component:UserSideMenuComponent},
   {path:'invoices', component: DomainInvoicesComponent},
+
   {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
   {path: 'users', component: UserComponent},
   {path:'',redirectTo:'/landing', pathMatch: 'full'},
   {path:'',component: LandingComponent},
-  {path:'mainHeader',component:MainHeaderComponent}
+  {path:'mainHeader',component:MainHeaderComponent},
   //{path:'domain-invoices',component:DomainInvoicesComponent},
   //{path:'full-header',component:FullHeaderComponent}
+  {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
+
 ];
 
 @NgModule({

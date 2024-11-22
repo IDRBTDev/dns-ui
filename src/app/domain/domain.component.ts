@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class DomainComponent implements OnInit {
   displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     'domainId',
     'domainName',
     'orgName',
@@ -27,17 +27,29 @@ export class DomainComponent implements OnInit {
   domainsDataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  role: string = localStorage.getItem('userRole');
+  userEmailId = localStorage.getItem('email');
 
   constructor(private domainService: DomainService, private router: Router) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
   ngOnInit(): void {
-    this.getAllDomainsList();
+
+  
+    console.log(this.role)
+    console.log(this.userEmailId)
+    if(this.role !== 'IDRBTADMIN'){
+      console.log('exe')
+      this.getAllDomainsList(this.userEmailId);
+    }else{
+      console.log('exe 1')
+      this.getAllDomainsList("");
+    }
   }
 
-  async getAllDomainsList() {
-    await lastValueFrom(this.domainService.getAllDomains()).then(
+  async getAllDomainsList(userId: string) {
+    await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;

@@ -30,17 +30,31 @@ export class DomainInvoicesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService) {
+  role: string = localStorage.getItem('userRole');
+  userEmailId = localStorage.getItem('email');
+
+  constructor(private domainService: DomainService, 
+    private router: Router, 
+    private domainInvoiceService: DomainInvoiceService) {
     this.domainsDataSource = new MatTableDataSource<DomainInvoices>(this.domainsinvoicesList);
   }
   
   ngOnInit(): void {
-    this.loadBillingHistories();
+    console.log(this.role)
+    console.log(this.userEmailId)
+    if(this.role !== 'IDRBTADMIN'){
+      console.log('exe')
+      this.loadBillingHistories(this.userEmailId);
+    }else{
+      console.log('exe 1')
+      this.loadBillingHistories("");
+    }
+    //this.loadBillingHistories();
    
   }
 
-  loadBillingHistories(): void {
-    this.domainInvoiceService.getAllBillingHistories().subscribe(
+  loadBillingHistories(userId: string): void {
+    this.domainInvoiceService.getAllBillingHistories(userId).subscribe(
       (data) => {
         
         this.domainsinvoicesList = data.map((invoice: DomainInvoices) => ({

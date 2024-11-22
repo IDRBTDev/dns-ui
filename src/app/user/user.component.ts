@@ -8,6 +8,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { UserService } from './service/user.service';
 import { ToastrService } from 'ngx-toastr';
+//import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-user',
@@ -24,7 +25,8 @@ export class UserComponent {
     active: false,
     encryptedPassword: '',
     mobileNumber: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    createdByEmailId:''
   }
 
   showEmailButton: boolean = false;
@@ -270,7 +272,11 @@ if (!this.user.mobileNumber) {
     }
   }
 
+
   async saveUser(user: any) {
+    var id =  localStorage.getItem('email');
+    console.log(id);
+    user.createdByEmailId = id;
     await lastValueFrom(this.userService.saveUser(user)).then(
       response => {
       if (response.status === HttpStatusCode.Created) {
