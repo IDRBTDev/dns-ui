@@ -20,7 +20,7 @@ export class UserService{
         return this.httpClient.get<any[]>(this.getAllUsersUrl,{observe:'response'});
     }
 
-    userRegistationToDR(user: any){
+    saveUser(user: any){
         return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response'});
     }
 

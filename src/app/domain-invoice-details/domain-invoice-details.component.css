@@ -1,24 +1,56 @@
-.layout-container {
+.example-container {
+   
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    height: auto;
+    
+ 
+  }
+
+  table tr th{
+    background-color: #ECF4FC;
+  }
+
+  .layout-container {
     display: flex;
     height: 100vh; /* Full-height layout */
   }
- 
-.content-area {
+  
+  app-side-menu {
+    flex: 0 0 250px; /* Fixed width for the sidebar */
+    max-width: 90px;
+    min-width: 90px;
+    background-color: #f8f9fa; /* Example background color */
+  }
+  
+  .content-area {
     flex: 1; /* Fills the remaining space */
     padding: 0;
     overflow-y: auto; /* Handles scrolling for content */
-}
-.header-content {
+  }
+
+
+  table tr th{
+    font-size: 13px;
+  }
+
+  table tr td{
+    font-size: 13px;
+  }
+  
+
+/* .header-content {
     display: flex;              
     align-items: center;        
     gap: 10px;  
-    margin-top: 0px;
+    margin-top: 0px; 
     position: absolute;
     top: 70px;
     left: 100px;
     right: 0;
-    width: 100%;            
-}
+    width: 100%;             
+} */
 .box-content {
     margin-top: 0px;
     padding: 10px;
@@ -37,11 +69,10 @@
 }
 .details-container {
     margin-top: 20px;
-    width: 100%;
     display: flex;
     align-items: flex-start;
-    padding: 16px 24px;
-    /* padding: 30px 24px; */
+    padding: 8px;
+ 
     gap: 20px;
     justify-content: space-between;
    
@@ -55,15 +86,13 @@
     opacity: 1;
     transition: opacity 0.3s ease;
 }
- 
+
 .content-wrapper {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 40px;
-    margin-top: 40px;
-    margin-bottom: 30px;
-    padding-left: 100px;
+   
 }
  
  
@@ -78,27 +107,33 @@
     margin-bottom: 30px;              
     padding-left: 10px;    
 }
- 
+
 .more-actions-container {
     color: #006CE7;
     display: flex;
     justify-content: space-between;
     right: 40px;
     background-color: #E5F2FF;
-    height: 30px;
+    height: 30px; 
     padding: 0 15px;
 }
- 
+
 .text_box{
    
     background-color: #F4F5F6;
-    width: 180px;
+    width: 180px; 
     height: 40px;
     margin-top: 10px;
    padding-top:7px;
- 
+  
     font-size: 16px;
     text-align: center;
     margin-left: 30px;
- 
+    box-sizing: border-box;
+  
 }
+
+body {
+    overflow-x: hidden;
+}
+

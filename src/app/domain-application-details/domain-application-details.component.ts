@@ -12,25 +12,47 @@ import { DomainApplicationDetailsService } from './service/domain-application-de
 export class DomainApplicationDetailsComponent {
 
   constructor(private route: ActivatedRoute,
-    private domainService: DomainApplicationDetailsService, 
+    private domainService: DomainService, private oreganizationService:DomainApplicationDetailsService,
     private router: Router) {
     
   }
   domainId: number; 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.domainId = +params['domainId'];  
-      this.getDomainApplicationDetails(this.domainId);
-    });
+  async ngOnInit(): Promise<void> {
+    this.route.queryParams.subscribe(param => {
+      var domainId = param['domainId'];
+      this.domainId = param['domainId'];
+    })
+    console.log(this.domainId)
+    await this.getDomainApplicationDetails(this.domainId);
+    await this.getOrganizationDetails(this.domainId);
   }
   domainsList: any;
   getDomainApplicationDetails(domainId:number) {
    
     console.log("Datal",domainId)
-    this.domainService.getDomainApplicationDetailsById(domainId).subscribe({
+    this.domainService.getDomainByDomainId(domainId).subscribe({
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.domainsList = res.body;
+         console.log("Ticket data received:",res);
+        } else {
+          console.log("Unexpected status code:", res.status);
+         
+        }
+      },
+      error: (error) => {
+        console.error("Error fetching ticket data:", error);
+      }
+    });
+  }
+  organizationsList: any;
+  getOrganizationDetails(domainId:number) {
+   
+    console.log("Datal",domainId)
+    this.oreganizationService.getOrganizationByDomainId(domainId).subscribe({
+      next: (res) => {
+        if (res.status === HttpStatusCode.Ok) {
+          this.organizationsList = res.body;
          console.log("Ticket data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);

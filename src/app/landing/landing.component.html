@@ -1,6 +1,6 @@
 <div class="row" style="background-color: white; height: 72px; width:100vw">
     <div class="container-fluid" style="overflow:auto; overflow-x: hidden; height: 100vh;">
-        <div class="row" style="display: flex; justify-content: space-between;"  >
+        <div class="row col-12" style="display: flex; justify-content: space-between;"  >
 
             <div class="col-6 header-first" style="padding: 10px; padding-left:40px; z-index: 100; ">
 
@@ -15,7 +15,7 @@
                 </svg>
                     
             </div>
-            <div class="col-6 " class="custom-element" style="z-index: 100; display: flex; align-items: center;">
+            <div class="col-6 " class="custom-element" style="z-index: 100; display: flex; align-items:center;">
                   
                     <div class="text-center">
                         <p style="margin-bottom: 0; ">Contact Us</p>
@@ -25,25 +25,27 @@
                     <div class="text-center">
                         <p style="margin-bottom: 0;">Help</p>
                     </div>
-                    
-                    
-                    
-                    <div class="dropdown78">
-                        <button class="btn  dropdown-toggle" style="margin-bottom: 0px;" type="button" (click)="toggleDropdown()" aria-expanded="false" id="signInDropdown" data-bs-toggle="dropdown">
+  
+                      <div class="dropdown78">
+                        <div  style="cursor: pointer;" (click)="toggleDropdown()" aria-expanded="false" id="signInDropdown">
                           Sign In
-                        </button>
+                          <svg class="chevron-icon" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" [ngClass]="{ 'rotated': isDropdownOpen }">
+                            <path d="M6.73242 9L12.7324 15L18.7324 9" stroke="#1B154E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
                       
                         <ul class="dropdown-menu" [ngClass]="{ 'show': isDropdownOpen }">
-                            <h3>Registered Users</h3>
-                            <p>Have an account? Sign in now.</p>
-                          <li ><a class="dropdown-item" (click)="navigateToLogin()">Sign In</a></li>
-                          <hr/>
+                          <h3>Registered Users</h3>
+                          <p>Have an account? Sign in now.</p>
+                          <li><a class="dropdown-item" (click)="navigateToLogin()">Sign In</a></li>
+                          <hr />
                           <h3>New Customer</h3>
-                          <p>Create an registrar account to get started today.</p>
+                          <p>Create a registrar account to get started today.</p>
                           <li><a class="dropdown-item" (click)="navigateToregister()">Create an Account</a></li>
-                        
                         </ul>
                       </div>
+                      
+
 </div></div>                      
         
 
@@ -76,8 +78,8 @@
             </div>
             <p class="heading">IDRBT Domain Registry Excellence</p>
             <div class="container">
-                <div class="row d-flex justify-content-around align-items-center">
-                    <div class="col-4 first">
+                <div class="row d-flex justify-content-between align-items-center">
+                    <div class=" first">
                         <div class="icon-container">
                             <svg width="72" height="72" viewBox="0 0 72 72" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +99,7 @@
                         <p>Backed by IDRBT's robust and secure banking technology infrastructure</p>
                     </div>
 
-                    <div class="col-4 first">
+                    <div class="first">
                         <div class="icon-container">
                             <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M36 66C36 66 60 54 60 36V15L36 6L12 15V36C12 54 36 66 36 66Z" stroke="#2563EB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -109,7 +111,7 @@
                         <p>Advanced security features to safeguard your banking domain</p>
                     </div>
 
-                    <div class="col-4 first">
+                    <div class="first">
                         <div class="icon-container">
                             <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M36 3V69" stroke="#2563EB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>

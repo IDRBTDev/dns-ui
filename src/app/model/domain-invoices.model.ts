@@ -1,3 +1,5 @@
+import { Domain } from "./domain.model";
+
 export class DomainInvoices{
     billingId : number;
     invoiceNumber : string;
@@ -5,4 +7,6 @@ export class DomainInvoices{
     invoiceDate : Date;
     dueDate : Date;
     status : string;
+    domainId : number;
+    domainDto : Domain;
 }

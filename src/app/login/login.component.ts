@@ -52,8 +52,15 @@ export class LoginComponent {
     if(this.isOtpValid){
       await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
         response => {
+          //console.log(response.body)
           localStorage.setItem('userRole',response.headers.get('userRole'));
+          localStorage.setItem('active',response.headers.get('active'));
           let role = localStorage.getItem('userRole');
+          let active = localStorage.getItem('active');
+          if(active === 'false'){
+            this.toastr.error('User Inactive');
+            return;
+          }
           if(role === 'IDRBTADMIN'){
             this.router.navigateByUrl('/domains');
             this.toastr.success('Login Success');
