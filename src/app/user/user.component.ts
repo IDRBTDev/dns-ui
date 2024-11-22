@@ -86,8 +86,8 @@ export class UserComponent {
     );
   }
 
-  navigateToDomainDetails(domainId: number) {
-    this.router.navigate(['/domain-details'], { queryParams: { domainId: domainId } });
+  navigateToDomainDetails(domainId: number){
+    this.router.navigate(['/domain-details'],{queryParams:{domainId:domainId}});
   }
 
   navigateToSessionTimeout() {

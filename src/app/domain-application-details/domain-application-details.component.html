@@ -1,7 +1,7 @@
 <div class="layout-container">
     <app-side-menu></app-side-menu>
     <div class="content-area">
-      <app-header></app-header>
+      <app-main-header></app-main-header>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
@@ -73,7 +73,7 @@
                                 <p>{{ organization.address }}</p>
                             </div>
                         </div> -->
-                        <h5>Email Id</h5>
+                        <h5>Email ID</h5>
                         <div class="input-group">
                             <input type="email" placeholder="Enter your Email id" class="form-control" [(ngModel)]="organizationsList.userMailId" />
                             <div *ngFor="let organization of organizationsList">

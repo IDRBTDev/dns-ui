@@ -39,9 +39,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { UserComponent } from './user/user.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MainHeaderComponent } from './main-header/main-header.component';
 import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 
 @NgModule({
