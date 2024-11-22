@@ -1,0 +1,90 @@
+<div class="sidenavDiv">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav">
+        <ul style="padding-top: 90px;">
+          <!-- Dashboard -->
+          <li >
+           <!----> <a routerLink="/Dashboard">
+              <mat-icon aria-setsize="300px">view_list</mat-icon>
+              <span>Dashboard</span>
+            </a>
+          </li>
+  
+          <!-- Domains -->
+          <li >
+            <a routerLink="/user-domain-details">
+              <mat-icon>public</mat-icon>
+              <span>Domains</span>
+            </a>
+          </li>
+  
+           <!-- Onboarding -->
+           <li >
+            <a routerLink="/onboarding-stepper">
+              <mat-icon>desktop_mac</mat-icon>
+              <span>Onboarding</span>
+            </a>
+          </li>
+          <!-- Invoices -->
+          <li>
+            <a routerLink="/invoices">
+              <mat-icon>description</mat-icon>
+              <span>Invoices</span>
+            </a>
+          </li>
+  
+         
+  
+          
+        </ul>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <!-- Your main content here -->
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+<div class="sidenavDiv">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav">
+        <ul style="padding-top: 90px;">
+          <!-- Dashboard -->
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+           <!----> <a routerLink="/Dashboard">
+              <mat-icon aria-setsize="300px">view_list</mat-icon>
+              <span>Dashboard</span>
+            </a>
+          </li>
+  
+          <!-- Domains -->
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a >
+              <mat-icon>public</mat-icon>
+              <span>Domains</span>
+            </a>
+          </li>
+  
+           <!-- Onboarding -->
+           <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a routerLink="/reports">
+              <mat-icon>desktop_mac</mat-icon>
+              <span>Onboarding</span>
+            </a>
+          </li>
+          <!-- Invoices -->
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a routerLink="/invoices">
+              <mat-icon>description</mat-icon>
+              <span>Invoices</span>
+            </a>
+          </li>
+  
+         
+  
+          
+        </ul>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <!-- Your main content here -->
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
