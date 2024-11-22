@@ -15,7 +15,7 @@ import { DomainInvoiceService } from './service/domain-invoices.service';
 export class DomainInvoicesComponent implements OnInit {
   
   displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     'billingId',
     'organisationname',
     'invoiceNumber',
