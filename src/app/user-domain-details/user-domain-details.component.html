@@ -1,14 +1,9 @@
-<div><app-header></app-header></div>
-  
-  <!-- Side Menu -->
-  <div class="side-menu col-md-3 col-lg-2 position-fixed top-0 start-0 vh-100 text-white">
-    <app-user-side-menu></app-user-side-menu>
-  </div>
+
 
 <div class="container-fluid">
   <div class="row">
     <!-- Main Content Section -->
-    <div class="col-md-9 offset-md-2 mt-5 pt-4">
+    <div class="col-md-9 offset-md-1 mt-5 pt-4">
 
       <!-- First Section with Form Fields -->
       <section class="m-4">
@@ -41,7 +36,7 @@
                     <label for="domainSelect" class="form-label font-weight-bold">Domain</label>
                     <div class="d-flex">
                       <select 
-                        class="form-select" 
+                        class="form-control" 
                         id="domainSelect" 
                         formControlName="domain">
                         <option value="" disabled selected>Select domain</option>
@@ -49,11 +44,13 @@
                       </select>
 
                       <!-- Magnifying Glass Button on the Left -->
-                      <button 
-                        class="btn btn-outline-primary ms-3" 
+                      <div>
+                        <button 
+                        class="btn btn-outline-primary ms-4" 
                         type="button" (click)="onSearch()">
                         <i class="bi bi-search"></i>
                       </button>
+                      </div>
                     </div>
                       <small *ngIf="userDomainForm.get('domain')?.invalid && userDomainForm.get('domain')?.touched" class="text-danger">
                         Select a Domain.

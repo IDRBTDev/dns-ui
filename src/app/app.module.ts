@@ -67,7 +67,7 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
     OnboardingStepperComponent,
     ContactDetailsFormComponent,
     OrganisationDetailsComponent,
-   
+     MainHeaderComponent,
     PreviewComponent,
     DocumentUploadComponent,
   ],

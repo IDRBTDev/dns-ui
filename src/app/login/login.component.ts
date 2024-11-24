@@ -53,21 +53,28 @@ export class LoginComponent {
       await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
         response => {
           //console.log(response.body)
+          localStorage.setItem('email', response.headers.get('email'));
           localStorage.setItem('userRole',response.headers.get('userRole'));
           localStorage.setItem('active',response.headers.get('active'));
+          localStorage.setItem('organisationId', response.headers.get('organisationId'));
+          let email = localStorage.getItem('email');
           let role = localStorage.getItem('userRole');
           let active = localStorage.getItem('active');
+          let organisationId = localStorage.getItem('organisationId');
+          console.log(email);
+          console.log(role);
+          console.log(organisationId)
           if(active === 'false'){
             this.toastr.error('User Inactive');
             return;
           }
-          if(role === 'IDRBTADMIN'){
+          //if(role === 'IDRBTADMIN'){
             this.router.navigateByUrl('/domains');
             this.toastr.success('Login Success');
-          }else{
-            this.router.navigateByUrl('/home');
-            this.toastr.success('Login Success');
-          }
+          // }else{
+          //   this.router.navigateByUrl('/home');
+          //   this.toastr.success('Login Success');
+          // }
         },error => {
           if(error.status === HttpStatusCode.Unauthorized){
             console.log('sdsd')
