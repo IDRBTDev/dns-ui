@@ -16,6 +16,7 @@ import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.compo
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { UserComponent } from './user/user.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
+import { AddDomainComponent } from './add-domain/add-domain.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -42,6 +43,7 @@ const routes: Routes = [
   //{path:'domain-invoices',component:DomainInvoicesComponent},
   //{path:'full-header',component:FullHeaderComponent}
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
+  {path: 'add-domain', component: AddDomainComponent}
 
 ];
 

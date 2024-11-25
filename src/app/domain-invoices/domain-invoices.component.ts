@@ -15,9 +15,9 @@ import { DomainInvoiceService } from './service/domain-invoices.service';
 export class DomainInvoicesComponent implements OnInit {
   
   displayedColumns: string[] = [
-    // 'checkbox',
+    'checkbox',
     'billingId',
-    'organisationname',
+    'organizationName',
     'invoiceNumber',
     'invoiceDate',
     'amount',
@@ -25,32 +25,24 @@ export class DomainInvoicesComponent implements OnInit {
     'status',
   ]; 
 
+  userId: string = localStorage.getItem('email');
+  role: string = localStorage.getItem('userRole');
+
   domainsinvoicesList: DomainInvoices[] = [];
   domainsDataSource: MatTableDataSource<DomainInvoices>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  role: string = localStorage.getItem('userRole');
-  userEmailId = localStorage.getItem('email');
-
-  constructor(private domainService: DomainService, 
-    private router: Router, 
-    private domainInvoiceService: DomainInvoiceService) {
+  constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService) {
     this.domainsDataSource = new MatTableDataSource<DomainInvoices>(this.domainsinvoicesList);
   }
   
   ngOnInit(): void {
-    console.log(this.role)
-    console.log(this.userEmailId)
-    if(this.role !== 'IDRBTADMIN'){
-      console.log('exe')
-      this.loadBillingHistories(this.userEmailId);
-    }else{
-      console.log('exe 1')
+    if(this.role === 'IDRBTADMIN'){
       this.loadBillingHistories("");
+    }else{
+      this.loadBillingHistories(this.userId);
     }
-    //this.loadBillingHistories();
-   
   }
 
   loadBillingHistories(userId: string): void {
@@ -71,6 +63,13 @@ export class DomainInvoicesComponent implements OnInit {
         console.error('Error fetching billing histories:', error);
       }
     );
+
   }
+
+  
+    goToInvoiceDetails(billingId: number){
+      this.router.navigate(['/admin-invoice-details'],{queryParams:{billingId:billingId}});
+    }
+
 
 }

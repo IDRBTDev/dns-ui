@@ -44,6 +44,7 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
+import { AddDomainComponent } from './add-domain/add-domain.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
      MainHeaderComponent,
     PreviewComponent,
     DocumentUploadComponent,
+    AddDomainComponent,
   ],
   imports: [
     BrowserModule,

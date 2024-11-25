@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-header',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-header.component.css']
 })
 export class MainHeaderComponent {
+
+  constructor(private router: Router){
+
+  }
+
+  logout(){
+    localStorage.clear();
+    this.router.navigateByUrl('/login');
+  }
 
 }

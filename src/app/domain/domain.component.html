@@ -10,7 +10,8 @@
           <ng-template #displayDomains>
             <div class="row" style="padding-top: 100px;">
               <div class="col-sm-12">
-                <h3>Domains</h3>
+                <h3>Domains &nbsp;<button class="btn btn-primary"
+                  (click)="navigateToAddDomain()">Add Domain</button></h3>
                 <section class="example-container" style="margin-top: 10px;">
                   <table id="table1" mat-table [dataSource]="domainsDataSource" 
                   matSort class="mat-elevation-z8">
