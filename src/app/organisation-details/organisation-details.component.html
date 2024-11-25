@@ -17,7 +17,7 @@
 
 
 
-        <div class="card mt-5" style="border: none;">
+        <div class="card mt-3" style="border: none;">
 
 
 
@@ -61,6 +61,9 @@
 
                             <input type="text" id="institutionName"  class="form-control" formControlName="institutionName"
                                 placeholder="Enter institution name" required />
+                            <div *ngIf="organisationForm.get('institutionName')?.invalid && organisationForm.get('institutionName')?.touched" class="text-danger">
+                                Please enter your Institution Name.
+                            </div>
 
 
 
@@ -88,6 +91,9 @@
 
                                 <input type="text" id="pincode" class="form-control" placeholder="Enter pincode"
                                     formControlName="pincode" (input)="onPincodeChange()" required />
+                                <div *ngIf="organisationForm.get('pincode')?.invalid && organisationForm.get('pincode')?.touched" class="text-danger">
+                                    Please enter your pincode.
+                                </div>
 
 
 
@@ -168,6 +174,9 @@
 
 
                             <input id="address" class="form-control" placeholder="Enter address" formControlName="address" required />
+                            <div *ngIf="organisationForm.get('address')?.invalid && organisationForm.get('address')?.touched" class="text-danger">
+                                Please enter your address.
+                            </div>
 
 
 
@@ -196,6 +205,9 @@
 
                                 <input type="text" id="stdTelephone" class="form-control"
                                     placeholder="Enter STD telephone" formControlName ="stdTelephone" required />
+                                <div *ngIf="organisationForm.get('stdTelephone')?.invalid && organisationForm.get('stdTelephone')?.touched" class="text-danger">
+                                    Please enter valid stdTelephone.
+                                </div>
 
 
 
@@ -214,6 +226,9 @@
 
                                 <input type="text" id="mobileNumber" class="form-control"
                                     placeholder="Enter mobile number" formControlName="mobileNumber" required />
+                                <div *ngIf="organisationForm.get('mobileNumber')?.invalid && organisationForm.get('mobileNumber')?.touched" class="text-danger">
+                                    Please enter valid mobileNumber.
+                                </div>
 
 
 
@@ -238,6 +253,9 @@
 
                             <input type="email" id="organisationEmail" class="form-control"
                                 placeholder="Enter email address" formControlName= "organisationEmail" required />
+                            <div *ngIf="organisationForm.get('organisationEmail')?.invalid && organisationForm.get('organisationEmail')?.touched" class="text-danger">
+                                Please enter valid organisation Email.
+                            </div>
 
                         </div>
 
@@ -247,19 +265,20 @@
 
                         <div>
 
-                            <label for="documentsToUpload" class="form-label">Documents</label><span
-                                style="color: red">*</span>
+                            <label for="documentsToUpload" class="form-label">Documents</label>
+                            <span style="color: red">*</span>
 
-                            <app-document-upload id="documentsToUpload" [uploadedDocs]="uploadedDocs"
+                            <app-document-upload id="documentsToUpload" 
+                                [uploadedDocs]="uploadedDocs"
                                 [submissionAttempted]="submissionAttempted"
                                 (onValidationChange)="handleValidationChange($event)"
                                 (setUploadedDocs)="setUploadedDocuments($event)"></app-document-upload>
 
                         </div>
 
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end mt-3">
 
-                            <button (click)="handleSubmit()" class="btn btn-primary">Submit</button>
+                            <button (click)="handleSubmit()" class="btn btn-primary">Save & Next</button>
 
                         </div>
 

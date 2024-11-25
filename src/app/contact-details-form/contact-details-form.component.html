@@ -1,6 +1,6 @@
 <div class="w-100">
     <!-- Card with shadow and padding -->
-    <div class="col-12 mt-5"> 
+    <div class="col-12 mt-3"> 
         <!-- Add margin-top to create space from the top -->
       
         <div class="card" style="border: none;">
@@ -12,7 +12,7 @@
   
               <!-- Administrative Card -->
               <div class="card mt-4 mb-4">
-                <div class="card-header">
+                <div class="card-header ">
                   <h5>Administrative</h5>
                 </div>
                 <div class="card-body">
@@ -38,27 +38,29 @@
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="adminAltPhone" class="form-label">Alternative Phone No</label><span class="text-danger">*</span>
                       <input type="text" id="adminAltPhone" class="form-control" formControlName="adminAltPhone" placeholder="Enter alternative phone">
                       <div *ngIf="fullForm.get('adminAltPhone')?.invalid && fullForm.get('adminAltPhone')?.touched" class="text-danger">
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="adminDesignation" class="form-label">Designation</label><span class="text-danger">*</span>
                       <input type="text" id="adminDesignation" class="form-control" formControlName="adminDesignation" placeholder="Enter your designation">
                       <div *ngIf="fullForm.get('adminDesignation')?.invalid && fullForm.get('adminDesignation')?.touched" class="text-danger">
                         Please enter your Designation.
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                    <div class="col-md-12">
+                      <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <app-contact-document-upload></app-contact-document-upload>
+                      <!-- <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="adminDocuments" class="form-select" formControlName="adminDocuments">
                         <option selected>Select and upload</option>
                         <option value="1">Document 1</option>
                         <option value="2">Document 2</option>
-                      </select>
+                      </select> -->
                     </div>
                   </div>
                 </div>
@@ -92,27 +94,29 @@
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="techAltPhone" class="form-label">Alternative Phone No</label><span class="text-danger">*</span>
                       <input type="text" id="techAltPhone" class="form-control" formControlName="techAltPhone" placeholder="Enter alternative phone">
                       <div *ngIf="fullForm.get('techAltPhone')?.invalid && fullForm.get('techAltPhone')?.touched" class="text-danger">
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="techDesignation" class="form-label">Designation</label><span class="text-danger">*</span>
                       <input type="text" id="techDesignation" class="form-control" formControlName="techDesignation" placeholder="Enter your designation">
                       <div *ngIf="fullForm.get('techDesignation')?.invalid && fullForm.get('techDesignation')?.touched" class="text-danger">
                         Please enter your Designation.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                       <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <app-contact-document-upload></app-contact-document-upload>
+                      <!-- <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="techDocuments" class="form-select" formControlName="techDocuments">
                         <option selected>Select and upload</option>
                         <option value="1">Document 1</option>
                         <option value="2">Document 2</option>
-                      </select>
+                      </select> -->
                     </div>
                   </div>
                 </div>
@@ -146,27 +150,29 @@
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="billAltPhone" class="form-label">Alternative Phone No</label><span class="text-danger">*</span>
                       <input type="text" id="billAltPhone" class="form-control" formControlName="billAltPhone" placeholder="Enter alternative phone">
                       <div *ngIf="fullForm.get('billAltPhone')?.invalid && fullForm.get('billAltPhone')?.touched" class="text-danger">
                         Please enter a valid Phone number.
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="billDesignation" class="form-label">Designation</label><span class="text-danger">*</span>
                       <input type="text" id="billDesignation" class="form-control" formControlName="billDesignation" placeholder="Enter your designation">
                       <div *ngIf="fullForm.get('billDesignation')?.invalid && fullForm.get('billDesignation')?.touched" class="text-danger">
                         Please enter your Designation.
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                    <div class="col-md-12">
+                      <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <app-contact-document-upload></app-contact-document-upload>
+                      <!-- <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="billDocuments" class="form-select" formControlName="billDocuments">
                         <option selected>Select and upload</option>
                         <option value="1">Document 1</option>
                         <option value="2">Document 2</option>
-                      </select>
+                      </select> -->
                     </div>
                   </div>
                 </div>

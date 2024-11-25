@@ -3,6 +3,7 @@
     <div><app-header></app-header></div>
     
     <!-- Side Menu -->
+<div class="d-flex">
     <div class="side-menu col-md-3 col-lg-2 position-fixed top-0 start-0 vh-100 text-white">
       <app-user-side-menu></app-user-side-menu>
     </div>
@@ -15,9 +16,13 @@
             <div class="card-body">
               <!-- Mat Stepper with Bootstrap classes -->
               <mat-horizontal-stepper #stepper [linear]="true" class="w-100">
-                
                 <!-- Step 1: Organisation Details -->
-                <mat-step label="Organisation Details">
+                <ng-template matStepperIcon="edit">
+                      <mat-icon>done</mat-icon>
+                  </ng-template>
+
+                <mat-step completed=false label="Organisation Details">
+                  
                   <app-organisation-details (formSubmitted)="onFormSubmitted()"></app-organisation-details>
                   <!-- <div>
                     <button mat-button matStepperNext>Next</button>
@@ -25,7 +30,7 @@
                 </mat-step>
   
                 <!-- Step 2: Contact Details -->
-                <mat-step label="Contact Details">
+                <mat-step completed=false label="Contact Details">
                   <app-contact-details-form (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
                   <!-- <span>
                     <button mat-button matStepperPrevious>Back</button>
@@ -33,7 +38,7 @@
                 </mat-step>
   
                 <!-- Step 3: Name Server Details -->
-                <mat-step label="Name Server Details">
+                <mat-step completed=false label="Name Server Details">
                   <app-name-server-form (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-name-server-form>
                   <!-- <div>
                     <button mat-button matStepperNext>Next</button>
@@ -41,16 +46,16 @@
                 </mat-step>
   
                 <!-- Step 4: Review -->
-                <mat-step label="Review">
-                  <p>Review the details you entered.</p>
-                  <div>
+                <mat-step completed=false label="Preview">
+                  <app-preview></app-preview>
+                  <!-- <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
-                  </div>
+                  </div> -->
                 </mat-step>
   
                 <!-- Step 5: Submit -->
-                <mat-step label="Submit">
+                <mat-step completed=false label="Submit">
                   <p>Submit the form.</p>
                   <div>
                     <button mat-button matStepperPrevious>Back</button>
@@ -63,5 +68,6 @@
         </div>
       </div>
     </div>
+</div>
   </div>
   

@@ -7,7 +7,7 @@
 
 
 
-        <div *ngFor="let card of cards  " class="col-ld mt-5 shadow-lg">
+        <div *ngFor="let card of cards  " class="col-ld mt-5">
 
 
 
@@ -944,11 +944,11 @@
 
 
 
-                        <button class="btn btn-success mt-3" (click)="onSave(card)">Save</button>
+                        <!-- <button class="btn btn-success mt-3" (click)="onSave(card)">Save</button>
 
 
 
-                        <button class="btn btn-secondary mt-3" (click)="onCancel(card)">Cancel</button>
+                        <button class="btn btn-secondary mt-3" (click)="onCancel(card)">Cancel</button> -->
 
 
 
@@ -957,17 +957,16 @@
 
 
                 </div>
-
-
+                
 
             </div>
 
 
-
         </div>
-
-
-
+            <div class="navigation-buttons justify-content-between mt-2">
+                <button class="btn btn-primary" (click)="goBack()">Back</button>
+                <button class="btn btn-primary" (click)="onSubmit()">Save & Next</button>
+            </div>
     </div>
 
 

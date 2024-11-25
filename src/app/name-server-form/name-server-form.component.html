@@ -1,4 +1,4 @@
-<div class="card mt-5" style="border: none;">
+<div class="card mt-3" style="border: none;">
     <div class="card-body">
 
 
@@ -36,27 +36,13 @@ class="form-card shadow-lg"
 
                 <input type="radio" formControlName="hasNSDetails" value="yes" id="hasNSDetailsYes" />
 
-
-
                 <label for="hasNSDetailsYes" class="radio-spacing">
-
-
 
                     &nbsp;I have NS details (can be updated later)
 
-
-
                 </label>
 
-
-
-
-
-
-
                 <input type="radio" formControlName="hasNSDetails" value="no" id="hasNSDetailsNo" />
-
-
 
                 <label for="hasNSDetailsNo">&nbsp; I will set it later
                 </label>
@@ -241,43 +227,13 @@ class="form-card shadow-lg"
 
             </div>
 
-
-
-
-
-
-
             <div class="navigation-buttons">
 
+                <button class="btn btn-primary" (click)="goBack()">Back</button>
 
-
-                <button class="btn btn-primary" (click)="goBack()">
-
-
-
-                    Back
-
-
-
-                </button>
-
-
-
-                <button class="btn btn-primary" (click)="onSubmit()">
-
-
-
-                    Save & Next
-
-
-
-                </button>
-
-
+                <button class="btn btn-primary" (click)="onSubmit()">Save & Next</button>
 
             </div>
-
-
 
         </div>
 

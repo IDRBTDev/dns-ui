@@ -28,7 +28,6 @@ export class ContactDetailsFormComponent implements OnInit {
       adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       adminAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       adminDesignation: ['', [Validators.required]],
-      adminDocuments: ['', [Validators.required]],
 
       // Technical Form Controls
       techFullName: ['', [Validators.required]],
@@ -36,7 +35,6 @@ export class ContactDetailsFormComponent implements OnInit {
       techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       techAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       techDesignation: ['', [Validators.required]],
-      techDocuments: ['', [Validators.required]],
 
       // Billing Form Controls
       billFullName: ['', [Validators.required]],
@@ -44,7 +42,6 @@ export class ContactDetailsFormComponent implements OnInit {
       billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       billAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       billDesignation: ['', [Validators.required]],
-      billDocuments: ['', [Validators.required]],
     });
   }
 
@@ -79,8 +76,8 @@ export class ContactDetailsFormComponent implements OnInit {
         designation: this.fullForm.get('billDesignation')?.value,
         documents: this.fullForm.get('billDocuments')?.value
       };
-      // Emit event to notify parent that form was submitted successfully
-      
+            // Emit event to notify parent that form was submitted successfully
+            this.formSubmitted.emit();
 
       // Save Admin details
       this.contactDetailsFormService.saveAdminDetails(adminDetails).subscribe(response => {
@@ -104,8 +101,7 @@ export class ContactDetailsFormComponent implements OnInit {
         console.error('Error saving billing details', error);
       });
 
-      // Emit event to notify parent that form was submitted successfully
-      this.formSubmitted.emit();
+
     } 
     else {
       console.log('Form is invalid');

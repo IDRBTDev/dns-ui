@@ -43,6 +43,7 @@ import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
+import { ContactDocumentUploadComponent } from './contact-document-upload/contact-document-upload.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
    
     PreviewComponent,
     DocumentUploadComponent,
+    ContactDocumentUploadComponent,
   ],
   imports: [
     BrowserModule,

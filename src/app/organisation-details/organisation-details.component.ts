@@ -11,6 +11,7 @@ import { OrganisationDetailsService } from './service/organisation-details.servi
 })
 export class OrganisationDetailsComponent implements OnInit {
     @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+    
     organisationForm: FormGroup;
     cityOptions: Array<{ name: string; district: string; state: string }> = [];
     loading = false;
@@ -22,7 +23,7 @@ export class OrganisationDetailsComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
-        private router: Router,
+        //private router: Router,
         private organisationDetailsService: OrganisationDetailsService
     ) {
         this.organisationForm = this.fb.group({
@@ -78,6 +79,7 @@ export class OrganisationDetailsComponent implements OnInit {
                 console.error('Error fetching pincode details:', error);
                 this.loading = false;
                 this.clearCityAndState();
+                
             }
         );
     }
@@ -95,6 +97,7 @@ export class OrganisationDetailsComponent implements OnInit {
         if (pincode && /^\d{6}$/.test(pincode)) {
             this.fetchCityState(pincode);
         } else {
+            
             this.clearCityAndState();
         }
     }
@@ -112,6 +115,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.submitted = true;
 
         if (this.organisationForm.invalid) {
+            this.organisationForm.markAllAsTouched();
             console.error('Form validation failed. Details:');
 
             Object.keys(this.organisationForm.controls).forEach((controlName) => {
@@ -138,7 +142,7 @@ export class OrganisationDetailsComponent implements OnInit {
             (response) => {
                 
                 console.log('Form submitted successfully', response);
-                this.router.navigate(['/contact-details-form']);
+                //this.router.navigate(['/contact-details-form']);
             },
             (error) => {
                 console.log(formData);
@@ -146,4 +150,8 @@ export class OrganisationDetailsComponent implements OnInit {
             }
         );
     }
+        // Method to check form validity (to be used in parent)
+        isFormValid(): boolean {
+        return this.organisationForm.valid;
+     }
 }

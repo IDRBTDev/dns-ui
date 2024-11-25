@@ -290,9 +290,10 @@ mat-label {
 
 
 }
-
-
-
+h3 {
+    font-size: x-large;
+    font-weight: 550;
+}
 /* Styles for the error message */
 
 

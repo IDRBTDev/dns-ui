@@ -1,5 +1,6 @@
 import {
-  Component, OnInit
+  Component, EventEmitter, OnInit,
+  Output
 }
   from '@angular/core';
 
@@ -25,6 +26,8 @@ import {
 export class
   PreviewComponent
   implements OnInit {
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
   cards = [
 
@@ -210,14 +213,14 @@ export class
 
 
   constructor(private http:
-      HttpClient) { }
+    HttpClient) { }
 
 
 
   ngOnInit():
     void {
 
-    this.fetchDataFromAPIs();
+    //this.fetchDataFromAPIs();
 
   }
 
@@ -228,6 +231,15 @@ export class
    * Fetch data from different APIs and populate card details
  
    */
+  goBack():void{
+    
+    this.back.emit()
+  }
+
+  onSubmit():
+    void {
+      this.formSubmitted.emit()
+    }
 
   fetchDataFromAPIs() {
 
@@ -251,8 +263,8 @@ export class
 
       },
 
-      error: (error)  => console.error('Error fetching domain details:',
-          error),
+      error: (error) => console.error('Error fetching domain details:',
+        error),
 
     });
 
@@ -291,7 +303,7 @@ export class
       },
 
       error: (error) => console.error('Error fetching organisation details:',
-          error),
+        error),
 
     });
 
@@ -324,7 +336,7 @@ export class
       },
 
       error: (error) => console.error('Error fetching admin contact details:',
-          error),
+        error),
 
     });
 
@@ -334,7 +346,7 @@ export class
 
     this.http.get<any>('http://localhost:9005/dr/technicalContact').subscribe({
 
-      next: (data)        => {
+      next: (data) => {
 
         this.cards[3].details.techFullName
           = data.fullName;
@@ -356,8 +368,8 @@ export class
 
       },
 
-      error: (error)  => console.error('Error fetching tech contact details:',
-          error),
+      error: (error) => console.error('Error fetching tech contact details:',
+        error),
 
     });
 
@@ -387,7 +399,7 @@ export class
       },
 
       error: (error) => console.error('Error fetching billing contact details:',
-          error),
+        error),
 
     });
 
@@ -397,7 +409,7 @@ export class
 
     this.http.get<any>('http://localhost:9009/dr/nameServer').subscribe({
 
-      next: (data)  => {
+      next: (data) => {
 
         this.cards[5].details.hostName
           = data.hostName;
@@ -407,8 +419,8 @@ export class
 
       },
 
-      error: (error)  => console.error('Error fetching name server details:',
-          error),
+      error: (error) => console.error('Error fetching name server details:',
+        error),
 
     });
 
