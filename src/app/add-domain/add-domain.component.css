@@ -12,7 +12,6 @@
   .layout-container {
     display: flex;
     height: 100vh; /* Full-height layout */
-   
   }
   
   app-side-menu {
@@ -36,28 +35,4 @@
   table tr td{
     font-size: 13px;
   }
-
-  .error-message {
-    color: red;
-    font-size: 12px;
-    margin-top: 2px;
-    padding-bottom: 3px;
-}
-
-  /* mat-slide-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  } */
-
-  .modal-body{
-    font-size: 13px;
-  }
-
-  input::placeholder {
-    font-size: 12px; /* Adjust to your desired size */
-    color: gray; /* Optional: Change the placeholder color */
-  }
-
-  
   

@@ -138,14 +138,32 @@ export class OrganisationDetailsComponent implements OnInit {
             ...this.organisationForm.value,
         };
 
-        this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
-            (response) => {
+        // this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+        //     (response) => {
                 
+        //         console.log('Form submitted successfully', response);
+        //         this.router.navigate(['/contact-details-form']);
+        //     },
+        //     (error) => {
+        //         console.log(formData);
+        //         console.error('Error submitting form', error);
+        //     }
+        // );
+        this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+            (response: any) => {
                 console.log('Form submitted successfully', response);
-                //this.router.navigate(['/contact-details-form']);
+        
+                const applicationId = response.applicationId; // Retrieve applicationId from the response
+                console.log('Generated Application ID:', applicationId);
+        
+                if (applicationId) {
+                    sessionStorage.setItem('applicationId', applicationId); // Save to sessionStorage
+                    //this.router.navigate(['/contact-details-form']); // Navigate to Contact Details
+                } else {
+                    console.error('Application ID is null or undefined!');
+                }
             },
             (error) => {
-                console.log(formData);
                 console.error('Error submitting form', error);
             }
         );

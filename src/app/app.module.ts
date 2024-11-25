@@ -39,14 +39,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { UserComponent } from './user/user.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MainHeaderComponent } from './main-header/main-header.component';
 import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { ContactDocumentUploadComponent } from './contact-document-upload/contact-document-upload.component';
+import { AddDomainComponent } from './add-domain/add-domain.component';
+import { NotificationComponent } from './notification/notification.component';
+import TimeAgo from 'javascript-time-ago';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
+  exports:[DateAgoPipe],
   declarations: [
+    DateAgoPipe,
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -67,10 +74,12 @@ import { ContactDocumentUploadComponent } from './contact-document-upload/contac
     OnboardingStepperComponent,
     ContactDetailsFormComponent,
     OrganisationDetailsComponent,
-   
+     MainHeaderComponent,
     PreviewComponent,
     DocumentUploadComponent,
     ContactDocumentUploadComponent,
+    AddDomainComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,7 +103,8 @@ import { ContactDocumentUploadComponent } from './contact-document-upload/contac
     MatSnackBarModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+
     
   ],
   providers: [],

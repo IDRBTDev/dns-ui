@@ -15,9 +15,15 @@ import { UserSideMenuComponent } from './user-side-menu/user-side-menu.component
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { UserComponent } from './user/user.component';
+import { OrganisationDetailsComponent } from './organisation-details/organisation-details.component';
+import { ContactDetailsFormComponent } from './contact-details-form/contact-details-form.component';
+import { MainHeaderComponent } from './main-header/main-header.component';
+import { AddDomainComponent } from './add-domain/add-domain.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
+  {path:'organisation-details', component: OrganisationDetailsComponent},
+  {path:'contact-details-form', component: ContactDetailsFormComponent},
   {path:'landing', component: LandingComponent},
   {path:'login', component: LoginComponent},
   {path:'registration', component: RegistrationComponent},
@@ -27,14 +33,22 @@ const routes: Routes = [
   {path:'domain-details', component: DomainDetailsComponent},
   {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
   {path: '',redirectTo:'/landing', pathMatch: 'full'},
-  {path: '',component: LandingComponent},
+  
   {path: 'user-domain-details', component:UserDomainDetailsComponent},
   {path: 'onboarding-stepper', component:OnboardingStepperComponent},
   {path: 'user-side-menu', component:UserSideMenuComponent},
   {path:'invoices', component: DomainInvoicesComponent},
+
+  {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
+  {path: 'users', component: UserComponent},
+  {path:'',redirectTo:'/landing', pathMatch: 'full'},
+  {path:'',component: LandingComponent},
+  {path:'mainHeader',component:MainHeaderComponent},
+  //{path:'domain-invoices',component:DomainInvoicesComponent},
+  //{path:'full-header',component:FullHeaderComponent}
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
-  {path:'users', component: UserComponent}
-  
+  {path: 'add-domain', component: AddDomainComponent}
+
 ];
 
 @NgModule({
