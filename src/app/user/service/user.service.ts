@@ -16,8 +16,8 @@ export class UserService{
 
     }
 
-    getAllUsers(){
-        return this.httpClient.get<any[]>(this.getAllUsersUrl,{observe:'response'});
+    getAllUsers(organisationId: number){
+        return this.httpClient.get<any[]>(this.getAllUsersUrl+"?organisationId="+organisationId,{observe:'response'});
     }
 
     saveUser(user: any){

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RegistrationService } from './service/Registration.service';
 import { lastValueFrom } from 'rxjs';
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/service/login.service';
@@ -29,9 +29,10 @@ showEmailButton: boolean = false;
     userId: '',
     encryptedPassword: '',
     mobileNumber: '',
-    confirmPassword: ''
+    confirmPassword: '',
+  
   }
-
+otp:number;
   toggleEmailButton() {
     this.showEmailButton = this.user.userId.length > 0;
   }
@@ -174,6 +175,38 @@ if (!this.user.mobileNumber) {
       }
     )
   }
+  errorMessage: string = '';
+  successMessage: string = '';
+  verifyOtp() {
+    console.log('Starting OTP verification...');
+    
+    if (!this.user.userId || !this.otp) {
+        console.log('Error: UserId or OTP is missing');
+        
+        this.errorMessage = 'Please enter OTP.';
+        this.successMessage = '';
+        return;
+    }
+    console.log('Verifying OTP for User ID:', this.user.userId);
+    console.log('Entered OTP:', this.otp);
+
+    this.registrationService.verifyOtp(this.user.userId, this.otp).subscribe({
+        next: (response) => {
+            console.log('OTP verification successful:', response);
+            this.toastrService.success("OTP verification successful")
+            this.successMessage = 'OTP verified successfully!';
+            this.errorMessage = '';
+            document.getElementById('closeRegForm').click();
+        },
+        error: (error: HttpErrorResponse) => {
+            console.log('Error during OTP verification:', error);
+            
+            this.errorMessage = 'Failed to verify OTP. Please try again.';
+            this.successMessage = '';
+        }
+    });
+}
+
 
 }
 

@@ -75,5 +75,9 @@ export class DomainComponent implements OnInit {
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');
   }
+
+  navigateToAddDomain(){
+    this.router.navigateByUrl('/add-domain');
+  }
   
 }

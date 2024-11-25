@@ -22,9 +22,9 @@ $dns-ui-warn: mat.define-palette(mat.$red-palette);
 // theming systems such as "color" or "typography".
 $dns-ui-theme: mat.define-light-theme((
   color: (
-    primary: $dns-ui-primary,
-    accent: $dns-ui-accent,
-    warn: $dns-ui-warn,
+    primary: $dns-ui-primary($mat-indigo),
+    accent: $dns-ui-accent($mat-blue),
+    warn: $dns-ui-warn($primary, $accent),
   )
 ));
 

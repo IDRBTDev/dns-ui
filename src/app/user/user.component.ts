@@ -52,6 +52,10 @@ export class UserComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  userId = localStorage.getItem('email');
+  role = localStorage.getItem('userRole');
+  organisationId = localStorage.getItem('organisationId');
+
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService
   ) {
@@ -59,11 +63,11 @@ export class UserComponent {
   }
 
   ngOnInit(): void {
-    this.getUsersList();
+    this.getUsersList(parseInt(this.organisationId));
   }
 
-  async getUsersList() {
-    await lastValueFrom(this.userService.getAllUsers()).then(
+  async getUsersList(organisationId: number) {
+    await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           console.log(response.body);
@@ -86,8 +90,8 @@ export class UserComponent {
     );
   }
 
-  navigateToDomainDetails(domainId: number) {
-    this.router.navigate(['/domain-details'], { queryParams: { domainId: domainId } });
+  navigateToDomainDetails(domainId: number){
+    this.router.navigate(['/domain-details'],{queryParams:{domainId:domainId}});
   }
 
   navigateToSessionTimeout() {
@@ -121,7 +125,7 @@ export class UserComponent {
     await lastValueFrom(this.userService.updateUser(user)).then(response => {
       if (response.status === HttpStatusCode.PartialContent) {
         this.toastr.success('User updated successfully.')
-        this.getUsersList();
+        this.getUsersList(parseInt(this.organisationId));
       }
     }, error => {
       if (error.status === HttpStatusCode.Unauthorized) {
@@ -137,7 +141,7 @@ export class UserComponent {
       await lastValueFrom(this.userService.deleteUserById(id)).then(
         response => {
           if (response.status === HttpStatusCode.Ok) {
-            this.getUsersList();
+            this.getUsersList(parseInt(this.organisationId));
           }
         }, error => {
           if (error.status === HttpStatusCode.Unauthorized) {
@@ -281,7 +285,7 @@ if (!this.user.mobileNumber) {
       response => {
       if (response.status === HttpStatusCode.Created) {
         this.toastr.success('User added successfully.')
-        this.getUsersList();
+        this.getUsersList(parseInt(this.organisationId));
       }
     }, error => {
       if (error.status === HttpStatusCode.Unauthorized) {
