@@ -45,9 +45,14 @@ import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
+import { NotificationComponent } from './notification/notification.component';
+import TimeAgo from 'javascript-time-ago';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
+  exports:[DateAgoPipe],
   declarations: [
+    DateAgoPipe,
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -72,6 +77,7 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
     PreviewComponent,
     DocumentUploadComponent,
     AddDomainComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +101,8 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
     MatSnackBarModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+
     
   ],
   providers: [],
