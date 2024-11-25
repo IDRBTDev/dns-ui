@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-contact-details-form',
@@ -12,8 +13,9 @@ export class ContactDetailsFormComponent implements OnInit {
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
   fullForm: FormGroup;
+  applicationId: string | null = null; 
 
-  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService) {}
+  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute) {}
 
   goBack(): void{
     console.log('goBack');
@@ -46,6 +48,9 @@ export class ContactDetailsFormComponent implements OnInit {
       billDesignation: ['', [Validators.required]],
       billDocuments: ['', [Validators.required]],
     });
+    // Retrieve applicationId from sessionStorage
+    this.applicationId = sessionStorage.getItem('applicationId'); // Retrieve applicationId
+    console.log('Retrieved Application ID from sessionStorage:', this.applicationId);
   }
 
   onSubmit(): void {
@@ -59,7 +64,8 @@ export class ContactDetailsFormComponent implements OnInit {
         phone: this.fullForm.get('adminPhone')?.value,
         altPhone: this.fullForm.get('adminAltPhone')?.value,
         designation: this.fullForm.get('adminDesignation')?.value,
-        documents: this.fullForm.get('adminDocuments')?.value
+        documents: this.fullForm.get('adminDocuments')?.value,
+        applicationId: this.applicationId,
       };
 
       const technicalDetails = {
@@ -68,7 +74,8 @@ export class ContactDetailsFormComponent implements OnInit {
         phone: this.fullForm.get('techPhone')?.value,
         altPhone: this.fullForm.get('techAltPhone')?.value,
         designation: this.fullForm.get('techDesignation')?.value,
-        documents: this.fullForm.get('techDocuments')?.value
+        documents: this.fullForm.get('techDocuments')?.value,
+        applicationId: this.applicationId
       };
 
       const billingDetails = {
@@ -77,7 +84,8 @@ export class ContactDetailsFormComponent implements OnInit {
         phone: this.fullForm.get('billPhone')?.value,
         altPhone: this.fullForm.get('billAltPhone')?.value,
         designation: this.fullForm.get('billDesignation')?.value,
-        documents: this.fullForm.get('billDocuments')?.value
+        documents: this.fullForm.get('billDocuments')?.value,
+        applicationId: this.applicationId
       };
       // Emit event to notify parent that form was submitted successfully
       
@@ -85,6 +93,10 @@ export class ContactDetailsFormComponent implements OnInit {
       // Save Admin details
       this.contactDetailsFormService.saveAdminDetails(adminDetails).subscribe(response => {
         console.log('Admin details saved successfully', response);
+        console.log(adminDetails);
+        // const applicationId = response.applicationId; // Ensure this is the correct field
+        // sessionStorage.setItem('applicationId', applicationId);
+        //console.log('Application ID saved to sessionStorage:', applicationId);
         console.log(adminDetails);
       }, error => {
         console.error('Error saving admin details', error);
