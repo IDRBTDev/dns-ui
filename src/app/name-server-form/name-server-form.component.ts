@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, EventEmitter, Output
+  Component, OnInit, EventEmitter, Output,
+  Input
 }
   from '@angular/core';
 
@@ -28,6 +29,10 @@ import { NameServerService } from './service/name-server.service';
 export class
 NameServerFormComponent
   implements OnInit {
+
+    @Input() applicationId: string = '';
+    @Input() domainId: number = 0;
+    @Input() organisationId: number = 0;
     @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
     @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
@@ -41,7 +46,6 @@ NameServerFormComponent
 
 
   constructor(private fb: FormBuilder, private nameServerService: NameServerService) {
-
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],
 
@@ -56,7 +60,8 @@ NameServerFormComponent
 
 
   ngOnInit():void {
-
+    console.log(this.domainId);
+    console.log(this.applicationId);
     this.nameServerForm.get('hasNSDetails')?.valueChanges.subscribe((value) => {
 
       this.hasNSDetails
@@ -97,7 +102,7 @@ NameServerFormComponent
 
       organisationId: [0],
       applicationId:[''],
-      domainId: [''],
+      domainId: this.domainId,
       userMailId:localStorage.getItem('email'),
       
       hostName: ['',

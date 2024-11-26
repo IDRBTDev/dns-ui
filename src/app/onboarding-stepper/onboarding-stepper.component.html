@@ -35,7 +35,10 @@
   
                 <!-- Step 3: Name Server Details -->
                 <mat-step completed=false label="Name Server Details">
-                  <app-name-server-form (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-name-server-form>
+                  <app-name-server-form [domainId]="domainId"
+                  [applicationId]="applicationId" 
+                  (formSubmitted)="onFormSubmitted()" 
+                  (back)="goBack()"></app-name-server-form>
                   <!-- <div>
                     <button mat-button matStepperNext>Next</button>
                   </div> -->

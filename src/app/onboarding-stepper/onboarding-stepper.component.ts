@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { NameServerFormComponent } from '../name-server-form/name-server-form.component';
 import { OrganisationDetailsComponent } from '../organisation-details/organisation-details.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -9,11 +10,23 @@ import { OrganisationDetailsComponent } from '../organisation-details/organisati
   templateUrl: './onboarding-stepper.component.html',
   styleUrls: ['./onboarding-stepper.component.css']
 })
-export class OnboardingStepperComponent{
+export class OnboardingStepperComponent implements OnInit{
   @ViewChild(MatStepper) stepper: MatStepper;  // Reference to the mat-stepper
   @ViewChild(NameServerFormComponent) nameServerFormComponent: NameServerFormComponent;
   @ViewChild(OrganisationDetailsComponent) organisationDetailsComponent: OrganisationDetailsComponent;
   completed= false;
+
+  domainId: number = 0;
+  applicationId: string = '';
+  constructor(private router: Router){
+    this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
+    this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
+  }
+
+  async ngOnInit(): Promise<void> {
+    
+  }
+
   onStepChange(event: any) {
     // If trying to go to the 'Name Server Details' step, ensure form validity
     if (event.selectedIndex === 1 && this.organisationDetailsComponent.isFormValid()) {

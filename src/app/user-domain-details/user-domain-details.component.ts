@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDomainService } from './service/user-domain.service';  // Import the service from the new folder
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -50,7 +50,13 @@ export class UserDomainDetailsComponent {
       this.userDomainService.sendDomainData(domainData).subscribe(
         (response) => {
           console.log('Domain data submitted successfully', response);
-          this.router.navigate(['/onboarding-stepper']);
+          let navigationExtras: NavigationExtras = {
+            state: {
+              domainId: response.domainId,
+              applicationId: response.applicationId
+            }
+          }
+          this.router.navigate(['/onboarding-stepper'], navigationExtras);
         },
         (error) => {
           console.error('Error submitting domain data', error);
