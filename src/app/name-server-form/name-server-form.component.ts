@@ -28,14 +28,14 @@ import { Router } from '@angular/router';
 })
 
 export class
-NameServerFormComponent
+  NameServerFormComponent
   implements OnInit {
 
-    @Input() applicationId: string = '';
-    @Input() domainId: number = 0;
-    @Input() organisationId: number = 0;
-    @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
-    @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+  @Input() applicationId: string = '';
+  @Input() domainId: number = 0;
+  @Input() organisationId: number = 0;
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
   nameServerForm:
     FormGroup;
@@ -46,12 +46,12 @@ NameServerFormComponent
 
 
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private nameServerService: NameServerService,
     private router: Router
   ) {
 
-    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId']|0;
+    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
     this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
 
     this.nameServerForm = this.fb.group({
@@ -67,7 +67,7 @@ NameServerFormComponent
 
 
 
-  ngOnInit():void {
+  ngOnInit(): void {
     console.log(this.domainId);
     console.log(this.applicationId);
     this.nameServerForm.get('hasNSDetails')?.valueChanges.subscribe((value) => {
@@ -84,13 +84,9 @@ NameServerFormComponent
 
       } else
         if (!this.hasNSDetails) {
-
           this.clearAllNameServers();
-
         }
-
     });
-
   }
 
 
@@ -102,17 +98,15 @@ NameServerFormComponent
 
   }
 
-
-
   createNameServer(): FormGroup {
 
     return this.fb.group({
 
       organisationId: this.organisationId,
-      applicationId:this.applicationId,
+      applicationId: this.applicationId,
       domainId: this.domainId,
-      userMailId:localStorage.getItem('email'),
-      
+      userMailId: localStorage.getItem('email'),
+
       hostName: ['',
         Validators.required],
 
@@ -166,8 +160,8 @@ NameServerFormComponent
 
   }
 
-  goBack():void{
-    
+  goBack(): void {
+
     this.back.emit()
   }
 

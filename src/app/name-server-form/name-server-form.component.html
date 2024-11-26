@@ -1,38 +1,19 @@
 <div class="card mt-3" style="border: none;">
     <div class="card-body">
 
-
-
         <!-- 
   <mat-card
 class="form-card shadow-lg"
 > -->
-
-
-
         <div [formGroup]="nameServerForm">
-
-
 
             <h3>Name Server Details</h3>
 
-
-
             <p>Do you have Name Server Details?</p>
-
-
-
-
-
-
 
             <!-- Radio buttons for Yes/No -->
 
-
-
             <div>
-
-
 
                 <input type="radio" formControlName="hasNSDetails" value="yes" id="hasNSDetailsYes" />
 
@@ -47,196 +28,82 @@ class="form-card shadow-lg"
                 <label for="hasNSDetailsNo">&nbsp; I will set it later
                 </label>
 
-
-
             </div>
-
-
-
-
-
-
 
             <!-- Name Server fields - only shown if "I have NS details" is selected -->
 
-
-
             <div *ngIf="hasNSDetails">
 
-
-
                 <div formArrayName="nameServers">
-
-
 
                     <div *ngFor="let server of nameServers.controls; let i = index" [formGroupName]="i"
                         class="ns-group">
 
-
-
-
-
-
-
                         <!-- Host Name Field -->
-
-
 
                         <div class="ns-input">
 
-
-
                             <!-- <h5>Name Server {{ i + 1 }} Host Name</h5> -->
-                            <label for="{{ i + 1 }}host" class="form-label">Name Server {{ i + 1 }} Host Name</label><span class="text-danger">*</span>
-
+                            <label for="{{ i + 1 }}host" class="form-label">Name Server {{ i + 1 }} Host
+                                Name</label><span class="text-danger">*</span>
 
                             <input type="text" id="{{ i + 1 }}host" formControlName="hostName" class="custom-text-field"
                                 placeholder="Name Server {{ i + 1 }} - Host Name" required />
 
-
-
                             <div *ngIf="
-
-  
 
                   server.get('hostName')?.invalid &&
 
-  
-
                   server.get('hostName')?.touched
 
-  
-
                 " class="error-message">
-
-
 
                                 Host name is required
 
-
-
                             </div>
 
-
-
                         </div>
-
-
-
-
-
-
 
                         <!-- IP Address Field -->
 
-
-
-
-
-
-
                         <div class="ns-input">
 
-
-
                             <!-- <h5>Name Server {{ i + 1 }} IP Address</h5><span class="text-danger">*</span> -->
-                            <label for="{{ i + 1 }}ipAddress" class="form-label">Name Server {{ i + 1 }} Host Name</label><span class="text-danger">*</span>
+                            <label for="{{ i + 1 }}ipAddress" class="form-label">Name Server {{ i + 1 }} Host
+                                Name</label><span class="text-danger">*</span>
 
-
-
-                            <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress" class="custom-text-field"
-                                placeholder="Name Server {{ i + 1 }} - IP Address" required />
-
-
+                            <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress"
+                                class="custom-text-field" placeholder="Name Server {{ i + 1 }} - IP Address" required />
 
                             <div *ngIf="
 
-  
-
                   server.get('ipAddress')?.invalid &&
-
-  
 
                   server.get('ipAddress')?.touched
 
-  
-
                 " class="error-message">
-
-
 
                                 IP address is required
 
-
-
                             </div>
-
-
-
                         </div>
-
-
-
                     </div>
-
-
-
                 </div>
-
-
-
             </div>
-
-
-
-
-
-
-
             <!-- Add/Remove name server buttons -->
-
-
-
             <div class="button-group">
-
-
-
                 <button class="btn btn-primary" (click)="addNameServer()">
-
-
-
                     Add More NS
-
-
-
                 </button>
-
-
-
                 <button class="btn btn-primary" (click)="removeLastNameServer()">
-
-
-
                     Cancel
-
-
-
                 </button>
-
-
-
             </div>
 
             <div class="navigation-buttons">
 
                 <button class="btn btn-primary" (click)="goBack()">Back</button>
-
                 <button class="btn btn-primary" (click)="onSubmit()">Save & Next</button>
-
             </div>
-
         </div>
-
-
-
         <!-- </mat-card> -->
