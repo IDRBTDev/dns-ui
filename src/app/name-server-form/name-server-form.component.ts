@@ -11,6 +11,7 @@ import {
   from '@angular/forms';
 
 import { NameServerService } from './service/name-server.service';
+import { Router } from '@angular/router';
 
 
 
@@ -45,7 +46,14 @@ NameServerFormComponent
 
 
 
-  constructor(private fb: FormBuilder, private nameServerService: NameServerService) {
+  constructor(private fb: FormBuilder, 
+    private nameServerService: NameServerService,
+    private router: Router
+  ) {
+
+    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId']|0;
+    this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
+
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],
 
@@ -100,8 +108,8 @@ NameServerFormComponent
 
     return this.fb.group({
 
-      organisationId: [0],
-      applicationId:[''],
+      organisationId: this.organisationId,
+      applicationId:this.applicationId,
       domainId: this.domainId,
       userMailId:localStorage.getItem('email'),
       

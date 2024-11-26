@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,9 +8,11 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './contact-details-form.component.html',
   styleUrls: ['./contact-details-form.component.css']
 })
-export class ContactDetailsFormComponent implements OnInit {
+export class ContactDetailsFormComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+
+  @Input() organisationId: number =0;
 
   fullForm: FormGroup;
   applicationId: string | null = null; 
@@ -20,6 +22,14 @@ export class ContactDetailsFormComponent implements OnInit {
   goBack(): void{
     console.log('goBack');
     this.back.emit();
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['organisationId']) {
+      this.organisationId = changes['organisationId'].currentValue;
+      console.log('organisationId changed:', changes['organisationId'].currentValue);
+      // Add custom logic here for handling the updated data
+    }
   }
 
   ngOnInit(): void {
@@ -63,6 +73,7 @@ export class ContactDetailsFormComponent implements OnInit {
         designation: this.fullForm.get('adminDesignation')?.value,
         documents: this.fullForm.get('adminDocuments')?.value,
         applicationId: this.applicationId,
+        organisationId: this.organisationId
       };
 
       const technicalDetails = {
@@ -72,7 +83,8 @@ export class ContactDetailsFormComponent implements OnInit {
         altPhone: this.fullForm.get('techAltPhone')?.value,
         designation: this.fullForm.get('techDesignation')?.value,
         documents: this.fullForm.get('techDocuments')?.value,
-        applicationId: this.applicationId
+        applicationId: this.applicationId,
+        organisationId: this.organisationId
       };
 
       const billingDetails = {
@@ -82,7 +94,8 @@ export class ContactDetailsFormComponent implements OnInit {
         altPhone: this.fullForm.get('billAltPhone')?.value,
         designation: this.fullForm.get('billDesignation')?.value,
         documents: this.fullForm.get('billDocuments')?.value,
-        applicationId: this.applicationId
+        applicationId: this.applicationId,
+        organisationId: this.organisationId
       };
             // Emit event to notify parent that form was submitted successfully
             this.formSubmitted.emit();

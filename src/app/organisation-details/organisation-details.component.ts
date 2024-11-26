@@ -22,6 +22,8 @@ export class OrganisationDetailsComponent implements OnInit {
     uploadedDocs: { type: string; fileName: string }[] = [];
     submissionAttempted: boolean = false;
 
+    @Output() organisationId: EventEmitter<number> = new EventEmitter<number>();
+
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
@@ -31,6 +33,7 @@ export class OrganisationDetailsComponent implements OnInit {
         private router: Router
     ) {
         this.organisationForm = this.fb.group({
+            organisationDetailsId:0,
             institutionName: [''],
             stdTelephone: [''],
             mobileNumber: [''],
@@ -163,6 +166,8 @@ export class OrganisationDetailsComponent implements OnInit {
                 console.log('Form submitted successfully', response);
 
                 this.updateOrganisationIdForUser(response.organisationDetailsId);
+                localStorage.setItem('organisationId', response.organisationDetailsId);
+                this.organisationId.emit(response.organisationDetailsId);
 
                 const applicationId = response.applicationId; // Retrieve applicationId from the response
                 console.log('Generated Application ID:', applicationId);

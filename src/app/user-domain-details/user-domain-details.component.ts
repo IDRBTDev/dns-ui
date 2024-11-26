@@ -14,6 +14,7 @@ export class UserDomainDetailsComponent {
   showResult = false;
 
   userId: string = localStorage.getItem('email');
+  organisationId: number = parseInt(localStorage.getItem('organisationId'));
 
   constructor(
     private fb: FormBuilder,
@@ -53,10 +54,16 @@ export class UserDomainDetailsComponent {
           let navigationExtras: NavigationExtras = {
             state: {
               domainId: response.domainId,
-              applicationId: response.applicationId
+              applicationId: response.applicationId,
+              organisationId: this.organisationId
             }
           }
-          this.router.navigate(['/onboarding-stepper'], navigationExtras);
+          if(this.organisationId < 1){
+            this.router.navigate(['/onboarding-stepper'], navigationExtras);
+          }else{
+            this.router.navigateByUrl('/name-server',navigationExtras);
+          }
+          
         },
         (error) => {
           console.error('Error submitting domain data', error);

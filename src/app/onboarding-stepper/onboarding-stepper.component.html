@@ -19,7 +19,7 @@
 
                 <mat-step completed=false label="Organisation Details">
                   
-                  <app-organisation-details (formSubmitted)="onFormSubmitted()"></app-organisation-details>
+                  <app-organisation-details (formSubmitted)="onFormSubmitted()" (organisationId)="getEmittedOrgIdFromChild($event)"></app-organisation-details>
                   <!-- <div>
                     <button mat-button matStepperNext>Next</button>
                   </div> -->
@@ -27,7 +27,7 @@
   
                 <!-- Step 2: Contact Details -->
                 <mat-step completed=false label="Contact Details">
-                  <app-contact-details-form (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
+                  <app-contact-details-form [organisationId]="organisationId" (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
                   <!-- <span>
                     <button mat-button matStepperPrevious>Back</button>
                   </span> -->

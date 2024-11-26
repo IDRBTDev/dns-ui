@@ -19,6 +19,8 @@ import { OrganisationDetailsComponent } from './organisation-details/organisatio
 import { ContactDetailsFormComponent } from './contact-details-form/contact-details-form.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
+import { NameServerFormComponent } from './name-server-form/name-server-form.component';
+import { NameServerComponent } from './name-server/name-server.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -47,7 +49,9 @@ const routes: Routes = [
   //{path:'domain-invoices',component:DomainInvoicesComponent},
   //{path:'full-header',component:FullHeaderComponent}
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
-  {path: 'add-domain', component: AddDomainComponent}
+  {path: 'add-domain', component: AddDomainComponent},
+
+  {path: 'name-server', component: NameServerComponent}
 
 ];
 

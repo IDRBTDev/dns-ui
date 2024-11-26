@@ -49,6 +49,7 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
 import { NotificationComponent } from './notification/notification.component';
 import TimeAgo from 'javascript-time-ago';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { NameServerComponent } from './name-server/name-server.component';
 
 @NgModule({
   exports:[DateAgoPipe],
@@ -80,6 +81,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
     ContactDocumentUploadComponent,
     AddDomainComponent,
     NotificationComponent,
+    NameServerComponent,
   ],
   imports: [
     BrowserModule,

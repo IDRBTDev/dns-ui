@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { NameServerFormComponent } from '../name-server-form/name-server-form.component';
 import { OrganisationDetailsComponent } from '../organisation-details/organisation-details.component';
@@ -18,13 +18,15 @@ export class OnboardingStepperComponent implements OnInit{
 
   domainId: number = 0;
   applicationId: string = '';
+  organisationId: number = 0;
+  
   constructor(private router: Router){
     this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
     this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
   }
 
   async ngOnInit(): Promise<void> {
-    
+    console.log(this.organisationId);
   }
 
   onStepChange(event: any) {
@@ -42,5 +44,10 @@ export class OnboardingStepperComponent implements OnInit{
   }
   goBack():void{
     this.stepper.previous();
+  }
+
+  getEmittedOrgIdFromChild(organisationId: any){
+    this.organisationId = organisationId;
+    console.log(organisationId);
   }
 }
