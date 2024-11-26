@@ -44,10 +44,8 @@ import {
   
   
   
-    addNameServer(data:
-  any): 
-  Observable<HttpResponse<any>> {
-  
+    addNameServer(data:any):  Observable<HttpResponse<any>> {
+      console.log(data)
       return this.http.post<HttpResponse<any>>(`${this.nameServerUrl}`,data, { observe: 'response' });
   
     }

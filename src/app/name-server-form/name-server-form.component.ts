@@ -95,6 +95,11 @@ NameServerFormComponent
 
     return this.fb.group({
 
+      organisationId: [0],
+      applicationId:[''],
+      domainId: [''],
+      userMailId:localStorage.getItem('email'),
+      
       hostName: ['',
         Validators.required],
 

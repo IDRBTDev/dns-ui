@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserDomainService {
-  private apiUrl = 'https://example.com/api/domain';  // Replace with your actual API endpoint
+  private apiUrl = 'http://localhost:9002/dr/domain';  // Replace with your actual API endpoint
 
   constructor(private http: HttpClient) {}
 
   // Method to send domain data to the backend
-  sendDomainData(domainData: { bankName: string; domain: string; term: number; cost: number}): Observable<any> {
+  sendDomainData(domainData: any): Observable<any> {
     return this.http.post(this.apiUrl, domainData);  // Replace with actual API URL
   }
 }

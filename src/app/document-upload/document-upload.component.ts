@@ -20,7 +20,7 @@ export class DocumentUploadComponent implements OnInit {
 
     applicationId = ''; // Replace with appropriate value
     user = ''; // Replace with appropriate value
-    userMailId = ''; // Replace with appropriate value
+    userMailId = localStorage.getItem('email');
 
     constructor(private documentUploadService: DocumentUploadService) { }
 

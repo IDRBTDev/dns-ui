@@ -13,6 +13,8 @@ export class UserDomainDetailsComponent {
   userDomainForm: FormGroup;
   showResult = false;
 
+  userId: string = localStorage.getItem('email');
+
   constructor(
     private fb: FormBuilder,
     private userDomainService: UserDomainService,  // Inject the service here
@@ -20,8 +22,8 @@ export class UserDomainDetailsComponent {
   ) {
     this.userDomainForm = this.fb.group({
       bankName: ['', [Validators.required, Validators.minLength(3)]],
-      domain: ['', Validators.required],
-      term:5,
+      domainName: ['', Validators.required],
+      numberOfYears:5,
       cost:5900
     });
   }
@@ -41,13 +43,14 @@ export class UserDomainDetailsComponent {
     if (this.userDomainForm.valid) {
       this.showResult = true;  // Show result after submission
       const domainData = this.userDomainForm.value;
+      console.log(this.userDomainForm.value);
+      domainData.userMailId = this.userId;
       console.log(domainData)
-      this.router.navigate(['/onboarding-stepper']);
-
       // Call the service to send domain data
       this.userDomainService.sendDomainData(domainData).subscribe(
         (response) => {
           console.log('Domain data submitted successfully', response);
+          this.router.navigate(['/onboarding-stepper']);
         },
         (error) => {
           console.error('Error submitting domain data', error);

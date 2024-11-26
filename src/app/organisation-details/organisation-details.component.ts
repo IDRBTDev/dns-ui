@@ -36,10 +36,14 @@ export class OrganisationDetailsComponent implements OnInit {
             city: [''],
             district: [''],
             state: [''],
+            userMailId:['']
         });
     }
 
+    userId: string = localStorage.getItem('email');
+
     ngOnInit(): void {
+        this.organisationForm.get('userMailId').setValue(this.userId);
         if (this.cityOptions.length > 1) {
             this.organisationForm.get('city')?.setValue(this.cityOptions[1].name);
         } else {
