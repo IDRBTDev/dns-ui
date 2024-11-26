@@ -38,7 +38,7 @@
                       <select 
                         class="form-control" 
                         id="domainSelect" 
-                        formControlName="domain">
+                        formControlName="domainName">
                         <option value="" disabled selected>Select domain</option>
                         <option value=".bnk.in">.bnk.in</option>
                       </select>
@@ -52,7 +52,7 @@
                       </button>
                       </div>
                     </div>
-                      <small *ngIf="userDomainForm.get('domain')?.invalid && userDomainForm.get('domain')?.touched" class="text-danger">
+                      <small *ngIf="userDomainForm.get('domainName')?.invalid && userDomainForm.get('domainName')?.touched" class="text-danger">
                         Select a Domain.
                       </small>
                    

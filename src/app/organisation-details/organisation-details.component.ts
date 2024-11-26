@@ -1,8 +1,10 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { OrganisationDetailsService } from './service/organisation-details.service';
+import { UserService } from '../user/service/user.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-organisation-details',
@@ -11,6 +13,7 @@ import { OrganisationDetailsService } from './service/organisation-details.servi
 })
 export class OrganisationDetailsComponent implements OnInit {
     @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+    
     organisationForm: FormGroup;
     cityOptions: Array<{ name: string; district: string; state: string }> = [];
     loading = false;
@@ -19,13 +22,18 @@ export class OrganisationDetailsComponent implements OnInit {
     uploadedDocs: { type: string; fileName: string }[] = [];
     submissionAttempted: boolean = false;
 
+    @Output() organisationId: EventEmitter<number> = new EventEmitter<number>();
+
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
-        private router: Router,
-        private organisationDetailsService: OrganisationDetailsService
+        //private router: Router,
+        private organisationDetailsService: OrganisationDetailsService,
+        private userService: UserService,
+        private router: Router
     ) {
         this.organisationForm = this.fb.group({
+            organisationDetailsId:0,
             institutionName: [''],
             stdTelephone: [''],
             mobileNumber: [''],
@@ -35,10 +43,15 @@ export class OrganisationDetailsComponent implements OnInit {
             city: [''],
             district: [''],
             state: [''],
+            userMailId:['']
         });
     }
 
-    ngOnInit(): void {
+    userId: string = localStorage.getItem('email');
+
+    async ngOnInit() : Promise<void> {
+        await this.getCurrentLoggedInUserDetails();
+        this.organisationForm.get('userMailId').setValue(this.userId);
         if (this.cityOptions.length > 1) {
             this.organisationForm.get('city')?.setValue(this.cityOptions[1].name);
         } else {
@@ -78,6 +91,7 @@ export class OrganisationDetailsComponent implements OnInit {
                 console.error('Error fetching pincode details:', error);
                 this.loading = false;
                 this.clearCityAndState();
+                
             }
         );
     }
@@ -95,6 +109,7 @@ export class OrganisationDetailsComponent implements OnInit {
         if (pincode && /^\d{6}$/.test(pincode)) {
             this.fetchCityState(pincode);
         } else {
+            
             this.clearCityAndState();
         }
     }
@@ -108,10 +123,11 @@ export class OrganisationDetailsComponent implements OnInit {
         console.log('Uploaded documents updated:', this.uploadedDocs);
     }
 
-    handleSubmit(): void {
+    async handleSubmit(): Promise<void> {
         this.submitted = true;
 
         if (this.organisationForm.invalid) {
+            this.organisationForm.markAllAsTouched();
             console.error('Form validation failed. Details:');
 
             Object.keys(this.organisationForm.controls).forEach((controlName) => {
@@ -134,16 +150,69 @@ export class OrganisationDetailsComponent implements OnInit {
             ...this.organisationForm.value,
         };
 
-        this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
-            (response) => {
+        // this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+        //     (response) => {
                 
+        //         console.log('Form submitted successfully', response);
+        //         this.router.navigate(['/contact-details-form']);
+        //     },
+        //     (error) => {
+        //         console.log(formData);
+        //         console.error('Error submitting form', error);
+        //     }
+        // );
+        this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+            (response: any) => {
                 console.log('Form submitted successfully', response);
-                this.router.navigate(['/contact-details-form']);
+
+                this.updateOrganisationIdForUser(response.organisationDetailsId);
+                localStorage.setItem('organisationId', response.organisationDetailsId);
+                this.organisationId.emit(response.organisationDetailsId);
+
+                const applicationId = response.applicationId; // Retrieve applicationId from the response
+                console.log('Generated Application ID:', applicationId);
+        
+                if (applicationId) {
+                    sessionStorage.setItem('applicationId', applicationId); // Save to sessionStorage
+                    //this.router.navigate(['/contact-details-form']); // Navigate to Contact Details
+                } else {
+                    console.error('Application ID is null or undefined!');
+                }
             },
             (error) => {
-                console.log(formData);
                 console.error('Error submitting form', error);
             }
         );
     }
+        // Method to check form validity (to be used in parent)
+        isFormValid(): boolean {
+        return this.organisationForm.valid;
+     }
+
+     user: any
+    // userId: string = localStorage.getItem('email');
+     async getCurrentLoggedInUserDetails(){
+        console.log(this.userId)
+        await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+            response => {
+                console.log(response);
+                this.user = response.body;
+            }
+        )
+     }
+
+     async updateOrganisationIdForUser(organisationId: number){
+        this.user.organisationId = organisationId;
+        await lastValueFrom(this.userService.updateUser(this.user)).then(
+            response => {
+                if(response.status === HttpStatusCode.PartialContent){
+                    console.log('org id updated for the user');
+                }
+            }, error => {
+                if(error.status === HttpStatusCode.Unauthorized){
+                    this.router.navigateByUrl('/session-timeout');
+                }
+            }
+        )
+     }
 }

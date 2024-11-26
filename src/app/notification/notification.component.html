@@ -1,0 +1,37 @@
+<div >
+    <div *ngIf="notificationCount === 0; else notifications">
+        <p style="padding-top: 5px;">No Unread Notifications !</p>
+    </div>
+    <div >
+        <ng-template #notifications>
+            <div id="notificationCard" *ngFor="let notification of notificationList">
+                <div  class="row" id="notification-card" (mouseenter)="updateNotificationStatus(notification)">
+                    <div class="col-3" id="userImage">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 73 72" fill="none">
+                            <circle cx="36.835" cy="36" r="36" fill="#F6FBFD"/>
+                            <path d="M36.835 36C41.7854 36 45.835 31.9499 45.835 27C45.835 22.0501 41.7854 18 36.835 18C31.8845 18 27.835 22.0501 27.835 27C27.835 31.9499 31.8845 36 36.835 36ZM36.835 40.5C30.8726 40.5 18.835 43.5377 18.835 49.5V54H54.835V49.5C54.835 43.5377 42.7973 40.5 36.835 40.5Z" fill="#D5D5D5"/>
+                          </svg> -->
+                              <div id="userImage" class="profile-pic" id="profile-icon" *ngIf="notification.profilepic !=null">
+                                 <img [src]="'data:image/png/jpg/jpeg;base64,'+notification.profilepic" width="32px" height="32px"
+                                    alt="profile pic" /> 
+                                    <!-- <img [src]="getProfilePicUrl(notification.profilePic)" width="32px" height="32px" alt="profile pic" />  -->
+                            </div>
+                            <div class="profile-pic" *ngIf="notification.profilepic == null">
+                                <svg id="profile-icon" xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512">
+                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                        d="M399 384.2C376.9 345.8 335.4 320 288 320H224c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
+                                        fill="#5590AA" />
+                                </svg>
+                            </div>
+                    </div>
+                    <div class="col-7" id="message">{{notification.message}}</div>
+                    <div class="col-2" style="padding-left: 0px;" id="statusUnread" *ngIf="notification.status === 'Unread'">{{notification.status}}</div>
+                    <div class="col-2"  id="statusRead" *ngIf="notification.status === 'Read'">{{notification.status}}</div>
+                    <div id="dateTimeAgo" style="padding-left: 90px;">{{notification.createdDateTime | dateAgo}}</div>
+                </div>
+                <hr/>
+            </div>
+        </ng-template>
+    </div>
+</div>

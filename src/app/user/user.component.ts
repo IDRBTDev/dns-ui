@@ -26,7 +26,8 @@ export class UserComponent {
     encryptedPassword: '',
     mobileNumber: '',
     confirmPassword: '',
-    createdByEmailId:''
+    createdByEmailId:'',
+    organisationId:0
   }
 
   showEmailButton: boolean = false;
@@ -281,6 +282,7 @@ if (!this.user.mobileNumber) {
     var id =  localStorage.getItem('email');
     console.log(id);
     user.createdByEmailId = id;
+    user.organisationId = this.organisationId;
     await lastValueFrom(this.userService.saveUser(user)).then(
       response => {
       if (response.status === HttpStatusCode.Created) {

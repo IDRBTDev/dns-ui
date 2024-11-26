@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, EventEmitter, Output
+  Component, OnInit, EventEmitter, Output,
+  Input
 }
   from '@angular/core';
 
@@ -10,6 +11,7 @@ import {
   from '@angular/forms';
 
 import { NameServerService } from './service/name-server.service';
+import { Router } from '@angular/router';
 
 
 
@@ -26,10 +28,14 @@ import { NameServerService } from './service/name-server.service';
 })
 
 export class
-NameServerFormComponent
+  NameServerFormComponent
   implements OnInit {
-    @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
-    @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+
+  @Input() applicationId: string = '';
+  @Input() domainId: number = 0;
+  @Input() organisationId: number = 0;
+  @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
   nameServerForm:
     FormGroup;
@@ -40,7 +46,13 @@ NameServerFormComponent
 
 
 
-  constructor(private fb: FormBuilder, private nameServerService: NameServerService) {
+  constructor(private fb: FormBuilder,
+    private nameServerService: NameServerService,
+    private router: Router
+  ) {
+
+    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
+    this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
 
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],
@@ -55,8 +67,9 @@ NameServerFormComponent
 
 
 
-  ngOnInit():void {
-
+  ngOnInit(): void {
+    console.log(this.domainId);
+    console.log(this.applicationId);
     this.nameServerForm.get('hasNSDetails')?.valueChanges.subscribe((value) => {
 
       this.hasNSDetails
@@ -71,13 +84,9 @@ NameServerFormComponent
 
       } else
         if (!this.hasNSDetails) {
-
           this.clearAllNameServers();
-
         }
-
     });
-
   }
 
 
@@ -89,11 +98,14 @@ NameServerFormComponent
 
   }
 
-
-
   createNameServer(): FormGroup {
 
     return this.fb.group({
+
+      organisationId: this.organisationId,
+      applicationId: this.applicationId,
+      domainId: this.domainId,
+      userMailId: localStorage.getItem('email'),
 
       hostName: ['',
         Validators.required],
@@ -148,8 +160,8 @@ NameServerFormComponent
 
   }
 
-  goBack():void{
-    
+  goBack(): void {
+
     this.back.emit()
   }
 

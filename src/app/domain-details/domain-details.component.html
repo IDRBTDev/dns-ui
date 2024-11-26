@@ -17,8 +17,8 @@
             <div class="col">{{domainDetail.domainName}}</div>
             <div class="col">{{domainDetail.organizationName}}</div>
             <div class="col">{{domainDetail.status}}</div>
-            <div class="col">{{domainDetail.registrationDate}}</div>
-            <div class="col">{{domainDetail.renewalDate}}</div>
+            <div class="col">{{domainDetail.registrationDate|date:'MMM d, y, h:mm a'}}</div>
+            <div class="col">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
           </div>
           <br /><br />
           <h4>Name Servers</h4>
@@ -42,8 +42,8 @@
           </div>
           <div class="row row-cols-4" style="padding-top: 20px;" *ngFor="let bh of domainDetail.billingHistory">
             <div class="col">{{bh.invoiceNumber}}</div>
-            <div class="col">{{bh.amount}}{{"$"}}</div>
-            <div class="col">{{bh.invoiceDate}}</div>
+            <div class="col">{{bh.amount| currency: 'INR'}}</div>
+            <div class="col">{{bh.invoiceDate|date:'MMM d, y, h:mm a'}}</div>
             <div class="col">{{bh.status}}</div>
           </div>
         </div>
