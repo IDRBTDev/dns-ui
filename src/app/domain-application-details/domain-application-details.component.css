@@ -88,6 +88,39 @@
     margin-bottom: 30px;
     padding-left: 100px;
 }
+.main.col-9 {
+    width: 100%; 
+    max-width: 900px; 
+    padding: 20px; 
+    padding-left: 400px;
+  }
+  .dropdown-container.col-9 {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+ 
+.dropdown-container {
+    display: flex;
+    justify-content: space-between; 
+    gap: 16px; 
+    margin-top: 20px;
+    margin-right: 10px;
+    align-items: start;
+}
+
+
+
+
+
+
+
+
+
 
 
 .content-wrapper h3 {
@@ -201,6 +234,7 @@ app-side-menu {
     .main{
         margin-top: 20px;
         margin-bottom: 50px;
+        padding-left: 2000px;
     }
     @media (max-width: 768px) {
         .details-container {

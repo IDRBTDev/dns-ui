@@ -1,105 +1,136 @@
 <div class="layout-container">
     <app-side-menu></app-side-menu>
     <div class="content-area">
-      <app-main-header></app-main-header>
+        <app-main-header></app-main-header>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="content-wrapper">
                         <div class="header-content">
-                           
-                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
-                            <h3>Applications Details</h3>
+                            <h3>Domain Applications Details</h3>
                         </div>
-                   <div class="details-container">
+                        <div class="details-container">
                             <div class="detail-item">
                                 <p>Organization Name</p>
-                                <div class="box-content">{{domainsList?.organizationName}}</div>
+                                <div class="box-content">{{domainsList.organizationName}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Domain Name</p>
-                                <div class="box-content">{{domainsList?.domainName}}</div>
+                                <div class="box-content">{{domainsList.domainName}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Submission Date</p>
-                                <div class="box-content">{{domainsList?.submissionDate}}</div>
+                                <div class="box-content">{{domainsList.submissionDate}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Application No</p>
-                                <div class="box-content">{{domainsList?.applicationNo}}</div>
+                                <div class="box-content">{{domainsList.applicationNo}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Status</p>
-                                <div class="box-content">{{domainsList?.status}}</div>
+                                <div class="box-content">{{domainsList.status}}</div>
                             </div>
                         </div>
-                    
-                    <hr />
-                    <div class="main">
-                    <h4> Organization Details</h4></div>
-                    <div class="first">
-                        <h5>Institute Name</h5>
-                        <div class="input-group">
-                            <input type="text" placeholder="Enter your Institute Name" class="form-control" [(ngModel)]="organizationsList.institutionName"/>
-                            <div *ngFor="let organization of organizationsList">
-                                <p>{{ organization.institutionName }}</p>
+
+                        <hr />
+                        <div class=" main col-9">
+                            <h4> Organization Details</h4>
+                            <div class="first">
+                                <h5>Institute Name</h5>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Enter your Institute Name" class="form-control"
+                                        [(ngModel)]="organizationsList.institutionName" />
+                                    <div *ngFor="let organization of organizationsList">
+                                        <p>{{ organization.institutionName }}</p>
+                                    </div>
+                                </div>
+                                <h5>Pin Code</h5>
+                                <div class="pin-page">
+                                    <input type="text" class="form-control" placeholder="Enter a pin code"
+                                        [(ngModel)]="organizationsList.pincode" />
+                                    <input type="text" class="form-control" placeholder="Enter a City"
+                                        [(ngModel)]="organizationsList.city" />
+                                    <input type="text" class="form-control" placeholder="Enter a state"
+                                        [(ngModel)]="organizationsList.state" />
+                                    <div *ngFor="let organization of organizationsList">
+                                        <p>{{ organization.pincode }}</p>
+                                        <p>{{ organization.city }}</p>
+                                        <p>{{ organization.state }}</p>
+                                    </div>
+                                </div>
+                                <h5>Address</h5>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Enter your Address 1" class="form-control"
+                                        [(ngModel)]="organizationsList.address" />
+                                    <div *ngFor="let organization of organizationsList">
+                                        <p>{{ organization.address }}</p>
+                                    </div>
+                                </div>
+                                <h5>Email ID</h5>
+                                <div >
+                                    <input type="email" placeholder="Enter your Email id" class="form-control"
+                                        [(ngModel)]="organizationsList.userMailId" />
+                                    <div *ngFor="let organization of organizationsList">
+                                        <p>{{ organization.userMailId }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h5>Payment Status</h5>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="domainsList.paymentStatus" (ngModelChange)="onPaymentStatusChange()">
+                                                <option value="" disabled selected>Select Status</option>
+                                                <option value="paid">Paid</option>
+                                                <option value="Unpaid">Unpaid</option>
+                                                <option value="initiated">Initiated</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-4">
+                                        <h5>NS Status</h5>
+                                        
+                                            <select class="form-control" [(ngModel)]="domainsList.nsRecordStatus" [disabled]="domainsList.paymentStatus !== 'paid'">
+                                                <option value="" disabled selected>Select Status</option>
+                                               
+                                                <option value="OnHold">OnHold</option>
+                                                <option value="Inprogress">Inprogress</option>
+                                                <option value="Approved">Approved</option>
+                                                <option value="Rejected">Rejected</option>
+                                            </select>
+                                        </div>
+                                    
+                                    <div  class="col-4">
+                                        <h5>Domain Status</h5>
+                                        <div>
+                                            <select class="form-control" [(ngModel)]="domainsList.status" [disabled]="domainsList.paymentStatus !== 'paid'">
+                                                <option value="" disabled selected>Select Status</option>
+                                                <option *ngFor="let status of status" [value]="status">{{ status }}</option>
+                                                <option value="Active">Active</option>
+                                                <option value="InActive">InActive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="button-group">
+                                    <button type="button" (click)="updateDomain()">Submit</button>
+                                    <button type="button">Cancel</button>
+                                </div>
                             </div>
-                        </div>
-                        <h5>Pin Code</h5>
-                        <div class="pin-page">
-                            <input type="text" class="form-control" placeholder="Enter a pin code" [(ngModel)]="organizationsList.pincode"/>
-                            <input type="text" class="form-control" placeholder="Enter a City" [(ngModel)]="organizationsList.city"/>
-                            <input type="text" class="form-control" placeholder="Enter a state" [(ngModel)]="organizationsList.state"/>
-                            <div *ngFor="let organization of organizationsList">
-                                <p>{{ organization.pincode }}</p>
-                                <p>{{ organization.city }}</p>
-                                <p>{{ organization.state }}</p>
-                            </div>
-                        </div>
-                        <h5>Address</h5>
-                        <div class="input-group">
-                            <input type="text" placeholder="Enter your Address 1" class="form-control" [(ngModel)]="organizationsList.address" />
-                            <div *ngFor="let organization of organizationsList">
-                                <p>{{ organization.address }}</p>
-                            </div>
-                        </div>
-                        <!-- <h5>Address 2</h5>
-                        <div class="input-group">
-                            <input type="text" placeholder="Enter your Address 2" class="form-control"[(ngModel)]="organizationsList.address"  />
-                            <div *ngFor="let organization of organizationsList">
-                                <p>{{ organization.address }}</p>
-                            </div>
-                        </div> -->
-                        <h5>Email ID</h5>
-                        <div class="input-group">
-                            <input type="email" placeholder="Enter your Email id" class="form-control" [(ngModel)]="organizationsList.userMailId" />
-                            <div *ngFor="let organization of organizationsList">
-                                <p>{{ organization.userMailId }}</p>
-                            </div>
-                        </div>
-                        <h5>Status</h5>
-                        <div class="input-group">
-                            <select class="form-control">
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="pending">In Progress</option>
-                                <option value="approved">On Hold</option>
-                                <option value="rejected">Accepted</option>
-                                <option value="rejected">Rejected</option>
-                            </select>
-                        </div>
-                    
-                        <div class="button-group">
-                            <button type="button">Submit</button>
-                            <button type="button">Cancel</button>
+
                         </div>
                     </div>
-                    
                 </div>
+
             </div>
         </div>
-
-    </div>
-</div>

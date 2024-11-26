@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomainService } from '../domain/service/domain.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpStatusCode } from '@angular/common/http';
 import { DomainApplicationDetailsService } from './service/domain-application-details.service';
+import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs';
+import { Domain } from '../model/domain.model';
+
 
 @Component({
   selector: 'app-domain-application-details',
   templateUrl: './domain-application-details.component.html',
   styleUrls: ['./domain-application-details.component.css']
 })
-export class DomainApplicationDetailsComponent {
+export class DomainApplicationDetailsComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
-    private domainService: DomainService, private oreganizationService:DomainApplicationDetailsService,
+    private domainService: DomainService, private oreganizationService:DomainApplicationDetailsService,private toastrService: ToastrService,
     private router: Router) {
     
   }
@@ -25,8 +29,9 @@ export class DomainApplicationDetailsComponent {
     console.log(this.domainId)
     await this.getDomainApplicationDetails(this.domainId);
     await this.getOrganizationDetails(this.domainId);
+    this.setNsStatusOptions();
   }
-  domainsList: any;
+  domainsList: Domain;
   getDomainApplicationDetails(domainId:number) {
    
     console.log("Datal",domainId)
@@ -45,7 +50,7 @@ export class DomainApplicationDetailsComponent {
       }
     });
   }
-  organizationsList: any;
+  organizationsList:any;
   getOrganizationDetails(domainId:number) {
    
     console.log("Datal",domainId)
@@ -64,4 +69,68 @@ export class DomainApplicationDetailsComponent {
       }
     });
   }
+
+  domain : Domain = new Domain()
+
+  updateDomain() {
+    console.log('Starting domain update process...');
+    console.log(this.domain)
+    this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
+        next: (response) => {
+            console.log('Response received:', response);
+
+            if (response.status === HttpStatusCode.Ok) {
+                console.log('Domain update successful.');
+
+                    this.domain = response.body;
+                
+
+                this.toastrService.success("Domain data updated successfully.");
+            } else if (response.status === HttpStatusCode.NotFound) {
+                console.log('Domain not found.');
+                this.toastrService.error("Domain not found. Please check the ID.");
+            } else {
+                console.log('Unexpected response status:', response.status);
+                this.toastrService.error("Unexpected error during update.");
+            }
+        },
+        error: (error) => {
+            console.error('Error occurred during domain update:', error);
+
+            if (error.status === HttpStatusCode.InternalServerError) {
+                console.log('Internal server error.');
+                this.toastrService.error("Internal server error. Domain data not updated.");
+            } else {
+                console.log('Other error status:', error.status);
+                this.toastrService.error("An error occurred while updating the domain.");
+            }
+
+            console.error('Full error:', error);
+        }
+    });
 }
+
+onPaymentStatusChange() {
+
+  this.setNsStatusOptions();
+}
+ 
+
+nsStatusOptions: string[] = [];
+status:string[]=[];
+
+isNsStatusDisabled: boolean = true;  
+
+setNsStatusOptions() {
+
+  if (this.domainsList.paymentStatus) {
+    this.isNsStatusDisabled = false; 
+  } else {
+    this.isNsStatusDisabled = true;   
+  }
+}
+}
+  
+
+
+
