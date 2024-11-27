@@ -49,6 +49,7 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { NameServerComponent } from './name-server/name-server.component';
+import * as $ from 'jquery';
 
 
 

@@ -6,7 +6,7 @@
 
         <h5>Name <span class="required">*</span></h5>
         <div class="name-container">
-            <input type="text" class="form-control" [(ngModel)]="user.name" id="name" placeholder="Enter your full name"
+            <input type="text" class="form-control" [(ngModel)]="user.userName" id="name" placeholder="Enter your full name"
                 (blur)="nameChange()" (input)="nameChange()" />
         </div>
         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
@@ -18,7 +18,8 @@
                     (blur)="emailChange()" (input)="toggleEmailButton()" />
                 <button *ngIf="showEmailButton" type="button" class="get-email-btn"
                  id="email-btn"
-                 (click)="generateOTPAndVerifyEmail()" data-toggle="modal" data-target="#exampleModal">Verify</button>
+                 (click)="saveRegUser()">Verify</button>
+                 <button hidden="true" data-toggle="modal" data-target="#exampleModal" id="showModal"></button>
             </div>
             <div *ngIf="!emailInput" class="error-message">{{ emailerrorMessage }}</div>
         </div>
@@ -62,7 +63,8 @@
             You must agree to the terms and conditions to proceed.
         </div>
 
-        <button class="form-control login-btn" type="button" style="margin-top: 20px;" (click)="registerUser()">Register</button>
+        <button class="form-control login-btn" type="button" 
+        style="margin-top: 20px;" (click)="registerUser()">Register</button>
     </div>
 </div>
 
