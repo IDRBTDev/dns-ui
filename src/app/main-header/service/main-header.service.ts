@@ -12,6 +12,11 @@ export class MainHeaderService{
 
     constructor(private httpClient: HttpClient){}
 
+    // Method to fetch user details based on userId (now a string)
+    getUserDetailsById(userId: string): Observable<User> {
+        return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
+    }
+
   
 
 }
