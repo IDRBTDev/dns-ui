@@ -44,7 +44,12 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { DomainInvoices } from './model/domain-invoices.model';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
+import { ContactDocumentUploadComponent } from './contact-document-upload/contact-document-upload.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
+import { NotificationComponent } from './notification/notification.component';
+import TimeAgo from 'javascript-time-ago';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { NameServerComponent } from './name-server/name-server.component';
 
 
 
@@ -52,7 +57,9 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
 
 
 @NgModule({
+  exports:[DateAgoPipe],
   declarations: [
+    DateAgoPipe,
     AppComponent,
     HomeComponent,
     LoginComponent,
@@ -76,7 +83,10 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
      MainHeaderComponent,
     PreviewComponent,
     DocumentUploadComponent,
+    ContactDocumentUploadComponent,
     AddDomainComponent,
+    NotificationComponent,
+    NameServerComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,7 +111,6 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
     MatDialogModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    
     
   ],
   providers: [],

@@ -1,7 +1,7 @@
 <div class="layout-container">
   <app-side-menu></app-side-menu>
   <div class="content-area">
-    <app-header></app-header>
+    <app-main-header></app-main-header>
     <div class="container-fluid">
       <div class="row" style="padding-top: 100px;">
         <div class="col-sm-12">
@@ -58,7 +58,7 @@
               <!-- duedate Column -->
               <ng-container matColumnDef="duedate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
-                <td mat-cell *matCellDef="let domain">{{domain.duedate | date: 'shortDate'}}</td>
+                <td mat-cell *matCellDef="let domain">{{domain.duedate | date:'MMM d, y, h:mm a'}}</td>
               </ng-container>
 
               <!-- status Column -->

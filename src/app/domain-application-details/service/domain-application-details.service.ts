@@ -1,5 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Domain } from "src/app/model/domain.model";
 
 
 @Injectable({
@@ -7,7 +8,7 @@ import { Injectable } from "@angular/core";
 })
 
 export class DomainApplicationDetailsService{
-    private domainsUrl = 'http://localhost:9008/dr/domain';
+    private domainsUrl = 'http://localhost:9002/dr/domain';
     private domainOrgUrl = 'http://localhost:9002/dr/organisationDetails';
 
 
@@ -22,5 +23,14 @@ export class DomainApplicationDetailsService{
         return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetails/${domainId}`, {observe:'response'})
 
 }
+updateDomain(domainId: number, domain: Domain) {
+    console.log(domainId);
+    console.log(domain)
+    return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domainId}`, domain, {
+        
+        observe: 'response'
+    });
+}
+
 
 }

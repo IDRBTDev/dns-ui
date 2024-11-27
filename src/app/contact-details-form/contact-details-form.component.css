@@ -1,7 +1,21 @@
-.card-header {
-    font-weight: bold;
-  }
-  
   .card {
     border-radius: 8px;
   }
+  h3 {
+    font-size: x-large;
+    font-weight: 550;
+}
+h5{
+  font-size: large;  /* Font size in rem */
+    font-weight: 450;
+
+}
+.card-header{
+  padding-top: 1.75%;
+}
+.form-label{
+  
+  font-weight: 
+  550;
+  
+}

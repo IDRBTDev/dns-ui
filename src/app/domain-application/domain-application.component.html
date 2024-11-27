@@ -39,7 +39,7 @@
               <!-- Registration Date Column -->
               <ng-container matColumnDef="submissionDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Submission Date</th>
-                <td mat-cell *matCellDef="let domain">{{domain.submissionDate}}</td>
+                <td mat-cell *matCellDef="let domain">{{domain.submissionDate|date:'MMM d, y, h:mm a'}}</td>
               </ng-container>
 
               <!-- Renewal Date Column -->

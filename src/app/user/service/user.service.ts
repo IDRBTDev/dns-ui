@@ -11,6 +11,7 @@ export class UserService{
     private getUserUrl = 'http://localhost:9002/dr/user/getDetails';
     private updateUserUrl = 'http://localhost:9002/dr/user/update';
     private deleteUserUrl = 'http://localhost:9002/dr/user/delete';
+    private getUserByEmailUrl = 'http://localhost:9002/dr/user/get';
 
     constructor(private httpClient: HttpClient){
 
@@ -34,6 +35,10 @@ export class UserService{
 
     deleteUserById(id: number){
         return this.httpClient.delete<void>(this.deleteUserUrl+"/"+id, {observe: 'response'});
+    }
+
+    getUserByEmailId(userId: string){
+        return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});
     }
 
 }

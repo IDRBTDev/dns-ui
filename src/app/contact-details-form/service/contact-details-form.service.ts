@@ -26,6 +26,7 @@ export class ContactDetailsFormService {
 
   // Save Admin Contact Details
   saveAdminDetails(adminData: any): Observable<any> {
+    console.log('Sending Admin Details:', adminData);
     return this.http.post(this.adminApiUrl, adminData);
   }
 

@@ -22,7 +22,11 @@
     "@angular/router": "^16.1.0",
     "bootstrap": "^4.6.2",
     "http-client": "^4.3.1",
+<<<<<<< HEAD
     "ngx-bootstrap": "^5.6.2",
+=======
+    "javascript-time-ago": "^2.5.11",
+>>>>>>> 6138a6ff2df70f3f058a2738763354f284db850b
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

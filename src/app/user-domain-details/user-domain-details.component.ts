@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDomainService } from './service/user-domain.service';  // Import the service from the new folder
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -13,6 +13,9 @@ export class UserDomainDetailsComponent {
   userDomainForm: FormGroup;
   showResult = false;
 
+  userId: string = localStorage.getItem('email');
+  organisationId: number = parseInt(localStorage.getItem('organisationId'));
+
   constructor(
     private fb: FormBuilder,
     private userDomainService: UserDomainService,  // Inject the service here
@@ -20,8 +23,8 @@ export class UserDomainDetailsComponent {
   ) {
     this.userDomainForm = this.fb.group({
       bankName: ['', [Validators.required, Validators.minLength(3)]],
-      domain: ['', Validators.required],
-      term:5,
+      domainName: ['', Validators.required],
+      numberOfYears:5,
       cost:5900
     });
   }
@@ -41,13 +44,26 @@ export class UserDomainDetailsComponent {
     if (this.userDomainForm.valid) {
       this.showResult = true;  // Show result after submission
       const domainData = this.userDomainForm.value;
+      console.log(this.userDomainForm.value);
+      domainData.userMailId = this.userId;
       console.log(domainData)
-      this.router.navigate(['/onboarding-stepper']);
-
       // Call the service to send domain data
       this.userDomainService.sendDomainData(domainData).subscribe(
         (response) => {
           console.log('Domain data submitted successfully', response);
+          let navigationExtras: NavigationExtras = {
+            state: {
+              domainId: response.domainId,
+              applicationId: response.applicationId,
+              organisationId: this.organisationId
+            }
+          }
+          if(this.organisationId < 1){
+            this.router.navigate(['/onboarding-stepper'], navigationExtras);
+          }else{
+            this.router.navigateByUrl('/name-server',navigationExtras);
+          }
+          
         },
         (error) => {
           console.error('Error submitting domain data', error);
