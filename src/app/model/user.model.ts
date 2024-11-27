@@ -22,4 +22,6 @@ export class User{
     createdByEmail : string;
     updatedByEmail : string;
     lastSuccessfulLoginDatetime : Date;
+    
+   
 }

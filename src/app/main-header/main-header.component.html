@@ -89,11 +89,13 @@
                 </div>
 
                 <div style="text-align: center; padding-top: 10px;">
-                    <P>John</P>
+                    <p *ngIf="user">{{ user.userName }}</p>
+                    <p *ngIf="!user">User not found</p>
                 </div>
 
                 <div style="text-align: center;">
-                    <P>john gmail.com</P>
+                    <p *ngIf="user">{{ user.userId }}</p>
+                    <p *ngIf="!user">User ID not available</p>
                 </div>
 
             </div>
