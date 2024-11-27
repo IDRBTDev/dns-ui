@@ -26,11 +26,13 @@ showEmailButton: boolean = false;
   isConfirmPasswordVisible: boolean = false;
 
   user = {
-    name: '',
+    userName: '',
     userId: '',
     encryptedPassword: '',
     mobileNumber: '',
     confirmPassword: '',
+    role:'',
+    organisationId: 0
   
   }
 otp:number;
@@ -82,10 +84,10 @@ otp:number;
   nameErrorMessage: string = '';
   nameInput: boolean = true;
   nameChange() {
-    if (!this.user.name) {
+    if (!this.user.userName) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not be empty.';
-    } else if (this.user.name.length > 25) {
+    } else if (this.user.userName.length > 25) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not exceed 25 characters.';
     } else {
