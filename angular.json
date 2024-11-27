@@ -31,9 +31,13 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
+<<<<<<< HEAD
               "node_modules/jquery/dist/jquery.min.js",
   "node_modules/@popperjs/core/dist/umd/popper.min.js",
   "node_modules/bootstrap/dist/js/bootstrap.min.js"
+=======
+               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+>>>>>>> 36f288d5bd75320da5d0790903f3c4be508c627d
             ]
           },
           "configurations": {
