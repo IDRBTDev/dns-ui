@@ -50,6 +50,7 @@ import { NotificationComponent } from './notification/notification.component';
 import TimeAgo from 'javascript-time-ago';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { NameServerComponent } from './name-server/name-server.component';
+import * as $ from 'jquery';
 
 @NgModule({
   exports:[DateAgoPipe],
