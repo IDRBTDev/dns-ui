@@ -8,7 +8,8 @@
 
             <!-- <label for="docType" class="form-label">Select Document Type *</label> -->
 
-            <select id="docType" class="form-select" [(ngModel)]="selectedDocType"
+            <select id="docType" class="form-control"
+             [(ngModel)]="selectedDocType" style="width: 280px;"
                 (change)="handleDocTypeChange($event)" required>
                 <option value="" disabled selected>Select Document Type</option>
                 <option *ngFor="let doc of docTypes" [value]="doc" [disabled]="isDocUploaded(doc)">
@@ -21,8 +22,6 @@
             </div>
         </div>
 
-
-
         <!-- Input Field -->
 
         <div *ngIf="selectedDocType === 'Aadhaar' ||           
@@ -32,7 +31,8 @@
 
             <input id="docInput" type="text" class="form-control" [(ngModel)]="inputValue"
                 (ngModelChange)="handleInputChange($event)" placeholder="Enter {{ selectedDocType }}" />
-            <div *ngIf="errors.type === 'inputValue'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
+            <div *ngIf="errors.type === 'inputValue'" 
+            style="color: red; font-size: 0.875rem; margin-top: 4px;">
                {{ errors.message }}
             </div>
         </div>
