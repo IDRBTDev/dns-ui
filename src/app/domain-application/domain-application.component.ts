@@ -23,9 +23,12 @@ export class DomainApplicationComponent {
     'organisationName',
     'domainName',
     'submissionDate',
+    'status',
+    'paymentStatus',
     'nsRecordStatus',
-    'industry',
+    // 'industry',
     'tenure',
+   
   ]; // Matches matColumnDef values
 
   domainsList: any[];

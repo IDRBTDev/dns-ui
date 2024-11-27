@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomainInvoices } from '../model/domain-invoices.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminInvoiceDetailsService } from './service/admin-invoice-details.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class DomainInvoiceDetailsComponent {
 
   constructor(
     private adminInvoiceDetailsService: AdminInvoiceDetailsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,private router: Router
   ) {}
 
  
@@ -38,6 +38,9 @@ export class DomainInvoiceDetailsComponent {
     const response: DomainInvoices = await this.adminInvoiceDetailsService.getBillingHistoryById(billingId).toPromise();
     this.domainInvoices = response;
 
+  }
+  cancelInvoice(){
+    this.router.navigateByUrl('invoices')
   }
 
 }

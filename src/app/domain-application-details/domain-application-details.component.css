@@ -1,17 +1,30 @@
-
 .layout-container {
-    display: flex; 
+    display: flex;
     height: 100vh; 
-    background-color: #F5FAFF;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
+    flex-direction: row;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  app-side-menu {
+    flex: 0 0 250px; 
+    max-width: 90px;
+    min-width: 90px;
+    background-color: #f8f9fa;
+  }
+  
+  .content-area {
+    flex: 1; 
+    padding: 0;
+    overflow-y: auto; 
+  }
 
 .header-content {
     display: flex;               
     align-items: center;         
-    gap: 10px;   
-    margin-top: 40px;               
+    gap: 20px;   
+    margin-top: 80px;    
+    margin-left:100px;           
 }
 
 .content-area {
@@ -20,18 +33,18 @@
     padding-left: 0px;
     padding-top: 20px;
     padding-right:0px;
+    
    
 }
 
 .details-container {
     margin-top: 30px;
-    width: 1400px; 
     display: flex;
     align-items: flex-start;
     padding: 16px 24px;
     gap: 20px; 
     justify-content: space-between;
-    
+    margin-left:100px;
     background-color: #fff; 
     border-radius: 8px;
    margin-bottom: 20px;
@@ -70,29 +83,14 @@
 
 
 
-.col-sm-12 {
-    background:white;
- border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-left: 0;
-    padding-left: 0;
-    height: 100vh;
-}
-
-.content-wrapper {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    margin-top: 40px;
-    margin-bottom: 30px;
-    padding-left: 100px;
-}
-.main.col-9 {
-    width: 100%; 
-    max-width: 900px; 
+.main.col-8 {
+     left: 300px;
     padding: 20px; 
-    padding-left: 400px;
+    justify-content: center;
+    
+   
+    
+  
   }
   .dropdown-container.col-9 {
     width: 100%;
@@ -112,16 +110,6 @@
     margin-right: 10px;
     align-items: start;
 }
-
-
-
-
-
-
-
-
-
-
 
 .content-wrapper h3 {
     font-size: 24px;
@@ -151,7 +139,10 @@
     margin-top: 20px; 
 }
 
-
+.first{
+    color:black;
+    font-size: 5px;
+}
 button {
     padding: 12px 20px; 
     font-size: 16px; 
