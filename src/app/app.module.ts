@@ -46,6 +46,11 @@ import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.compo
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
 
+
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -95,10 +100,13 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
     MatSnackBarModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    
     
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}
