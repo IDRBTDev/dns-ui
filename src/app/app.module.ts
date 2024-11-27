@@ -47,9 +47,14 @@ import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-i
 import { ContactDocumentUploadComponent } from './contact-document-upload/contact-document-upload.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
 import { NotificationComponent } from './notification/notification.component';
-import TimeAgo from 'javascript-time-ago';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { NameServerComponent } from './name-server/name-server.component';
+import * as $ from 'jquery';
+
+
+
+
+
 
 @NgModule({
   exports:[DateAgoPipe],
@@ -106,10 +111,11 @@ import { NameServerComponent } from './name-server/name-server.component';
     MatDialogModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-
     
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}

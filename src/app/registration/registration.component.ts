@@ -5,6 +5,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/service/login.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-registration',
@@ -25,11 +26,13 @@ showEmailButton: boolean = false;
   isConfirmPasswordVisible: boolean = false;
 
   user = {
-    name: '',
+    userName: '',
     userId: '',
     encryptedPassword: '',
     mobileNumber: '',
     confirmPassword: '',
+    role:'',
+    organisationId: 0
   
   }
 otp:number;
@@ -81,10 +84,10 @@ otp:number;
   nameErrorMessage: string = '';
   nameInput: boolean = true;
   nameChange() {
-    if (!this.user.name) {
+    if (!this.user.userName) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not be empty.';
-    } else if (this.user.name.length > 25) {
+    } else if (this.user.userName.length > 25) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not exceed 25 characters.';
     } else {
@@ -177,6 +180,7 @@ if (!this.user.mobileNumber) {
   }
   errorMessage: string = '';
   successMessage: string = '';
+
   verifyOtp() {
     console.log('Starting OTP verification...');
     
@@ -190,7 +194,7 @@ if (!this.user.mobileNumber) {
     console.log('Verifying OTP for User ID:', this.user.userId);
     console.log('Entered OTP:', this.otp);
 
-    this.registrationService.verifyOtp(this.user.userId, this.otp).subscribe({
+    this.registrationService.verifyOtp(this.regUser).subscribe({
         next: (response) => {
             console.log('OTP verification successful:', response);
             this.toastrService.success("OTP verification successful")
@@ -207,6 +211,39 @@ if (!this.user.mobileNumber) {
     });
 }
 
+regUser = {
+  id: 0,
+  registrationUserId: '',
+  registrationOtp:0,
+  isRegistrationSuccess: false
+}
+
+isReg : boolean = false;
+async saveRegUser(){
+  this.regUser.registrationUserId = this.user.userId;
+  await lastValueFrom(this.registrationService.saveRegUser(this.regUser)).then(
+    response => {
+      if(response.status === HttpStatusCode.Created){
+        this.isReg = response.body;
+        if(!this.isReg){
+          console.log('exe1')
+          this.toastrService.error('User already exists')
+        }else{
+          console.log('exe2')
+          this.openModal();
+        }
+      }
+    }
+  )
+}
+
+openModal() {
+  document.getElementById('showModal').click();
+}
+
+async getRegUser(){
+
+}
 
 }
 
