@@ -43,7 +43,7 @@ export class MainHeaderComponent implements OnInit{
   }  
 
   getUserDetailsById(): void {
-    const userId = localStorage.getItem('id');
+    const userId = localStorage.getItem('userId');
     if (userId) {
       this.mainHeaderService.getUserDetailsById(userId).subscribe(
         (data: User) => {

@@ -128,7 +128,8 @@
                 </div>
 
                 <div class="text2">
-                    <p>Bank</p>
+                    <p *ngIf="user">{{ user.organizationDto.institutionName}}</p>
+                    <p *ngIf="!user">User ID not available</p>
                 </div>
                 <br>
 

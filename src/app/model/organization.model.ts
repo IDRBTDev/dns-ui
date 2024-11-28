@@ -1,48 +1,50 @@
-// export class Organization{
+export class Organization{
 
-//     private Long organisationDetailsId;
+    // private Long organisationDetailsId;
 
    
 
-//      userMailId:String;
+     userMailId: string;
 
-//      institutionName:String;
+     institutionName:string;
 
-//     private int pincode;
+    // private int pincode;
 
-//     private String city;
+    // private String city;
 
-//     private String state;
+    // private String state;
 
-//     private String address;
+    // private String address;
 
-//     private String stdTelephone;
+    // private String stdTelephone;
 
-//     private String mobileNumber;
+    // private String mobileNumber;
 
-//     private String organisationEmail;
+    // private String organisationEmail;
 
-//     private String licenseNumber;
+    // private String licenseNumber;
 
-//     private byte[] licenseDocument;
+    // private byte[] licenseDocument;
 
-//     organisationGstin : string;
+    // organisationGstin : string;
 
-//     organisationGstinDocument : any;
+    // organisationGstinDocument : any;
 
-//     boardResolution : any[];
+    // boardResolution : any[];
 
-//      pan :  String;
+    //  pan :  String;
 
-//     panDocument : any[];
+    // panDocument : any[];
 
-//     signatureName : String;
+    // signatureName : String;
 
-//     domainId : number;
+    // domainId : number;
 
-
-
-
+    
 
 
-// }
+
+
+
+
+}

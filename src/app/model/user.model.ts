@@ -1,3 +1,5 @@
+import { Organization } from "./organization.model";
+
 export class User{
     id : number;
     userId : string;
@@ -23,5 +25,5 @@ export class User{
     updatedByEmail : string;
     lastSuccessfulLoginDatetime : Date;
     
-   
+    organizationDto : Organization;
 }
