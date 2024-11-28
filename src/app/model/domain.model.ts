@@ -1,6 +1,6 @@
 export class Domain{
     domainId : number;
-    applicationNo : string;
+    applicationId : string;
     user : string;
     userMailId : string;
     bankName : string;

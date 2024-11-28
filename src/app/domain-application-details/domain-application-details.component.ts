@@ -39,14 +39,14 @@ export class DomainApplicationDetailsComponent implements OnInit{
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.domainsList = res.body;
-         console.log("Ticket data received:",res);
+         console.log("domain data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);
          
         }
       },
       error: (error) => {
-        console.error("Error fetching ticket data:", error);
+        console.error("Error fetching domain data:", error);
       }
     });
   }
@@ -58,14 +58,14 @@ export class DomainApplicationDetailsComponent implements OnInit{
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.organizationsList = res.body;
-         console.log("Ticket data received:",res);
+         console.log("organization data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);
          
         }
       },
       error: (error) => {
-        console.error("Error fetching ticket data:", error);
+        console.error("Error fetching organization data:", error);
       }
     });
   }
@@ -82,7 +82,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
             if (response.status === HttpStatusCode.Ok) {
                 console.log('Domain update successful.');
 
-                    this.domain = response.body;
+                  //this.domain = response.body;
                 
 
                 this.toastrService.success("Domain data updated successfully.");
@@ -128,6 +128,10 @@ setNsStatusOptions() {
   } else {
     this.isNsStatusDisabled = true;   
   }
+}
+
+cancelDomain(){
+this.router.navigateByUrl('applications');
 }
 }
   
