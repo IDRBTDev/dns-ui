@@ -21,6 +21,7 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
 import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
+import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -35,7 +36,7 @@ const routes: Routes = [
   {path:'domain-details', component: DomainDetailsComponent},
   {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
   {path: '',redirectTo:'/landing', pathMatch: 'full'},
-  
+  {path:'DomainEditPage',component:DomainDetailsEditComponent},
   {path: 'user-domain-details', component:UserDomainDetailsComponent},
   {path: 'onboarding-stepper', component:OnboardingStepperComponent},
   {path: 'user-side-menu', component:UserSideMenuComponent},

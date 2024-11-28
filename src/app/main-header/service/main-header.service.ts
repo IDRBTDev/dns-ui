@@ -8,7 +8,7 @@ import { User } from "src/app/model/user.model";
 })
 
 export class MainHeaderService{
-    private userDetailsUrl = 'http://localhost:9002/dr/user/getDetails';
+    private userDetailsUrl = 'http://localhost:9002/dr/user/get';
 
     constructor(private httpClient: HttpClient){}
 

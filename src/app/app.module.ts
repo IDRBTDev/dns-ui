@@ -50,6 +50,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
+import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 
 
 
@@ -88,6 +89,7 @@ import * as $ from 'jquery';
     AddDomainComponent,
     NotificationComponent,
     NameServerComponent,
+    DomainDetailsEditComponent,
   ],
   imports: [
     BrowserModule,
