@@ -76,4 +76,7 @@ export class UserDomainDetailsComponent {
     }
     
   }
+  backButton(){
+    this.router.navigateByUrl('domains');
+  }
 }
