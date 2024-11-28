@@ -19,7 +19,7 @@ import { OrganisationDetailsComponent } from './organisation-details/organisatio
 import { ContactDetailsFormComponent } from './contact-details-form/contact-details-form.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { AddDomainComponent } from './add-domain/add-domain.component';
-import { NameServerFormComponent } from './name-server-form/name-server-form.component';
+import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
 
 const routes: Routes = [
@@ -50,7 +50,7 @@ const routes: Routes = [
   //{path:'full-header',component:FullHeaderComponent}
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
   {path: 'add-domain', component: AddDomainComponent},
-
+  {path: 'preview', component: PreviewComponent},
   {path: 'name-server', component: NameServerComponent}
 
 ];

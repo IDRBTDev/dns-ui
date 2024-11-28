@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MatStepper } from '@angular/material/stepper';
 import { NameServerFormComponent } from '../name-server-form/name-server-form.component';
 import { OrganisationDetailsComponent } from '../organisation-details/organisation-details.component';
+import { ContactDetailsFormComponent } from '../contact-details-form/contact-details-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -14,6 +15,8 @@ export class OnboardingStepperComponent implements OnInit{
   @ViewChild(MatStepper) stepper: MatStepper;  // Reference to the mat-stepper
   @ViewChild(NameServerFormComponent) nameServerFormComponent: NameServerFormComponent;
   @ViewChild(OrganisationDetailsComponent) organisationDetailsComponent: OrganisationDetailsComponent;
+  @ViewChild(ContactDetailsFormComponent) contactDetailsFormComponent: OrganisationDetailsComponent;
+ 
   completed= false;
 
   domainId: number = 0;
