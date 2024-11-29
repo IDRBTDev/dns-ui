@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import { DomainService } from '../domain/service/domain.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-preview',
@@ -14,6 +16,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
   @Input() organisationId: number = 0;
+  @Input() domainId: number = 0;
 
   // domainDetails: any;
   // administrativeDetails: any;
@@ -146,7 +149,9 @@ export class PreviewComponent implements OnInit, OnChanges {
     },
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private domainService: DomainService
+  ) {}
 
   /**
  
@@ -213,11 +218,11 @@ export class PreviewComponent implements OnInit, OnChanges {
       .subscribe({
         next: (data) => {
           console.log(data)
-          this.cards[3].details.techFullName = data.fullName;
-          this.cards[3].details.techEmail = data.email;
-          this.cards[3].details.techPhone = data.phone;
-          this.cards[3].details.techAltPhone = data.altPhone;
-          this.cards[3].details.techDesignation = data.designation;
+          this.cards[3].details.techFullName = data.techFullName;
+          this.cards[3].details.techFullName = data.techFullName;
+          this.cards[3].details.techPhone = data.techPhone;
+          this.cards[3].details.techAltPhone = data.techAltPhone;
+          this.cards[3].details.techDesignation = data.techDesignation;
           this.cards[3].details.techDocuments = data.documents;
         },
         error: (error) =>
@@ -288,5 +293,18 @@ export class PreviewComponent implements OnInit, OnChanges {
 
     console.log(`${card.heading}
    changes canceled.`);
+  }
+
+  async getDomainDetailsByDomainId(domainId: number){
+    await lastValueFrom(this.domainService.getDomainByDomainId(domainId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.cards[0].details.domainName = response.body.domainName;
+          this.cards[0].details.bankName = response.body.bankName;
+          this.cards[0].details.numberOfYears = response.body.numberOfYears;
+          this.cards[0].details.cost = response.body.cost;
+      }
+    }
+    )
   }
 }
