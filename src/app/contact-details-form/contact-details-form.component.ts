@@ -66,33 +66,33 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     if (this.fullForm.valid) {
       
       const adminDetails = {
-        fullName: this.fullForm.get('adminFullName')?.value,
-        email: this.fullForm.get('adminEmail')?.value,
-        phone: this.fullForm.get('adminPhone')?.value,
-        altPhone: this.fullForm.get('adminAltPhone')?.value,
-        designation: this.fullForm.get('adminDesignation')?.value,
+        adminFullName: this.fullForm.get('adminFullName')?.value,
+        adminEmail: this.fullForm.get('adminEmail')?.value,
+        adminPhone: this.fullForm.get('adminPhone')?.value,
+        adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
+        adminDesignation: this.fullForm.get('adminDesignation')?.value,
         documents: this.fullForm.get('adminDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
 
       const technicalDetails = {
-        fullName: this.fullForm.get('techFullName')?.value,
-        email: this.fullForm.get('techEmail')?.value,
-        phone: this.fullForm.get('techPhone')?.value,
-        altPhone: this.fullForm.get('techAltPhone')?.value,
-        designation: this.fullForm.get('techDesignation')?.value,
+        techFullName: this.fullForm.get('techFullName')?.value,
+        techEmail: this.fullForm.get('techEmail')?.value,
+        techPhone: this.fullForm.get('techPhone')?.value,
+        techAltPhone: this.fullForm.get('techAltPhone')?.value,
+        techDesignation: this.fullForm.get('techDesignation')?.value,
         documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
 
       const billingDetails = {
-        fullName: this.fullForm.get('billFullName')?.value,
-        email: this.fullForm.get('billEmail')?.value,
-        phone: this.fullForm.get('billPhone')?.value,
-        altPhone: this.fullForm.get('billAltPhone')?.value,
-        designation: this.fullForm.get('billDesignation')?.value,
+        billFullName: this.fullForm.get('billFullName')?.value,
+        billEmail: this.fullForm.get('billEmail')?.value,
+        billPhone: this.fullForm.get('billPhone')?.value,
+        billAltPhone: this.fullForm.get('billAltPhone')?.value,
+        billDesignation: this.fullForm.get('billDesignation')?.value,
         documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId

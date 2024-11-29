@@ -90,12 +90,10 @@
 
                 <div style="text-align: center; padding-top: 10px;">
                     <p *ngIf="user">{{ user.userName }}</p>
-                    <p *ngIf="!user">User not found</p>
                 </div>
 
                 <div style="text-align: center;">
                     <p *ngIf="user">{{ user.userId }}</p>
-                    <p *ngIf="!user">User ID not available</p>
                 </div>
 
             </div>
@@ -108,7 +106,7 @@
                 </div>
 
                 <div class="text2">
-                    <p>Admin</p>
+                    <p><p *ngIf="user">{{ user.role}}</p>
                 </div>
 
                 <br>
@@ -128,8 +126,8 @@
                 </div>
 
                 <div class="text2">
-                    <p *ngIf="user">{{ user.organizationDto.institutionName}}</p>
-                    <p *ngIf="!user">User ID not available</p>
+                    <p *ngIf="user">{{user.organisationDetailsDto?.institutionName}}</p>
+
                 </div>
                 <br>
 

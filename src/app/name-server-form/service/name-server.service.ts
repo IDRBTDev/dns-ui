@@ -29,7 +29,7 @@ export class
 
   private
   nameServerUrl =
-    'http://localhost:9009/dr/nameServer';
+    'http://localhost:9002/dr/nameServer';
 
 
 

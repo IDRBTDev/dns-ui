@@ -24,6 +24,8 @@ export class User{
     createdByEmail : string;
     updatedByEmail : string;
     lastSuccessfulLoginDatetime : Date;
-    
-    organizationDto : Organization;
+
+
+    organisationId : number; 
+    organisationDetailsDto: Organization;
 }
