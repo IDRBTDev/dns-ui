@@ -17,6 +17,4 @@ export class MainHeaderService{
         return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
     }
 
-  
-
 }
