@@ -1,0 +1,12 @@
+
+ 
+.text-primary {
+    font-weight: bold;
+    font-size: 4rem;
+  }
+
+  .table th {
+    text-align: left;
+    width: 30%;
+  }
+  

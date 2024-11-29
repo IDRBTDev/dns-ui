@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { DomainService } from '../domain/service/domain.service';
-import { lastValueFrom } from 'rxjs';
-import { HttpStatusCode } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomainService } from '../domain/service/domain.service';
+import { HttpStatusCode } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-domain-details',
-  templateUrl: './domain-details.component.html',
-  styleUrls: ['./domain-details.component.css']
+  selector: 'app-domain-details-edit',
+  templateUrl: './domain-details-edit.component.html',
+  styleUrls: ['./domain-details-edit.component.css']
 })
-export class DomainDetailsComponent implements OnInit {
-
+export class DomainDetailsEditComponent {
   constructor(private domainService: DomainService, 
     private router: Router, private activatedRouter: ActivatedRoute
   ){
@@ -47,11 +46,12 @@ export class DomainDetailsComponent implements OnInit {
     this.router.navigateByUrl('/session-timeout');
   }
 
-  cancelDomain(){
-    this.router.navigateByUrl('domains');
+  backDomain(){
+    this.router.navigateByUrl('domain-details');
+    }
+    crossButton(){
+      console.log("cancel button is working good");
     }
 
-    domainedit(){
-      this.router.navigateByUrl('DomainEditPage');
-    }
+
   }

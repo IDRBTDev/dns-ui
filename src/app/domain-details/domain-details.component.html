@@ -1,53 +1,86 @@
-<div class="layout-container">
+
+ <div class="layout-container">
   <app-side-menu></app-side-menu>
   <div class="content-area">
     <app-main-header></app-main-header>
     <div class="container-fluid">
       <div class="row" style="padding-top: 100px;">
         <div class="col-sm-12">
-          <h3>Domain Details</h3><br />
-          <div class="row row-cols-5" style="background: #F5FAFF;">
-            <div class="col" style="font-weight: 500;">Domain</div>
-            <div class="col" style="font-weight: 500;">Organisation</div>
-            <div class="col" style="font-weight: 500;">Domain Status</div>
-            <div class="col" style="font-weight: 500;">Registration Date</div>
-            <div class="col" style="font-weight: 500;">Renewal Date</div>
-          </div>
-          <div class="row row-cols-5" style="padding-top: 20px;">
-            <div class="col">{{domainDetail.domainName}}</div>
-            <div class="col">{{domainDetail.organizationName}}</div>
-            <div class="col">{{domainDetail.status}}</div>
-            <div class="col">{{domainDetail.registrationDate|date:'MMM d, y, h:mm a'}}</div>
-            <div class="col">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
-          </div>
-          <br /><br />
-          <h4>Name Servers</h4>
-          <div class="row row-cols-3" style="background: #F5FAFF;">
-            <div class="col" style="font-weight: 500;">Host Name</div>
-            <div class="col" style="font-weight: 500;">IP Address</div>
-            <div class="col" style="font-weight: 500;">TTL</div>
-          </div>
-          <div class="row row-cols-3" style="padding-top: 20px;" *ngFor="let ns of domainDetail.nameServers">
-            <div class="col">{{ns.hostName}}</div>
-            <div class="col">{{ns.ipAddress}}</div>
-            <div class="col">{{ns.domainId}}</div>
-          </div>
-          <br /><br />
-          <h4>Billing History</h4>
-          <div class="row row-cols-4" style="background: #F5FAFF;">
-            <div class="col" style="font-weight: 500;">Invoice No</div>
-            <div class="col" style="font-weight: 500;">Amount</div>
-            <div class="col" style="font-weight: 500;">Invoice Date</div>
-            <div class="col" style="font-weight: 500;">Status</div>
-          </div>
-          <div class="row row-cols-4" style="padding-top: 20px;" *ngFor="let bh of domainDetail.billingHistory">
-            <div class="col">{{bh.invoiceNumber}}</div>
-            <div class="col">{{bh.amount| currency: 'INR'}}</div>
-            <div class="col">{{bh.invoiceDate|date:'MMM d, y, h:mm a'}}</div>
-            <div class="col">{{bh.status}}</div>
-          </div>
+          <div class="content-wrapper">
+          <div class="header-content">
+          <svg (click)="cancelDomain()" style="cursor: pointer;" width="24" height="25" viewBox="0 0 24 25" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+      </svg>
+          <h3>Domain Details</h3></div>
+          <div class="first">
+                      <div class="details-container">
+            <div class="detail-item">
+                <p>Domain</p>
+                <div class="box-content">{{domainDetail.domainName}}</div>
+            </div>
+            <div class="detail-item">
+                <p>Organization</p>
+                <div class="box-content">{{domainDetail.organizationName}}</div>
+            </div>
+            <div class="detail-item">
+                <p>Registration Date</p>
+
+                <div class="box-content">{{domainDetail.registrationDate|date:'MMM d, y, h:mm a'}}</div>
+            </div>
+            <div class="detail-item">
+                <p>Renewal Date</p>
+                <div class="box-content">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
+            </div>
+            <div class="detail-item">
+                <p>Domain Status</p>
+                <div class="box-content">{{domainDetail.status}}</div>
+            </div>
         </div>
+      <hr/>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin-left: 10px;">Name Servers</h2>
+        <svg (click)="domainedit()" style="margin-right: 10px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V12" stroke="#9A9A9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.3751 2.62498C18.7729 2.22716 19.3125 2.00366 19.8751 2.00366C20.4377 2.00366 20.9773 2.22716 21.3751 2.62498C21.7729 3.02281 21.9964 3.56237 21.9964 4.12498C21.9964 4.68759 21.7729 5.22716 21.3751 5.62498L12.3621 14.639C12.1246 14.8762 11.8313 15.0499 11.5091 15.144L8.63609 15.984C8.55005 16.0091 8.45883 16.0106 8.372 15.9883C8.28517 15.9661 8.20592 15.9209 8.14254 15.8575C8.07916 15.7942 8.03398 15.7149 8.01174 15.6281C7.98949 15.5412 7.991 15.45 8.01609 15.364L8.85609 12.491C8.95062 12.169 9.12463 11.876 9.36209 11.639L18.3751 2.62498Z" stroke="#9A9A9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-    </div>
-  </div>
+      
+        
+      <div class="row row-cols-3" style="background: #F5FAFF; padding: 16px 24px; margin-left: 10px; margin-right: 10px;">
+        <div class="col" style="font-weight: 500; font-size: 14px;">Host Name</div>
+        <div class="col" style="font-weight: 500;font-size: 14px;">IP Address</div>
+        <div class="col" style="font-weight: 500;font-size: 14px;">TTL</div>
+      </div>
+      <div class="row row-cols-3" style="background: #F7F7F7;
+ padding: 16px 24px; margin-top: 10px; margin-left: 10px; margin-right: 10px;" *ngFor="let ns of domainDetail.nameServers">
+        <div class="col">{{ns.hostName}}</div>
+        <div class="col">{{ns.ipAddress}}</div>
+        <div class="col">{{ns.domainId}}</div>
+      </div>
+      <hr/>
+      <h2>Billing History</h2>
+      <div class="row row-cols-4" style="background: #F5FAFF; margin-left: 10px; margin-right: 10px; padding: 16px 24px;">
+        <div class="col" style="font-weight: 500; font-size: 14px;">Invoice No</div>
+        <div class="col" style="font-weight: 500; font-size: 14px;">Amount</div>
+        <div class="col" style="font-weight: 500; font-size: 14px;">Invoice Date</div>
+        <div class="col" style="font-weight: 500; font-size: 14px;">Status</div>
+      </div>
+
+      <div class="row row-cols-4" 
+  style="padding-top: 20px;  margin-left: 10px; margin-right: 10px; padding: 16px 24px;"
+  *ngFor="let bh of domainDetail.billingHistory; let i = index" 
+  [ngClass]="{'odd-row': i % 2 === 0, 'even-row': i % 2 !== 0}">
+    <div class="col">{{bh.invoiceNumber}}</div>
+    <div class="col">{{bh.amount | currency: 'INR'}}</div>
+    <div class="col">{{bh.invoiceDate | date:'MMM d, y, h:mm a'}}</div>
+    <div class="col">{{bh.status}}</div>
 </div>
+
+      </div>
+      
+      
+      </div></div></div></div></div></div>
