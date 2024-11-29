@@ -18,7 +18,9 @@ export class UserService{
     }
 
     getAllUsers(organisationId: number){
-        return this.httpClient.get<any[]>(this.getAllUsersUrl+"?organisationId="+organisationId,{observe:'response'});
+        const url = `${this.getAllUsersUrl}?organisationId=${organisationId}`;
+        console.log('API URL:', url); 
+        return this.httpClient.get<any[]>(url, { observe: 'response' });
     }
 
     saveUser(user: any){
