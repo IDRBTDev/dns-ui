@@ -11,7 +11,7 @@
           <div class="card" style="border: none;">
             <div class="card-body">
               <!-- Mat Stepper with Bootstrap classes -->
-              <mat-horizontal-stepper #stepper [linear]="true" class="w-100">
+              <mat-horizontal-stepper #stepper [linear]="true" class="w-100" (selectionChange)="onStepChange($event)">
                 <!-- Step 1: Organisation Details -->
                 <ng-template matStepperIcon="edit">
                       <mat-icon>done</mat-icon>
@@ -27,7 +27,10 @@
   
                 <!-- Step 2: Contact Details -->
                 <mat-step completed=false label="Contact Details">
-                  <app-contact-details-form [organisationId]="organisationId" (formSubmitted)="onFormSubmitted()" (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
+                  <app-contact-details-form 
+                  [organisationId]="organisationId" 
+                  (formSubmitted)="onFormSubmitted()" 
+                  (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
                   <!-- <span>
                     <button mat-button matStepperPrevious>Back</button>
                   </span> -->
@@ -46,7 +49,9 @@
   
                 <!-- Step 4: Review -->
                 <mat-step completed=false label="Preview">
-                  <app-preview></app-preview>
+                  <app-preview 
+                  [organisationId]="organisationId"
+                  [domainId]="domainId"></app-preview>
                   <!-- <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>

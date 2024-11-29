@@ -8,7 +8,8 @@
           <h3>Invoices</h3>
           <div style="display: flex; align-items: center;">
             <div style="height: 20%; padding-left: 7px;">
-                <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" matInput #input>
+                <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
+                (ngModelChange)="applyFilter()" matInput #input>
             </div>
           <svg style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
           fill="none" xmlns="http://www.w3.org/2000/svg">

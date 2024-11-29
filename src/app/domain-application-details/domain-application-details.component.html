@@ -20,11 +20,11 @@
                         <div class="details-container">
                             <div class="detail-item">
                                 <p>Organization Name</p>
-                                <div class="box-content">{{domainsList.organizationName}}</div>
+                                <div class="box-content">{{domainsList?.organizationName}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Domain Name</p>
-                                <div class="box-content">{{domainsList.domainName}}</div>
+                                <div class="box-content">{{domainsList?.domainName}}</div>
                             </div>
                             <div class="detail-item">
                                 <p>Submission Date</p>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="detail-item">
                                 <p>Status</p>
-                                <div class="box-content">{{domainsList.status}}</div>
+                                <div class="box-content">{{domainsList?.status}}</div>
                             </div>
                         </div>
 
@@ -50,7 +50,7 @@
                                     <input type="text" placeholder="Enter your Institute Name" class="form-control"
                                         [(ngModel)]="organizationsList.institutionName" />
                                     <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.institutionName }}</p>
+                                        <p>{{ organization?.institutionName }}</p>
                                     </div>
                                 </div>
                                 <h5 style="font-size: 15px;">Pin Code</h5>
@@ -75,7 +75,7 @@
                                         <p>{{ organization.address }}</p>
                                     </div>
                                 </div>
-                                <h5 style="font-size: 20px;">Email ID</h5>
+                                <h5 style="font-size: 15px;">Email ID</h5>
                                 <div >
                                     <input type="email" placeholder="Enter your Email id" class="form-control"
                                         [(ngModel)]="organizationsList.userMailId" />

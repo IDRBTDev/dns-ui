@@ -1,6 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import { DomainService } from '../domain/service/domain.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-preview',
@@ -9,9 +11,31 @@ import { HttpClient } from '@angular/common/http';
 
   styleUrls: ['./preview.component.css'],
 })
-export class PreviewComponent implements OnInit {
+export class PreviewComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
+
+  @Input() organisationId: number = 0;
+  @Input() domainId: number = 0;
+
+  // domainDetails: any;
+  // administrativeDetails: any;
+  // billingDetails: any;
+  // technicalDetails: any;
+  // nameServerDetails: any;
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['organisationId']) {
+      this.organisationId = changes['organisationId'].currentValue;
+      console.log('organisationId changed:', changes['organisationId'].currentValue);
+      // Add custom logic here for handling the updated data
+    }
+  }
+
+  ngOnInit(): void {
+    this.fetchDataFromAPIs();
+  }
+
 
   cards = [
     {
@@ -125,11 +149,9 @@ export class PreviewComponent implements OnInit {
     },
   ];
 
-  constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.fetchDataFromAPIs();
-  }
+  constructor(private http: HttpClient,
+    private domainService: DomainService
+  ) {}
 
   /**
  
@@ -147,13 +169,15 @@ export class PreviewComponent implements OnInit {
   // Inside the PreviewComponent
 
   fetchDataFromAPIs() {
+    console.log('exe preview comp - fecth data apis')
     // Fetch Organisation Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9010/dr/organisationDetails/getDetailsById/{organisationDetailsId}'
+        'http://localhost:9002/dr/organisationDetails/getDetailsById/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
+          console.log(data)
           this.cards[1].details.institutionName = data.institutionName;
           this.cards[1].details.pincode = data.pincode;
           this.cards[1].details.city = data.city;
@@ -170,15 +194,16 @@ export class PreviewComponent implements OnInit {
     // Fetch Administrative Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9005/dr/administrativeContact/getDetailsById/{organisationDetailsId}'
+        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
-          this.cards[2].details.adminFullName = data.fullName;
-          this.cards[2].details.adminEmail = data.email;
-          this.cards[2].details.adminPhone = data.phone;
-          this.cards[2].details.adminAltPhone = data.altPhone;
-          this.cards[2].details.adminDesignation = data.designation;
+          console.log(data)
+          this.cards[2].details.adminFullName = data.adminFullName;
+          this.cards[2].details.adminEmail = data.adminEmail;
+          this.cards[2].details.adminPhone = data.adminPhone;
+          this.cards[2].details.adminAltPhone = data.adminAltPhone;
+          this.cards[2].details.adminDesignation = data.adminDesignation;
           this.cards[2].details.adminDocuments = data.documents;
         },
         error: (error) =>
@@ -188,15 +213,16 @@ export class PreviewComponent implements OnInit {
     // Fetch Technical Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9005/dr/technicalContact/getDetailsById/{organisationDetailsId}'
+        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
-          this.cards[3].details.techFullName = data.fullName;
-          this.cards[3].details.techEmail = data.email;
-          this.cards[3].details.techPhone = data.phone;
-          this.cards[3].details.techAltPhone = data.altPhone;
-          this.cards[3].details.techDesignation = data.designation;
+          console.log(data)
+          this.cards[3].details.techFullName = data.techFullName;
+          this.cards[3].details.techFullName = data.techFullName;
+          this.cards[3].details.techPhone = data.techPhone;
+          this.cards[3].details.techAltPhone = data.techAltPhone;
+          this.cards[3].details.techDesignation = data.techDesignation;
           this.cards[3].details.techDocuments = data.documents;
         },
         error: (error) =>
@@ -206,14 +232,15 @@ export class PreviewComponent implements OnInit {
     // Fetch Billing Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9005/dr/billingContact/getDetailsById/{organisationDetailsId}'
+        'http://localhost:9002/dr/billingContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
-          this.cards[4].details.billFullName = data.fullName;
-          this.cards[4].details.billEmail = data.email;
-          this.cards[4].details.billPhone = data.phone;
-          this.cards[4].details.billAltPhone = data.altPhone;
+          console.log(data)
+          this.cards[4].details.billFullName = data.billFullName;
+          this.cards[4].details.billEmail = data.billEmail;
+          this.cards[4].details.billPhone = data.billPhone;
+          this.cards[4].details.billAltPhone = data.billAltPhone;
           this.cards[4].details.billDocuments = data.documents;
         },
         error: (error) =>
@@ -223,16 +250,18 @@ export class PreviewComponent implements OnInit {
     // Fetch Name Server Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9009/dr/nameServer/getDetailsById/{organisationDetailsId}'
+        'http://localhost:9002/dr/nameServer/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
-          this.cards[5].details.hostName = data.hostName;
-          this.cards[5].details.ipAddress = data.ipAddress;
+          console.log(data)
+          this.cards[5].details.hostName = data[0].hostName;
+          this.cards[5].details.ipAddress = data[0].ipAddress;
         },
         error: (error) =>
           console.error('Error fetching name server details:', error),
       });
+      console.log(this.cards)
   }
 
   // Toggle edit mode for each card
@@ -264,5 +293,18 @@ export class PreviewComponent implements OnInit {
 
     console.log(`${card.heading}
    changes canceled.`);
+  }
+
+  async getDomainDetailsByDomainId(domainId: number){
+    await lastValueFrom(this.domainService.getDomainByDomainId(domainId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.cards[0].details.domainName = response.body.domainName;
+          this.cards[0].details.bankName = response.body.bankName;
+          this.cards[0].details.numberOfYears = response.body.numberOfYears;
+          this.cards[0].details.cost = response.body.cost;
+      }
+    }
+    )
   }
 }
