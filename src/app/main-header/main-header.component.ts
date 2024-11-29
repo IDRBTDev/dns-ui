@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
 import { MainHeaderService } from './service/main-header.service';
@@ -14,10 +14,21 @@ export class MainHeaderComponent implements OnInit{
   loading: boolean = true;    
   error: string = '';
 
+  @ViewChild('fileInput') fileInput: any;
+  
+
   constructor(private router: Router, private mainHeaderService: MainHeaderService,){}
 
   ngOnInit(): void {
-     this.getUserDetails();  
+     this.getUserDetails(); 
+     // Retrieve the stored profile picture URL from localStorage and set it
+    const storedProfilePictureUrl = localStorage.getItem('profilePictureUrl');
+    if (storedProfilePictureUrl) {
+        // Make sure 'user' is initialized before setting the profile picture URL
+        if (this.user) {
+            this.user.profilePictureUrl = storedProfilePictureUrl;
+        }
+    }
    }
    
     cancelButton(){
@@ -46,6 +57,7 @@ export class MainHeaderComponent implements OnInit{
         response => {
           console.log('User data received from API:', response);
           this.user=response
+
          
           this.loading = false; 
         },
@@ -56,6 +68,33 @@ export class MainHeaderComponent implements OnInit{
         }
       );
 
+    }
+
+  triggerFileInput() {
+    this.fileInput.nativeElement.click();
   }
+
+  onChangeFile(event: any): void {
+    if (event.target.files.length > 0) {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        this.mainHeaderService.uploadProfilePicture(localStorage.getItem('email')!, formData).subscribe(
+            (response: Blob) => {
+                this.user.profilePicture = response;  
+                this.user.profilePictureUrl = URL.createObjectURL(response);  
+                localStorage.setItem('profilePictureUrl', this.user.profilePictureUrl);
+                window.location.reload()
+                console.log('Profile picture uploaded successfully');
+            },
+            (error) => {
+                console.error('Error uploading profile picture', error);
+            }
+        );
+    }
+}
+
+  
 
 }

@@ -11,6 +11,7 @@ export class User{
     previousPasswordTwo : string;
     role : string;
     otp : number;
+    profilePictureUrl: string;
     profilePicture : Blob;
     isActive : boolean;
     loginAttemptCount : number;

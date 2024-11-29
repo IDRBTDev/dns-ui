@@ -22,7 +22,7 @@
 
                 <!-- notifcation -->
                 <svg class="first" width="32" height="32" viewBox="0 0 32 32" fill="none"
-                    xmlns="http://www.w3.org/2000/svg" >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M24 10.6667C24 8.54492 23.1571 6.51009 21.6569 5.0098C20.1566 3.50951 18.1217 2.66666 16 2.66666C13.8783 2.66666 11.8434 3.50951 10.3431 5.0098C8.84286 6.51009 8 8.54492 8 10.6667C8 20 4 22.6667 4 22.6667H28C28 22.6667 24 20 24 10.6667Z"
                         stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -58,34 +58,59 @@
     <div class="modal-dialog modal-dialog-right" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #F6FBFD;">
-                
+
                 <h1 style="font-size: 18px;">Profile</h1>
                 <button type="button" style="color: #FD5454" (click)="cancelButton()" class="close" data-dismiss="modal"
                     aria-label="Close">
-                   
+
                     <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.49609 2L19.001 20" stroke="#FD5454" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M1 20L18.5049 2" stroke="#FD5454" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                        
+                        <path d="M1.49609 2L19.001 20" stroke="#FD5454" stroke-width="2" stroke-linecap="round" />
+                        <path d="M1 20L18.5049 2" stroke="#FD5454" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+
                 </button>
 
             </div>
-            <div class="modal-body"  style="background-color: #F6FBFD;">
+            <div class="modal-body" style="background-color: #F6FBFD;">
+
                 <!-- Icon for upload -->
-                 <div style=" flex: 1; justify-content: center; display: flex;">
-                <svg width="112" height="112" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="56" cy="56" r="55.5" fill="white" stroke="#E4E4E4"/>
-                    <g clip-path="url(#clip0_1955_1449)">
-                    <path d="M72.1338 66.2667C72.1338 67.0447 71.8248 67.7908 71.2747 68.3409C70.7246 68.891 69.9785 69.2 69.2005 69.2H42.8005C42.0226 69.2 41.2764 68.891 40.7263 68.3409C40.1762 67.7908 39.8672 67.0447 39.8672 66.2667V50.1334C39.8672 49.3554 40.1762 48.6093 40.7263 48.0592C41.2764 47.5091 42.0226 47.2 42.8005 47.2H48.6672L51.6005 42.8H60.4005L63.3339 47.2H69.2005C69.9785 47.2 70.7246 47.5091 71.2747 48.0592C71.8248 48.6093 72.1338 49.3554 72.1338 50.1334V66.2667Z" stroke="#B3B3B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M55.9995 63.3333C59.2396 63.3333 61.8661 60.7067 61.8661 57.4666C61.8661 54.2266 59.2396 51.6 55.9995 51.6C52.7594 51.6 50.1328 54.2266 50.1328 57.4666C50.1328 60.7067 52.7594 63.3333 55.9995 63.3333Z" stroke="#B3B3B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_1955_1449">
-                    <rect width="35.2" height="35.2" fill="white" transform="translate(38.4004 38.4)"/>
-                    </clipPath>
-                    </defs>
-                    </svg>
+                <div style=" flex: 1; justify-content: center; display: flex; cursor: pointer;">
+                    <label for="file-input" class="image-container">
+                        <ng-container>
+                           <div class="profile_container" *ngIf="user?.profilePicture; else defaultSvg" >
+                            <img [src]="'data:image/png/jpg/jpeg;base64,'+user.profilePicture" width="110px" height="110px" class="profile-pic"/>
+                           </div> 
+                        </ng-container>
+
+                        <ng-template #defaultSvg>
+
+
+                            <svg width="112" height="112" viewBox="0 0 112 112" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="56" cy="56" r="55.5" fill="white" stroke="#E4E4E4" />
+                                <g clip-path="url(#clip0_1955_1449)">
+                                    <path
+                                        d="M72.1338 66.2667C72.1338 67.0447 71.8248 67.7908 71.2747 68.3409C70.7246 68.891 69.9785 69.2 69.2005 69.2H42.8005C42.0226 69.2 41.2764 68.891 40.7263 68.3409C40.1762 67.7908 39.8672 67.0447 39.8672 66.2667V50.1334C39.8672 49.3554 40.1762 48.6093 40.7263 48.0592C41.2764 47.5091 42.0226 47.2 42.8005 47.2H48.6672L51.6005 42.8H60.4005L63.3339 47.2H69.2005C69.9785 47.2 70.7246 47.5091 71.2747 48.0592C71.8248 48.6093 72.1338 49.3554 72.1338 50.1334V66.2667Z"
+                                        stroke="#B3B3B3" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M55.9995 63.3333C59.2396 63.3333 61.8661 60.7067 61.8661 57.4666C61.8661 54.2266 59.2396 51.6 55.9995 51.6C52.7594 51.6 50.1328 54.2266 50.1328 57.4666C50.1328 60.7067 52.7594 63.3333 55.9995 63.3333Z"
+                                        stroke="#B3B3B3" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1955_1449">
+                                        <rect width="35.2" height="35.2" fill="white"
+                                            transform="translate(38.4004 38.4)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </ng-template>
+                    </label>
+
+                    <!-- File input hidden for image upload -->
+                    <input id="file-input" type="file" accept="image/*" (change)="onChangeFile($event)"style="display: none;">
+
                 </div>
 
                 <div style="text-align: center; padding-top: 10px;">
@@ -97,16 +122,18 @@
                 </div>
 
             </div>
+
             <hr>
             <div style="flex: 15; background-color: white;">
-               
-                
+
+
                 <div class="text1">
                     <p>Role</p>
                 </div>
 
                 <div class="text2">
-                    <p><p *ngIf="user">{{ user.role}}</p>
+                    <p>
+                    <p *ngIf="user">{{ user.role}}</p>
                 </div>
 
                 <br>
@@ -142,9 +169,9 @@
 
             </div>
 
-            
+
 
         </div>
 
-    
-</div>
+
+    </div>
