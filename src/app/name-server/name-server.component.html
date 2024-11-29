@@ -3,7 +3,11 @@
     <div class="content-area">
         <app-main-header></app-main-header>
         <div class="container-fluid">
-            <app-name-server-form></app-name-server-form>
+            <app-name-server-form 
+            [domainId]="domainId"
+            [organisationId]="organisationId"
+            [applicationId]="applicationId"
+            ></app-name-server-form>
         </div>
     </div>
 </div>

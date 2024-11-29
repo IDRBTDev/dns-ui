@@ -50,18 +50,18 @@ export class DomainApplicationDetailsComponent implements OnInit{
       }
     });
   }
+
   organizationsList:any;
-  getOrganizationDetails(domainId:number) {
+  getOrganizationDetails(organisationId:number) {
    
-    console.log("Datal",domainId)
-    this.oreganizationService.getOrganizationByDomainId(domainId).subscribe({
+    console.log("Datal",organisationId)
+    this.oreganizationService.getOrganizationByDomainId(organisationId).subscribe({
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.organizationsList = res.body;
          console.log("organization data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);
-         
         }
       },
       error: (error) => {

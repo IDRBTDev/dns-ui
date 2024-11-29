@@ -58,6 +58,7 @@ export class UserDomainDetailsComponent {
               organisationId: this.organisationId
             }
           }
+          console.log(navigationExtras);
           if(this.organisationId < 1){
             this.router.navigate(['/onboarding-stepper'], navigationExtras);
           }else{
