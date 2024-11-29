@@ -15,7 +15,7 @@
                   <button class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button>
                   <div style="display: flex; align-items: center;">
                     <div style="height: 20%; padding-left: 7px;">
-                        <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" matInput #input>
+                        <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"  matInput #input>
                     </div>
                   <svg  style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,10 @@
       
 
                 <section class="example-container" style="margin-top: 10px;">
-                  <table id="table1" mat-table [dataSource]="domainsDataSource" 
+                  <!-- <div *ngIf="noDataFound" class="no-results-message">
+                    No data found matching the filters.
+                  </div> -->
+                  <table id="table1" *ngIf="!noDataFound" mat-table [dataSource]="domainsDataSource" 
                   matSort class="mat-elevation-z8">
                     <!-- Checkbox Column -->
                     <!-- <ng-container matColumnDef="checkbox">
@@ -130,7 +133,7 @@
           <div class="detail-item">
             <p>Domain Name</p>
             <div class="input-group">
-              <input type="text" placeholder="Search Domain name" class="form-control" />
+              <input type="text" placeholder="Search Domain name" class="form-control" [(ngModel)]="filters.domainName"  />
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M12.125 10.5272H11.5325L11.3225 10.3247C12.0575 9.46969 12.5 8.35969 12.5 7.15219C12.5 4.45969 10.3175 2.27719 7.625 2.27719C4.9325 2.27719 2.75 4.45969 2.75 7.15219C2.75 9.84469 4.9325 12.0272 7.625 12.0272C8.8325 12.0272 9.9425 11.5847 10.7975 10.8497L11 11.0597V11.6522L14.75 15.3947L15.8675 14.2772L12.125 10.5272ZM7.625 10.5272C5.7575 10.5272 4.25 9.01969 4.25 7.15219C4.25 5.28469 5.7575 3.77719 7.625 3.77719C9.4925 3.77719 11 5.28469 11 7.15219C11 9.01969 9.4925 10.5272 7.625 10.5272Z"
@@ -142,7 +145,7 @@
           <div class="detail-item">
             <p>Organization Name</p>
             <div class="input-group">
-              <input type="text" placeholder="Select Organization Name" class="form-control" />
+              <input type="text" placeholder="Select Organization Name" class="form-control" [(ngModel)]="filters.organisationName"  />
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M12.125 10.5272H11.5325L11.3225 10.3247C12.0575 9.46969 12.5 8.35969 12.5 7.15219C12.5 4.45969 10.3175 2.27719 7.625 2.27719C4.9325 2.27719 2.75 4.45969 2.75 7.15219C2.75 9.84469 4.9325 12.0272 7.625 12.0272C8.8325 12.0272 9.9425 11.5847 10.7975 10.8497L11 11.0597V11.6522L14.75 15.3947L15.8675 14.2772L12.125 10.5272ZM7.625 10.5272C5.7575 10.5272 4.25 9.01969 4.25 7.15219C4.25 5.28469 5.7575 3.77719 7.625 3.77719C9.4925 3.77719 11 5.28469 11 7.15219C11 9.01969 9.4925 10.5272 7.625 10.5272Z"
@@ -154,11 +157,9 @@
           <div class="detail-item">
             <p>Status</p>
             <div class="input-group">
-              <input type="text" placeholder="Select  Status" class="form-control" />
-              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.92 8.61719L12.5 13.1972L17.09 8.61719L18.5 10.0272L12.5 16.0272L6.5 10.0272L7.92 8.61719Z"
-                  fill="#A6A6A6" />
-              </svg>
+              <select type="text" placeholder="Select  Status" class="form-control" [(ngModel)]="filters.status" >
+              <option value="Active">Active</option>
+                                                <option value="InActive">InActive</option></select>
 
             </div>
           </div>
@@ -205,8 +206,8 @@
           </div>
 
           <div class="modal-footer d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Apply</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearButton()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="filterButton()">Apply</button>
           </div>
 
         </div>
