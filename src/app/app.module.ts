@@ -99,7 +99,7 @@ import { DomainDetailsEditComponent } from './domain-details-edit/domain-details
     FormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 2000,
+      timeOut: 3000,
       positionClass: 'right'
     }),
     MatTableModule,

@@ -8,14 +8,23 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './contact-details-form.component.html',
   styleUrls: ['./contact-details-form.component.css']
 })
+
+
 export class ContactDetailsFormComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
+  adminUploadedDocs:{type: string; filename:string}[]=[];
+  techUploadedDocs:{type: string; filename:string}[]=[];
+  billingUploadedDocs:{type: string; filename:string}[]=[];
+  submissionAttempted: boolean=false;
+
   @Input() organisationId: number =0;
 
+  
   fullForm: FormGroup;
   applicationId: string | null = null; 
+  selectedDocType = '';
 
   constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute) {}
 
@@ -60,6 +69,39 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     console.log('Retrieved Application ID from sessionStorage:', this.applicationId);
   }
 
+  sanitizeInput(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, ''); // Allow only numbers
+    // Update the specific FormControl value
+    this.fullForm.get(controlName)?.setValue(input.value, { emitEvent: false });
+  }
+
+  handleTechValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setTechUploadedDocuments(docs: any[]): void {
+      this.techUploadedDocs = docs;
+      console.log('Uploaded documents updated:', this.techUploadedDocs);
+  }
+
+  handleAdminValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setAdminUploadedDocuments(docs: any[]): void {
+    this.adminUploadedDocs = docs;
+    console.log('Uploaded documents updated:', this.adminUploadedDocs);
+  }
+
+  handleBillingValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setBillingUploadedDocuments(docs: any[]): void {
+    this.billingUploadedDocs = docs;
+    console.log('Uploaded documents updated:', this.billingUploadedDocs);
+  }
   onSubmit(): void {
 
   //  this.formSubmitted.emit();
@@ -71,7 +113,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         phone: this.fullForm.get('adminPhone')?.value,
         altPhone: this.fullForm.get('adminAltPhone')?.value,
         designation: this.fullForm.get('adminDesignation')?.value,
-        documents: this.fullForm.get('adminDocuments')?.value,
+        // documents: this.fullForm.get('adminDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
@@ -82,7 +124,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         phone: this.fullForm.get('techPhone')?.value,
         altPhone: this.fullForm.get('techAltPhone')?.value,
         designation: this.fullForm.get('techDesignation')?.value,
-        documents: this.fullForm.get('techDocuments')?.value,
+        // documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
@@ -93,7 +135,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         phone: this.fullForm.get('billPhone')?.value,
         altPhone: this.fullForm.get('billAltPhone')?.value,
         designation: this.fullForm.get('billDesignation')?.value,
-        documents: this.fullForm.get('billDocuments')?.value,
+        // documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
@@ -135,3 +177,4 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   }
  
 }
+

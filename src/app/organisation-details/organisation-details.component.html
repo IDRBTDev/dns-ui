@@ -1,286 +1,241 @@
 <div class="container-fluid w-100">
-    <!-- Main Content -->
-    <!-- <div class="row mt-4"> -->
-
-
-
-
-
-        <!-- Form Section -->
-
-
-
-        <div class="card mt-3" style="border: none;">
-
-
-
-
-                <div class="card-body">
-
-
-
-                    <h3 class="card-title">Organisation Details</h3>
-
-
-
-                    <p>Please fill in the details of your organisation.</p>
-
-
-
-
-
-                    <!-- Form Starts -->
-
-
-
-                    <form [formGroup]="organisationForm">
-
-
-
-
-
-                        <!-- Institution Name -->
-
-
-
-                        <div class="mb-3">
-
-
-
-                            <label for="institutionName"  class="form-label">Institution Name</label><span
-                                style="color: red">*</span>
-
-
-
-                            <input type="text" id="institutionName"  class="form-control" formControlName="institutionName"
-                                placeholder="Enter institution name" required />
-                            <div *ngIf="organisationForm.get('institutionName')?.invalid && organisationForm.get('institutionName')?.touched" class="text-danger">
-                                Please enter your Institution Name.
-                            </div>
-
-
-
-                        </div>
-
-
-
-
-
-                        <!-- Pincode and Location -->
-
-
-
-                        <div class="row">
-
-
-
-                            <div class="col-md-4 mb-3">
-
-
-
-                                <label for="pincode" class="form-label">Pincode</label><span style="color: red">*</span>
-
-
-
-                                <input type="text" id="pincode" class="form-control" placeholder="Enter pincode"
-                                    formControlName="pincode" (input)="onPincodeChange()" required />
-                                <div *ngIf="organisationForm.get('pincode')?.invalid && organisationForm.get('pincode')?.touched" class="text-danger">
-                                    Please enter your pincode.
-                                </div>
-
-
-
-                            </div>
-
-
-
-                            <div class="col-md-4 mb-3">
-
-
-
-                                <label for="city" class="form-label">City</label><span style="color: red">*</span>
-
-
-
-                                <select id="city" class="form-control" formControlName="city" required>
-
-
-
-                                    <option *ngFor="let city of cityOptions" [value]="city.name">
-
-
-
-                                        {{ city.name }}
-
-
-
-                                    </option>
-
-
-
-                                </select>
-
-
-
-                            </div>
-
-
-
-                            <div class="col-md-4 mb-3">
-
-
-
-                                <label for="state" class="form-label">State</label><span style="color: red">*</span>
-
-
-
-                                <input type="text" id="state" class="form-control" placeholder="State"
-                                    formControlName="state" [value]="organisationForm.get('state')?.value" readonly
-                                    required />
-
-
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-
-
-                        <!-- Address Section -->
-
-
-
-                        <div class="mb-3">
-
-
-
-                            <label for="address" class="form-label">Address</label><span style="color: red">*</span>
-
-
-
-                            <input id="address" class="form-control" placeholder="Enter address" formControlName="address" required />
-                            <div *ngIf="organisationForm.get('address')?.invalid && organisationForm.get('address')?.touched" class="text-danger">
-                                Please enter your address.
-                            </div>
-
-
-
-                        </div>
-
-
-
-
-
-                        <!-- Contact Information -->
-
-
-
-                        <div class="row">
-
-
-
-                            <div class="col-md-6 mb-3">
-
-
-
-                                <label for="stdTelephone" class="form-label">STD Telephone</label><span
-                                    style="color: red">*</span>
-
-
-
-                                <input type="text" id="stdTelephone" class="form-control"
-                                    placeholder="Enter STD telephone" formControlName ="stdTelephone" required />
-                                <div *ngIf="organisationForm.get('stdTelephone')?.invalid && organisationForm.get('stdTelephone')?.touched" class="text-danger">
-                                    Please enter valid stdTelephone.
-                                </div>
-
-
-
-                            </div>
-
-
-
-                            <div class="col-md-6 mb-3">
-
-
-
-                                <label for="mobileNumber" class="form-label">Mobile Number</label><span
-                                    style="color: red">*</span>
-
-
-
-                                <input type="text" id="mobileNumber" class="form-control"
-                                    placeholder="Enter mobile number" formControlName="mobileNumber" required />
-                                <div *ngIf="organisationForm.get('mobileNumber')?.invalid && organisationForm.get('mobileNumber')?.touched" class="text-danger">
-                                    Please enter valid mobileNumber.
-                                </div>
-
-
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-
-
-                        <!-- Email -->
-
-
-
-                        <div class="mb-3">
-
-                            <label for="organisationEmail" class="form-label">Organisation Email</label><span
-                                style="color: red">*</span>
-
-                            <input type="email" id="organisationEmail" class="form-control"
-                                placeholder="Enter email address" formControlName= "organisationEmail" required />
-                            <div *ngIf="organisationForm.get('organisationEmail')?.invalid && organisationForm.get('organisationEmail')?.touched" class="text-danger">
-                                Please enter valid organisation Email.
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- Document Upload Section -->
-
-                        <div>
-
-                            <label for="documentsToUpload" class="form-label">Documents</label>
-                            <span style="color: red">*</span>
-
-                            <app-document-upload id="documentsToUpload" 
-                                [uploadedDocs]="uploadedDocs"
-                                [submissionAttempted]="submissionAttempted"
-                                (onValidationChange)="handleValidationChange($event)"
-                                (setUploadedDocs)="setUploadedDocuments($event)"></app-document-upload>
-
-                        </div>
-
-                        <div class="d-flex justify-content-end mt-3">
-
-                            <button (click)="handleSubmit()" class="btn btn-primary">Save & Next</button>
-
-                        </div>
-
-                    </form>
-
-
-
-
+  <!-- Main Content -->
+  <!-- <div class="row mt-4"> -->
+
+  <!-- Form Section -->
+
+  <div class="card mt-3" style="border: none">
+    <div class="card-body">
+      <h3 class="card-title">Organisation Details</h3>
+
+      <p>Please fill in the details of your organisation.</p>
+
+      <!-- Form Starts -->
+
+      <form [formGroup]="organisationForm">
+        <!-- Institution Name -->
+
+        <div class="mb-3">
+          <label for="institutionName" class="form-label"
+            >Institution Name</label
+          ><span style="color: red">*</span>
+
+          <input
+            type="text"
+            id="institutionName"
+            class="form-control"
+            formControlName="institutionName"
+            placeholder="Enter institution name"
+            (keypress)="preventSpecialChars($event)"
+            required
+          />
+          <div
+            *ngIf="
+              organisationForm.get('institutionName')?.invalid &&
+              organisationForm.get('institutionName')?.touched
+            "
+            class="text-danger"
+          >
+            Please enter your Institution Name.
+          </div>
         </div>
+
+        <!-- Pincode and Location -->
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="pincode" class="form-label">Pincode</label
+            ><span style="color: red">*</span>
+
+            <input
+              type="text"
+              id="pincode"
+              class="form-control"
+              placeholder="Enter pincode"
+              formControlName="pincode"
+              (input)="onPincodeChange()"
+              (input)="sanitizeInput($event, 'pincode')"
+              required
+              maxlength="6"
+            />
+            <div
+              *ngIf="
+                (organisationForm.get('pincode')?.invalid ||
+                  organisationForm.get('city')?.invalid) &&
+                organisationForm.get('pincode')?.touched
+              "
+              class="text-danger"
+            >
+              Please enter your pincode.
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="city" class="form-label">City</label
+            ><span class="text-danger">*</span>
+
+            <select
+              id="city"
+              class="form-control"
+              formControlName="city"
+              required
+            >
+              <option *ngFor="let city of cityOptions" [value]="city.name">
+                {{ city.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="state" class="form-label">State</label
+            ><span class="text-danger">*</span>
+
+            <input
+              type="text"
+              id="state"
+              class="form-control"
+              placeholder="State"
+              formControlName="state"
+              [value]="organisationForm.get('state')?.value"
+              readonly
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Address Section -->
+
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label
+          ><span class="text-danger">*</span>
+
+          <input
+          type="text"
+            id="address"
+            class="form-control"
+            placeholder="Enter address"
+            formControlName="address"
+            required
+          />
+          <div
+            *ngIf="
+              organisationForm.get('address')?.invalid &&
+              organisationForm.get('address')?.touched
+            "
+            class="text-danger"
+          >
+            Please enter your address.
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="stdTelephone" class="form-label">STD Telephone</label
+            ><span style="color: red">*</span>
+
+            <input
+              type="text"
+              id="stdTelephone"
+              class="form-control"
+              placeholder="Enter STD telephone"
+              formControlName="stdTelephone"
+              (input)="sanitizeInput($event, 'stdTelephone')"
+              maxlength="10"
+              required
+            />
+            <div
+              *ngIf="
+                organisationForm.get('stdTelephone')?.invalid &&
+                organisationForm.get('stdTelephone')?.touched
+              "
+              class="text-danger"
+            >
+              Please enter valid stdTelephone.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="mobileNumber" class="form-label">Mobile Number</label
+            ><span style="color: red">*</span>
+
+            <input
+              type="text"
+              id="mobileNumber"
+              class="form-control"
+              placeholder="Enter mobile number"
+              formControlName="mobileNumber"
+              (input)="sanitizeInput($event, 'mobileNumber')"
+              maxlength="10"
+              required
+            />
+            <div
+              *ngIf="
+                organisationForm.get('mobileNumber')?.invalid &&
+                organisationForm.get('mobileNumber')?.touched
+              "
+              class="text-danger"
+            >
+              Please enter valid mobileNumber.
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+
+        <div class="mb-3">
+          <label for="organisationEmail" class="form-label"
+            >Organisation Email</label
+          > <span class="text-danger">*</span>
+
+          <input
+            type="email"
+            id="organisationEmail"
+            class="form-control"
+            placeholder="Enter email address"
+            formControlName="organisationEmail"
+            required
+          />
+          <div
+            *ngIf="
+              organisationForm.get('organisationEmail')?.invalid &&
+              organisationForm.get('organisationEmail')?.touched
+            "
+            class="text-danger"
+          >
+            Please enter valid  Email.
+          </div>
+        </div>
+
+        <!-- Document Upload Section -->
+
+        <div>
+          <label for="documentsToUpload" class="form-label">Documents</label>
+          <span style="color: red">*</span>
+
+          <app-document-upload
+            id="documentsToUpload"
+            [mode]="'org'"
+            [organisationUploadedDocs]="organisationUploadedDocs"
+            [submissionAttempted]="submissionAttempted"
+            (onOrganisationValidationChange)="
+              handleOrganisationValidationChange($event)
+            "
+            (setOrganisationUploadedDocs)="
+              setOrganisationUploadedDocuments($event)
+            "
+          ></app-document-upload>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+          <button (click)="handleSubmit()" class="btn btn-primary btn-lg">
+            Save & Next
+          </button>
+        </div>
+      </form>
     </div>
-    <!-- </div> -->
+  </div>
+  <!-- </div> -->
 </div>
+
