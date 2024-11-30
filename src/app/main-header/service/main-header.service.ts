@@ -9,6 +9,7 @@ import { User } from "src/app/model/user.model";
 
 export class MainHeaderService{
     private userDetailsUrl = 'http://localhost:9002/dr/user/get';
+    private uploadProfilePictureUrl = 'http://localhost:9002/dr/user/upload-profile-picture';
 
     constructor(private httpClient: HttpClient){}
 
@@ -17,6 +18,13 @@ export class MainHeaderService{
         return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
     }
 
-  
+    // Method to upload the profile picture
+    uploadProfilePicture(userId: string, formData: FormData): Observable<Blob> {
+        return this.httpClient.post(`${this.uploadProfilePictureUrl}/${userId}`, formData, {
+            responseType: 'blob' 
+        });
+    }
+
+    
 
 }

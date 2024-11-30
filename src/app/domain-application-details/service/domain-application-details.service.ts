@@ -19,8 +19,8 @@ export class DomainApplicationDetailsService{
         return this.httpClient.get<any[]>(`${this.domainsUrl}/getDetails/${domainId}`,{observe: 'response'});
     }
 
-    getOrganizationByDomainId(domainId: number){
-        return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetails/${domainId}`, {observe:'response'})
+    getOrganizationByDomainId(organisationId: number){
+        return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetailsById/${organisationId}`, {observe:'response'})
 
 }
 updateDomain(domainId: number, domain: Domain) {

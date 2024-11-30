@@ -26,7 +26,7 @@ export class NameServerFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private nameServerService: NameServerService,
-    private router: Router
+    private router: Router,
   ) {
     this.organisationId =
       this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;

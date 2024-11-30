@@ -16,7 +16,9 @@ import { Domain } from '../model/domain.model';
 export class DomainApplicationDetailsComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
-    private domainService: DomainService, private oreganizationService:DomainApplicationDetailsService,private toastrService: ToastrService,
+    private domainService: DomainService,
+     private oreganizationService:DomainApplicationDetailsService,
+     private toastrService: ToastrService,
     private router: Router) {
     
   }
@@ -50,18 +52,18 @@ export class DomainApplicationDetailsComponent implements OnInit{
       }
     });
   }
+
   organizationsList:any;
-  getOrganizationDetails(domainId:number) {
+  getOrganizationDetails(organisationId:number) {
    
-    console.log("Datal",domainId)
-    this.oreganizationService.getOrganizationByDomainId(domainId).subscribe({
+    console.log("Datal",organisationId)
+    this.oreganizationService.getOrganizationByDomainId(organisationId).subscribe({
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.organizationsList = res.body;
          console.log("organization data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);
-         
         }
       },
       error: (error) => {
@@ -88,7 +90,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
                 this.toastrService.success("Domain data updated successfully.");
             } else if (response.status === HttpStatusCode.NotFound) {
                 console.log('Domain not found.');
-                this.toastrService.error("Domain not found. Please check the ID.");
+                this.toastrService.error("Domain not found.");
             } else {
                 console.log('Unexpected response status:', response.status);
                 this.toastrService.error("Unexpected error during update.");

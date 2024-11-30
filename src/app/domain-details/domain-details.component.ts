@@ -33,6 +33,7 @@ export class DomainDetailsComponent implements OnInit {
       response => {
         if(response.status === HttpStatusCode.Ok){
           this.domainDetail = response.body;
+          console.log(this.domainDetail)
         }
       }, error => {
         if(error.status === HttpStatusCode.Unauthorized){

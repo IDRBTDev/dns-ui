@@ -65,9 +65,15 @@ export class UserComponent {
 
   ngOnInit(): void {
     this.getUsersList(parseInt(this.organisationId));
+     
   }
 
   async getUsersList(organisationId: number) {
+    console.log('Organisation ID:', organisationId);
+    if (isNaN(organisationId) || organisationId <= 0) {
+      console.error('Invalid organisationId:', organisationId);
+      return;
+    }
     await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {

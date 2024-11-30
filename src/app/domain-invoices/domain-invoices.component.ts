@@ -32,7 +32,7 @@ export class DomainInvoicesComponent implements OnInit {
   domainsDataSource: MatTableDataSource<DomainInvoices>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  searchText:String=''
   constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService) {
     this.domainsDataSource = new MatTableDataSource<DomainInvoices>(this.domainsinvoicesList);
   }
@@ -71,5 +71,11 @@ export class DomainInvoicesComponent implements OnInit {
       this.router.navigate(['/admin-invoice-details'],{queryParams:{billingId:billingId}});
     }
 
-
+    applyFilter() {
+      this.domainsDataSource.filter = this.searchText.trim().toLowerCase(); 
+  
+      if (this.domainsDataSource.paginator) {
+        this.domainsDataSource.paginator.firstPage();
+      }
+  }
 }

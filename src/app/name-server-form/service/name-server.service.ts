@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NameServerService {
-  private;
-  nameServerUrl = 'http://localhost:9009/dr/nameServer';
+  private nameServerUrl = 'http://localhost:9009/dr/nameServer';
 
   constructor(private http: HttpClient) {}
 

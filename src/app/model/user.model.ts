@@ -11,6 +11,7 @@ export class User{
     previousPasswordTwo : string;
     role : string;
     otp : number;
+    profilePictureUrl: string;
     profilePicture : Blob;
     isActive : boolean;
     loginAttemptCount : number;
@@ -24,6 +25,8 @@ export class User{
     createdByEmail : string;
     updatedByEmail : string;
     lastSuccessfulLoginDatetime : Date;
-    
-    organizationDto : Organization;
+
+
+    organisationId : number; 
+    organisationDetailsDto: Organization;
 }

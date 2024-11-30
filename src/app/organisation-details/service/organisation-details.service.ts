@@ -17,7 +17,12 @@ export class OrganisationDetailsService {
     // Method to submit form data to the backend API
     saveOrganisationDetails(formData: any): Observable<any> {
         console.log('Sending form data:', formData);
-        const apiUrl = 'http://localhost:9010/dr/organisationDetails';
+        const apiUrl = 'http://localhost:9002/dr/organisationDetails';
         return this.http.post(apiUrl, formData);
+    }
+
+    updateOrganisationDetails(organisationdetails: any){
+        const apiUrl = 'http://localhost:9002/dr/organisationDetails/update';
+        return this.http.put(apiUrl,organisationdetails,{observe: 'response'});
     }
 }
