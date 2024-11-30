@@ -34,18 +34,38 @@ export class DomainComponent implements OnInit {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
-  // ngOnInit(): void {
+  ngOnInit(): void {
 
   
-  //   console.log(this.role)
-  //   console.log(this.userEmailId)
-  //   if(this.role !== 'IDRBTADMIN'){
-  //     console.log('exe')
-  //     this.getAllDomainsList(this.userEmailId);
-  //   }else{
-  //     console.log('exe 1')
-  //     this.getAllDomainsList("");
-  //   }
+    console.log(this.role)
+    console.log(this.userEmailId)
+    if(this.role !== 'IDRBTADMIN'){
+      console.log('exe')
+      this.getAllDomainsList(this.userEmailId);
+    }else{
+      console.log('exe 1')
+      this.getAllDomainsList("");
+    }
+    // const savedFilters = localStorage.getItem('filters');
+  
+    // if (savedFilters) {
+    //   const filters = JSON.parse(savedFilters);
+  
+    //   this.filters.domainName = filters.domainName || '', 
+    //   this.filters.organisationName = filters.organisationName || '';
+    //   this.filters.nsRecordStatus = filters.nsRecordStatus || '';
+    //   this.filters.status = filters.status || '';
+      
+  
+    //   // Apply the filters to get the filtered data
+    //   this.getFilteredDomains();
+    // } else {
+    //   // No filters found, so just fetch all data
+    //   this.getFilteredDomains();
+    // }
+  }
+  
+  // ngOnInit(): void {
   //   const savedFilters = localStorage.getItem('filters');
   
   //   if (savedFilters) {
@@ -65,31 +85,12 @@ export class DomainComponent implements OnInit {
   //   }
   // }
   
-  ngOnInit(): void {
-    const savedFilters = localStorage.getItem('filters');
-  
-    if (savedFilters) {
-      const filters = JSON.parse(savedFilters);
-  
-      this.filters.domainName = filters.domainName || '', 
-      this.filters.organisationName = filters.organisationName || '';
-      this.filters.nsRecordStatus = filters.nsRecordStatus || '';
-      this.filters.status = filters.status || '';
-      
-  
-      // Apply the filters to get the filtered data
-      this.getFilteredDomains();
-    } else {
-      // No filters found, so just fetch all data
-      this.getFilteredDomains();
-    }
-  }
-  
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;
+          console.log(this.domainsList)
           this.domainsDataSource.data = this.domainsList;
           this.domainsDataSource.paginator = this.paginator;
           setTimeout(() => {

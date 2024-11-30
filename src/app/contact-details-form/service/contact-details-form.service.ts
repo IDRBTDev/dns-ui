@@ -11,15 +11,15 @@ export class ContactDetailsFormService {
   // private techApiUrl = 'http://localhost:9010/dr/techContact';
   // private billApiUrl = 'http://localhost:9010/dr//billContact';
 
-  private adminApiUrl = 'http://localhost:9005/dr/administrativeContact';
+  private adminApiUrl = 'http://localhost:9002/dr/administrativeContact';
 
 
 
-  private techApiUrl = 'http://localhost:9005/dr/technicalContact';
+  private techApiUrl = 'http://localhost:9002/dr/technicalContact';
 
 
 
-  private billApiUrl = 'http://localhost:9005/dr/billingContact';
+  private billApiUrl = 'http://localhost:9002/dr/billingContact';
 
 
   constructor(private http: HttpClient) {}
@@ -38,5 +38,21 @@ export class ContactDetailsFormService {
   // Save Billing Contact Details
   saveBillDetails(billData: any): Observable<any> {
     return this.http.post(this.billApiUrl, billData);
+  }
+
+  // Save Admin Contact Details
+  updateAdminDetails(adminData: any): Observable<any> {
+    console.log('Sending Admin Details:', adminData);
+    return this.http.put(this.adminApiUrl+"/update", adminData, {observe:'response'});
+  }
+
+  // Save Technical Contact Details
+  updateTechDetails(techData: any): Observable<any> {
+    return this.http.put(this.techApiUrl+"/update", techData,{observe:'response'});
+  }
+
+  // Save Billing Contact Details
+  updateBillDetails(billData: any): Observable<any> {
+    return this.http.put(this.billApiUrl+"/update", billData,{observe:'response'});
   }
 }

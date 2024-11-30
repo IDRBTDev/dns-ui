@@ -16,7 +16,9 @@ import { Domain } from '../model/domain.model';
 export class DomainApplicationDetailsComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
-    private domainService: DomainService, private oreganizationService:DomainApplicationDetailsService,private toastrService: ToastrService,
+    private domainService: DomainService,
+     private oreganizationService:DomainApplicationDetailsService,
+     private toastrService: ToastrService,
     private router: Router) {
     
   }
@@ -88,7 +90,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
                 this.toastrService.success("Domain data updated successfully.");
             } else if (response.status === HttpStatusCode.NotFound) {
                 console.log('Domain not found.');
-                this.toastrService.error("Domain not found. Please check the ID.");
+                this.toastrService.error("Domain not found.");
             } else {
                 console.log('Unexpected response status:', response.status);
                 this.toastrService.error("Unexpected error during update.");

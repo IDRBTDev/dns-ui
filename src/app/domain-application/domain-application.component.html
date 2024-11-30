@@ -47,7 +47,7 @@
 
           <section class="example-container" style="margin-top: 10px;">
             <div *ngIf="noDataFound" class="no-results-message">
-              No data found matching the filters.
+              No data found.
             </div>
             
             <table id="table1" mat-table *ngIf="!noDataFound"  [dataSource]="domainsDataSource" matSort class="mat-elevation-z8">

@@ -41,33 +41,33 @@ export class DomainApplicationComponent {
   }
 
   ngOnInit(): void {
-    // console.log(this.role)
-    // console.log(this.userEmailId)
-    // if (this.role !== 'IDRBTADMIN') {
-    //   console.log('exe')
-    //   this.getAllDomainsList(this.userEmailId);
-    // } else {
-    //   console.log('exe 1')
-    //   this.getAllDomainsList("");
-    // }
-    // this.getFilteredDomains();
-    const savedFilters = localStorage.getItem('filters');
-
-    if (savedFilters) {
-      const filters = JSON.parse(savedFilters);
-
-      // Set the filter values in your component from the saved data
-      this.filters.organisationName = filters.organisationName || '';
-      this.filters.nsRecordStatus = filters.nsRecordStatus || '';
-      this.filters.status = filters.status || '';
-
-
-      // Apply the filters to get the filtered data
-      this.getFilteredDomains();
+    console.log(this.role)
+    console.log(this.userEmailId)
+    if (this.role !== 'IDRBTADMIN') {
+      console.log('exe')
+      this.getAllDomainsList(this.userEmailId);
     } else {
-      // No filters found, so just fetch all data
-      this.getFilteredDomains();
+      console.log('exe 1')
+      this.getAllDomainsList("");
     }
+    //this.getFilteredDomains();
+    // const savedFilters = localStorage.getItem('filters');
+
+    // if (savedFilters) {
+    //   const filters = JSON.parse(savedFilters);
+
+    //   // Set the filter values in your component from the saved data
+    //   this.filters.organisationName = filters.organisationName || '';
+    //   this.filters.nsRecordStatus = filters.nsRecordStatus || '';
+    //   this.filters.status = filters.status || '';
+
+
+    //   // Apply the filters to get the filtered data
+    //   this.getFilteredDomains();
+    // } else {
+    //   // No filters found, so just fetch all data
+    //   this.getFilteredDomains();
+    // }
   }
 
   async getAllDomainsList(userId: string) {

@@ -34,4 +34,8 @@ export class DomainService{
         return this.httpClient.get<any>(`${this.domainsUrl}/getDetails/${domainId}`, {observe:'response'})
     }
 
+    updateDomainDetails(domain: any){
+        return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domain.domainId}`,domain,{observe: 'response'});
+    }
+
 }
