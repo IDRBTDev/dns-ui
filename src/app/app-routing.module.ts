@@ -22,6 +22,7 @@ import { AddDomainComponent } from './add-domain/add-domain.component';
 import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
+import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -44,6 +45,7 @@ const routes: Routes = [
 
   {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
   {path: 'users', component: UserComponent},
+  {path: 'roles', component:RolesComponent},
   {path:'',redirectTo:'/landing', pathMatch: 'full'},
   {path:'',component: LandingComponent},
   {path:'mainHeader',component:MainHeaderComponent},

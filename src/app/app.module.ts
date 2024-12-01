@@ -51,6 +51,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
+import { RolesComponent } from './roles/roles.component';
 
 
 
@@ -90,6 +91,7 @@ import { DomainDetailsEditComponent } from './domain-details-edit/domain-details
     NotificationComponent,
     NameServerComponent,
     DomainDetailsEditComponent,
+    RolesComponent,
   ],
   imports: [
     BrowserModule,
