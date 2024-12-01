@@ -1,77 +1,369 @@
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-    <!-- Document Type Dropdown -->
-    <div style="flex: 1;">
-      <!-- <label for="docType" class="form-label">Select Document Type *</label> -->
+<!-- Organisation Section -->
+<div *ngIf="mode === 'org'" style="flex: 1;">
+  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+      <!-- Document Type Dropdown -->
+      <div style="flex: 1;">
+          <select id="organisationDocType" class="form-select" [(ngModel)]="organisationSelectedDocType"
+              (change)="handleOrganisationDocTypeChange($event)" required>
+              <option value="" disabled selected>Select Document Type</option>
+              <option *ngFor="let doc of organisationRequiredDocs" [value]="doc"
+                  [disabled]="isOrganisationDocUploaded(doc)">
+                  {{ doc }}
+              </option>
+          </select>
+          <div *ngIf="organisationErrors.type === 'docType'"
+              style="color: red; font-size: 0.875rem; margin-top: 4px;">
+              {{ organisationErrors.message }}
+          </div>
+      </div>
+
+      <!-- Input Field -->
+      <div *ngIf="organisationSelectedDocType === 'License No' ||
+                  organisationSelectedDocType === 'Organisation GSTIN' ||
+                  organisationSelectedDocType === 'PAN'" style="flex: 1;">
+          <input type="text" class="form-control" [(ngModel)]="organisationInputValue"
+              (keyup)="clearErrorsIfLicenseNo()"
+              (ngModelChange)="handleOrganisationInputChange($event)"
+              placeholder="Enter {{ organisationSelectedDocType }}"
+              [attr.maxLength]="organisationSelectedDocType === 'Organisation GSTIN' ? 15 : organisationSelectedDocType === 'PAN' ? 10 : null" />
+          <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem;">
+              {{ organisationInputFieldErrors.message }}
+          </div>
+      </div>
+
+      <!-- Upload Button -->
+      <button class="btn btn-primary" (click)="handleOrganisationFileUploadClick()"
+          [disabled]="organisationInputFieldErrors.message !== ''">
+          Select File & Upload
+      </button>
+      <input type="file" id="organisationFileInput" hidden (change)="handleOrganisationFileChange($event)"
+          accept=".png,.jpg,.jpeg,.pdf" />
+  </div>
+
+  <!-- Uploaded Organisation Documents -->
+  <div *ngIf="organisationUploadedDocs.length > 0" style="margin-top: 20px;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+          <div *ngFor="let doc of organisationUploadedDocs; let i = index"
+              style="display: flex; align-items: center; gap: 5px;">
+              <i class="bi bi-check-circle text-success"></i>
+              <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
+                  <i class="bi bi-trash"></i>
+              </button>
+          </div>
+      </div>
+  </div>
+  <!-- Submission Errors -->
+  <div class="d-flex justify-content-center mt-1">
+      <p *ngIf="submissionAttempted && missingOrganisationDocs.length > 0" style="color: red; margin-top: 20px;">
+          Please upload the following documents: {{ missingOrganisationDocs.join(', ') }}
+      </p>
+  </div>
+  <div>
+      <p *ngIf="submissionAttempted && missingOrganisationDocs.length === 0" class="text-success" style="margin-top: 20px;">
+          Required documents selected
+      </p>
+  </div>
+  <div  class="d-flex justify-content-center mt-1">
+      <p *ngIf="organisationErrors.type === 'fileUpload'" style="color: red; font-size: 0.875rem; margin-top: 20px;">
+      {{ organisationErrors.message }}</p>
+  </div>
+</div>
+
+<!-- Administrative Section -->
+<div *ngIf="mode === 'admin'" style="flex: 1;">
+
+  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+      <div style="flex: 1;">
+          <select id="adminDocType" class="form-select" [(ngModel)]="adminSelectedDocType"
+              (change)="handleAdminDocTypeChange($event)" required>
+              <option value="" disabled selected>Select Document Type</option>
+              <option *ngFor="let doc of adminRequiredDocs" [value]="doc" [disabled]="isAdminDocUploaded(doc)">
+                  {{ doc }}
+              </option>
+          </select>
+          <div *ngIf="adminErrors.type === 'docType'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
+              {{ adminErrors.message }}
+          </div>
+      </div>
+      <div *ngIf="adminSelectedDocType === 'Aadhaar' ||
+                  adminSelectedDocType === 'PAN'" style="flex: 1;">
+          <input type="text" class="form-control" [(ngModel)]="adminInputValue"
+              (ngModelChange)="handleAdminInputChange($event)" placeholder="Enter {{ adminSelectedDocType }}"
+              [attr.maxLength]="adminSelectedDocType === 'Aadhaar' ? 12 : adminSelectedDocType === 'PAN' ? 10 : null" />
+          <div *ngIf="adminInputFieldErrors.type === 'admininputValue'" style="color: red; font-size: 0.875rem;">
+              {{ adminInputFieldErrors.message }}
+          </div>
+      </div>
+      <button class="btn btn-primary" (click)="handleAdminFileUploadClick()"
+          [disabled]="adminInputFieldErrors.message !== ''">
+          Select File & Upload
+      </button>
+      <input type="file" id="adminFileInput" hidden (change)="handleAdminFileChange($event)"
+          accept=".png,.jpg,.jpeg,.pdf" />
+  </div>
+  <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+          <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+              <i class="bi bi-check-circle text-success"></i>
+              <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
+                  <i class="bi bi-trash"></i>
+              </button>
+          </div>
+      </div>
+  </div>
+      <!-- Submission Errors -->
+      <div class="d-flex justify-content-center mt-1">
+        <p *ngIf="submissionAttempted && missingAdminDocs.length > 0" style="color: red; margin-top: 20px;">
+            Please upload the following documents: {{ missingAdminDocs.join(', ') }}
+        </p>
+    </div>
+    <div class="d-flex justify-content-center mt-1">
+        <p *ngIf="submissionAttempted && missingAdminDocs.length === 0" class="text-success" style="margin-top: 20px;">
+            Required documents selected
+        </p>
+    </div>
+    <div  class="d-flex justify-content-center mt-1">
+        <p *ngIf="adminErrors.type === 'fileUpload'" style="color: red; font-size: 0.875rem; margin-top: 20px;">
+        {{ adminErrors.message }}</p>
+    </div>
+</div>
+<!-- Technical Section -->
+<div *ngIf="mode === 'tech'" style="flex: 1">
+  <div
+    style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px"
+  >
+    <div style="flex: 1">
       <select
-        id="docType"
-        class="form-control" style="width: 280px;"
-        [(ngModel)]="selectedDocType"
-        (change)="handleDocTypeChange($event)"
-        required >
+        id="techDocType"
+        class="form-select"
+        [(ngModel)]="techSelectedDocType"
+        (change)="handleTechDocTypeChange($event)"
+        required
+      >
         <option value="" disabled selected>Select Document Type</option>
-        <option *ngFor="let doc of docTypes" [value]="doc" [disabled]="isDocUploaded(doc)">
+        <option
+          *ngFor="let doc of techRequiredDocs"
+          [value]="doc"
+          [disabled]="isTechDocUploaded(doc)"
+        >
           {{ doc }}
         </option>
       </select>
-      <div *ngIf="errors.type === 'docType'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
-        {{ errors.message }}
+      <div
+        *ngIf="techErrors.type === 'docType'"
+        style="color: red; font-size: 0.875rem; margin-top: 4px"
+      >
+        {{ techErrors.message }}
       </div>
     </div>
-
-    <!-- Input Field -->
     <div
-      *ngIf="
-        selectedDocType === 'License No' ||
-        selectedDocType === 'Organisation GSTIN' ||
-        selectedDocType === 'PAN'"
-      style="flex: 1;">
-      <!-- <label for="docInput" class="form-label">Enter {{ selectedDocType }}</label> -->
+      *ngIf="techSelectedDocType === 'Aadhaar' || techSelectedDocType === 'PAN'"
+      style="flex: 1"
+    >
       <input
-        id="docInput"
         type="text"
         class="form-control"
-        [(ngModel)]="inputValue"
-        (ngModelChange)="handleInputChange($event)"
-        placeholder="Enter {{ selectedDocType }}"
+        [(ngModel)]="techInputValue"
+        (ngModelChange)="handleTechInputChange($event)"
+        placeholder="Enter {{ techSelectedDocType }}"
+        [attr.maxLength]="
+          techSelectedDocType === 'Aadhaar'
+            ? 12
+            : techSelectedDocType === 'PAN'
+            ? 10
+            : null
+        "
       />
-      <div *ngIf="errors.type === 'inputValue'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
-        {{ errors.message }}
+      <div
+        *ngIf="techInputFieldErrors.type === 'techInputValue'"
+        style="color: red; font-size: 0.875rem"
+      >
+        {{ techInputFieldErrors.message }}
       </div>
     </div>
-
-    <!-- Upload Button -->
-    <button class="btn btn-primary" (click)="handleFileUploadClick()">Select File & Upload</button>
+    <button
+      class="btn btn-primary"
+      (click)="handleTechFileUploadClick()"
+      [disabled]="techInputFieldErrors.message !== ''"
+    >
+      Select File & Upload
+    </button>
     <input
       type="file"
-      id="fileInput"
+      id="techFileInput"
       hidden
-      (change)="handleFileChange($event)"
-      multiple
-      accept=".png,.jpg,.jpeg,.pdf" />
-</div>
-
-  <!-- Uploaded Documents Section -->
-<div *ngIf="uploadedDocs.length > 0" style="margin-top: 20px;">
-    <h6 style="font-size: 1rem;">Uploaded Documents</h6>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-        <div *ngFor="let doc of uploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
-        <i class="bi bi-check-circle text-success"></i> <!-- Bootstrap icon -->
+      (change)="handleTechFileChange($event)"
+      accept=".png,.jpg,.jpeg,.pdf"
+    />
+  </div>
+  <div *ngIf="techUploadedDocs.length > 0" style="margin-top: 20px">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem">
+      <div
+        *ngFor="let doc of techUploadedDocs; let i = index"
+        style="display: flex; align-items: center; gap: 5px"
+      >
+        <i class="bi bi-check-circle text-success"></i>
         <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-        <button class="btn btn-sm btn-danger" (click)="handleRemoveDoc(i)">
-            <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+        <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
+          <i class="bi bi-trash"></i>
         </button>
-        </div>
+      </div>
     </div>
+  </div>
+  <!-- Submission Errors -->
+  <div class="d-flex justify-content-center mt-1">
+    <p
+      *ngIf="submissionAttempted && missingTechDocs.length > 0"
+      style="color: red; margin-top: 20px"
+    >
+      Please upload the following documents: {{ missingTechDocs.join(", ") }}
+    </p>
+  </div>
+  <div>
+    <p
+      *ngIf="submissionAttempted && missingTechDocs.length === 0"
+      class="text-success"
+      style="margin-top: 20px"
+    >
+      Required documents selected
+    </p>
+  </div>
+  <div class="d-flex justify-content-center mt-1">
+    <p
+      *ngIf="techErrors.type === 'fileUpload'"
+      style="color: red; font-size: 0.875rem; margin-top: 20px"
+    >
+      {{ techErrors.message }}
+    </p>
+  </div>
 </div>
 
-<!-- Submit Button -->
-<div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-success submitDocumentsButton" (click)="handleDocumentSubmit()">Submit All Documents</button>
+<!-- Billing Section -->
+<div *ngIf="mode === 'bill'" style="flex: 1">
+  <div
+    style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px"
+  >
+    <div style="flex: 1">
+      <select
+        id="billingDocType"
+        class="form-select"
+        [(ngModel)]="billingSelectedDocType"
+        (change)="handleBillingDocTypeChange($event)"
+        required
+      >
+        <option value="" disabled selected>Select Document Type</option>
+        <option
+          *ngFor="let doc of billingRequiredDocs"
+          [value]="doc"
+          [disabled]="isBillingDocUploaded(doc)"
+        >
+          {{ doc }}
+        </option>
+      </select>
+      <div
+        *ngIf="billingErrors.type === 'docType'"
+        style="color: red; font-size: 0.875rem; margin-top: 4px"
+      >
+        {{ billingErrors.message }}
+      </div>
+    </div>
+    <div
+      *ngIf="
+        billingSelectedDocType === 'Aadhaar' || billingSelectedDocType === 'PAN'
+      "
+      style="flex: 1"
+    >
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="billingInputValue"
+        (ngModelChange)="handleBillingInputChange($event)"
+        placeholder="Enter {{ billingSelectedDocType }}"
+        [attr.maxLength]="
+          billingSelectedDocType === 'Aadhaar'
+            ? 12
+            : billingSelectedDocType === 'PAN'
+            ? 10
+            : null
+        "
+      />
+      <div
+        *ngIf="billingInputFieldErrors.type === 'billingInputValue'"
+        style="color: red; font-size: 0.875rem"
+      >
+        {{ billingInputFieldErrors.message }}
+      </div>
+    </div>
+    <button
+      class="btn btn-primary"
+      (click)="handleBillingFileUploadClick()"
+      [disabled]="billingInputFieldErrors.message !== ''"
+    >
+      Select File & Upload
+    </button>
+    <input
+      type="file"
+      id="billingFileInput"
+      hidden
+      (change)="handleBillingFileChange($event)"
+      accept=".png,.jpg,.jpeg,.pdf"
+    />
+  </div>
+  <div *ngIf="billingUploadedDocs.length > 0" style="margin-top: 20px">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem">
+      <div
+        *ngFor="let doc of billingUploadedDocs; let i = index"
+        style="display: flex; align-items: center; gap: 5px"
+      >
+        <i class="bi bi-check-circle text-success"></i>
+        <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <button
+          class="btn btn-sm btn-danger"
+          (click)="handleRemoveBillingDoc(i)"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Submission Errors -->
+  <div class="d-flex justify-content-center mt-1">
+    <p
+      *ngIf="submissionAttempted && missingBillingDocs.length > 0"
+      style="color: red; margin-top: 20px"
+    >
+      Please upload the following documents: {{ missingBillingDocs.join(", ") }}
+    </p>
+  </div>
+  <div>
+    <p
+      *ngIf="submissionAttempted && missingBillingDocs.length === 0"
+      class="text-success"
+      style="margin-top: 20px"
+    >
+      Required documents selected
+    </p>
+  </div>
+  <div class="d-flex justify-content-center mt-1">
+    <p
+      *ngIf="billingErrors.type === 'fileUpload'"
+      style="color: red; font-size: 0.875rem; margin-top: 20px"
+    >
+      {{ billingErrors.message }}
+    </p>
+  </div>
 </div>
 
-<div class="d-flex justify-content-center mt-1">
-        <p *ngIf="submissionAttempted && missingDocs.length > 0" style="color: red; margin-top: 20px;">
-            Please upload the following documents: {{ missingDocs.join(', ') }}</p>
-            <p *ngIf="submissionAttempted && missingDocs.length === 0" class="text-success" style="margin-top: 20px;">
-                Documents uploaded successfully</p>
-</div>
+<!-- Submission Errors -->
+<!-- <div class="d-flex justify-content-center mt-1">
+  <p *ngIf="submissionAttempted && missingDocs.length > 0" style="color: red; margin-top: 20px;">
+      Please upload the following documents: {{ missingDocs.join(', ') }}
+  </p>
+  <p *ngIf="submissionAttempted && missingDocs.length === 0" class="text-success" style="margin-top: 20px;">
+      Required documents selected
+  </p>
+</div> -->
+

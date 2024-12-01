@@ -69,7 +69,7 @@ export class LoginComponent {
             return;
           }
           //if(role === 'IDRBTADMIN'){
-            this.router.navigateByUrl('/domains');
+            this.router.navigateByUrl('/user-domain-details');
             this.toastr.success('Login Success');
           // }else{
           //   this.router.navigateByUrl('/home');

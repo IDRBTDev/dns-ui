@@ -1,50 +1,24 @@
-import {
-  Injectable
-} from
-  '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  HttpClient, HttpResponse
-}
-  from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import {
-  Observable
-} from
-  'rxjs';
-
-
+import { Observable } from 'rxjs';
 
 @Injectable({
-
-  providedIn:
-    'root'
-
+  providedIn: 'root',
 })
+export class NameServerService {
+  private nameServerUrl = 'http://localhost:9009/dr/nameServer';
 
-export class
-  NameServerService {
+  constructor(private http: HttpClient) {}
 
-
-
-  private
-  nameServerUrl =
-    'http://localhost:9002/dr/nameServer';
-
-
-
-  constructor(private http:
-    HttpClient) { }
-
-
-
-  getAllNameServers():
-    Observable<HttpResponse<any[]>> {
-
-    return this.http.get<any[]>(`${this.nameServerUrl}/all`, { observe: 'response' });
-
+  getAllNameServers(): Observable<HttpResponse<any[]>> {
+    return this.http.get<any[]>(`${this.nameServerUrl}/all`, {
+      observe: 'response',
+    });
   }
 
+<<<<<<< HEAD
   getNameServersByDomainId(domainId: number){
     return this.http.get<any[]>(`${this.nameServerUrl}/getDetails/${domainId}`
       ,{observe:'response'});
@@ -52,32 +26,26 @@ export class
 
 
 
+=======
+>>>>>>> 0d7191cf756d5a64856f9f4823a81c4ba32cfb83
   addNameServer(data: any): Observable<HttpResponse<any>> {
-    console.log(data)
-    return this.http.post<HttpResponse<any>>(`${this.nameServerUrl}`, data, { observe: 'response' });
-
+    console.log(data);
+    return this.http.post<HttpResponse<any>>(`${this.nameServerUrl}`, data, {
+      observe: 'response',
+    });
   }
 
-
-
-  updateNameServer(id:
-    number, data:
-      any):
-    Observable<HttpResponse<any>> {
-
-    return this.http.put<HttpResponse<any>>(`${this.nameServerUrl}/${id}`, data, { observe: 'response' });
-
+  updateNameServer(id: number, data: any): Observable<HttpResponse<any>> {
+    return this.http.put<HttpResponse<any>>(
+      `${this.nameServerUrl}/${id}`,
+      data,
+      { observe: 'response' }
+    );
   }
 
-
-
-  deleteNameServer(id:
-    number):
-    Observable<HttpResponse<any>> {
-
-    return this.http.delete<HttpResponse<any>>(`${this.nameServerUrl}/${id}`,
-      { observe: 'response' });
-
+  deleteNameServer(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete<HttpResponse<any>>(`${this.nameServerUrl}/${id}`, {
+      observe: 'response',
+    });
   }
-
 }
