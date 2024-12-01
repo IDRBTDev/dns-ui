@@ -1,217 +1,134 @@
-import {
-  Component, OnInit, EventEmitter, Output,
-  Input
-}
-  from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
-import {
-  FormBuilder, FormGroup,
-  FormArray, Validators
-}
-  from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 import { NameServerService } from './service/name-server.service';
 import { Router } from '@angular/router';
 
-
-
 @Component({
+  selector: 'app-name-server-form',
 
-  selector:
-    'app-name-server-form',
+  templateUrl: './name-server-form.component.html',
 
-  templateUrl:
-    './name-server-form.component.html',
-
-  styleUrls: ['./name-server-form.component.css']
-
+  styleUrls: ['./name-server-form.component.css'],
 })
-
-export class
-  NameServerFormComponent
-  implements OnInit {
-
+export class NameServerFormComponent implements OnInit {
   @Input() applicationId: string = '';
   @Input() domainId: number = 0;
   @Input() organisationId: number = 0;
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
-  nameServerForm:
-    FormGroup;
+  nameServerForm: FormGroup;
 
-  hasNSDetails:
-    boolean =
-    true;
+  hasNSDetails: boolean = true;
 
-
-
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private nameServerService: NameServerService,
     private router: Router,
   ) {
-
-    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
-    this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
+    this.organisationId =
+      this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
+    this.applicationId =
+      this.router.getCurrentNavigation().extras?.state['applicationId'];
 
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],
 
       nameServers: this.fb.array([]),
-
     });
 
     this.addNameServer();
-
   }
-
-
 
   ngOnInit(): void {
     console.log(this.domainId);
     console.log(this.applicationId);
     this.nameServerForm.get('hasNSDetails')?.valueChanges.subscribe((value) => {
+      this.hasNSDetails = value === 'yes';
 
-      this.hasNSDetails
-        = value
-        === 'yes';
-
-      if (this.hasNSDetails
-        && this.nameServers.length
-        === 0) {
-
+      if (this.hasNSDetails && this.nameServers.length === 0) {
         this.addNameServer();
-
-      } else
-        if (!this.hasNSDetails) {
-          this.clearAllNameServers();
-        }
+      } else if (!this.hasNSDetails) {
+        this.clearAllNameServers();
+      }
     });
   }
 
-
-
-  get nameServers():
-    FormArray {
-
+  get nameServers(): FormArray {
     return this.nameServerForm.get('nameServers') as FormArray;
-
   }
 
   createNameServer(): FormGroup {
-
     return this.fb.group({
-
       organisationId: this.organisationId,
       applicationId: this.applicationId,
       domainId: this.domainId,
       userMailId: localStorage.getItem('email'),
 
-      hostName: ['',
-        Validators.required],
+      hostName: ['', Validators.required],
 
-      ipAddress: ['', [
+      ipAddress: [
+        '',
+        [
+          Validators.required,
 
-        Validators.required,
-
-        Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
-
-      ]],
-
+          Validators.pattern(
+            /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
+          ),
+        ],
+      ],
     });
-
   }
 
-
-
-  addNameServer():
-    void {
-
+  addNameServer(): void {
     this.nameServers.push(this.createNameServer());
-
   }
 
-
-
-  clearAllNameServers():
-    void {
-
-    while (this.nameServers.length
-      !== 0) {
-
+  clearAllNameServers(): void {
+    while (this.nameServers.length !== 0) {
       this.nameServers.removeAt(0);
-
     }
-
   }
 
-
-
-  removeLastNameServer():
-    void {
-
-    if (this.nameServers.length
-      > 1) {
-
-      this.nameServers.removeAt(this.nameServers.length
-        - 1);
-
+  removeLastNameServer(): void {
+    if (this.nameServers.length > 1) {
+      this.nameServers.removeAt(this.nameServers.length - 1);
     }
-
   }
 
   goBack(): void {
-
-    this.back.emit()
+    this.back.emit();
   }
 
-  onSubmit():
-    void {
-
+  onSubmit(): void {
     if (this.nameServerForm.invalid) {
-
       this.nameServerForm.markAllAsTouched();
 
       // alert('Please fill all required fields.');
-
-
-
     } else {
-
-      const
-        formData = {
-          nameServers:
-            this.nameServerForm.value.nameServers
-        };
+      const formData = {
+        nameServers: this.nameServerForm.value.nameServers,
+      };
       // Wrap in expected format
       this.formSubmitted.emit();
 
       console.log(formData);
 
       this.nameServerService.addNameServer(formData).subscribe(
-
-
-
         (response) => {
-
           alert('Form submitted successfully!');
 
           console.log(response);
-
         },
 
         (error) => {
-
           //alert('Failed to submit form.');
 
           console.error('Error submitting form:', error);
-
         }
-
       );
-
     }
-
   }
-
 }

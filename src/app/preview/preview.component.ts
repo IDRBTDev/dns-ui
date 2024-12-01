@@ -1,210 +1,124 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
-import { DomainService } from '../domain/service/domain.service';
-import { lastValueFrom } from 'rxjs';
-import { NameServerService } from '../name-server-form/service/name-server.service';
-import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
-import { Router } from '@angular/router';
-import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
-import { ToastrService } from 'ngx-toastr';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-preview',
-
   templateUrl: './preview.component.html',
-
   styleUrls: ['./preview.component.css'],
 })
-export class PreviewComponent implements OnInit, OnChanges {
+export class PreviewComponent implements OnInit {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
-  @Input() organisationId: number = 0;
-  @Input() domainId: number = 0;
-
-  // domainDetails: any;
-  // administrativeDetails: any;
-  // billingDetails: any;
-  // technicalDetails: any;
-  // nameServerDetails: any;
-
-  async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (changes['organisationId']) {
-      this.organisationId = changes['organisationId'].currentValue;
-      console.log('organisationId changed:', changes['organisationId'].currentValue);
-      // Add custom logic here for handling the updated data
-    }
-  }
-
-  ngOnInit(): void {
-    this.fetchDataFromAPIs();
-  }
-
-
+  organisationDetailsId: number | null = null;
   cards = [
     {
       heading: 'Domain Applying For',
-
       details: {
-        domainId: 0,
         bankName: '',
-
         domainName: '',
-
         numberOfYears: '',
-
         cost: '',
-
         isEditing: false,
       },
     },
-
     {
       heading: 'Organisation Details',
-
       details: {
-        organisationDetailsId: 0,
         institutionName: '',
-
         pincode: '',
-
         city: '',
-
         state: '',
-
         address: '',
-
         stdTelephone: '',
-
         mobileNumber: '',
-
         organisationEmail: '',
-
         isEditing: false,
       },
     },
-
     {
       heading: 'Administrative Contact',
-
       details: {
-        administrativeContactId:0,
         adminFullName: '',
-
         adminEmail: '',
-
         adminPhone: '',
-
         adminAltPhone: '',
-
         adminDesignation: '',
-
         adminDocuments: '',
-
         isEditing: false,
       },
     },
-
     {
       heading: 'Technical Contact',
-
       details: {
-        technicalContactId:0,
         techFullName: '',
-
         techEmail: '',
-
         techPhone: '',
-
         techAltPhone: '',
-
         techDesignation: '',
-
         techDocuments: '',
-
         isEditing: false,
       },
     },
-
     {
       heading: 'Billing Contact',
-
       details: {
-        organisationalContactId:0,
         billFullName: '',
-
         billEmail: '',
-
         billPhone: '',
-
         billAltPhone: '',
-
         billDocuments: '',
-
         isEditing: false,
       },
     },
-
     {
       heading: 'Name Server Details',
-
       details: {
-        nameServerId:0,
         hostName: '',
-
         ipAddress: '',
-
         isEditing: false,
       },
     },
   ];
 
-  constructor(private http: HttpClient,
-    private domainService: DomainService,
-    private namServerService: NameServerService,
-    private conatctFormService: ContactDetailsFormService,
-    private organisationService: OrganisationDetailsService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {}
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchOrganisationDetailsIdFromLocalStorage();
+  }
 
   /**
- 
-   * Fetch data from different APIs and populate card details
- 
+   * Fetch the organisationDetailsId from localStorage dynamically.
+   * If found, trigger API call to get the organisation details.
    */
-  goBack(): void {
-    this.back.emit();
+  fetchOrganisationDetailsIdFromLocalStorage(): void {
+    // Retrieve the organisationDetailsId from localStorage dynamically
+    const storedId = localStorage.getItem('organisationDetailsId');
+
+    if (storedId) {
+      this.organisationDetailsId = +storedId; // Convert string to number
+      this.fetchDataFromAPIs();
+    } else {
+      console.error('No organisationDetailsId found in localStorage');
+    }
   }
 
-  async onSubmit(): Promise<void> {
-    this.formSubmitted.emit();
-    //save the details into DB
-    await this.updatePreviewDetails();
-  }
-
-  // Inside the PreviewComponent
-
+  /**
+   * Fetch data from different APIs and populate card details
+   */
   fetchDataFromAPIs() {
-    this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({
-      next: response => {
-        this.cards[0].details.bankName = response.bankName;
-        this.cards[0].details.domainId = response.domainId;
-        this.cards[0].details.numberOfYears = response.numberOfYears;
-        this.cards[0].details.cost = response.cost;
-      }
-    })
-    console.log('exe preview comp - fecth data apis')
+    if (this.organisationDetailsId === null) {
+      console.error('Organisation Details ID is null');
+      return;
+    }
+
     // Fetch Organisation Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/organisationDetails/getDetailsById/'+this.organisationId
+        `http://localhost:9010/dr/organisationDetails/get/${this.organisationDetailsId}`
       )
       .subscribe({
         next: (data) => {
-          console.log(data)
-          this.cards[1].details.organisationDetailsId = data.organisationDetailsId;
           this.cards[1].details.institutionName = data.institutionName;
           this.cards[1].details.pincode = data.pincode;
           this.cards[1].details.city = data.city;
@@ -221,17 +135,15 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Administrative Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId
+        `http://localhost:9005/dr/administrativeContact/get/${this.organisationDetailsId}`
       )
       .subscribe({
         next: (data) => {
-          console.log(data)
-          this.cards[2].details.administrativeContactId = data.administrativeContactId
-          this.cards[2].details.adminFullName = data.adminFullName;
-          this.cards[2].details.adminEmail = data.adminEmail;
-          this.cards[2].details.adminPhone = data.adminPhone;
-          this.cards[2].details.adminAltPhone = data.adminAltPhone;
-          this.cards[2].details.adminDesignation = data.adminDesignation;
+          this.cards[2].details.adminFullName = data.fullName;
+          this.cards[2].details.adminEmail = data.email;
+          this.cards[2].details.adminPhone = data.phone;
+          this.cards[2].details.adminAltPhone = data.altPhone;
+          this.cards[2].details.adminDesignation = data.designation;
           this.cards[2].details.adminDocuments = data.documents;
         },
         error: (error) =>
@@ -241,17 +153,15 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Technical Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId
+        `http://localhost:9005/dr/technicalContact/get/${this.organisationDetailsId}`
       )
       .subscribe({
         next: (data) => {
-          console.log(data)
-          this.cards[3].details.technicalContactId = data.technicalContactId
-          this.cards[3].details.techFullName = data.techFullName;
-          this.cards[3].details.techEmail = data.techEmail;
-          this.cards[3].details.techPhone = data.techPhone;
-          this.cards[3].details.techAltPhone = data.techAltPhone;
-          this.cards[3].details.techDesignation = data.techDesignation;
+          this.cards[3].details.techFullName = data.fullName;
+          this.cards[3].details.techEmail = data.email;
+          this.cards[3].details.techPhone = data.phone;
+          this.cards[3].details.techAltPhone = data.altPhone;
+          this.cards[3].details.techDesignation = data.designation;
           this.cards[3].details.techDocuments = data.documents;
         },
         error: (error) =>
@@ -261,16 +171,14 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Billing Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/billingContact/get/'+this.organisationId
+        `http://localhost:9005/dr/billingContact/get/${this.organisationDetailsId}`
       )
       .subscribe({
         next: (data) => {
-          console.log(data)
-          this.cards[4].details.organisationDetailsId = data.organisationalContactId;
-          this.cards[4].details.billFullName = data.billFullName;
-          this.cards[4].details.billEmail = data.billEmail;
-          this.cards[4].details.billPhone = data.billPhone;
-          this.cards[4].details.billAltPhone = data.billAltPhone;
+          this.cards[4].details.billFullName = data.fullName;
+          this.cards[4].details.billEmail = data.email;
+          this.cards[4].details.billPhone = data.phone;
+          this.cards[4].details.billAltPhone = data.altPhone;
           this.cards[4].details.billDocuments = data.documents;
         },
         error: (error) =>
@@ -280,142 +188,152 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Name Server Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/nameServer/get/'+this.organisationId
+        `http://localhost:9005/dr/nameServer/get/${this.organisationDetailsId}`
       )
       .subscribe({
         next: (data) => {
-          console.log(data)
-          this.cards[5].details.nameServerId = data[0].nameServerId;
-          this.cards[5].details.hostName = data[0].hostName;
-          this.cards[5].details.ipAddress = data[0].ipAddress;
+          this.cards[5].details.hostName = data.hostName;
+          this.cards[5].details.ipAddress = data.ipAddress;
         },
         error: (error) =>
           console.error('Error fetching name server details:', error),
       });
-      console.log(this.cards)
+  }
+
+  // Go back to previous page or state
+  goBack(): void {
+    this.back.emit();
+  }
+
+  // Emit form submission event
+  onSubmit(): void {
+    this.formSubmitted.emit();
   }
 
   // Toggle edit mode for each card
-
   toggleEdit(card: any) {
     card.details.isEditing = !card.details.isEditing;
   }
 
   // Save changes for a specific card
-
+  // Save changes for a specific card
   onSave(card: any) {
-    console.log(
-      `${card.heading}
-   saved:`,
-      card.details
-    );
+    console.log(`${card.heading} saved:`, card.details);
 
+    // Disable editing mode after saving
     card.details.isEditing = false;
 
-    // Optionally, send updated data to the backend here
+    // Make API calls to save the updated data to the backend
+    switch (card.heading) {
+      case 'Organisation Details':
+        this.saveOrganisationDetails(card.details);
+        break;
+      case 'Administrative Contact':
+        this.saveAdminContact(card.details);
+        break;
+      case 'Technical Contact':
+        this.saveTechContact(card.details);
+        break;
+      case 'Billing Contact':
+        this.saveBillingContact(card.details);
+        break;
+      case 'Name Server Details':
+        this.saveNameServerDetails(card.details);
+        break;
+      default:
+        console.log('No save action for this section.');
+    }
+  }
+
+  // Save Organisation Details
+  saveOrganisationDetails(details: any) {
+    this.http
+      .put<any>(
+        `http://localhost:9010/dr/organisationDetails/update/${this.organisationDetailsId}`,
+        details
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Organisation details updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating organisation details:', error);
+        },
+      });
+  }
+
+  // Save Administrative Contact
+  saveAdminContact(details: any) {
+    this.http
+      .put<any>(
+        `http://localhost:9005/dr/administrativeContact/update/${this.organisationDetailsId}`,
+        details
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Administrative contact updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating administrative contact:', error);
+        },
+      });
+  }
+
+  // Save Technical Contact
+  saveTechContact(details: any) {
+    this.http
+      .put<any>(
+        `http://localhost:9005/dr/technicalContact/update/${this.organisationDetailsId}`,
+        details
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Technical contact updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating technical contact:', error);
+        },
+      });
+  }
+
+  // Save Billing Contact
+  saveBillingContact(details: any) {
+    this.http
+      .put<any>(
+        `http://localhost:9005/dr/billingContact/update/${this.organisationDetailsId}`,
+        details
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Billing contact updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating billing contact:', error);
+        },
+      });
+  }
+
+  // Save Name Server Details
+  saveNameServerDetails(details: any) {
+    this.http
+      .put<any>(
+        `http://localhost:9005/dr/nameServer/update/${this.organisationDetailsId}`,
+        details
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Name server details updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating name server details:', error);
+        },
+      });
   }
 
   // Cancel changes for a specific card
-
   onCancel(card: any) {
     // Reset to original state (could use original data if needed)
-
     card.details.isEditing = false;
-
-    console.log(`${card.heading}
-   changes canceled.`);
+    console.log(`${card.heading} changes canceled.`);
   }
-
-  async getDomainDetailsByDomainId(domainId: number){
-    await lastValueFrom(this.domainService.getDomainByDomainId(domainId)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          this.cards[0].details.domainName = response.body.domainName;
-          this.cards[0].details.bankName = response.body.bankName;
-          this.cards[0].details.numberOfYears = response.body.numberOfYears;
-          this.cards[0].details.cost = response.body.cost;
-      }
-    }
-    )
-  }
-
-  async updateDomainDetails(){
-    await lastValueFrom(this.domainService.updateDomainDetails(this.cards[0].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log('Domain details updated successfully.');
-        }
-      }, error => {
-        if(error.status === HttpStatusCode.Unauthorized){
-          this.navigateToSessionTimeout();
-        }
-      }
-    )
-  }
-
-  async navigateToSessionTimeout(){
-    this.router.navigateByUrl('/session-timeout');
-  }
-
-  async updateOrganisationDetails(){
-    await lastValueFrom(this.organisationService.updateOrganisationDetails(this.cards[1].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Created){
-          console.log('Organisation detail updated'+response.body);
-        }
-      }
-    )
-  }
-
-  async updateAdministrativeContactDetails(){
-    await lastValueFrom(this.conatctFormService.updateAdminDetails(this.cards[2].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log('Admin details save successfully...'+response.body);
-        }
-      }
-    )
-  }
-
-  async updateTechnicalContactDetails(){
-    await lastValueFrom(this.conatctFormService.updateTechDetails(this.cards[3].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log('Technical details save successfully...'+response.body)
-        }
-      }
-    )
-  }
-
-  async updateBillingContactDetails(){
-    await lastValueFrom(this.conatctFormService.updateBillDetails(this.cards[4].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log('Billing details save successfully...'+response.body)
-        }
-      }
-    )
-  }
-
-  async updateNameServers(){
-    await lastValueFrom(this.namServerService.updateNameServer(this.cards[5].details.nameServerId,this.cards[5].details)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log('Name Server details saved successfully'+response.body)
-        }
-      }
-    )
-  }
-
-  async updatePreviewDetails(){
-    this.updateDomainDetails();
-    this.updateOrganisationDetails();
-    this.updateAdministrativeContactDetails();
-    this.updateTechnicalContactDetails();
-    this.updateBillingContactDetails();
-    this.updateNameServers();
-    this.toastr.success('Details updated successfully');
-    this.router.navigateByUrl('/domains')
-  }
-
 }

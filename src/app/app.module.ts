@@ -101,7 +101,7 @@ import { RolesComponent } from './roles/roles.component';
     FormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 2000,
+      timeOut: 3000,
       positionClass: 'right'
     }),
     MatTableModule,

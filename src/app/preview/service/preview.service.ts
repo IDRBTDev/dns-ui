@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+
+
 export class PreviewService {
   private endpoints = {
     organisationDetails: 'http://localhost:9010/dr/organisationDetails',
@@ -21,7 +23,7 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getOrganisationDetails(organisationDetailsId: string): Observable<any> {
-    const url = `${this.endpoints.organisationDetails}/getDetailsById/${organisationDetailsId}`;
+    const url = `${this.endpoints.organisationDetails}/get/${organisationDetailsId}`;
     return this.http.get<any>(url);
   }
 
@@ -30,7 +32,7 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getAdministrativeContact(organisationDetailsId: string): Observable<any> {
-    const url = `${this.endpoints.administrativeContact}/getDetailsById/${organisationDetailsId}`;
+    const url = `${this.endpoints.administrativeContact}/get/${organisationDetailsId}`;
     return this.http.get<any>(url);
   }
 
@@ -39,7 +41,7 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getTechnicalContact(organisationDetailsId: string): Observable<any> {
-    const url = `${this.endpoints.technicalContact}/getDetailsById/${organisationDetailsId}`;
+    const url = `${this.endpoints.technicalContact}/get/${organisationDetailsId}`;
     return this.http.get<any>(url);
   }
 
@@ -48,7 +50,7 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getBillingContact(organisationDetailsId: string): Observable<any> {
-    const url = `${this.endpoints.billingContact}/getDetailsById/${organisationDetailsId}`;
+    const url = `${this.endpoints.billingContact}/get/${organisationDetailsId}`;
     return this.http.get<any>(url);
   }
 
@@ -57,7 +59,7 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getNameServerDetails(organisationDetailsId: string): Observable<any> {
-    const url = `${this.endpoints.nameServer}/getDetailsById/${organisationDetailsId}`;
+    const url = `${this.endpoints.nameServer}/get/${organisationDetailsId}`;
     return this.http.get<any>(url);
   }
 }
