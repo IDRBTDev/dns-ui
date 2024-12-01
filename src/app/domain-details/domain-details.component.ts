@@ -3,6 +3,7 @@ import { DomainService } from '../domain/service/domain.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NameServerService } from '../name-server-form/service/name-server.service';
 
 @Component({
   selector: 'app-domain-details',
@@ -12,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class DomainDetailsComponent implements OnInit {
 
   constructor(private domainService: DomainService, 
-    private router: Router, private activatedRouter: ActivatedRoute
+    private router: Router, private activatedRouter: ActivatedRoute,
+    private nameServerService: NameServerService
   ){
 
   }
@@ -25,6 +27,7 @@ export class DomainDetailsComponent implements OnInit {
     })
     console.log(this.domainId)
     await this.getDomainById(this.domainId);
+    await this.getNameServersByDomainId(this.domainId);
   }
 
   domainDetail : any;
@@ -42,6 +45,20 @@ export class DomainDetailsComponent implements OnInit {
       }
     )
     return this.domainDetail;
+  }
+
+  async getNameServersByDomainId(domainId: number){
+    await lastValueFrom(this.nameServerService.getNameServersByDomainId(domainId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.domainDetail.nameServers = response.body;
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.router.navigateByUrl('/session-timeout');
+        }
+      }
+    )
   }
 
   navigateToSessionTimeout() {

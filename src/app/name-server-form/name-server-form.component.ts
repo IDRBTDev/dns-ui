@@ -51,8 +51,15 @@ export class
     private router: Router,
   ) {
 
-    this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
-    this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
+    if(this.organisationId < 1){
+      this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'];
+    }
+    if(this.applicationId != ''){
+      this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
+    }
+    if(this.domainId < 1){
+      this.domainId = this.router.getCurrentNavigation().extras?.state['domainId'];
+    }
 
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],
@@ -184,7 +191,11 @@ export class
             this.nameServerForm.value.nameServers
         };
       // Wrap in expected format
-      this.formSubmitted.emit();
+      if(this.formSubmitted.emit() != null){
+        this.formSubmitted.emit();
+      }else{
+        this.router.navigateByUrl('/domains');
+      }
 
       console.log(formData);
 

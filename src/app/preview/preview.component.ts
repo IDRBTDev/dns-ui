@@ -191,6 +191,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       next: response => {
         this.cards[0].details.bankName = response.bankName;
         this.cards[0].details.domainId = response.domainId;
+        this.cards[0].details.domainName = response.domainName;
         this.cards[0].details.numberOfYears = response.numberOfYears;
         this.cards[0].details.cost = response.cost;
       }
@@ -329,6 +330,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   async getDomainDetailsByDomainId(domainId: number){
     await lastValueFrom(this.domainService.getDomainByDomainId(domainId)).then(
       response => {
+        console.log(response)
         if(response.status === HttpStatusCode.Ok){
           this.cards[0].details.domainName = response.body.domainName;
           this.cards[0].details.bankName = response.body.bankName;
@@ -415,7 +417,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateBillingContactDetails();
     this.updateNameServers();
     this.toastr.success('Details updated successfully');
-    this.router.navigateByUrl('/domains')
+    this.router.navigateByUrl('/domains');
   }
 
 }

@@ -45,6 +45,11 @@ export class
 
   }
 
+  getNameServersByDomainId(domainId: number){
+    return this.http.get<any[]>(`${this.nameServerUrl}/getDetails/${domainId}`
+      ,{observe:'response'});
+  }
+
 
 
   addNameServer(data: any): Observable<HttpResponse<any>> {
