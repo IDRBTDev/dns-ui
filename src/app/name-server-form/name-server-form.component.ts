@@ -28,7 +28,6 @@ export class NameServerFormComponent implements OnInit {
     private nameServerService: NameServerService,
     private router: Router,
   ) {
-<<<<<<< HEAD
 
     if(this.organisationId < 1){
       this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'];
@@ -39,12 +38,7 @@ export class NameServerFormComponent implements OnInit {
     if(this.domainId < 1){
       this.domainId = this.router.getCurrentNavigation().extras?.state['domainId'];
     }
-=======
-    this.organisationId =
-      this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
-    this.applicationId =
-      this.router.getCurrentNavigation().extras?.state['applicationId'];
->>>>>>> 0d7191cf756d5a64856f9f4823a81c4ba32cfb83
+
 
     this.nameServerForm = this.fb.group({
       hasNSDetails: ['yes', Validators.required],

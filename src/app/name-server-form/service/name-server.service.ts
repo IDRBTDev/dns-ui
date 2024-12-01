@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NameServerService {
-  private nameServerUrl = 'http://localhost:9009/dr/nameServer';
+  private nameServerUrl = 'http://localhost:9002/dr/nameServer';
 
   constructor(private http: HttpClient) {}
 
@@ -18,16 +18,11 @@ export class NameServerService {
     });
   }
 
-<<<<<<< HEAD
   getNameServersByDomainId(domainId: number){
     return this.http.get<any[]>(`${this.nameServerUrl}/getDetails/${domainId}`
       ,{observe:'response'});
   }
 
-
-
-=======
->>>>>>> 0d7191cf756d5a64856f9f4823a81c4ba32cfb83
   addNameServer(data: any): Observable<HttpResponse<any>> {
     console.log(data);
     return this.http.post<HttpResponse<any>>(`${this.nameServerUrl}`, data, {
