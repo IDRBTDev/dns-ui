@@ -40,17 +40,9 @@ export class UserComponent {
 
   //isToggleOn: boolean = false;
 
-  displayedColumns: string[] = [
-    'checkbox',
-    'id',
-    'userId',
-    'userName',
-    'institutionName',
-    'role',
-    'access',
-    'active',
-    'actions',
-  ]; // Matches matColumnDef values
+  displayedColumns: string[] = [];// Matches matColumnDef values
+
+  
 
   usersList: any[];
   usersDataSource: MatTableDataSource<any>;
@@ -84,7 +76,34 @@ export class UserComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    //set table comumns based on role
+    if(this.role === 'IDRBTADMIN'){
+      this.displayedColumns = [
+        'checkbox',
+        'id',
+        'userId',
+        'userName',
+        'institutionName',
+        'role',
+        'access',
+        'active',
+        'actions',
+      ]; 
+    }else{
+      this.displayedColumns = [
+        'checkbox',
+        'id',
+        'userId',
+        'userName',
+        'institutionName',
+        'role',
+        'active',
+        'actions',
+      ]; 
+    }
+
     this.getLoggedInUserDetails();
+    
     if(this.role === 'IDRBTADMIN'){
       await this.getUsersList(0);
     }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){

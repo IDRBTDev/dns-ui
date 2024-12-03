@@ -35,8 +35,6 @@ export class DomainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  
     console.log(this.role)
     console.log(this.userEmailId)
     if(this.role !== 'IDRBTADMIN'){

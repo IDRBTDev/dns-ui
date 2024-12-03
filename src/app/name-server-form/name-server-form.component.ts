@@ -63,6 +63,10 @@ export class NameServerFormComponent implements OnInit {
     });
   }
 
+  async getOrganisationDetails(){
+    
+  }
+
   get nameServers(): FormArray {
     return this.nameServerForm.get('nameServers') as FormArray;
   }

@@ -48,6 +48,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.fullForm = this.fb.group({
       // Admin Form Controls
+      administrativeContactId: 0,
       adminFullName: ['', [Validators.required]],
       adminEmail: ['', [Validators.required, Validators.email]],
       adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
@@ -55,6 +56,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       adminDesignation: ['', [Validators.required]],
 
       // Technical Form Controls
+      technicalContactId: 0,
       techFullName: ['', [Validators.required]],
       techEmail: ['', [Validators.required, Validators.email]],
       techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
@@ -62,6 +64,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       techDesignation: ['', [Validators.required]],
 
       // Billing Form Controls
+      organisationalContactId: 0,
       billFullName: ['', [Validators.required]],
       billEmail: ['', [Validators.required, Validators.email]],
       billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
