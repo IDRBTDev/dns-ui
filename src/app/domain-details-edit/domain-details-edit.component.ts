@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '../domain/service/domain.service';
 import { HttpStatusCode } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, window } from 'rxjs';
 
 @Component({
   selector: 'app-domain-details-edit',
@@ -13,6 +13,17 @@ export class DomainDetailsEditComponent {
   constructor(private domainService: DomainService, 
     private router: Router, private activatedRouter: ActivatedRoute
   ){
+   const state = history.state.domainDetail;
+   if (state) {
+    // Use the data passed through router state
+    this.domainDetail = state;
+  } else {
+    // If not, fetch the data from the API
+    this.activatedRouter.queryParams.subscribe(param => {
+      this.domainId = param['domainId'];
+      this.getDomainById(this.domainId);
+    });
+  }
 
   }
 
@@ -48,10 +59,13 @@ export class DomainDetailsEditComponent {
 
   backDomain(){
     this.router.navigateByUrl('domain-details');
+    // this.router.navigateByUrl(`/domain-details?domainId=${this.domainId}`);
     }
     crossButton(){
       console.log("cancel button is working good");
     }
+
+    
 
 
   }

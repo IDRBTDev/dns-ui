@@ -1,102 +1,112 @@
-
 <div class="layout-container">
     <app-side-menu></app-side-menu>
     <div class="content-area">
-      <app-main-header></app-main-header>
-      <div class="container-fluid">
-        <div class="row" style="padding-top: 100px;">
-          <div class="col-sm-12">
-            <div class="content-wrapper">
-            <div class="header-content">
-            <svg (click)="backDomain()" style="cursor: pointer;" width="24" height="25" viewBox="0 0 24 25" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-            <h3>Domain Details</h3></div>
-            <div class="first">
-                        <div class="details-container">
-              <div class="detail-item">
-                  <p>Domain</p>
-                  <div class="box-content">{{domainDetail.domainName}}</div>
-              </div>
-              <div class="detail-item">
-                  <p>Organization</p>
-                  <div class="box-content">{{domainDetail.organizationName}}</div>
-              </div>
-              <div class="detail-item">
-                  <p>Registration Date</p>
-  
-                  <div class="box-content">{{domainDetail.registrationDate|date:'MMM d, y, h:mm a'}}</div>
-              </div>
-              <div class="detail-item">
-                  <p>Renewal Date</p>
-                  <div class="box-content">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
-              </div>
-              <div class="detail-item">
-                  <p>Domain Status</p>
-                  <div class="box-content">{{domainDetail.status}}</div>
-              </div>
-          </div>
-        <hr/>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <h2 style="margin-left: 10px;">Name Servers</h2>
-          <svg (click)="crossButton()" style="margin-right: 10px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 6L18 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            
-        </div>
-        
-          
-        <div class="row row-cols-3" style="background: #F5FAFF; padding: 16px 24px; margin-left: 10px; margin-right: 10px;">
-          <div class="col" style="font-weight: 500; font-size: 14px;">Host Name</div>
-          <div class="col" style="font-weight: 500;font-size: 14px;">IP Address</div>
-          <div class="col" style="font-weight: 500;font-size: 14px;">TTL</div>
-        </div>
-        <div style="padding:10px; margin-top: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 16px;">
-            <div class="col form-control"></div>
-            <div class="col form-control"></div>
-            <div class="col form-control" style="display: flex; justify-content: flex-end; align-items: center;">
-                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_2011_780)">
-                        <path d="M4.75 7.125L11.5 13.875L18.25 7.125" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_2011_780">
-                            <rect width="19" height="19" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
+        <app-main-header></app-main-header>
+        <div class="container-fluid">
+            <div class="row" style="padding-top: 100px;">
+                <div class="col-sm-12">
+                    <div class="content-wrapper">
+                        <div class="header-content">
+                            <svg (click)="backDomain()" style="cursor: pointer;" width="24" height="25"
+                                viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <h3>Domain Details</h3>
+                        </div>
+                        <div class="first">
+                            <div class="details-container">
+                                <div class="detail-item">
+                                    <p>Domain</p>
+                                    <div class="box-content">{{domainDetail.domainName}}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <p>Organization</p>
+                                    <div class="box-content">{{domainDetail.organizationName}}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <p>Registration Date</p>
+
+                                    <div class="box-content">{{domainDetail.registrationDate|date:'MMM d, y, h:mm a'}}
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <p>Renewal Date</p>
+                                    <div class="box-content">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <p>Domain Status</p>
+                                    <div class="box-content">{{domainDetail.status}}</div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h2 style="margin-left: 10px;">Name Servers</h2>
+                                <svg (click)="crossButton()" style="margin-right: 10px;" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18" stroke="black" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M6 6L18 18" stroke="black" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+
+                            </div>
+
+
+                            <div class="row row-cols-3"
+                                style="background: #F5FAFF; padding: 16px 24px; margin-left: 10px; margin-right: 10px; ">
+                                <div class="col" style="font-weight: 500; font-size: 14px;">Host Name</div>
+                                <div class="col" style="font-weight: 500;font-size: 14px;">IP Address</div>
+                                <div class="col" style="font-weight: 500;font-size: 14px; ">TTL</div>
+                            </div>
+                            <div
+                                style="padding:10px; margin-top: 10px; display: flex; flex-direction: row; justify-content: space-between; gap: 16px;" *ngFor="let ns of domainDetail.nameServers">
+                                <div class="col">
+                                    <input class="form-control" [(ngModel)]="ns.hostName" placeholder="Enter Host Name" maxlength="45">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" [(ngModel)]="ns.ipAddress" placeholder="Enter IP Address" maxlength="45">
+                                </div>
+                                <div class="col" style="padding-right: 100px;">
+                                    <input class="form-control" [(ngModel)]="ns.ttl" placeholder="Enter TTL" maxlength="30">
+                                </div>
+
+
+                            </div>
+
+                            <button
+                                style="background: #007CF8;
+color:white; padding:5px;border: none; border-radius: 5px; width:70px; margin-left: 10px; margin-top: 20px; margin-bottom: 20px;">Submit</button>
+
+
+                            <hr />
+                            <h2>Billing History</h2>
+                            <div class="row row-cols-4"
+                                style="background: #F5FAFF; margin-left: 10px; margin-right: 10px; padding: 16px 24px;">
+                                <div class="col" style="font-weight: 500; font-size: 14px;">Invoice No</div>
+                                <div class="col" style="font-weight: 500; font-size: 14px;">Amount</div>
+                                <div class="col" style="font-weight: 500; font-size: 14px;">Invoice Date</div>
+                                <div class="col" style="font-weight: 500; font-size: 14px;">Status</div>
+                            </div>
+
+                            <div class="row row-cols-4"
+                                style="padding-top: 20px;  margin-left: 10px; margin-right: 10px; padding: 16px 24px;"
+                                *ngFor="let bh of domainDetail.billingHistory; let i = index"
+                                [ngClass]="{'odd-row': i % 2 === 0, 'even-row': i % 2 !== 0}">
+                                <div class="col">{{bh.invoiceNumber}}</div>
+                                <div class="col">{{bh.amount | currency: 'INR'}}</div>
+                                <div class="col">{{bh.invoiceDate | date:'MMM d, y, h:mm a'}}</div>
+                                <div class="col">{{bh.status}}</div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
-            
-            
         </div>
-        
-        <button style="background: #007CF8;
-color:white; padding:5px;border: none; border-radius: 5px; width:70px; margin-left: 10px; margin-top: 20px; margin-bottom: 20px;" >Submit</button>
-        <hr/>
-        <h2>Billing History</h2>
-        <div class="row row-cols-4" style="background: #F5FAFF; margin-left: 10px; margin-right: 10px; padding: 16px 24px;">
-          <div class="col" style="font-weight: 500; font-size: 14px;">Invoice No</div>
-          <div class="col" style="font-weight: 500; font-size: 14px;">Amount</div>
-          <div class="col" style="font-weight: 500; font-size: 14px;">Invoice Date</div>
-          <div class="col" style="font-weight: 500; font-size: 14px;">Status</div>
-        </div>
-  
-        <div class="row row-cols-4" 
-    style="padding-top: 20px;  margin-left: 10px; margin-right: 10px; padding: 16px 24px;"
-    *ngFor="let bh of domainDetail.billingHistory; let i = index" 
-    [ngClass]="{'odd-row': i % 2 === 0, 'even-row': i % 2 !== 0}">
-      <div class="col">{{bh.invoiceNumber}}</div>
-      <div class="col">{{bh.amount | currency: 'INR'}}</div>
-      <div class="col">{{bh.invoiceDate | date:'MMM d, y, h:mm a'}}</div>
-      <div class="col">{{bh.status}}</div>
-  </div>
-  
-        </div>
-        
-        
-        </div></div></div></div></div></div>
+    </div>
+</div>
