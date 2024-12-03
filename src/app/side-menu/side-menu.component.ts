@@ -44,8 +44,18 @@ export class SideMenuComponent implements OnInit{
 
   
   toggleBox(): void {
-    this.isBoxVisible = !this.isBoxVisible;
+    this.isBoxVisible = true;
     // localStorage.setItem('isBoxVisible', String(this.isBoxVisible));
+  }
+
+  toggleBoxout(): void {
+    setTimeout(() => {
+      this.isBoxVisible = false;
+      // localStorage.setItem('isBoxVisible', String(this.isBoxVisible));
+      
+    }, 800);
+    
+    
   }
    
 
