@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
 
 
 @Injectable({
-
     providedIn: 'root',
-
 })
 
 export class OrganisationDetailsService {
@@ -25,4 +23,10 @@ export class OrganisationDetailsService {
         const apiUrl = 'http://localhost:9002/dr/organisationDetails/update';
         return this.http.put(apiUrl,organisationdetails,{observe: 'response'});
     }
+
+    getOrganisationDetailsByOrganisationId(organisationId: number){
+        const apiUrl = 'http://localhost:9002/dr/organisationDetails/getDetailsById/'+organisationId;
+        return this.http.get(apiUrl, {observe:'response'});
+    }
+
 }

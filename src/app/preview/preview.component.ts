@@ -8,6 +8,7 @@ import { ContactDetailsFormService } from '../contact-details-form/service/conta
 import { Router } from '@angular/router';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../user/service/user.service';
 
 @Component({
   selector: 'app-preview',
@@ -22,6 +23,9 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   @Input() organisationId: number = 0;
   @Input() domainId: number = 0;
+
+  userId: string = localStorage.getItem('email');
+  role: string = localStorage.getItem('userRole');
 
   // domainDetails: any;
   // administrativeDetails: any;
@@ -48,14 +52,22 @@ export class PreviewComponent implements OnInit, OnChanges {
 
       details: {
         domainId: 0,
+        applicationId:0,
         bankName: '',
-
+        organisationName:'',
         domainName: '',
-
+        industry:'',
         numberOfYears: '',
-
-        cost: '',
-
+        nsRecordStatus:'',
+        organisationId:0,
+        cost: 0,
+        paymentStatus:'',
+        registrationDate:'',
+        renewalDate:'',
+        status:'',
+        submissionDate:'',
+        userName:'',
+        userMailId:'',
         isEditing: false,
       },
     },
@@ -66,21 +78,15 @@ export class PreviewComponent implements OnInit, OnChanges {
       details: {
         organisationDetailsId: 0,
         institutionName: '',
-
+        applicationId:0,
+        userMailId:0,
         pincode: '',
-
         city: '',
-
         state: '',
-
         address: '',
-
         stdTelephone: '',
-
         mobileNumber: '',
-
         organisationEmail: '',
-
         isEditing: false,
       },
     },
@@ -91,17 +97,14 @@ export class PreviewComponent implements OnInit, OnChanges {
       details: {
         administrativeContactId:0,
         adminFullName: '',
-
         adminEmail: '',
-
         adminPhone: '',
-
         adminAltPhone: '',
-
         adminDesignation: '',
-
+        organisationId:0,
         adminDocuments: '',
-
+        applicationId:0,
+        userMailId:0,
         isEditing: false,
       },
     },
@@ -112,17 +115,14 @@ export class PreviewComponent implements OnInit, OnChanges {
       details: {
         technicalContactId:0,
         techFullName: '',
-
         techEmail: '',
-
         techPhone: '',
-
         techAltPhone: '',
-
         techDesignation: '',
-
+        applicationId:0,
+        userMailId:0,
         techDocuments: '',
-
+        organisationId:0,
         isEditing: false,
       },
     },
@@ -133,15 +133,13 @@ export class PreviewComponent implements OnInit, OnChanges {
       details: {
         organisationalContactId:0,
         billFullName: '',
-
         billEmail: '',
-
         billPhone: '',
-
         billAltPhone: '',
-
         billDocuments: '',
-
+        applicationId:0,
+        userMailId:0,
+        organisationId:0,
         isEditing: false,
       },
     },
@@ -152,9 +150,12 @@ export class PreviewComponent implements OnInit, OnChanges {
       details: {
         nameServerId:0,
         hostName: '',
-
+        organisationId:0,
+        applicationId:'',
+        domainId:0,
         ipAddress: '',
-
+        ttl:0,
+        userMailId:'',
         isEditing: false,
       },
     },
@@ -166,7 +167,8 @@ export class PreviewComponent implements OnInit, OnChanges {
     private conatctFormService: ContactDetailsFormService,
     private organisationService: OrganisationDetailsService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) {}
 
   /**
@@ -182,6 +184,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.formSubmitted.emit();
     //save the details into DB
     await this.updatePreviewDetails();
+    this.cards[0].details.organisationName = this.cards[1].details.institutionName;
   }
 
   // Inside the PreviewComponent
@@ -190,7 +193,21 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({
       next: response => {
         this.cards[0].details.bankName = response.bankName;
+        this.cards[0].details.cost = response.cost;
+        this.cards[0].details.applicationId = response.applicationId;
         this.cards[0].details.domainName = response.domainName;
+        this.cards[0].details.industry = response.industry;
+        this.cards[0].details.nsRecordStatus = response.nsRecordStatus;
+        this.cards[0].details.numberOfYears = response.numberOfYears;
+        this.cards[0].details.organisationId = response.organisationId;
+        this.cards[0].details.organisationName = response.organisationName;
+        this.cards[0].details.paymentStatus = response.paymentStatus;
+        this.cards[0].details.registrationDate = response.registrationDate;
+        this.cards[0].details.renewalDate = response.renewalDate;
+        this.cards[0].details.status = response.status;
+        this.cards[0].details.submissionDate = response.submissionDate;
+        this.cards[0].details.userName = response.userName;
+        this.cards[0].details.userMailId = response.userMailId;
         this.cards[0].details.domainId = response.domainId;
         this.cards[0].details.numberOfYears = response.numberOfYears;
         this.cards[0].details.cost = response.cost;
@@ -206,6 +223,7 @@ export class PreviewComponent implements OnInit, OnChanges {
         next: (data) => {
           console.log(data)
           this.cards[1].details.organisationDetailsId = data.organisationDetailsId;
+          this.cards
           this.cards[1].details.institutionName = data.institutionName;
           this.cards[1].details.pincode = data.pincode;
           this.cards[1].details.city = data.city;
@@ -214,6 +232,9 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[1].details.stdTelephone = data.stdTelephone;
           this.cards[1].details.mobileNumber = data.mobileNumber;
           this.cards[1].details.organisationEmail = data.organisationEmail;
+          this.cards[1].details.organisationId= data.organisationId;
+          this.cards[1].details.userMailId = data.userMailId;
+          this.cards[1].details.userName = data.userName;
         },
         error: (error) =>
           console.error('Error fetching organisation details:', error),
@@ -227,13 +248,16 @@ export class PreviewComponent implements OnInit, OnChanges {
       .subscribe({
         next: (data) => {
           console.log(data)
-          this.cards[2].details.administrativeContactId = data.administrativeContactId
+          this.cards[2].details.administrativeContactId = data.administrativeContactId;
           this.cards[2].details.adminFullName = data.adminFullName;
           this.cards[2].details.adminEmail = data.adminEmail;
           this.cards[2].details.adminPhone = data.adminPhone;
           this.cards[2].details.adminAltPhone = data.adminAltPhone;
           this.cards[2].details.adminDesignation = data.adminDesignation;
           this.cards[2].details.adminDocuments = data.documents;
+          this.cards[2].details.organisationId= data.organisationId;
+          this.cards[2].details.userMailId = data.userMailId;
+          this.cards[2].details.userName = data.userName;
         },
         error: (error) =>
           console.error('Error fetching admin contact details:', error),
@@ -254,6 +278,9 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[3].details.techAltPhone = data.techAltPhone;
           this.cards[3].details.techDesignation = data.techDesignation;
           this.cards[3].details.techDocuments = data.documents;
+          this.cards[3].details.organisationId= data.organisationId;
+          this.cards[3].details.userMailId = data.userMailId;
+          this.cards[3].details.userName = data.userName;
         },
         error: (error) =>
           console.error('Error fetching tech contact details:', error),
@@ -267,12 +294,15 @@ export class PreviewComponent implements OnInit, OnChanges {
       .subscribe({
         next: (data) => {
           console.log(data)
-          this.cards[4].details.organisationDetailsId = data.organisationalContactId;
+          this.cards[4].details.organisationalContactId = data.organisationalContactId;
           this.cards[4].details.billFullName = data.billFullName;
           this.cards[4].details.billEmail = data.billEmail;
           this.cards[4].details.billPhone = data.billPhone;
           this.cards[4].details.billAltPhone = data.billAltPhone;
           this.cards[4].details.billDocuments = data.documents;
+          this.cards[4].details.organisationId= data.organisationId;
+          this.cards[4].details.userMailId = data.userMailId;
+          this.cards[4].details.userName = data.userName;
         },
         error: (error) =>
           console.error('Error fetching billing contact details:', error),
@@ -289,11 +319,15 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[5].details.nameServerId = data[0].nameServerId;
           this.cards[5].details.hostName = data[0].hostName;
           this.cards[5].details.ipAddress = data[0].ipAddress;
+          this.cards[5].details.organisationId = data[0].organisationId;
+          this.cards[5].details.applicationId = data[0].applicationId;
+          this.cards[5].details.domainId = data[0].domainId;
+          this.cards[5].details.ttl = data[0].ttl;
         },
         error: (error) =>
           console.error('Error fetching name server details:', error),
       });
-      console.log(this.cards)
+      console.log(this.cards);
   }
 
   // Toggle edit mode for each card
@@ -331,16 +365,32 @@ export class PreviewComponent implements OnInit, OnChanges {
     await lastValueFrom(this.domainService.getDomainByDomainId(domainId)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
-          this.cards[0].details.domainName = response.body.domainName;
           this.cards[0].details.bankName = response.body.bankName;
-          this.cards[0].details.numberOfYears = response.body.numberOfYears;
-          this.cards[0].details.cost = response.body.cost;
+        this.cards[0].details.cost = response.body.cost;
+        this.cards[0].details.applicationId = response.body.applicationId;
+        this.cards[0].details.domainName = response.body.domainName;
+        this.cards[0].details.industry = response.body.industry;
+        this.cards[0].details.nsRecordStatus = response.body.nsRecordStatus;
+        this.cards[0].details.numberOfYears = response.body.numberOfYears;
+        this.cards[0].details.organisationId = response.body.organisationId;
+        this.cards[0].details.organisationName = response.body.organisationName;
+        this.cards[0].details.paymentStatus = response.body.paymentStatus;
+        this.cards[0].details.registrationDate = response.body.registrationDate;
+        this.cards[0].details.renewalDate = response.body.renewalDate;
+        this.cards[0].details.status = response.body.status;
+        this.cards[0].details.submissionDate = response.body.submissionDate;
+        this.cards[0].details.userName = response.body.userName;
+        this.cards[0].details.userMailId = response.body.userMailId;
+        this.cards[0].details.domainId = response.body.domainId;
+        this.cards[0].details.numberOfYears = response.body.numberOfYears;
+        this.cards[0].details.cost = response.body.cost;
       }
     }
     )
   }
 
   async updateDomainDetails(){
+    this.cards[0].details.organisationName = this.cards[1].details.institutionName;
     await lastValueFrom(this.domainService.updateDomainDetails(this.cards[0].details)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
@@ -359,7 +409,8 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updateOrganisationDetails(){
-    await lastValueFrom(this.organisationService.updateOrganisationDetails(this.cards[1].details)).then(
+    await lastValueFrom(this.organisationService
+      .updateOrganisationDetails(this.cards[1].details)).then(
       response => {
         if(response.status === HttpStatusCode.Created){
           console.log('Organisation detail updated'+response.body);
@@ -399,16 +450,48 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updateNameServers(){
-    await lastValueFrom(this.namServerService.updateNameServer(this.cards[5].details.nameServerId,this.cards[5].details)).then(
+    await lastValueFrom(this.namServerService.updateNameServer(this.cards[5].details)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
-          console.log('Name Server details saved successfully'+response.body)
+          console.log('Name Server details saved successfully'+response.body);
+        }
+      }
+    )
+  }
+
+  user: any;
+  async getLoggedInUserDetails(){
+    await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.user = response.body;
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+
+  async updateUserOnboradingStatus(){
+    this.user.isOnboardingCompleted = true;
+    await lastValueFrom(this.userService.updateUser(this.user)).then(
+      response => {
+        if(response.status === HttpStatusCode.PartialContent){
+          console.log(this.user);
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
         }
       }
     )
   }
 
   async updatePreviewDetails(){
+    await this.getLoggedInUserDetails();
+    await this.updateUserOnboradingStatus();
     this.updateDomainDetails();
     this.updateOrganisationDetails();
     this.updateAdministrativeContactDetails();
@@ -416,7 +499,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateBillingContactDetails();
     this.updateNameServers();
     this.toastr.success('Details updated successfully');
-    this.router.navigateByUrl('/domains')
+    this.router.navigateByUrl('/domains');
   }
 
 }

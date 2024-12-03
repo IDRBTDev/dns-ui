@@ -119,11 +119,11 @@ export class NameServerFormComponent implements OnInit {
         nameServers: this.nameServerForm.value.nameServers,
       };
       // Wrap in expected format
-      if(this.formSubmitted.emit() != null){
+      //if(this.formSubmitted.emit() != null){
         this.formSubmitted.emit();
-      }else{
-        this.router.navigateByUrl('/domains');
-      }
+      //}else{
+      //  this.router.navigateByUrl('/domains');
+      //}
 
       console.log(formData);
 

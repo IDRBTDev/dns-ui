@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDomainService } from './service/user-domain.service';  // Import the service from the new folder
 import { NavigationExtras, Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -19,7 +22,7 @@ export class UserDomainDetailsComponent {
   constructor(
     private fb: FormBuilder,
     private userDomainService: UserDomainService,  // Inject the service here
-    public router:Router
+    public router:Router, private organisationService: OrganisationDetailsService
   ) {
     this.userDomainForm = this.fb.group({
       bankName: ['', [Validators.required, Validators.minLength(3)]],
@@ -39,13 +42,34 @@ export class UserDomainDetailsComponent {
       console.log('Form is invalid');
     }
   }
+
+  organisationDetails: any;
+  async getOrganisationDetailsById(organisationId: number){
+    await lastValueFrom(this.organisationService.getOrganisationDetailsByOrganisationId(organisationId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.organisationDetails = response.body;
+          console.log(response.body);
+        }
+      }
+    )
+  }
+
   // Handle form submission
-  onSubmit() {
+  async onSubmit() {
+    if(this.organisationId > 0){
+      await this.getOrganisationDetailsById(this.organisationId);
+    }
     if (this.userDomainForm.valid) {
       this.showResult = true;  // Show result after submission
       const domainData = this.userDomainForm.value;
       console.log(this.userDomainForm.value);
       domainData.userMailId = this.userId;
+      if(this.organisationDetails != null && this.organisationDetails != undefined){
+        domainData.organisationName = this.organisationDetails.organisationName;
+      }else{
+        domainData.organisationName = 'Onboarding Pending';
+      }
       console.log(domainData)
       // Call the service to send domain data
       this.userDomainService.sendDomainData(domainData).subscribe(
