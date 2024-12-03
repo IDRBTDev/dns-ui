@@ -93,7 +93,7 @@ export class DocumentUploadComponent implements OnInit {
     }
   }
   // Handle file uploads for each section
-  handleOrganisationFileChange(event: Event): void {
+  handleOrganisationFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
 
     if (!input.files || input.files.length === 0) {
@@ -129,8 +129,9 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.organisationInputValue || null,
+      file:event.target.files[0]
     };
-
+    
     this.organisationUploadedDocs.push(uploadedDoc);
 
     this.organisationErrors = { message: '', type: '' };
@@ -177,8 +178,9 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.adminInputValue || null,
+      file:file
     };
-
+    console.log(uploadedDoc)
     this.adminUploadedDocs.push(uploadedDoc);
 
     this.adminErrors = { message: '', type: '' };
@@ -188,7 +190,7 @@ export class DocumentUploadComponent implements OnInit {
     //this.handleFileUpload(event, this.adminDocs, this.adminErrors, 'Administrative');
   }
 
-  handleTechFileChange(event: Event): void {
+  handleTechFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
 
     if (!input.files || input.files.length === 0) {
@@ -224,6 +226,7 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.techInputValue || null,
+      file:file
     };
 
     this.techUploadedDocs.push(uploadedDoc);
@@ -236,7 +239,7 @@ export class DocumentUploadComponent implements OnInit {
     //this.handleFileUpload(event, this.techDocs, this.techErrors, 'Technical');
   }
 
-  handleBillingFileChange(event: Event): void {
+  handleBillingFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
 
     if (!input.files || input.files.length === 0) {
@@ -272,6 +275,7 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.billingInputValue || null,
+      file:file
     };
 
     this.billingUploadedDocs.push(uploadedDoc);
@@ -348,7 +352,9 @@ export class DocumentUploadComponent implements OnInit {
     this.onOrganisationValidationChange.emit(isValid);
   }
   checkAdminValidation(): void {
+    console.log("adminValid")
     const isValid = this.adminUploadedDocs.length >= 4;
+    console.log(isValid)
     this.onAdminValidationChange.emit(isValid);
   }
   checkTechValidation(): void {
@@ -374,7 +380,7 @@ export class DocumentUploadComponent implements OnInit {
       this.organisationErrors.message = 'No documents uploaded!';
       return;
     }
-
+  console.log(allDocs, this.applicationId, this.user, this.userMailId)
     this.documentUploadService
       .uploadDocuments(allDocs, this.applicationId, this.user, this.userMailId)
       .subscribe({

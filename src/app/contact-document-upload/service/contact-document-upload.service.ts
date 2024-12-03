@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ContactDocumentUploadService {
-  private apiUrl = 'http://localhost:9007/dr/documents/documentUpload';
+  private apiUrl = 'http://localhost:9002/dr/contactDocuments/contactDocumentUpload';
 
   constructor(private http: HttpClient) {}
 
@@ -26,12 +26,13 @@ export class ContactDocumentUploadService {
     userMailId: string
   ): Observable<string> {
     const formData = new FormData();
-
+console.log("conytactservice called")
     // Append document details to the formData
     uploadedDocs.forEach((doc) => {
-      formData.append('files', doc.file); // Files
+      formData.append('files', doc.fileName); // Files
       formData.append('types', doc.type); // Document type
       formData.append('values', doc.value); // Additional document value
+      formData.append('file',doc.file)
     });
 
     // Append other required fields
