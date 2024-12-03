@@ -52,6 +52,7 @@ import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
+import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
 
 
 @NgModule({
@@ -87,6 +88,7 @@ import { RolesComponent } from './roles/roles.component';
     NameServerComponent,
     DomainDetailsEditComponent,
     RolesComponent,
+    RegistrantUserManagementComponent,
    
   ],
   imports: [

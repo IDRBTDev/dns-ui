@@ -12,6 +12,7 @@ export class SideMenuComponent implements OnInit{
 
   isBoxVisible: boolean = false;
   boxContent: string = 'Settings Box Opened';
+  role: string = localStorage.getItem('userRole');
 
   constructor(private router: Router) {
    
