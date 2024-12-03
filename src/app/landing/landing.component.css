@@ -45,8 +45,9 @@ color:#1E3A8A
     
   .dropdown-menu {
     
-    top: 83%;                  
-    left: -59px;                  
+    top: 90%;                  
+       
+    right:50px;              
     width: 350px;                
     padding: 12px 24px;            
     background-color: white;

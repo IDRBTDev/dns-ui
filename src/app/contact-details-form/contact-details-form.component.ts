@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Inpu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
+import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 
 @Component({
   selector: 'app-contact-details-form',
@@ -14,9 +15,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
-  adminUploadedDocs:{type: string; filename:string}[]=[];
-  techUploadedDocs:{type: string; filename:string}[]=[];
-  billingUploadedDocs:{type: string; filename:string}[]=[];
+  adminUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
+  techUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
+  billingUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   submissionAttempted: boolean=false;
 
   @Input() organisationId: number =0;
@@ -24,9 +25,12 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   
   fullForm: FormGroup;
   applicationId: string | null = null; 
+  user = ''; // Replace with appropriate value
+  userMailId = localStorage.getItem('email');
   selectedDocType = '';
 
-  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute) {}
+  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute,
+    private contactDoc:ContactDocumentUploadService) {}
 
   goBack(): void{
     console.log('goBack');
@@ -167,7 +171,17 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       }, error => {
         console.error('Error saving billing details', error);
       });
-
+      const uploadedDoc=[...this.adminUploadedDocs,
+  ...this.techUploadedDocs,
+  ...this.billingUploadedDocs]
+        console.log(uploadedDoc)
+      this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
+        next:(response)=>{
+          console.log(response)
+        },error:(error)=>{
+          console.log(error)
+        }
+      })
 
     } 
     else {
