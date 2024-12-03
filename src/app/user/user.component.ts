@@ -8,6 +8,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { UserService } from './service/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 //import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
@@ -27,7 +28,9 @@ export class UserComponent {
     mobileNumber: '',
     confirmPassword: '',
     createdByEmailId:'',
-    organisationId:0
+    organisationId:0,
+    organisationDetails: {},
+    isOnboardingCompleted: false
   }
 
 
@@ -38,16 +41,9 @@ export class UserComponent {
 
   //isToggleOn: boolean = false;
 
-  displayedColumns: string[] = [
-    'checkbox',
-    'id',
-    'userId',
-    'userName',
-    'role',
-    'access',
-    'active',
-    'actions',
-  ]; // Matches matColumnDef values
+  displayedColumns: string[] = [];// Matches matColumnDef values
+
+  
 
   usersList: any[];
   usersDataSource: MatTableDataSource<any>;
@@ -59,22 +55,85 @@ export class UserComponent {
   organisationId = localStorage.getItem('organisationId');
 
   constructor(private userService: UserService, private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService, private organisationService: OrganisationDetailsService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
 
+<<<<<<< HEAD
   ngOnInit(): void {
     this.getUsersList(parseInt(this.organisationId));
     
      
+=======
+  loggedInUser: any;
+  async getLoggedInUserDetails(){
+   await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+    response => {
+      if(response.status === HttpStatusCode.Ok){
+        this.loggedInUser = response.body;
+        console.log(this.loggedInUser)
+      }
+    },error => {
+      if(error.status === HttpStatusCode.Unauthorized){
+        this.navigateToSessionTimeout();
+      }
+    }
+   )
+  }
+
+  async ngOnInit(): Promise<void> {
+    //set table comumns based on role
+    if(this.role === 'IDRBTADMIN'){
+      this.displayedColumns = [
+        'checkbox',
+        'id',
+        'userId',
+        'userName',
+        'institutionName',
+        'role',
+        'access',
+        'active',
+        'actions',
+      ]; 
+    }else{
+      this.displayedColumns = [
+        'checkbox',
+        'id',
+        'userId',
+        'userName',
+        'institutionName',
+        'role',
+        'active',
+        'actions',
+      ]; 
+    }
+
+    this.getLoggedInUserDetails();
+    
+    if(this.role === 'IDRBTADMIN'){
+      await this.getUsersList(0);
+    }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+      await this.getUsersList(parseInt(this.organisationId));
+    }
+    // this.usersList.forEach(user => {
+    //   if(user.organisationId > 0){
+    //      this.getOrganisationDetailsOfUser(user.organisationId);
+    //   }else{
+    //      user.organisation.institutionName = 'Onboarding Pending';
+    //   }
+    // });
+    //if(parseInt(this.organisationId) > 0){
+      
+    //}
+>>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
   }
 
   async getUsersList(organisationId: number) {
     console.log('Organisation ID:', organisationId);
-    if (isNaN(organisationId) || organisationId <= 0) {
+    if (isNaN(organisationId) || organisationId <= 1) {
       console.error('Invalid organisationId:', organisationId);
-      return;
+      //return;
     }
     await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
       (response) => {
@@ -305,6 +364,23 @@ if (!this.user.mobileNumber) {
     )
   }
 
+  organisationDetails: any;
+  async getOrganisationDetailsOfUser(organisationId: number){
+    await lastValueFrom(this.organisationService
+      .getOrganisationDetailsByOrganisationId(organisationId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.user.organisationDetails = response.body;
+          console.log(this.user);
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+
   clearData(){
     this.user.id = 0;
     this.user.userName = '';
@@ -315,8 +391,24 @@ if (!this.user.mobileNumber) {
     this.user.mobileNumber = '';
     this.user.confirmPassword = '';
   }
+<<<<<<< HEAD
   
 
+=======
+
+  /**
+   * 
+   */
+  verifyOnBoardingStatus(){
+    console.log(this.loggedInUser.isOnboardingCompleted)
+    if(this.loggedInUser.isOnboardingCompleted === false) {
+      this.toastr.error('Please complete onbaording to add users.');
+      console.log('complete onbaording')
+    }else{
+      document.getElementById('addUser1').click();
+    }
+  }
+>>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
 
 }
 

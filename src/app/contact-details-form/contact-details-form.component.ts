@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Inpu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
+import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 
 @Component({
   selector: 'app-contact-details-form',
@@ -14,9 +15,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
-  adminUploadedDocs:{type: string; filename:string}[]=[];
-  techUploadedDocs:{type: string; filename:string}[]=[];
-  billingUploadedDocs:{type: string; filename:string}[]=[];
+  adminUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
+  techUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
+  billingUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   submissionAttempted: boolean=false;
 
   @Input() organisationId: number =0;
@@ -24,9 +25,12 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   
   fullForm: FormGroup;
   applicationId: string | null = null; 
+  user = ''; // Replace with appropriate value
+  userMailId = localStorage.getItem('email');
   selectedDocType = '';
 
-  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute) {}
+  constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute,
+    private contactDoc:ContactDocumentUploadService) {}
 
   goBack(): void{
     console.log('goBack');
@@ -44,6 +48,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.fullForm = this.fb.group({
       // Admin Form Controls
+      administrativeContactId: 0,
       adminFullName: ['', [Validators.required]],
       adminEmail: ['', [Validators.required, Validators.email]],
       adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
@@ -51,6 +56,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       adminDesignation: ['', [Validators.required]],
 
       // Technical Form Controls
+      technicalContactId: 0,
       techFullName: ['', [Validators.required]],
       techEmail: ['', [Validators.required, Validators.email]],
       techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
@@ -58,6 +64,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       techDesignation: ['', [Validators.required]],
 
       // Billing Form Controls
+      organisationalContactId: 0,
       billFullName: ['', [Validators.required]],
       billEmail: ['', [Validators.required, Validators.email]],
       billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
@@ -108,33 +115,33 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     if (this.fullForm.valid) {
       
       const adminDetails = {
-        fullName: this.fullForm.get('adminFullName')?.value,
-        email: this.fullForm.get('adminEmail')?.value,
-        phone: this.fullForm.get('adminPhone')?.value,
-        altPhone: this.fullForm.get('adminAltPhone')?.value,
-        designation: this.fullForm.get('adminDesignation')?.value,
+        adminFullName: this.fullForm.get('adminFullName')?.value,
+        adminEmail: this.fullForm.get('adminEmail')?.value,
+        adminPhone: this.fullForm.get('adminPhone')?.value,
+        adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
+        adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
 
       const technicalDetails = {
-        fullName: this.fullForm.get('techFullName')?.value,
-        email: this.fullForm.get('techEmail')?.value,
-        phone: this.fullForm.get('techPhone')?.value,
-        altPhone: this.fullForm.get('techAltPhone')?.value,
-        designation: this.fullForm.get('techDesignation')?.value,
+        techFullName: this.fullForm.get('techFullName')?.value,
+        techEmail: this.fullForm.get('techEmail')?.value,
+        techPhone: this.fullForm.get('techPhone')?.value,
+        techAltPhone: this.fullForm.get('techAltPhone')?.value,
+        techDesignation: this.fullForm.get('techDesignation')?.value,
         // documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
 
       const billingDetails = {
-        fullName: this.fullForm.get('billFullName')?.value,
-        email: this.fullForm.get('billEmail')?.value,
-        phone: this.fullForm.get('billPhone')?.value,
-        altPhone: this.fullForm.get('billAltPhone')?.value,
-        designation: this.fullForm.get('billDesignation')?.value,
+        billFullName: this.fullForm.get('billFullName')?.value,
+        billEmail: this.fullForm.get('billEmail')?.value,
+        billPhone: this.fullForm.get('billPhone')?.value,
+        billAltPhone: this.fullForm.get('billAltPhone')?.value,
+        billDesignation: this.fullForm.get('billDesignation')?.value,
         // documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId
@@ -167,7 +174,17 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       }, error => {
         console.error('Error saving billing details', error);
       });
-
+      const uploadedDoc=[...this.adminUploadedDocs,
+  ...this.techUploadedDocs,
+  ...this.billingUploadedDocs]
+        console.log(uploadedDoc)
+      this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
+        next:(response)=>{
+          console.log(response)
+        },error:(error)=>{
+          console.log(error)
+        }
+      })
 
     } 
     else {

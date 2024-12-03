@@ -35,10 +35,13 @@ export class DomainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+<<<<<<< HEAD
 
     localStorage.setItem('isBoxVisible', 'false');
 
   
+=======
+>>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
     console.log(this.role)
     console.log(this.userEmailId)
     if(this.role !== 'IDRBTADMIN'){
@@ -48,44 +51,7 @@ export class DomainComponent implements OnInit {
       console.log('exe 1')
       this.getAllDomainsList("");
     }
-    // const savedFilters = localStorage.getItem('filters');
-  
-    // if (savedFilters) {
-    //   const filters = JSON.parse(savedFilters);
-  
-    //   this.filters.domainName = filters.domainName || '', 
-    //   this.filters.organisationName = filters.organisationName || '';
-    //   this.filters.nsRecordStatus = filters.nsRecordStatus || '';
-    //   this.filters.status = filters.status || '';
-      
-  
-    //   // Apply the filters to get the filtered data
-    //   this.getFilteredDomains();
-    // } else {
-    //   // No filters found, so just fetch all data
-    //   this.getFilteredDomains();
-    // }
   }
-  
-  // ngOnInit(): void {
-  //   const savedFilters = localStorage.getItem('filters');
-  
-  //   if (savedFilters) {
-  //     const filters = JSON.parse(savedFilters);
-  
-  //     this.filters.domainName = filters.domainName || '', 
-  //     this.filters.organisationName = filters.organisationName || '';
-  //     this.filters.nsRecordStatus = filters.nsRecordStatus || '';
-  //     this.filters.status = filters.status || '';
-      
-  
-  //     // Apply the filters to get the filtered data
-  //     this.getFilteredDomains();
-  //   } else {
-  //     // No filters found, so just fetch all data
-  //     this.getFilteredDomains();
-  //   }
-  // }
   
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
@@ -204,14 +170,11 @@ filterButton() {
    
       localStorage.removeItem('filters');
       
-      // Clear any local filter variables
       this.filters.organisationName= '';
       this.filters.nsRecordStatus = '';
       this.filters.status = '';
       this.filters.domainName='';
      
-    
-      // Fetch all domains without any filters
       this.getFilteredDomains();
     }
   

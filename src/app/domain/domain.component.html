@@ -3,12 +3,12 @@
     <div class="content-area">
       <app-main-header></app-main-header>
       <div class="container-fluid">
-        <div *ngIf="domainsList.length < 1 && role!='IDRBTADMIN';else displayDomains">
+        <div *ngIf="domainsList.length < 1 && role != 'IDRBTADMIN';else displayDomains">
           <app-user-domain-details></app-user-domain-details>
         </div>
         <div>
           <ng-template #displayDomains>
-            <div class="row" style="padding-top: 100px;">
+            <div *ngIf="domainsList.length > 0 && role != 'IDRBTADMIN'" class="row" style="padding-top: 100px;">
               <div class="col-sm-12">
                 <h3 class="d-flex align-items-center">
                   Domains 
@@ -166,9 +166,9 @@
     
 
               <section class="example-container" style="margin-top: 10px;">
-                <!-- <div *ngIf="noDataFound" class="no-results-message">
+                <div *ngIf="noDataFound" class="no-results-message">
                   No data found matching the filters.
-                </div> -->
+                </div>
                 <table id="table1" *ngIf="!noDataFound" mat-table [dataSource]="domainsDataSource" 
                 matSort class="mat-elevation-z8">
                   <!-- Checkbox Column -->

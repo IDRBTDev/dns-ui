@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DocumentUploadService {
-  private apiUrl = 'http://localhost:9007/dr/documents/documentUpload';
+  private apiUrl = 'http://localhost:9002/dr/documents/documentUpload';
 
   constructor(private http: HttpClient) {}
 
@@ -29,16 +29,51 @@ export class DocumentUploadService {
 
     // Append document details to the formData
     uploadedDocs.forEach((doc) => {
-      formData.append('files', doc.file); // Files
+      formData.append('files', doc.fileName); // Files
       formData.append('types', doc.type); // Document type
       formData.append('values', doc.value); // Additional document value
+      formData.append('file',doc.file);
     });
 
     // Append other required fields
     formData.append('applicationId', applicationId);
     formData.append('user', user);
     formData.append('userMailId', userMailId);
+    console.log(formData.getAll("files"))
+    // Make the HTTP POST request
+    return this.http
+      .post(this.apiUrl, formData, { responseType: 'text' }) // Specify response type as text
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // Handle errors
+          console.error('Error occurred during document upload:', error);
+          return throwError(
+            error.error || 'An error occurred while uploading documents.'
+          );
+        })
+      );
+  }
+  uploadContactDocuments(
+    uploadedDocs: any[],
+    applicationId: string,
+    user: string,
+    userMailId: string
+  ): Observable<string> {
+    const formData = new FormData();
 
+    // Append document details to the formData
+    uploadedDocs.forEach((doc) => {
+      formData.append('files', doc.fileName); // Files
+      formData.append('types', doc.type); // Document type
+      formData.append('values', doc.value); // Additional document value
+      formData.append('file',doc.file);
+    });
+
+    // Append other required fields
+    formData.append('applicationId', applicationId);
+    formData.append('user', user);
+    formData.append('userMailId', userMailId);
+    console.log(formData.getAll("files"))
     // Make the HTTP POST request
     return this.http
       .post(this.apiUrl, formData, { responseType: 'text' }) // Specify response type as text

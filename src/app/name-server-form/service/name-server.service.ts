@@ -30,9 +30,9 @@ export class NameServerService {
     });
   }
 
-  updateNameServer(id: number, data: any): Observable<HttpResponse<any>> {
+  updateNameServer(data: any): Observable<HttpResponse<any>> {
     return this.http.put<HttpResponse<any>>(
-      `${this.nameServerUrl}/${id}`,
+      `${this.nameServerUrl}/update`,
       data,
       { observe: 'response' }
     );

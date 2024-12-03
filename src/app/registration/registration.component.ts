@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/service/login.service';
 import * as $ from 'jquery';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-registration',
@@ -56,25 +57,48 @@ otp:number;
     confirmPasswordField.type = this.isConfirmPasswordVisible ? 'text' : 'password';
   }
 
+
+  
+
   async registerUser() {
+   
     this.nameChange();
     this.emailChange();
     this.numberChange();
     this.passwordChange();
     this.confirmPasswordChange();
-    this.validateCheckbox(); 
+    this.validateCheckbox();
+  
     if (this.formValid()) {
-      console.log('Validation passed:', this.nameInput, this.emailInput, this.numberInput, this.isAuthorized && this.passwordNameInput, this.confirmPasswordInput);
-      await lastValueFrom(this.registrationService.userRegistationToDR(this.user)).then(
-        response => {
-          if (response.status === HttpStatusCode.Created) {
-            this.toastrService.success('User registration successful');
-            this.router.navigateByUrl('/login');
-          }
+      try {
+        const response = await lastValueFrom(this.registrationService.userRegistationToDR(this.user));
+        
+        if (response.status === HttpStatusCode.Created) {
+          
+          this.toastrService.success('User registration successful');
+  
+          const myModal = new Modal(document.getElementById('exampleModalCenter'));
+          myModal.show();
+        } else {
+         
+          this.toastrService.error('Registration failed. Please try again.');
         }
-      );
+      } catch (error) {
+        console.error('Error during registration:', error);
+        this.toastrService.error('An error occurred during registration. Please try again.');
+      }
+    } else {
+     
+      this.toastrService.error('Please fix the errors in the form.');
     }
   }
+  
+  continueToLogin() {
+  
+    this.router.navigateByUrl('/login');
+    //window.location.reload();
+  }
+  
 
   formValid() {
     console.log("validation checking");

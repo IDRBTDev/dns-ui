@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { filter, Observable } from "rxjs";
 
 @Injectable({
     providedIn:'root'
@@ -17,18 +17,24 @@ export class DomainService{
 
     getFilteredData(filters: any) {
         let params = new HttpParams();
-    
+      
         // Add filters to params if they are provided
+
         if (filters.userId) params = params.set('userId', filters.userId);
         if (filters.organisationName) params = params.set('organisationName', filters.organisationName);
         if (filters.nsRecordStatus) params = params.set('nsRecordStatus', filters.nsRecordStatus);
         if (filters.status) params = params.set('status', filters.status);
-        if (filters.fromDate) params = params.set('fromDate', filters.fromDate); // Assuming it's a string or formatted date
-        if (filters.toDate) params = params.set('toDate', filters.toDate); // Assuming it's a string or formatted date
-    
+        console.log("status in servie:",filters.status);
+        if (filters.fromDate) params = params.set('fromDate', filters.fromDate); 
+        if (filters.toDate) params = params.set('toDate', filters.toDate); 
+        
+        // Log the filters to ensure they are correct
+        console.log('Sending filters:', filters);
+        
         // Make the GET request with the query parameters
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/all`, { params: params, observe: 'response' });
-      }
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/all/filter`, { params: params, observe: 'response' });
+    }
+    
 
     getDomainByDomainId(domainId: number){
         return this.httpClient.get<any>(`${this.domainsUrl}/getDetails/${domainId}`, {observe:'response'})

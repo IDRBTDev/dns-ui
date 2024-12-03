@@ -68,13 +68,13 @@ export class LoginComponent {
             this.toastr.error('User Inactive');
             return;
           }
-          //if(role === 'IDRBTADMIN'){
-            this.router.navigateByUrl('/user-domain-details');
+          if(role === 'IDRBTADMIN'){
+            this.router.navigateByUrl('/domains');
             this.toastr.success('Login Success');
-          // }else{
-          //   this.router.navigateByUrl('/home');
-          //   this.toastr.success('Login Success');
-          // }
+           }else{
+            this.router.navigateByUrl('/domains');
+            this.toastr.success('Login Success');
+          }
         },error => {
           if(error.status === HttpStatusCode.Unauthorized){
             console.log('sdsd')

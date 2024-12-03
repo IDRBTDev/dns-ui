@@ -245,7 +245,7 @@ export class OrganisationDetailsComponent implements OnInit {
     loading = false;
     validationMessage = '';
     submitted = false;
-    organisationUploadedDocs: { type: string; fileName: string }[] = [];
+    organisationUploadedDocs: { type: string; fileName: string ;multipartFile:Blob }[] = [];
     submissionAttempted: boolean = false;
   
     constructor(
