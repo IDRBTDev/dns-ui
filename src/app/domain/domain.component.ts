@@ -36,6 +36,8 @@ export class DomainComponent implements OnInit {
 
   ngOnInit(): void {
 
+    localStorage.setItem('isBoxVisible', 'false');
+
   
     console.log(this.role)
     console.log(this.userEmailId)

@@ -1,16 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css']
 })
-export class SideMenuComponent {
+export class SideMenuComponent implements OnInit{
+
+  isBoxVisible: boolean = false;
+  boxContent: string = 'Settings Box Opened';
+
+  constructor(private router: Router) {
+   
+  
+}
+  ngOnInit(): void {
+    // const boxState = localStorage.getItem('isBoxVisible');
+    // if (boxState === 'true') {
+    //   this.isBoxVisible = true;
+    // }
+  }
+
+  
 
   isSettingsOpen = false;
+  
 
-  toggleSettingsSubmenu() {
-    this.isSettingsOpen = !this.isSettingsOpen;
+  usernavigation() {
+    this.router.navigate(['/users']).then(() => {
+      // localStorage.setItem('isBoxVisible', String(this.isBoxVisible));
+    });
   }
+
+  rolenavigation() {
+    this.router.navigate(['/roles']).then(() => {
+      // localStorage.setItem('isBoxVisible', String(this.isBoxVisible));
+    });
+  
+  }
+
+  
+  toggleBox(): void {
+    this.isBoxVisible = !this.isBoxVisible;
+    // localStorage.setItem('isBoxVisible', String(this.isBoxVisible));
+  }
+   
 
 }

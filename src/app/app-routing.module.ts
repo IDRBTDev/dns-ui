@@ -24,6 +24,7 @@ import { NameServerComponent } from './name-server/name-server.component';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
 
+
 const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'organisation-details', component: OrganisationDetailsComponent},
@@ -54,7 +55,8 @@ const routes: Routes = [
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
   {path: 'add-domain', component: AddDomainComponent},
   {path: 'preview', component: PreviewComponent},
-  {path: 'name-server', component: NameServerComponent}
+  {path: 'name-server', component: NameServerComponent},
+  
 
 ];
 

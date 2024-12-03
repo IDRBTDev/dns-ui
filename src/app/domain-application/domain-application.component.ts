@@ -41,6 +41,7 @@ export class DomainApplicationComponent {
   }
 
   ngOnInit(): void {
+    localStorage.setItem('isBoxVisible', 'false');
     console.log(this.role)
     console.log(this.userEmailId)
     if (this.role !== 'IDRBTADMIN') {

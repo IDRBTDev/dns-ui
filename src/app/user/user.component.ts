@@ -30,6 +30,7 @@ export class UserComponent {
     organisationId:0
   }
 
+
   showEmailButton: boolean = false;
   showNumberButton: boolean = false;
   isPasswordVisible: boolean = false;
@@ -65,6 +66,7 @@ export class UserComponent {
 
   ngOnInit(): void {
     this.getUsersList(parseInt(this.organisationId));
+    
      
   }
 
@@ -313,7 +315,8 @@ if (!this.user.mobileNumber) {
     this.user.mobileNumber = '';
     this.user.confirmPassword = '';
   }
-
+  
 
 
 }
+

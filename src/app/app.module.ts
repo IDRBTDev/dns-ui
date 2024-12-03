@@ -34,7 +34,7 @@ import { OrganisationDetailsComponent } from './organisation-details/organisatio
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog'; // Import MatDialogModule
+import { MatDialogModule } from '@angular/material/dialog'; 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
@@ -52,11 +52,6 @@ import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-
-
-
-
-
 
 
 @NgModule({
@@ -92,6 +87,7 @@ import { RolesComponent } from './roles/roles.component';
     NameServerComponent,
     DomainDetailsEditComponent,
     RolesComponent,
+   
   ],
   imports: [
     BrowserModule,

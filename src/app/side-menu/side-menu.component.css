@@ -12,6 +12,7 @@
       width: 80px; /* Width of the sidenav */
       background-color: #1976d2; /* Blue color */
       color: white;
+      display: flex;
   
       ul {
         list-style-type: none;
@@ -95,7 +96,65 @@
     position: relative; /* Ensure submenu is positioned relative to the parent item */
   }
   
+
+
+.box {
+  position: absolute;
+  top: 43px; 
+  height: 93.3vh; 
+  transition: opacity 0.3s linear, left 0.3s ease-out;
+  display: flex;
+ 
+}
+
+.box.visible{
+  left: 80px;
+  opacity: 1;
+  z-index: 100;
+ 
+
+}
+
+
+.settings-content {
+  background-color: #2867AC; 
+  color: #FFF; 
+  padding: 30px;
+  border-radius: 8px;
+  height: 100%;
+
+}
+
+.settings-content p {
+  font-weight: 500;
+  font-size: 24px;
+  color: #FFFFFF;
+  margin-top: 30px;
+}
+
+.settings-content a {
+  font-size: 16px;
+  font-weight: 400;
+  color: #FFFFFF;
+  display: block;
+  margin-top: 20px;
+}
+
+.settings-content a:hover {
+  color: #ddd; 
+}
+
+
+
+
+
   
+
+
+
+
+
+
   
 
   
