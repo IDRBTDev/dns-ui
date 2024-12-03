@@ -35,13 +35,11 @@ export class DomainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-<<<<<<< HEAD
+
 
     localStorage.setItem('isBoxVisible', 'false');
 
   
-=======
->>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
     console.log(this.role)
     console.log(this.userEmailId)
     if(this.role !== 'IDRBTADMIN'){

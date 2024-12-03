@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomainService } from '../domain/service/domain.service';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { async, lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { UserService } from './service/user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -59,13 +59,9 @@ export class UserComponent {
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
-
-<<<<<<< HEAD
-  ngOnInit(): void {
-    this.getUsersList(parseInt(this.organisationId));
     
      
-=======
+
   loggedInUser: any;
   async getLoggedInUserDetails(){
    await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
@@ -126,7 +122,7 @@ export class UserComponent {
     //if(parseInt(this.organisationId) > 0){
       
     //}
->>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
+
   }
 
   async getUsersList(organisationId: number) {
@@ -391,10 +387,7 @@ if (!this.user.mobileNumber) {
     this.user.mobileNumber = '';
     this.user.confirmPassword = '';
   }
-<<<<<<< HEAD
-  
 
-=======
 
   /**
    * 
@@ -408,7 +401,7 @@ if (!this.user.mobileNumber) {
       document.getElementById('addUser1').click();
     }
   }
->>>>>>> e1f469c4c5c6daa8288ddadffbde551eb3204bed
 
 }
+
 
