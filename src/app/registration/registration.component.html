@@ -6,8 +6,8 @@
 
         <h5>Name <span class="required">*</span></h5>
         <div class="name-container">
-            <input type="text" class="form-control" [(ngModel)]="user.userName" id="name" placeholder="Enter your full name"
-                (blur)="nameChange()" (input)="nameChange()" />
+            <input type="text" class="form-control" [(ngModel)]="user.userName" id="name"
+                placeholder="Enter your full name" (blur)="nameChange()" (input)="nameChange()" />
         </div>
         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
 
@@ -16,10 +16,9 @@
             <div class="input-group">
                 <input type="email" placeholder="Enter your email id" class="form-control" [(ngModel)]="user.userId"
                     (blur)="emailChange()" (input)="toggleEmailButton()" />
-                <button *ngIf="showEmailButton" type="button" class="get-email-btn"
-                 id="email-btn"
-                 (click)="saveRegUser()">Verify</button>
-                 <button hidden="true" data-toggle="modal" data-target="#exampleModal" id="showModal"></button>
+                <button *ngIf="showEmailButton" type="button" class="get-email-btn" id="email-btn"
+                    (click)="saveRegUser()">Verify</button>
+                <button hidden="true" data-toggle="modal" data-target="#exampleModal" id="showModal"></button>
             </div>
             <div *ngIf="!emailInput" class="error-message">{{ emailerrorMessage }}</div>
         </div>
@@ -27,8 +26,8 @@
         <div id="mobile-number">
             <h5>Mobile Number <span class="required">*</span></h5>
             <div class="input-group">
-                <input type="text" placeholder="+91 Enter your number" maxlength="10" class="form-control" [(ngModel)]="user.mobileNumber"
-                    (blur)="numberChange()" (input)="toggleNumberButton()" />
+                <input type="text" placeholder="+91 Enter your number" maxlength="10" class="form-control"
+                    [(ngModel)]="user.mobileNumber" (blur)="numberChange()" (input)="toggleNumberButton()" />
             </div>
             <div *ngIf="!numberInput" class="error-message">{{ numbererrorMessage }}</div>
         </div>
@@ -47,7 +46,8 @@
         <div class="password-container">
             <input type="password" id="confirmPassword" placeholder="Re-enter the password" class="form-control"
                 [(ngModel)]="user.confirmPassword" (blur)="confirmPasswordChange()" (input)="confirmPasswordChange()">
-            <button type="button" id="toggleConfirmPassword" class="eye-icon" (click)="toggleConfirmPasswordVisibility()">
+            <button type="button" id="toggleConfirmPassword" class="eye-icon"
+                (click)="toggleConfirmPasswordVisibility()">
                 <i class="fas" [ngClass]="isConfirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
             </button>
         </div>
@@ -55,7 +55,7 @@
 
         <p style="display: flex; align-items: center; font-size: 14px;">
             <input type="checkbox" id="authorization-checkbox" [(ngModel)]="isAuthorized"
-                   style="margin-right: 10px; width: 16px; height: 16px; margin-bottom: 10px; padding-top: 10px;">
+                style="margin-right: 10px; width: 16px; height: 16px; margin-bottom: 10px; padding-top: 10px;">
             I hereby declare that I am an authorized official to access this page and have got the approval to
             register on this portal.
         </p>
@@ -63,27 +63,43 @@
             You must agree to the terms and conditions to proceed.
         </div>
 
-        <button class="form-control login-btn" type="button" 
-        style="margin-top: 20px;" (click)="registerUser()">Register</button>
+        <button class="form-control login-btn" type="button" style="margin-top: 20px;" (click)="registerUser()"
+        >Register</button>
     </div>
 </div>
 
- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Email Verification</h5>
-          <button type="button" class="close" data-dismiss="modal" id="closeRegForm" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Email Verification</h5>
+                <button type="button" class="close" data-dismiss="modal" id="closeRegForm" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Enter the OTP sent to your registered email and verify the email.</p>
+                <input type="text" placeholder="Enter your OTP" class="form-control" [(ngModel)]="otp" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="verifyOtp()">Verify</button>
+            </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
         <div class="modal-body">
-          <p>Enter the OTP sent to your registered email and verify the email.</p>
-          <input type="text" placeholder="Enter your OTP" class="form-control" [(ngModel)]="otp" />
+          <h2>Registration Success</h2>
+          <p>You have successfully registered. Click Continue to login.</p>
         </div>
         <div class="modal-footer">
-           <button type="button" class="btn btn-primary" (click)="verifyOtp()">Verify</button>
+          <button type="button" class="btn btn-primary" (click)="continueToLogin()">Continue</button>
         </div>
       </div>
     </div>
   </div>
+  

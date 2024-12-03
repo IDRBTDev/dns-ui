@@ -43,32 +43,25 @@ export class DomainApplicationComponent {
   ngOnInit(): void {
     console.log(this.role)
     console.log(this.userEmailId)
+    const d=JSON.parse(localStorage.getItem('filters'))
+    console.log(d.status)
     if (this.role !== 'IDRBTADMIN') {
       console.log('exe')
+      if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
       this.getAllDomainsList(this.userEmailId);
+    else
+    this.getFilteredDomains();
     } else {
       console.log('exe 1')
+      if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
       this.getAllDomainsList("");
+    else
+    this.getFilteredDomains();
     }
-    //this.getFilteredDomains();
-    // const savedFilters = localStorage.getItem('filters');
-
-    // if (savedFilters) {
-    //   const filters = JSON.parse(savedFilters);
-
-    //   // Set the filter values in your component from the saved data
-    //   this.filters.organisationName = filters.organisationName || '';
-    //   this.filters.nsRecordStatus = filters.nsRecordStatus || '';
-    //   this.filters.status = filters.status || '';
-
-
-    //   // Apply the filters to get the filtered data
-    //   this.getFilteredDomains();
-    // } else {
-    //   // No filters found, so just fetch all data
-    //   this.getFilteredDomains();
-    // }
+    
+  
   }
+ 
 
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
@@ -91,7 +84,7 @@ export class DomainApplicationComponent {
   }
   getFilteredDomains(): void {
     const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
-  
+   console.log("filterd data is:",filters);
     this.domainService.getFilteredData(filters).subscribe(
       (response) => {
         // Check if the response has data
@@ -169,16 +162,26 @@ export class DomainApplicationComponent {
 
   clearButton() {
 
-    localStorage.removeItem('filters');
+    //localStorage.removeItem('filters');
 
     // Clear any local filter variables
     this.filters.organisationName = '';
     this.filters.nsRecordStatus = '';
     this.filters.status = '';
-
+    this.filters.submissionDate='';
+    localStorage.setItem('filters', JSON.stringify(this.filters));
 
     // Fetch all domains without any filters
-    this.getFilteredDomains();
+    if (this.role !== 'IDRBTADMIN') {
+      console.log('exe')
+     
+      this.getAllDomainsList(this.userEmailId);
+    
+   
+    } else {
+    
+      this.getAllDomainsList("");
+   
   }
-
+  }
 }
