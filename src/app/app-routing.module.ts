@@ -23,6 +23,8 @@ import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
+import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
+
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
@@ -54,7 +56,8 @@ const routes: Routes = [
   {path: 'invoice-details', component: DomainInvoiceDetailsComponent},
   {path: 'add-domain', component: AddDomainComponent},
   {path: 'preview', component: PreviewComponent},
-  {path: 'name-server', component: NameServerComponent}
+  {path: 'name-server', component: NameServerComponent},
+  {path: 'registrant-user-management', component: RegistrantUserManagementComponent}
 
 ];
 

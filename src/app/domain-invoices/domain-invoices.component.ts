@@ -43,6 +43,9 @@ export class DomainInvoicesComponent implements OnInit {
     }else{
       this.loadBillingHistories(this.userId);
     }
+
+    localStorage.setItem('isBoxVisible', 'false');
+    
   }
 
   loadBillingHistories(userId: string): void {

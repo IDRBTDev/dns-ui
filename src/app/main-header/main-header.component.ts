@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
 import { MainHeaderService } from './service/main-header.service';
+import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
   selector: 'app-main-header',
@@ -13,10 +14,12 @@ export class MainHeaderComponent implements OnInit{
   user: User | null = null;  
   loading: boolean = true;    
   error: string = '';
+  isNotificationVisible = false;
+  notificationModalId = 'notificationModal';
 
   @ViewChild('fileInput') fileInput: any;
   
-
+  @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
   constructor(private router: Router, private mainHeaderService: MainHeaderService,){}
 
   ngOnInit(): void {
@@ -38,7 +41,12 @@ export class MainHeaderComponent implements OnInit{
     window.location.reload();
   }
   
-  
+  toggleNotification(): void {
+    this.isNotificationVisible = !this.isNotificationVisible;
+  }
+  onNotificationToggle(value: boolean): void {
+    this.isNotificationVisible = value; // Sync with the child component
+  }
 
   logout(){
     localStorage.clear();
@@ -47,6 +55,12 @@ export class MainHeaderComponent implements OnInit{
       window.location.reload();
     });
   }
+  notifications(){
+    if (this.notificationComponent) {
+      this.notificationComponent.showModal();
+    }
+  }
+
 
   onImageLoad() {
     console.log("Profile image successfully loaded into the DOM.");

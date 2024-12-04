@@ -96,7 +96,7 @@ otp:number;
   continueToLogin() {
   
     this.router.navigateByUrl('/login');
-    window.location.reload();
+    //window.location.reload();
   }
   
 

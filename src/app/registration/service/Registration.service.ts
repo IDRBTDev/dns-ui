@@ -24,6 +24,7 @@ export class RegistrationService{
       }
 
     saveRegUser(regUser: any){
-        return this.httpClient.post<boolean>(this.userRegUrl, regUser, {observe: 'response'});
+        const regFrom = 'REGISTRATION-FORM';
+        return this.httpClient.post<boolean>(this.userRegUrl+"?regFrom="+regFrom, regUser, {observe: 'response'});
     }
 }

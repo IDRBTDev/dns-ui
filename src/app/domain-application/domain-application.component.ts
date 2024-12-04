@@ -67,6 +67,25 @@ export class DomainApplicationComponent {
     console.log('exe 1')
     this.getAllDomainsList("");
   }
+
+    // localStorage.setItem('isBoxVisible', 'false');
+    // console.log(this.role)
+    // console.log(this.userEmailId)
+    // const d=JSON.parse(localStorage.getItem('filters'))
+    // console.log(d.status)
+    // if (this.role !== 'IDRBTADMIN') {
+    //   console.log('exe')
+    //   if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
+    //   this.getAllDomainsList(this.userEmailId);
+    // else
+    // this.getFilteredDomains();
+    // } else {
+    //   console.log('exe 1')
+    //   if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
+    //   this.getAllDomainsList("");
+    // else
+    // this.getFilteredDomains();
+    // }
     
   
   }

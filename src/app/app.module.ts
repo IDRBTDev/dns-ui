@@ -34,7 +34,7 @@ import { OrganisationDetailsComponent } from './organisation-details/organisatio
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog'; // Import MatDialogModule
+import { MatDialogModule } from '@angular/material/dialog'; 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
@@ -52,11 +52,8 @@ import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-
-
-
-
-
+import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
+import { ReminderComponent } from './reminder/reminder.component';
 
 
 @NgModule({
@@ -92,6 +89,9 @@ import { RolesComponent } from './roles/roles.component';
     NameServerComponent,
     DomainDetailsEditComponent,
     RolesComponent,
+    RegistrantUserManagementComponent,
+    ReminderComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -101,8 +101,8 @@ import { RolesComponent } from './roles/roles.component';
     FormsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'right'
+      //timeOut: 3000,
+     // positionClass: 'right'
     }),
     MatTableModule,
     MatSortModule,

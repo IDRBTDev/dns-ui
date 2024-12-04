@@ -2,21 +2,19 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DomainService } from '../domain/service/domain.service';
+import { UserService } from '../user/service/user.service';
 import { Router } from '@angular/router';
-import { async, lastValueFrom } from 'rxjs';
-import { HttpStatusCode } from '@angular/common/http';
-import { UserService } from './service/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
-//import { MatPaginator } from '@angular/material/paginator';
+import { lastValueFrom } from 'rxjs';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-registrant-user-management',
+  templateUrl: './registrant-user-management.component.html',
+  styleUrls: ['./registrant-user-management.component.css']
 })
-export class UserComponent {
+export class RegistrantUserManagementComponent {
 
   user = {
     id: 0,
@@ -42,8 +40,6 @@ export class UserComponent {
   //isToggleOn: boolean = false;
 
   displayedColumns: string[] = [];// Matches matColumnDef values
-
-  
 
   usersList: any[];
   usersDataSource: MatTableDataSource<any>;
@@ -403,5 +399,3 @@ if (!this.user.mobileNumber) {
   }
 
 }
-
-
