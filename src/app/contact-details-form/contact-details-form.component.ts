@@ -174,10 +174,21 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       }, error => {
         console.error('Error saving billing details', error);
       });
+      
       const uploadedDoc=[...this.adminUploadedDocs,
   ...this.techUploadedDocs,
   ...this.billingUploadedDocs]
         console.log(uploadedDoc)
+        if(this.adminUploadedDocs.length>2){
+          localStorage.setItem('admindocs',JSON.stringify(this.adminUploadedDocs));
+        }
+        if(this.adminUploadedDocs.length>2){
+          localStorage.setItem('techdocs',JSON.stringify(this.techUploadedDocs));
+        }
+        if(this.adminUploadedDocs.length>2){
+          localStorage.setItem('billdocs',JSON.stringify(this.billingUploadedDocs));
+        }
+      
       this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
         next:(response)=>{
           console.log(response)

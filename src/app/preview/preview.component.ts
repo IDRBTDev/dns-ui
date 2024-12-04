@@ -43,6 +43,9 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchDataFromAPIs();
+    console.log(JSON.parse(localStorage.getItem('admindocs')))
+    console.log(JSON.parse(localStorage.getItem('techdocs')))
+    console.log(JSON.parse(localStorage.getItem('billdocs')))
   }
 
 
@@ -505,6 +508,17 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateNameServers();
     this.toastr.success('Details updated successfully');
     this.router.navigateByUrl('/domains');
+  }
+
+  submissionAttempted=false;
+  adminUploadedDocs=localStorage.getItem('admindocs')?JSON.parse(localStorage.getItem('admindocs')):[];
+  techUploadedDocs=localStorage.getItem('techdocs')?JSON.parse(localStorage.getItem('techdocs')):[];
+  billUploadedDocs=localStorage.getItem('billdocs')?JSON.parse(localStorage.getItem('billdocs')):[];
+  @Output() setAdminUploadedDocs = new EventEmitter<any[]>();
+  handleRemoveAdminDoc(index: number): void {
+    this.submissionAttempted = false;
+    this.adminUploadedDocs.splice(index, 1);
+    this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
   }
 
 }
