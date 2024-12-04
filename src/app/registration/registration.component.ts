@@ -77,8 +77,9 @@ otp:number;
           
           this.toastrService.success('User registration successful');
   
-          const myModal = new Modal(document.getElementById('exampleModalCenter'));
-          myModal.show();
+          //const myModal = new Modal(document.getElementById('exampleModalCenter'));
+          //myModal.show();
+          this.router.navigateByUrl('/reg-success');
         } else {
          
           this.toastrService.error('Registration failed. Please try again.');

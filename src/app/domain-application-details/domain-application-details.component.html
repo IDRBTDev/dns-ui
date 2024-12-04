@@ -47,7 +47,7 @@
                             <div class="first">
                                 <h5 style="font-size: 15px;">Institution Name </h5>
                                 <div class="input-group">
-                                    <input type="text" placeholder="Enter your Institute Name" class="form-control"
+                                    <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
                                         [(ngModel)]="organizationsList.institutionName" />
                                     <div *ngFor="let organization of organizationsList">
                                         <p>{{ organization?.institutionName }}</p>
