@@ -26,27 +26,73 @@
                         <p style="margin-bottom: 0;">Help</p>
                     </div>
   
-                      <div class="dropdown78">
-                        <div  style="cursor: pointer;" (click)="toggleDropdown()" aria-expanded="false" id="signInDropdown">
-                          Sign In
-                          <svg class="chevron-icon" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" [ngClass]="{ 'rotated': isDropdownOpen }">
-                            <path d="M6.73242 9L12.7324 15L18.7324 9" stroke="#1B154E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
+                    <div class="dropdown78">
+                        <div style="cursor: pointer;" (click)="toggleDropdown()" aria-expanded="false" id="signInDropdown">
+                            Sign In
+                            <svg class="chevron-icon" width="25" height="24" viewBox="0 0 25 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" [ngClass]="{ 'rotated': isDropdownOpen }">
+                                <path d="M6.73242 9L12.7324 15L18.7324 9" stroke="#1B154E" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </div>
-                      
+     
                         <ul class="dropdown-menu" [ngClass]="{ 'show': isDropdownOpen }">
-                          <h3>Registered Users</h3>
-                          <p>Have an account? Sign in now.</p>
-                          <li><a class="dropdown-item" (click)="navigateToLogin()" style="cursor: pointer;">Sign In</a></li>
-                          <hr />
-                          <h3>New Customer</h3>
-                          <p>Create a registar account to get started today.</p>
-                          <li><a class="dropdown-item" (click)="navigateToregister()" style="cursor: pointer;">Create an Account</a></li>
+                            <div style="display: flex; gap: 8px;">
+     
+                                <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_2235_4239)">
+                                    <path d="M16.8342 21.5867V19.5867C16.8342 18.5258 16.4128 17.5084 15.6627 16.7582C14.9125 16.0081 13.8951 15.5867 12.8342 15.5867H5.83423C4.77336 15.5867 3.75595 16.0081 3.0058 16.7582C2.25566 17.5084 1.83423 18.5258 1.83423 19.5867V21.5867" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.33423 11.5867C11.5434 11.5867 13.3342 9.79581 13.3342 7.58667C13.3342 5.37753 11.5434 3.58667 9.33423 3.58667C7.12509 3.58667 5.33423 5.37753 5.33423 7.58667C5.33423 9.79581 7.12509 11.5867 9.33423 11.5867Z" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.8342 11.5867L19.8342 13.5867L23.8342 9.58667" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_2235_4239">
+                                    <rect width="24" height="24" fill="white" transform="translate(0.834229 0.58667)"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                                   
+     
+                                <div style="font-weight: 500; font-size: 20px;">
+                                    Registered Users</div>
+     
+     
+                            </div>
+                           
+                            <p style="font-weight: 400; color: #666666; margin-top: 8px;">Have an account? Sign in now.</p>
+                            <li><a class="dropdown-item" (click)="navigateToLogin()"
+                                    style="cursor: pointer; padding-left: 0px; margin-top: 12px;">Sign In</a></li>
+                            <hr />
+                            <div style="display: flex; gap:8px; align-items: center;">
+     
+                                <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_2235_4246)">
+                                    <path d="M16.8342 21.5867V19.5867C16.8342 18.5258 16.4128 17.5084 15.6627 16.7582C14.9125 16.0081 13.8951 15.5867 12.8342 15.5867H5.83423C4.77336 15.5867 3.75595 16.0081 3.0058 16.7582C2.25566 17.5084 1.83423 18.5258 1.83423 19.5867V21.5867" stroke="#FF8B1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.33423 11.5867C11.5434 11.5867 13.3342 9.79581 13.3342 7.58667C13.3342 5.37753 11.5434 3.58667 9.33423 3.58667C7.12509 3.58667 5.33423 5.37753 5.33423 7.58667C5.33423 9.79581 7.12509 11.5867 9.33423 11.5867Z" stroke="#FF8B1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20.8342 8.58667V14.5867" stroke="#FF8B1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M23.8342 11.5867H17.8342" stroke="#FF8B1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_2235_4246">
+                                    <rect width="24" height="24" fill="white" transform="translate(0.834229 0.58667)"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                                   
+     
+                                <h3 style="font-weight: 500; font-size: 20px; margin-bottom: 5px;">New Customer</h3>
+     
+                            </div>
+                           
+                            <p style="color: #666666;">Create an account to get started today.</p>
+                            <li><a class="dropdown-item" (click)="navigateToregister()"
+                                    style="cursor: pointer; padding-left: 0px; ">Create an Account</a></li>
                         </ul>
-                      </div>
-                      
-
-</div></div>                      
+                    </div>
+     
+     
+                </div>
+            </div>                     
         
 
 <div class="row">
