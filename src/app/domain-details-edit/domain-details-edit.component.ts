@@ -4,6 +4,7 @@ import { DomainService } from '../domain/service/domain.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom, window } from 'rxjs';
 import { NameServerService } from './service/domain-details-edit.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-domain-details-edit',
@@ -12,7 +13,8 @@ import { NameServerService } from './service/domain-details-edit.service';
 })
 export class DomainDetailsEditComponent implements OnInit {
   constructor(private domainService: DomainService, 
-    private router: Router, private activatedRouter: ActivatedRoute,  private nameServerService: NameServerService
+    private router: Router, private activatedRouter: ActivatedRoute, 
+    private toastr: ToastrService, private nameServerService: NameServerService
   ){
    const state = history.state.domainDetail;
    if (state) {
@@ -58,10 +60,12 @@ export class DomainDetailsEditComponent implements OnInit {
     this.router.navigateByUrl('/session-timeout');
   }
 
-  backDomain(){
-    this.router.navigateByUrl('domain-details');
-    // this.router.navigateByUrl(`/domain-details?domainId=${this.domainId}`);
-    }
+  backDomain() {
+    this.router.navigate(['/domain-details'], {
+      state: { domainDetail: this.domainDetail } 
+    });
+  }
+  
     crossButton(){
       console.log("cancel button is working good");
     }
@@ -69,16 +73,16 @@ export class DomainDetailsEditComponent implements OnInit {
      
   onSubmit(): void {
     this.domainDetail.nameServers.forEach(ns => {
-      const nameServerId = ns.id; 
+      const nameServerId = ns.nameServerId; 
       this.nameServerService.updateNameServer(nameServerId, ns)
         .subscribe(
           response => {
             console.log('Name Server updated successfully', response);
-            alert('Name Server updated successfully');
+            this.toastr.success('Name Server details updated successfully');
           },
           error => {
             console.error('Error updating Name Server', error);
-            alert('Error updating Name Server');
+
           }
         );
     });
