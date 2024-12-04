@@ -21,7 +21,8 @@
     padding: 10px 20px;               
     display: inline-flex;            
     align-items: center;  
-    margin-right: 50px;  
+    margin-right: 50px; 
+     
   
     padding-top: 10px;      
 }
@@ -41,13 +42,14 @@ text-underline-position: from-font;
 text-decoration-skip-ink: none;
 color:#1E3A8A
 
+
   }
     
   .dropdown-menu {
     
     top: 90%;                  
        
-    right:50px;              
+    right:72px;              
     width: 350px;                
     padding: 12px 24px;            
     background-color: white;
@@ -59,7 +61,9 @@ color:#1E3A8A
     transition: opacity 0.2s ease; 
     margin-left:auto;  
     padding-left: 10px; 
-    position:absolute;  
+    position:absolute; 
+    
+    
    
   }
   

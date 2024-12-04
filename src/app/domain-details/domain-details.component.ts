@@ -70,6 +70,7 @@ export class DomainDetailsComponent implements OnInit {
     }
 
     domainedit(){
-      this.router.navigateByUrl('DomainEditPage');
+  this.router.navigateByUrl('/DomainEditPage', { state: { domainDetail: this.domainDetail } });
+
     }
   }

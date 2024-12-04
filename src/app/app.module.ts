@@ -56,6 +56,7 @@ import { RegistrantUserManagementComponent } from './registrant-user-management/
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
+import { ReminderComponent } from './reminder/reminder.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { RegistrationSuccessComponent } from './registration-success/registratio
     RegistrantUserManagementComponent,
     VerifyDocumentsComponent,
     RegistrationSuccessComponent,
+    ReminderComponent,
    
   ],
   imports: [
