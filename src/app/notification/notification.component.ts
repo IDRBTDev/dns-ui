@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+declare var bootstrap: any;
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, NgZone, Input, Output, EventEmitter } from '@angular/core';
 import { error } from 'jquery';
 import { HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -8,31 +9,50 @@ import { ChangeDetectorRef } from '@angular/core';
 import { NotificationService } from './service/notification.service';
 import { Notification } from '../model/Notification.model';
 import TimeAgo from "javascript-time-ago";
+declare var $: any;
+
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent implements OnInit, AfterViewInit {
+
+  @Input() modalId: string = '';
+  @Input() isNotificationVisible: boolean = false;
+  @Output() notificationToggle: EventEmitter<boolean> = new EventEmitter();
+
+  @ViewChild('notificationModal') notificationModal: ElementRef;
 
   notificationList: Notification[];
   notificationCount = 0;
   //userDetails : Users;
 
   constructor(
-    private router: Router, private cdr :ChangeDetectorRef, private notificationService: NotificationService){
+    private router: Router, private cdr :ChangeDetectorRef, private notificationService: NotificationService, private ngZone: NgZone){
       this.getNotificationsOfUser();
      // this.getAssignedUserProfile('Bharat@ikcontech.com')
   }
 
   ngOnInit(): void {
-    //this.getNotificationsOfUser();
+    this.getNotificationsOfUser();
+    this.showModal(); // Call the modal show on component load
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      console.log(this.notificationModal);  // Should no longer be undefined
+    });
   }
 
   /**
    * 
    */
+  toggleVisibility(): void {
+    this.isNotificationVisible = !this.isNotificationVisible;
+    this.notificationToggle.emit(this.isNotificationVisible); // Notify the parent
+  }
   getNotificationsOfUser(){
       //get top 10 notifications of user
     this.notificationService.getTopTenNotificationsByUserId(localStorage.getItem('email')).subscribe({
@@ -59,6 +79,32 @@ export class NotificationComponent implements OnInit {
       }
     });
   }
+
+  showModal() {
+    if (this.notificationModal) {
+      const modalElement = this.notificationModal.nativeElement;
+
+      // Using ngZone to ensure Angular's change detection doesn't get in the way
+      this.ngZone.run(() => {
+        const modal = new bootstrap.Modal(modalElement, {
+          backdrop: 'static', // Prevent closing on backdrop click
+          keyboard: false,     // Prevent closing on ESC key
+        });
+
+        // Log when modal is being shown (useful for debugging)
+        console.log('Modal is being shown');
+
+        // Show the modal with the fade effect
+        modal.show();
+        
+        // Apply the fade-in effect and ensure visibility
+        modalElement.classList.add('show'); // Ensure 'show' class is added for visibility
+        modalElement.style.display = 'block'; // Ensure it's displayed
+        modalElement.style.opacity = '1'; // Ensure full opacity after displaying
+      });
+    }
+  }
+
 
  /**
   * 

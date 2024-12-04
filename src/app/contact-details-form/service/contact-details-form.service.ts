@@ -55,4 +55,25 @@ export class ContactDetailsFormService {
   updateBillDetails(billData: any): Observable<any> {
     return this.http.put(this.billApiUrl+"/update", billData,{observe:'response'});
   }
+
+  getContactOfficersDetails(organisationId: number){
+    const apiUrl = 'http://localhost:9002/dr/administrativeContact/contactDetails?organisationId='+organisationId;
+    return this.http.get<any[]>(apiUrl,{observe:'response'});
+  }
+
+  getAdminOfficerDetailsById(id: number){
+    const apiUrl = this.adminApiUrl+'/getDetails/'+id;
+    return this.http.get<any>(apiUrl, {observe: 'response'});
+  }
+
+  getTechnicalOfficerDetailsById(id: number){
+    const apiUrl = this.techApiUrl+'/getDetails/'+id;
+    return this.http.get<any>(apiUrl, {observe: 'response'});
+  }
+
+  getBillingOfficerDetailsById(id: number){
+    const apiUrl = this.billApiUrl+'/getDetails/'+id;
+    return this.http.get<any>(apiUrl, {observe: 'response'});
+  }
+
 }

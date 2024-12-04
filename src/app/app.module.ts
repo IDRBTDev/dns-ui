@@ -53,6 +53,10 @@ import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
 import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
+import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
+import { ReminderComponent } from './reminder/reminder.component';
 
 
 @NgModule({
@@ -89,6 +93,9 @@ import { RegistrantUserManagementComponent } from './registrant-user-management/
     DomainDetailsEditComponent,
     RolesComponent,
     RegistrantUserManagementComponent,
+    VerifyDocumentsComponent,
+    RegistrationSuccessComponent,
+    ReminderComponent,
    
   ],
   imports: [
@@ -102,6 +109,7 @@ import { RegistrantUserManagementComponent } from './registrant-user-management/
       //timeOut: 3000,
      // positionClass: 'right'
     }),
+    NgSelectModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,

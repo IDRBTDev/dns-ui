@@ -1,38 +1,101 @@
-#message{
+/* Custom modal positioning */
+.custom-modal-right .modal-dialog {
+    position: fixed;
+    right: 20px; /* Adjust horizontal positioning */
+    top: 20px; /* Adjust vertical positioning */
+    margin: 0;
+    max-width: 300px; /* Adjust width as needed */
+    z-index: 1050; /* Ensure it's above other content */
+}
+
+/* Ensure modal backdrop is not too dark */
+.modal-backdrop {
+    opacity: 0.1 !important; /* Adjust the opacity of the backdrop */
+}
+
+/* Optional styling for card contents */
+#message {
     font-size: 12px;
     text-align: start;
     padding-left: 5px;
     padding-top: 10px;
 }
 
-#statusUnread{
+#statusUnread {
     font-size: 10px;
     padding-top: 48px;
     color: black;
 }
 
-
-#statusRead{
+#statusRead {
     font-size: 10px;
     padding-top: 48px;
     color: lightgray;
 }
 
-#notification-card{
+/* Notification card hover effect */
+#notification-card {
     cursor: pointer;
 }
 
-#notificationCard:hover{
+#notificationCard:hover {
     background-color: aliceblue;
 }
 
-#userImage{
+/* User image styling */
+#userImage {
     padding-top: 14px;
 }
 
-#dateTimeAgo{
+/* Date and time formatting */
+#dateTimeAgo {
     font-size: 8px;
     text-align: start;
     padding-left: 80px;
     padding-top: 10px;
+}
+
+body.modal-open {
+    overflow: hidden; /* Prevents body scroll */
+}
+
+body.modal-open .modal {
+    position: fixed; /* Prevents the modal from shifting */
+}
+
+
+/* Ensure modal is not obscured by other content */
+.modal-content {
+    z-index: 1060; /* Increase z-index to ensure modal appears on top */
+}
+
+/* Adjust modal content styling */
+.modal-header {
+    padding: 10px 15px;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.modal-footer {
+    padding: 10px;
+}
+
+/* Optional: custom close button */
+.btn-close {
+    background-color: transparent;
+    border: none;
+}
+
+/* Optional: Custom styling for the notification modal */
+.modal {
+    display: none; /* Hide modal initially */
+    opacity: 0; /* Initial opacity for fade-in effect */
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+    display: block; /* Show modal */
+    opacity: 1; /* Full opacity when displayed */
 }

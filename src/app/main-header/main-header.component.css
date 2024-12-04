@@ -1,78 +1,91 @@
-.fixed-top{
-    flex-shrink: 0;
-    background: #FAFAFA;
-    box-shadow: #FAFAFA;
-    /* margin-left:-370px; */
+.fixed-top {
+        flex-shrink: 0;
+        background: #FAFAFA;
+        box-shadow: #FAFAFA;
+        /* margin-left:-370px; */
 }
 
-.header-first{
-        flex-direction:row;
+.header-first {
+        flex-direction: row;
         opacity: 1;
-        display: flex; 
-        justify-content: flex-start; 
-        position: fixed; 
+        display: flex;
+        justify-content: flex-start;
+        position: fixed;
 }
 
 .custom-element {
         gap: 30px;
-        flex-direction:row;
+        flex-direction: row;
         opacity: 1;
-        display: flex; 
-        justify-content: flex-end; 
-        position: fixed; 
+        display: flex;
+        justify-content: flex-end;
+        position: fixed;
         z-index: 100;
         margin-top: 10px;
-        top:10px;
-        right:0;
+        top: 10px;
+        right: 0;
         padding-right: 30px;
-        
+
 }
+
+app-notification {
+        position: absolute;
+        top: 100%;
+        /* Place it below the header */
+        z-index: 1050;
+        /* Ensure it's above other elements */
+        right: 75px;
+        width: 318px;
+}
+
 
 
 .modal-dialog.modal-dialog-right {
-  position: absolute;
-  right: 0;
-  margin: 0;
-  top: 0;
-  height: 100vh;
-  width: 320px;
- 
+        position: absolute;
+        right: 0;
+        margin: 0;
+        top: 0;
+        height: 100vh;
+        width: 320px;
+
 }
+
 .modal.right.fade .modal-dialog {
         right: -320px;
         -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
         -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
         -o-transition: opacity 0.3s linear, right 0.3s ease-out;
         transition: opacity 0.3s linear, right 0.3s ease-out;
-      }
-       
-      .modal.right.fade.show .modal-dialog {
+}
+
+.modal.right.fade.show .modal-dialog {
         right: 0;
-      }
-    
-
-#exampleModalLabel{
-        color:white;
-}
-.modal-content{
-      height:100vh;
 }
 
 
+#exampleModalLabel {
+        color: white;
+}
 
-.text1{
+.modal-content {
+        height: 100vh;
+}
+
+
+
+.text1 {
         font-size: 14px;
         font-weight: 400;
         color: #606060;
         padding-left: 20px;
-       
+
 }
 
-.text2{
+.text2 {
         font-size: 14px;
         font-weight: 400;
         color: #202224;
-        padding-left: 20px; 
+        padding-left: 20px;
 }
 
 .profile_container {
@@ -83,10 +96,10 @@
         overflow: hidden;
         height: 150px;
         width: 150px;
-        background-size: cover; 
-      }
-       
-      .profile-pic {
+        background-size: cover;
+}
+
+.profile-pic {
         object-fit: contain;
         background-size: cover;
         vertical-align: middle;
@@ -94,6 +107,4 @@
         overflow: hidden;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
         border: 1px solid lightgray;
-      }
-       
-      
+}

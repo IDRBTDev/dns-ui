@@ -150,7 +150,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
             this.formSubmitted.emit();
 
       // Save Admin details
-      this.contactDetailsFormService.saveAdminDetails(adminDetails).subscribe(response => {
+      this.contactDetailsFormService.updateAdminDetails(adminDetails).subscribe(response => {
         console.log('Admin details saved successfully', response);
         console.log(adminDetails);
         // const applicationId = response.applicationId; // Ensure this is the correct field
@@ -162,14 +162,14 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       });
 
       // Save Technical details
-      this.contactDetailsFormService.saveTechDetails(technicalDetails).subscribe(response => {
+      this.contactDetailsFormService.updateTechDetails(technicalDetails).subscribe(response => {
         console.log('Technical details saved successfully', response);
       }, error => {
         console.error('Error saving technical details', error);
       });
 
       // Save Billing details
-      this.contactDetailsFormService.saveBillDetails(billingDetails).subscribe(response => {
+      this.contactDetailsFormService.updateBillDetails(billingDetails).subscribe(response => {
         console.log('Billing details saved successfully', response);
       }, error => {
         console.error('Error saving billing details', error);

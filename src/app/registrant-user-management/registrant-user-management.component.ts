@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
+import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
 
 @Component({
   selector: 'app-registrant-user-management',
@@ -15,6 +16,8 @@ import { HttpStatusCode } from '@angular/common/http';
   styleUrls: ['./registrant-user-management.component.css']
 })
 export class RegistrantUserManagementComponent {
+
+  selectedOrganisation: number = 0;
 
   user = {
     id: 0,
@@ -51,12 +54,26 @@ export class RegistrantUserManagementComponent {
   organisationId = localStorage.getItem('organisationId');
 
   constructor(private userService: UserService, private router: Router,
-    private toastr: ToastrService, private organisationService: OrganisationDetailsService
+    private toastr: ToastrService, private organisationService: OrganisationDetailsService,
+    private contactDetailsService: ContactDetailsFormService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
     
-     
+  organisationsList: any[] = [];
+  async getOrganisations(){
+    await lastValueFrom(this.organisationService.getAllOrganisations()).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.organisationsList = response.body;
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
 
   loggedInUser: any;
   async getLoggedInUserDetails(){
@@ -76,63 +93,46 @@ export class RegistrantUserManagementComponent {
 
   async ngOnInit(): Promise<void> {
     //set table comumns based on role
-    if(this.role === 'IDRBTADMIN'){
+    //if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
         'checkbox',
         'id',
-        'userId',
-        'userName',
-        'institutionName',
-        'role',
-        'access',
-        'active',
-        'actions',
+        'personName',
+        'designation',
+        'mobileNumber',
+        'emailId',
+        'contactRole',
+        'documents',
+        'approveOrReject'
       ]; 
-    }else{
-      this.displayedColumns = [
-        'checkbox',
-        'id',
-        'userId',
-        'userName',
-        'institutionName',
-        'role',
-        'active',
-        'actions',
-      ]; 
-    }
+    //}
+
+    await this.getOrganisations();
 
     this.getLoggedInUserDetails();
     
     if(this.role === 'IDRBTADMIN'){
-      await this.getUsersList(0);
+      await this.getContactOfficersDetails(0);
     }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
-      await this.getUsersList(parseInt(this.organisationId));
+      await this.getContactOfficersDetails(parseInt(this.organisationId));
     }
-    // this.usersList.forEach(user => {
-    //   if(user.organisationId > 0){
-    //      this.getOrganisationDetailsOfUser(user.organisationId);
-    //   }else{
-    //      user.organisation.institutionName = 'Onboarding Pending';
-    //   }
-    // });
-    //if(parseInt(this.organisationId) > 0){
-      
-    //}
 
   }
 
-  async getUsersList(organisationId: number) {
-    console.log('Organisation ID:', organisationId);
-    if (isNaN(organisationId) || organisationId <= 1) {
-      console.error('Invalid organisationId:', organisationId);
-      //return;
-    }
-    await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
-      (response) => {
-        if (response.status === HttpStatusCode.Ok) {
+  async getContactUsers(){
+    //if(this.selectedOrganisation < 1){
+      await this.getContactOfficersDetails(this.selectedOrganisation);
+    //}
+  }
+
+  contactDetailsList: any[] = [];
+  async getContactOfficersDetails(selectedOrganisationId: number){
+    await lastValueFrom(this.contactDetailsService.getContactOfficersDetails(selectedOrganisationId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
           console.log(response.body);
-          this.usersList = response.body;
-          this.usersDataSource.data = this.usersList;
+          this.contactDetailsList = response.body;
+          this.usersDataSource.data = this.contactDetailsList;
           this.usersDataSource.paginator = this.paginator;
           console.log(this.sort)
           setTimeout(() => {
@@ -141,14 +141,42 @@ export class RegistrantUserManagementComponent {
             console.log(this.usersDataSource.sort);
           }, 0);
         }
-      },
-      (error) => {
-        if (error.status === HttpStatusCode.Unauthorized) {
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
           this.navigateToSessionTimeout();
         }
       }
-    );
+    )
   }
+
+  // async getUsersList(organisationId: number) {
+  //   console.log('Organisation ID:', organisationId);
+  //   if (isNaN(organisationId) || organisationId <= 1) {
+  //     console.error('Invalid organisationId:', organisationId);
+  //     //return;
+  //   }
+  //   await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
+  //     (response) => {
+  //       if (response.status === HttpStatusCode.Ok) {
+  //         console.log(response.body);
+  //         this.usersList = response.body;
+  //         this.usersDataSource.data = this.usersList;
+  //         this.usersDataSource.paginator = this.paginator;
+  //         console.log(this.sort)
+  //         setTimeout(() => {
+  //           this.usersDataSource.sort = this.sort;
+  //           console.log(this.sort)
+  //           console.log(this.usersDataSource.sort);
+  //         }, 0);
+  //       }
+  //     },
+  //     (error) => {
+  //       if (error.status === HttpStatusCode.Unauthorized) {
+  //         this.navigateToSessionTimeout();
+  //       }
+  //     }
+  //   );
+  // }
 
   navigateToDomainDetails(domainId: number){
     this.router.navigate(['/domain-details'],{queryParams:{domainId:domainId}});
@@ -156,204 +184,6 @@ export class RegistrantUserManagementComponent {
 
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');
-  }
-
-  toggleState: boolean = false;
-  async onAccessToggle(event: any, user: any): Promise<void> {
-    this.toggleState = event.checked;
-    console.log(this.toggleState);
-    user.active = this.toggleState;
-    await this.updateUser(user);
-  }
-
-  //user: any = null;
-  async getUserById(id: number) {
-    await lastValueFrom(this.userService.getUserById(id)).then(
-      response => {
-        if (response.status === HttpStatusCode.Ok) {
-          this.user = response.body;
-        }
-      }, error => {
-        if (error.status === HttpStatusCode.Unauthorized) {
-          this.navigateToSessionTimeout();
-        }
-      }
-    )
-  }
-
-  async updateUser(user: any) {
-    await lastValueFrom(this.userService.updateUser(user)).then(response => {
-      if (response.status === HttpStatusCode.PartialContent) {
-        this.toastr.success('User updated successfully.')
-        this.getUsersList(parseInt(this.organisationId));
-      }
-    }, error => {
-      if (error.status === HttpStatusCode.Unauthorized) {
-        this.navigateToSessionTimeout();
-      }
-    }
-    )
-  }
-
-  async deleteUserById(id: number) {
-    var confirmed = window.confirm('Are you sure, you really want to delete this user ?');
-    if (confirmed) {
-      await lastValueFrom(this.userService.deleteUserById(id)).then(
-        response => {
-          if (response.status === HttpStatusCode.Ok) {
-            this.getUsersList(parseInt(this.organisationId));
-          }
-        }, error => {
-          if (error.status === HttpStatusCode.Unauthorized) {
-            this.navigateToSessionTimeout();
-          }
-        }
-      )
-    }else{
-      this.toastr.warning('User not deleted')
-    }
-  }
-
-  formValid() {
-    console.log("validation checking");
-    return this.nameInput && this.emailInput && this.numberInput && this.passwordNameInput && this.confirmPasswordInput && this.isAuthorized;
-  }
-
-  nameErrorMessage: string = '';
-  nameInput: boolean = true;
-  nameChange() {
-    if (!this.user.userName) {
-      this.nameInput = false;
-      this.nameErrorMessage = 'Name should not be empty.';
-    } else if (this.user.userName.length > 25) {
-      this.nameInput = false;
-      this.nameErrorMessage = 'Name should not exceed 25 characters.';
-    } else {
-      this.nameInput = true;
-      this.nameErrorMessage = '';
-    }
-  }
-
-  emailInput: boolean = true;
-  emailerrorMessage: string = '';
-  emailChange() {
-    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
-    if (!this.user.userId) {
-      this.emailInput = false;
-      this.emailerrorMessage = 'Email ID should not be empty';
-    } else if (!emailPattern.test(this.user.userId)) {
-      this.emailInput = false;
-      this.emailerrorMessage = 'Please enter a valid email ID';
-    } else {
-      this.emailInput = true;
-      this.emailerrorMessage = '';
-    }
-  }
-
-  numberInput: boolean = true;
-  numbererrorMessage: string = '';
-  numberChange() {
-    const numberPattern = /^\d{10}$/;
-if (!this.user.mobileNumber) {
-      this.numberInput = false;
-      this.numbererrorMessage = 'Mobile number should not be empty';
-    } else if (!numberPattern.test(this.user.mobileNumber)) {
-      this.numberInput = false;
-      this.numbererrorMessage = 'Please enter a valid mobile number starting with +91 and 10 digits';
-    } else {
-      this.numberInput = true;
-      this.numbererrorMessage = ''; 
-    }
-  }
-
-  passwordErrorMessage: string = '';
-  passwordNameInput: boolean = true;
-  passwordChange() {
-    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
-    if (!this.user.encryptedPassword) {
-      this.passwordNameInput = false;
-      this.passwordErrorMessage = 'Password should not be empty';
-    } else if (!pattern.test(this.user.encryptedPassword)) {
-      this.passwordNameInput = false;
-      this.passwordErrorMessage = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one digit, and one special character';
-    } else {
-      this.passwordNameInput = true;
-      this.passwordErrorMessage = '';
-    }
-  }
-
-  confirmPasswordErrorMessage: string = '';
-  confirmPasswordInput: boolean = true;
-  confirmPasswordChange() {
-    if (!this.user.confirmPassword) {
-      this.confirmPasswordInput = false;
-      this.confirmPasswordErrorMessage = 'Confirm password should not be empty';
-    } else if (this.user.encryptedPassword !== this.user.confirmPassword) {
-      this.confirmPasswordInput = false;
-      this.confirmPasswordErrorMessage = 'Passwords do not match';
-    } else {
-      this.confirmPasswordInput = true;
-      this.confirmPasswordErrorMessage = '';
-    }
-  }
-
-  isAuthorized: boolean = false;
-  showError: boolean = false;
-  validateCheckbox() {
-    if (!this.isAuthorized) {
-      this.showError = true;
-    } else {
-      this.showError = false;
-    }
-  }
-
-  toggleEmailButton() {
-    this.showEmailButton = this.user.userId.length > 0;
-  }
-
-  toggleNumberButton() {
-    this.showNumberButton = this.user.mobileNumber.length > 0;
-  }
-
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-    const passwordField = document.getElementById('password') as HTMLInputElement;
-    passwordField.type = this.isPasswordVisible ? 'text' : 'password';
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
-    const confirmPasswordField = document.getElementById('confirmPassword') as HTMLInputElement;
-    confirmPasswordField.type = this.isConfirmPasswordVisible ? 'text' : 'password';
-  }
-
-  async saveOrUpdateUser(){
-    console.log(this.user);
-    if(this.user.id < 1){
-      await this.saveUser(this.user);
-    }else{
-      await this.updateUser(this.user);
-    }
-  }
-
-
-  async saveUser(user: any) {
-    var id =  localStorage.getItem('email');
-    console.log(id);
-    user.createdByEmailId = id;
-    user.organisationId = this.organisationId;
-    await lastValueFrom(this.userService.saveUser(user)).then(
-      response => {
-      if (response.status === HttpStatusCode.Created) {
-        this.toastr.success('User added successfully.')
-        this.getUsersList(parseInt(this.organisationId));
-      }
-    }, error => {
-      if (error.status === HttpStatusCode.Unauthorized) {
-        this.navigateToSessionTimeout();
-      }
-    }
-    )
   }
 
   organisationDetails: any;
@@ -384,18 +214,136 @@ if (!this.user.mobileNumber) {
     this.user.confirmPassword = '';
   }
 
+  adminOfficerDetails: any = null;
+  technicalOfficerDetails: any = null;
+  billingOfficerDetails: any = null;
 
-  /**
-   * 
-   */
-  verifyOnBoardingStatus(){
-    console.log(this.loggedInUser.isOnboardingCompleted)
-    if(this.loggedInUser.isOnboardingCompleted === false) {
-      this.toastr.error('Please complete onbaording to add users.');
-      console.log('complete onbaording')
+  async getAdminOfficerDetails(id: number){
+    await lastValueFrom(this.contactDetailsService.getAdminOfficerDetailsById(id)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.adminOfficerDetails = response.body;
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+
+  async getTechnicalOfficerDetails(id: number){
+    await lastValueFrom(this.contactDetailsService.getTechnicalOfficerDetailsById(id)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.technicalOfficerDetails = response.body;
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+
+  async getBillingOfficerDetails(id: number){
+    await lastValueFrom(this.contactDetailsService.getBillingOfficerDetailsById(id)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.billingOfficerDetails = response.body;
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+
+  async updateAdminOfficerLoginStatus(adminDetails: any){
+    await lastValueFrom(this.contactDetailsService.updateAdminDetails(adminDetails)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+         // this.getContactOfficersDetails(response.body.organisationId);
+         console.log(response);
+        }
+      }
+    )
+  }
+
+  async updateTechnicalOfficerLoginStatus(techDetails: any){
+    await lastValueFrom(this.contactDetailsService.updateTechDetails(techDetails)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+         // this.getContactOfficersDetails(response.body.organisationId);
+         console.log(response)
+        }
+      }
+    )
+  }
+
+  async updateBillingOfficerLoginStatus(billDetails: any){
+    await lastValueFrom(this.contactDetailsService.updateBillDetails(billDetails)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+         // this.getContactOfficersDetails(response.body.organisationId);
+         console.log(response)
+        }
+      }
+    )
+  }
+  
+
+  async enableOrDisableLoginStatus(loginStatus: string, contactOfficerDetails: any){
+    //first update the login status of contact officer and then create the user login for the contact officer
+    if(contactOfficerDetails.contactRole === 'AdminOfficer'){
+      await this.getAdminOfficerDetails(contactOfficerDetails.id);
+      this.adminOfficerDetails.loginStatus = loginStatus;
+      await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
+    }else if(contactOfficerDetails.contactRole === 'TechnicalOfficer'){
+      await this.getTechnicalOfficerDetails(contactOfficerDetails.id);
+      this.technicalOfficerDetails.loginStatus = loginStatus;
+      await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
     }else{
-      document.getElementById('addUser1').click();
+      await this.getBillingOfficerDetails(contactOfficerDetails.id);
+      this.billingOfficerDetails.loginStatus = loginStatus;
+      await this.updateBillingOfficerLoginStatus(this.billingOfficerDetails);
     }
+
+    //create the new user based on login status
+    if(loginStatus === 'Approved'){
+      this.user.active = true;
+    }else{
+      this.user.active = false;
+      this.toastr.error('Login Rejected');
+      return;
+    }
+    this.user.userName = contactOfficerDetails.personName;
+    this.user.userId = contactOfficerDetails.emailId;
+    this.user.role = contactOfficerDetails.contactRole;
+    this.user.mobileNumber = contactOfficerDetails.mobileNumber;
+    this.user.createdByEmailId = this.userId;
+    this.user.organisationId = contactOfficerDetails.organisationId;
+    this.user.isOnboardingCompleted = true;
+    await lastValueFrom(this.userService.saveUser(this.user)).then(
+      response => {
+        if(response.status === HttpStatusCode.Created){
+          console.log(response);
+          this.toastr.success('Login approved');
+          if(this.role === 'IDRBTADMIN'){
+             this.getContactOfficersDetails(0);
+          }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+             this.getContactOfficersDetails(parseInt(this.organisationId));
+          }
+        }
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }else if(error.status === HttpStatusCode.InternalServerError){
+          this.toastr.error('Error while approving user... please try again !');
+        }
+      }
+    )
   }
 
 }
