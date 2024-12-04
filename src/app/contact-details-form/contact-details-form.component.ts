@@ -182,10 +182,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         if(this.adminUploadedDocs.length>2){
           localStorage.setItem('admindocs',JSON.stringify(this.adminUploadedDocs));
         }
-        if(this.adminUploadedDocs.length>2){
+        if(this.techUploadedDocs.length>2){
           localStorage.setItem('techdocs',JSON.stringify(this.techUploadedDocs));
         }
-        if(this.adminUploadedDocs.length>2){
+        if(this.billingUploadedDocs.length>2){
           localStorage.setItem('billdocs',JSON.stringify(this.billingUploadedDocs));
         }
       

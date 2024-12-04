@@ -107,10 +107,7 @@ export class PreviewComponent implements OnInit, OnChanges {
         organisationId:this.organisationId,
         adminDocuments: '',
         applicationId:0,
-        userMailId:'',
-        city:'',
-        pincode:'',
-        state:'',
+        userMailId:0,
         isEditing: false,
       },
     },
@@ -126,12 +123,9 @@ export class PreviewComponent implements OnInit, OnChanges {
         techAltPhone: '',
         techDesignation: '',
         applicationId:0,
-        userMailId:'',
+        userMailId:0,
         techDocuments: '',
         organisationId:this.organisationId,
-        city:'',
-        pincode:'',
-        state:'',
         isEditing: false,
       },
     },
@@ -145,14 +139,10 @@ export class PreviewComponent implements OnInit, OnChanges {
         billEmail: '',
         billPhone: '',
         billAltPhone: '',
-        billDesignation:'',
         billDocuments: '',
         applicationId:0,
-        userMailId:'',
+        userMailId:0,
         organisationId:this.organisationId,
-        city:'',
-        pincode:'',
-        state:'',
         isEditing: false,
       },
     },
@@ -272,9 +262,6 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[2].details.organisationId= this.organisationId;
           this.cards[2].details.userMailId = data.userMailId;
           this.cards[2].details.userName = data.userName;
-          this.cards[2].details.city = data.city;
-          this.cards[2].details.state = data.state;
-          this.cards[2].details.pincode = data.pincode;
           this.cards[2].details.applicationId = data.applicationId;
         },
         error: (error) =>
@@ -299,9 +286,6 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[3].details.organisationId= this.organisationId;
           this.cards[3].details.userMailId = data.userMailId;
           this.cards[3].details.userName = data.userName;
-          this.cards[3].details.city = data.city;
-          this.cards[3].details.state = data.state;
-          this.cards[3].details.pincode = data.pincode;
           this.cards[3].details.applicationId = data.applicationId;
         },
         error: (error) =>
@@ -321,14 +305,10 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[4].details.billEmail = data.billEmail;
           this.cards[4].details.billPhone = data.billPhone;
           this.cards[4].details.billAltPhone = data.billAltPhone;
-          this.cards[4].details.billDesignation = data.billDesignation;
           this.cards[4].details.billDocuments = data.documents;
           this.cards[4].details.organisationId= this.organisationId;
           this.cards[4].details.userMailId = data.userMailId;
           this.cards[4].details.userName = data.userName;
-          this.cards[4].details.city = data.city;
-          this.cards[4].details.state = data.state;
-          this.cards[4].details.pincode = data.pincode;
           this.cards[4].details.applicationId = data.applicationId;
         },
         error: (error) =>
@@ -531,6 +511,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   submissionAttempted=false;
+  orgUploadedDocs=localStorage.getItem('orgDoc')?JSON.parse(localStorage.getItem('orgDoc')):[];
   adminUploadedDocs=localStorage.getItem('admindocs')?JSON.parse(localStorage.getItem('admindocs')):[];
   techUploadedDocs=localStorage.getItem('techdocs')?JSON.parse(localStorage.getItem('techdocs')):[];
   billUploadedDocs=localStorage.getItem('billdocs')?JSON.parse(localStorage.getItem('billdocs')):[];
