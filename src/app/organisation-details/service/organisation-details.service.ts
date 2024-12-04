@@ -29,4 +29,9 @@ export class OrganisationDetailsService {
         return this.http.get(apiUrl, {observe:'response'});
     }
 
+    getAllOrganisations(){
+        const apiUrl = 'http://localhost:9002/dr/organisationDetails/all';
+        return this.http.get<any[]>(apiUrl, {observe:'response'});
+    }
+
 }

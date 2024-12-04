@@ -1,0 +1,346 @@
+.congratulation {
+
+    align-self: stretch;
+
+    position: relative;
+
+    font-weight: 600;
+
+}
+
+.welcome-to-the {
+
+    align-self: stretch;
+
+    position: relative;
+
+    font-size: var(--font-size-5xl);
+
+    font-weight: 500;
+
+}
+
+.congratulation-parent {
+
+    width: 423px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: var(--gap-xs);
+
+}
+
+.your-successfully-registered {
+
+    position: relative;
+
+    font-weight: 500;
+
+    white-space: pre-wrap;
+
+}
+
+.click-continue-below {
+
+    align-self: stretch;
+
+    position: relative;
+
+    font-size: var(--font-size-xl);
+
+    color: #404040;
+
+}
+
+.your-successfully-registered-w-parent {
+
+    align-self: stretch;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: var(--gap-xs);
+
+    font-size: var(--font-size-5xl);
+
+    color: #000;
+
+}
+
+.frame-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: var(--gap-5xl);
+
+}
+
+.group-icon {
+
+    width: 185.9px;
+
+    position: relative;
+
+    height: 185.9px;
+
+}
+
+.continue-to-login {
+
+    position: relative;
+
+}
+
+.continue-to-login-wrapper {
+
+    border-radius: var(--br-5xs);
+
+    background-color: #007cf8;
+
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: var(--padding-base) 135px;
+
+    cursor: pointer;
+
+    font-size: var(--font-size-xl);
+
+    color: var(--color-white);
+
+}
+
+.frame-parent {
+
+    position: absolute;
+
+    top: 176px;
+
+    left: 368px;
+
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+
+    border-radius: var(--br-5xs);
+
+    background-color: var(--color-white);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding: 24px;
+
+    gap: 32px;
+
+}
+
+.frame-child {
+
+    position: absolute;
+
+    top: 0px;
+
+    left: 0px;
+
+    background-color: #f7f7f7;
+
+    width: 1440px;
+
+    height: 72px;
+
+}
+
+.background-icon {
+
+    position: absolute;
+
+    height: 80.2%;
+
+    width: 88.13%;
+
+    top: 11.59%;
+
+    right: 5.89%;
+
+    bottom: 8.22%;
+
+    left: 5.98%;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    max-height: 100%;
+
+    object-fit: cover;
+
+}
+
+.idrbt-logo-1 {
+
+    position: absolute;
+
+    top: calc(50% - 25px);
+
+    left: 24px;
+
+    width: 96px;
+
+    height: 50.5px;
+
+    overflow: hidden;
+
+}
+
+.sign-in {
+
+    position: relative;
+
+    line-height: 24px;
+
+    font-weight: 500;
+
+}
+
+.button {
+
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: var(--padding-5xs) var(--padding-base);
+
+}
+
+.sign-in2 {
+
+    position: relative;
+
+    font-weight: 500;
+
+}
+
+.chevron-down-icon {
+
+    width: 24px;
+
+    position: relative;
+
+    height: 24px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+}
+
+.button2 {
+
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: var(--padding-5xs) var(--padding-base);
+
+    gap: 8px;
+
+}
+
+.button-parent {
+
+    position: absolute;
+
+    top: calc(50% - 20px);
+
+    left: 1018px;
+
+    display: none;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: var(--gap-5xl);
+
+}
+
+.rectangle-parent {
+
+    position: absolute;
+
+    top: 0px;
+
+    left: 0px;
+
+    box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.08);
+
+    width: 1440px;
+
+    height: 72px;
+
+    text-align: left;
+
+    font-size: var(--font-size-base);
+
+    color: var(--color-white);
+
+}
+
+.registrant-successful {
+
+    width: 100%;
+
+    position: relative;
+
+    background-color: var(--color-white);
+
+    height: 900px;
+
+    overflow: hidden;
+
+    text-align: center;
+
+    font-size: 48px;
+
+    color: var(--color-darkslateblue);
+
+    font-family: var(--font-roboto);
+
+}
+
