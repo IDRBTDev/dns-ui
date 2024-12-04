@@ -13,7 +13,249 @@
     color: black;
     cursor: pointer;
 }
+.domain-text {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color:white;
+  }
+  
+  .domain-extension {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    fill: white; /* Green color for domain extensions */
+    opacity: 1;
+  }
+   #right-content{
+
+    font-family: Inter;
+font-size: 40px;
+font-weight: 600;
+line-height: 58px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:white;
+
+
+  }
+  #heading-2{
+    font-family: Inter;
+font-size: 40px;
+font-weight: 600;
+line-height: 48.41px;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+padding-top: 20px;
+padding-bottom: 20px;
+
+  }
+  #middle-part{
+    width: 1292px;
+    height: 427px;
+    
+padding: 24px 0px 0px 0px;
+gap: 22px;
+border-radius: 4px 0px 0px 0px;
+margin-left: 40px;
+background: linear-gradient(83.85deg, #2A226A 0.02%, #2563EB 99.98%);
+margin-bottom: 10px;
+animation: slideContent 6s infinite;
+overflow: hidden;
+
+  }
+
+  
+   .carousel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; 
+    padding: 20px;
+    box-sizing: border-box;
+   opacity: 0;
+   transition: transform 1.5s ease-in-out !important;
+   transition-delay: 2s;
+  } 
+
+
+
+
+.carousel-item.active {
+  opacity: 1; /* Make the active slide visible */
+  z-index: 1; /* Bring the active slide to the front */
+}
+
+
+  /* Animation to handle the sliding transition */
+  @keyframes slideContent {
+    0% {
+      transform: translateX(0); /* Slide 1 appears */
+      opacity: 1; /* Make Slide 1 visible */
+    }
+    50% {
+      opacity: 1; /* Keep Slide 1 visible */
+    }
+    100% {
+      transform: translateX(-50%); /* Move Slide 1 out */
+      opacity: 0; /* Fade out Slide 1 */
+    }
+}
+
+
+.carousel-item:nth-child(1) {
+  animation: slideContent 6s infinite; /* First slide appears at 0s */
+}
+
+.carousel-item:nth-child(2) {
+  animation: slideContent 6s infinite; /* Second slide */
  
+}
+
+
+
+#mid-four {
+font-size: 16px;
+color: white;
+opacity: 1;
+}
+
+  
+  #mid-first{
+    font-family: Inter;
+font-size: 40px;
+font-weight: 600;
+line-height: 48.41px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #FFFFFF;
+padding-left: 20px;
+padding-right: 20px;
+
+  }
+  #mid-second{
+    font-family: Inter;
+font-size: 20px;
+font-weight: 400;
+line-height: 24.2px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:white;
+padding-left: 20px;
+padding-right: 20px;
+padding-top: 10px;
+  }
+  #small-icon{
+    padding-left: 700px;
+ height:30px;
+ padding-top: 20px;
+  }
+  #mid-three{
+    font-family: Inter;
+font-size: 24px;
+font-weight: 500;
+line-height: 29.05px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:white;
+padding-left: 20px;
+padding-right: 20px;
+padding-top: 20px;
+padding-bottom: 10px;
+  }
+  #mid-four{
+    width: Hug (467px)px;
+height: Hug (180px)px;
+gap: 8px;
+opacity: 0px;
+color:white;
+padding-left: 20px;
+padding-right: 20px;
+  }
+  .svg-text-container {
+    display: flex; /* Use flexbox to arrange items horizontally */
+    align-items: center; /* Vertically align items in the center */
+    gap: 5px; /* Space between SVG and text */
+    padding-left: 20px;
+
+padding-bottom: 10px;
+padding-top: 10px;
+  }
+
+  #below-part{
+    width: 1440px;
+height: 536px;
+gap: 0px;
+opacity: 0px;
+background: #FFFFFF;
+
+  }
+  #second-image{
+    background: linear-gradient(0deg, #FFFFFF -7.68%, #2563EB 35.78%);
+    width: Fill (1,440px)px;
+    height: Hug (550px)px;
+    padding: 48px 72px 48px 72px;
+    gap: 60px;
+    opacity: 0px;
+    padding-top: 0px;
+    margin-top: -20px;
+    display: flex; /* Enable flexbox */
+    justify-content: space-between; /* Distribute space between text and SVG */
+    align-items: center;
+  }
+  #small-para{
+    font-family: Inter;
+font-size: 20px;
+font-weight: 400;
+line-height: 26.8px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color:white;
+width: 600px;
+height: 161px;
+gap: 0px;
+opacity: 0px; 
+font-size: 16px;
+color: white;
+line-height: 1.5;
+
+  }
+  
+  .content-wrapper {
+    display: flex; /* Use flexbox for the container */
+    justify-content: space-between; /* Spread text and SVG apart */
+    align-items: center; /* Vertically center items */
+    width: 100%; /* Ensure full width */
+  }
+  
+  .text-content {
+    flex: 1; /* Allow text content to take up available space */
+    margin-right: 20px; /* Space between text and SVG */
+  }
+  
+
+  
+  @keyframes changeDomain {
+    0%, 25% {
+      content: ".com";
+    }
+    25%, 50% {
+      content: ".bank.in";
+    }
+    50%, 75% {
+      content: ".fin.in";
+    }
+    75%, 100% {
+      content: ".org";
+    }
+  }
+  
 #signInDropdown {
   
     font-size: 20px;               
