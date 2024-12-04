@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '../domain/service/domain.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom, window } from 'rxjs';
+import { NameServerService } from './service/domain-details-edit.service';
 
 @Component({
   selector: 'app-domain-details-edit',
   templateUrl: './domain-details-edit.component.html',
   styleUrls: ['./domain-details-edit.component.css']
 })
-export class DomainDetailsEditComponent {
+export class DomainDetailsEditComponent implements OnInit {
   constructor(private domainService: DomainService, 
-    private router: Router, private activatedRouter: ActivatedRoute
+    private router: Router, private activatedRouter: ActivatedRoute,  private nameServerService: NameServerService
   ){
    const state = history.state.domainDetail;
    if (state) {
@@ -64,6 +65,24 @@ export class DomainDetailsEditComponent {
     crossButton(){
       console.log("cancel button is working good");
     }
+
+     
+  onSubmit(): void {
+    this.domainDetail.nameServers.forEach(ns => {
+      const nameServerId = ns.id; 
+      this.nameServerService.updateNameServer(nameServerId, ns)
+        .subscribe(
+          response => {
+            console.log('Name Server updated successfully', response);
+            alert('Name Server updated successfully');
+          },
+          error => {
+            console.error('Error updating Name Server', error);
+            alert('Error updating Name Server');
+          }
+        );
+    });
+  }
 
     
 
