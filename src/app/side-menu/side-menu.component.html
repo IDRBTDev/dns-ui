@@ -70,8 +70,8 @@
     <div class="settings-content">
       <p>Settings</p>
       <a [routerLink]="['/users']" (click)="usernavigation()">User Management</a>
-      <a [routerLink]="['/registrant-user-management']">Registrant User Management</a>
-      <a [routerLink]="['/roles']" (click)="rolenavigation()">Roles</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/registrant-user-management']">Registrant User Management</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/roles']" (click)="rolenavigation()">Roles</a>
     </div>
   </div>
 

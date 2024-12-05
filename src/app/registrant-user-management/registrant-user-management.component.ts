@@ -97,6 +97,7 @@ export class RegistrantUserManagementComponent {
       this.displayedColumns = [
         'checkbox',
         'id',
+        'organisationName',
         'personName',
         'designation',
         'mobileNumber',
