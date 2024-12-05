@@ -26,6 +26,11 @@ import { RolesComponent } from './roles/roles.component';
 import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
+import { ForgotPasswordResetComponent } from './forgot-password-reset/forgot-password-reset.component';
+import { ForgotPasswordEmailVerificationComponent } from './forgot-password-email-verification/forgot-password-email-verification.component';
+import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
+import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
+
 
 
 const routes: Routes = [
@@ -61,7 +66,11 @@ const routes: Routes = [
   {path: 'name-server', component: NameServerComponent},
   {path: 'registrant-user-management', component: RegistrantUserManagementComponent},
   {path: 'verify-documents', component: VerifyDocumentsComponent},
-  {path: 'reg-success', component: RegistrationSuccessComponent}
+  {path: 'reg-success', component: RegistrationSuccessComponent},
+  {path:'forgot-password-reset', component:ForgotPasswordResetComponent},
+  {path:'forgot-password-email-verification', component:ForgotPasswordEmailVerificationComponent},
+  {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
+  {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
 
 ];
 

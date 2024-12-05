@@ -519,7 +519,47 @@ export class PreviewComponent implements OnInit, OnChanges {
   handleRemoveAdminDoc(index: number): void {
     this.submissionAttempted = false;
     this.adminUploadedDocs.splice(index, 1);
-    this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
+    localStorage.setItem('admindocs',(JSON.stringify(this.adminUploadedDocs)))
+   // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
+  }
+  handleRemovetechDoc(index: number): void {
+    this.submissionAttempted = false;
+    this.techUploadedDocs.splice(index, 1);
+    localStorage.setItem('techdocs',(JSON.stringify(this.techUploadedDocs)))
+   // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
+  }
+  handleRemoveBillDoc(index: number): void {
+    this.submissionAttempted = false;
+    this.billUploadedDocs.splice(index, 1);
+   // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
+   localStorage.setItem('billdocs',(JSON.stringify(this.billUploadedDocs)))
+  }
+  handleTechValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setTechUploadedDocuments(docs: any[]): void {
+      this.techUploadedDocs = docs;
+      console.log('Uploaded documents updated:', this.techUploadedDocs);
+  }
+
+  handleAdminValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setAdminUploadedDocuments(docs: any[]): void {
+    this.adminUploadedDocs = docs;
+    console.log('Uploaded documents updated:', this.adminUploadedDocs);
+  }
+
+  handleBillingValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+  }
+
+  setBillingUploadedDocuments(docs: any[]): void {
+    console.log(docs)
+    this.billUploadedDocs = docs;
+    console.log('Uploaded documents updated:', this.billUploadedDocs);
   }
 
 }

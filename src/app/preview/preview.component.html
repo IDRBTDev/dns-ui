@@ -170,27 +170,19 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.adminDocuments }}</p>
 
-                                <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
+                            <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
 
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
-                                            <i class="bi bi-check-circle text-success"></i>
-                                            <span>{{doc.fileName}}</span>
-                                        </div>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                    <div *ngFor="let doc of adminUploadedDocs; let i = index"
+                                        style="display: flex; align-items: center; gap: 5px;">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                     </div>
                                 </div>
-
-
-
+                            </div>
 
 
                         </div>
-
-
-
-
-
-
 
                         <!-- Technical Contact Card -->
 
@@ -233,7 +225,7 @@
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
                                         <div *ngFor="let doc of techUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
                                             <i class="bi bi-check-circle text-success"></i>
-                                            <span>{{doc.fileName}}</span>
+                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +274,7 @@
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
                                         <div *ngFor="let doc of billUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
                                             <i class="bi bi-check-circle text-success"></i>
-                                            <span>{{doc.fileName}}</span>
+                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                         </div>
                                     </div>
                                 </div>
@@ -683,14 +675,17 @@
 
 
 
-                                <input type="text" class="form-control" id="adminDocuments"
-                                    [(ngModel)]="card.details.adminDocuments">
-
-
-
                             </div>
-
-
+                            <app-document-upload
+                                id="documentsToUpload"
+                                [mode]="'admin'"
+                                [adminUploadedDocs]="adminUploadedDocs"
+                                [submissionAttempted]="submissionAttempted"
+                                (onAdminValidationChange)="
+                                    handleAdminValidationChange($event)
+                                "
+                                (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
+                            ></app-document-upload>
 
                         </div>
 
@@ -800,13 +795,22 @@
                                 <label for="techDocuments">Tech Documents:</label>
 
 
-
-                                <input type="text" class="form-control" id="techDocuments"
-                                    [(ngModel)]="card.details.techDocuments">
-
-
-
                             </div>
+                            <!-- <div *ngFor="let doc of techUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                <i class="bi bi-check-circle text-success"></i>
+                                <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+                                <button class="btn btn-sm btn-danger" (click)="handleRemovetechDoc(i)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div> -->
+                            <app-document-upload
+                                id="documentsToUpload"
+                                [mode]="'tech'"
+                                [techUploadedDocs]="techUploadedDocs"
+                                [submissionAttempted]="submissionAttempted"
+                                (onTechValidationChange)="handleTechValidationChange($event)"
+                                (setTechUploadedDocs)="setTechUploadedDocuments($event)"
+                            ></app-document-upload>
 
 
 
@@ -900,14 +904,19 @@
 
                                 <label for="billDocuments">Bill Documents:</label>
 
-
-
-                                <input type="text" class="form-control" id="billDocuments"
-                                    [(ngModel)]="card.details.billDocuments">
-
-
-
                             </div>
+                            <app-document-upload
+                            id="documentsToUpload"
+                            [mode]="'bill'"
+                            [billingUploadedDocs]="billUploadedDocs"
+                            [submissionAttempted]="submissionAttempted"
+                            (onBillingValidationChange)="
+                              handleBillingValidationChange($event)
+                            "
+                            (setBillingUploadedDocs)="
+                              setBillingUploadedDocuments($event)
+                            "
+                          ></app-document-upload>
 
 
 
@@ -973,7 +982,7 @@
 
 
 
-                        <button class="btn btn-secondary mt-3" (click)="onCancel(card)">Cancel</button> 
+                        <button class="btn btn-secondary mt-3" (click)="onCancel(card)">Cancel</button>
 
 
 
@@ -982,7 +991,7 @@
 
 
                 </div>
-                
+
 
             </div>
 
