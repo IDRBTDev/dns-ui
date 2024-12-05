@@ -152,6 +152,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.adminSelectedDocType=localStorage.getItem('Admindoctype');
+    this.adminInputValue=localStorage.getItem('adminInputValue');
+    console.log(this.adminUploadedDocs,this.adminSelectedDocType)
     const docTypeExists = this.adminUploadedDocs.some(
       (doc) => doc.type === this.adminSelectedDocType
     );
@@ -165,10 +168,12 @@ export class DocumentUploadComponent implements OnInit {
       return;
     }
     const file = input.files[0]; // Assuming single file upload
+    console.log(file)
     const fileExists = this.adminUploadedDocs.some(
       (doc) => doc.fileName === file.name && doc.fileSize === file.size
     );
     if (fileExists) {
+      console.log(fileExists)
       this.adminErrors = {
         type: 'fileUpload',
         message:
@@ -176,12 +181,13 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    console.log(this.adminInputValue)
     // If the file is new
     const uploadedDoc = {
       type: this.adminSelectedDocType,
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
-      value: this.adminInputValue || null,
+      value: this.adminInputValue ,
       organisationId: this.organisationId,
       contactType:'Administrative',
       file:file
@@ -202,6 +208,8 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.techSelectedDocType=localStorage.getItem('techdoctype');
+    this.techInputValue=localStorage.getItem('techInputValue');
     const docTypeExists = this.techUploadedDocs.some(
       (doc) => doc.type === this.techSelectedDocType
     );
@@ -253,6 +261,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.billingSelectedDocType=localStorage.getItem('billdoctype');
+    this.billingInputValue=localStorage.getItem('billInputValue');
+    
     const docTypeExists = this.billingUploadedDocs.some(
       (doc) => doc.type === this.billingSelectedDocType
     );
@@ -474,9 +485,12 @@ export class DocumentUploadComponent implements OnInit {
   }
 
   handleAdminInputChange(event: any): void {
+    console.log(event)
     if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+      console.log(event,this.adminSelectedDocType)
       this.adminInputValue = event;
       if (this.adminSelectedDocType === 'PAN') {
+        console.log(event,this.adminSelectedDocType)
         const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
         this.adminInputFieldErrors = isValidPAN
           ? { message: '', type: '' }
@@ -484,6 +498,7 @@ export class DocumentUploadComponent implements OnInit {
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.adminInputValue = event;
         if (this.adminSelectedDocType === 'Aadhaar') {
+          console.log(event,this.adminSelectedDocType)
           const isValidOrgGST = /^[0-9]{12}$/.test(event);
           this.adminInputFieldErrors = isValidOrgGST
             ? { message: '', type: '' }
@@ -569,6 +584,7 @@ export class DocumentUploadComponent implements OnInit {
   }
 
   handleAdminFileUploadClick() {
+    console.log(this.adminSelectedDocType,this.adminInputValue)
     if (!this.adminSelectedDocType) {
       this.adminErrors = {
         message: 'Please select a document type.',
@@ -588,7 +604,9 @@ export class DocumentUploadComponent implements OnInit {
     }
     this.adminErrors = { message: '', type: '' };
     this.adminInputFieldErrors = { message: '', type: '' };
-
+    console.log(document.getElementById('adminFileInput'))
+    localStorage.setItem('Admindoctype',this.adminSelectedDocType);
+    localStorage.setItem('adminInputValue',this.adminInputValue);
     document.getElementById('adminFileInput')?.click();
   }
 
@@ -610,6 +628,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('techdoctype',this.techSelectedDocType);
+    localStorage.setItem('techInputValue',this.techInputValue);
     this.techErrors = { message: '', type: '' };
     this.techInputFieldErrors = { message: '', type: '' };
 
@@ -634,6 +654,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('billdoctype',this.billingSelectedDocType);
+    localStorage.setItem('billInputValue',this.billingInputValue);
     this.billingErrors = { message: '', type: '' };
     this.billingInputFieldErrors = { message: '', type: '' };
 

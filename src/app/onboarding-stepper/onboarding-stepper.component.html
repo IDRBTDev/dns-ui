@@ -28,7 +28,10 @@
                 <!-- Step 2: Contact Details -->
                 <mat-step completed=false label="Contact Details">
                   <app-contact-details-form 
-                  [organisationId]="organisationId" 
+                  [organisationId] ="organisationId" 
+                  (adminDocDetails)="SubmittedAdminDocs($event)" 
+                  (techDocDetails)="submittedTechDocDetails($event)"
+                  (billDocDetails)="submittedBillDocDetails($event)"
                   (formSubmitted)="onFormSubmitted()" 
                   (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
                   <!-- <span>
@@ -50,6 +53,9 @@
                 <!-- Step 4: Review -->
                 <mat-step completed=false label="Preview">
                   <app-preview 
+                  [adminDocDetails]="adminDocDetails"
+                  [techDocDetails]="techDocDetails"
+                  [billDocDetails]="billDocDetails"
                   [organisationId]="organisationId"
                   [domainId]="domainId"></app-preview>
                   <!-- <div>

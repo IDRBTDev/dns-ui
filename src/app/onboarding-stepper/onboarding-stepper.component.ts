@@ -23,7 +23,9 @@ export class OnboardingStepperComponent implements OnInit{
   domainId: number = 0;
   applicationId: string = '';
   organisationId: number = 0;
-  
+ adminDocDetails :any
+ techDocDetails :any 
+ billDocDetails :any  
   constructor(private router: Router){
     this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
     this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
@@ -54,6 +56,19 @@ export class OnboardingStepperComponent implements OnInit{
     this.stepper.selected.completed = true;
     this.stepper.next();  // Move to the next step in the stepper
   }
+  SubmittedAdminDocs(adminDocs) {
+   console.log(adminDocs)
+   this.adminDocDetails=adminDocs
+  }
+  submittedTechDocDetails(techDocs){
+    console.log(techDocs)
+    this.techDocDetails=techDocs
+  }
+  submittedBillDocDetails(billDocs){
+    console.log(billDocs)
+    this.billDocDetails=billDocs
+  }
+
 
   goBack():void{
     this.stepper.previous();
@@ -63,5 +78,7 @@ export class OnboardingStepperComponent implements OnInit{
     this.organisationId = organisationId;
     console.log(organisationId);
   }
+
+  
 
 }

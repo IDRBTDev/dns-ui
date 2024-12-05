@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { DomainService } from '../domain/service/domain.service';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../user/service/user.service';
+import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 
 @Component({
   selector: 'app-preview',
@@ -20,7 +21,7 @@ import { UserService } from '../user/service/user.service';
 export class PreviewComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
-
+  @ViewChild(DocumentUploadComponent, { static: false }) documentUploadComponent?: DocumentUploadComponent;
   @Input() organisationId: number = 0;
   @Input() domainId: number = 0;
 
@@ -512,35 +513,35 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   submissionAttempted=false;
   orgUploadedDocs=localStorage.getItem('orgDoc')?JSON.parse(localStorage.getItem('orgDoc')):[];
-  adminUploadedDocs=localStorage.getItem('admindocs')?JSON.parse(localStorage.getItem('admindocs')):[];
-  techUploadedDocs=localStorage.getItem('techdocs')?JSON.parse(localStorage.getItem('techdocs')):[];
-  billUploadedDocs=localStorage.getItem('billdocs')?JSON.parse(localStorage.getItem('billdocs')):[];
+  @Input()adminDocDetails=[]
+  @Input()techDocDetails =[]
+  @Input()billDocDetails =[]
   @Output() setAdminUploadedDocs = new EventEmitter<any[]>();
   handleRemoveAdminDoc(index: number): void {
     this.submissionAttempted = false;
-    this.adminUploadedDocs.splice(index, 1);
-    localStorage.setItem('admindocs',(JSON.stringify(this.adminUploadedDocs)))
+    this.adminDocDetails.splice(index, 1);
+    // localStorage.setItem('admindocs',(JSON.stringify(this.adminDocDetails)))
    // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
   }
   handleRemovetechDoc(index: number): void {
     this.submissionAttempted = false;
-    this.techUploadedDocs.splice(index, 1);
-    localStorage.setItem('techdocs',(JSON.stringify(this.techUploadedDocs)))
+    this.techDocDetails.splice(index, 1);
+    // localStorage.setItem('techdocs',(JSON.stringify(this.techUploadedDocs)))
    // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
   }
   handleRemoveBillDoc(index: number): void {
     this.submissionAttempted = false;
-    this.billUploadedDocs.splice(index, 1);
+    this.billDocDetails.splice(index, 1);
    // this.setAdminUploadedDocs.emit(this.adminUploadedDocs);
-   localStorage.setItem('billdocs',(JSON.stringify(this.billUploadedDocs)))
+  //  localStorage.setItem('billdocs',(JSON.stringify(this.billUploadedDocs)))
   }
   handleTechValidationChange(isValid: boolean): void {
     console.log('Validation status:', isValid);
   }
 
   setTechUploadedDocuments(docs: any[]): void {
-      this.techUploadedDocs = docs;
-      console.log('Uploaded documents updated:', this.techUploadedDocs);
+      this.techDocDetails = docs;
+      console.log('Uploaded documents updated:', this.techDocDetails);
   }
 
   handleAdminValidationChange(isValid: boolean): void {
@@ -548,8 +549,8 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   setAdminUploadedDocuments(docs: any[]): void {
-    this.adminUploadedDocs = docs;
-    console.log('Uploaded documents updated:', this.adminUploadedDocs);
+    this.adminDocDetails = docs;
+    console.log('Uploaded documents updated:', this.adminDocDetails);
   }
 
   handleBillingValidationChange(isValid: boolean): void {
@@ -558,8 +559,8 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   setBillingUploadedDocuments(docs: any[]): void {
     console.log(docs)
-    this.billUploadedDocs = docs;
-    console.log('Uploaded documents updated:', this.billUploadedDocs);
+    this.billDocDetails = docs;
+    console.log('Uploaded documents updated:', this.billDocDetails);
   }
 
 }

@@ -19,6 +19,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   techUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   billingUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   submissionAttempted: boolean=false;
+  @Output()adminDocDetails : EventEmitter<any> = new EventEmitter<any>();
+  @Output()techDocDetails : EventEmitter<any> = new EventEmitter<any>(); 
+  @Output()billDocDetails : EventEmitter<any> = new EventEmitter<any>(); 
 
   @Input() organisationId: number =0;
 
@@ -146,8 +149,19 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
+        this.adminDocDetails.emit(this.adminUploadedDocs);
+        setTimeout(() => {
+          this.techDocDetails.emit(this.techUploadedDocs);
+        }, 0);
+       setTimeout(() => {
+        this.billDocDetails.emit(this.billingUploadedDocs);
+       }, 0);
+     
+       setTimeout(() => {
+        this.formSubmitted.emit();
+       }, 0);
             // Emit event to notify parent that form was submitted successfully
-            this.formSubmitted.emit();
+           
 
       // Save Admin details
       this.contactDetailsFormService.updateAdminDetails(adminDetails).subscribe(response => {
@@ -178,16 +192,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       const uploadedDoc=[...this.adminUploadedDocs,
   ...this.techUploadedDocs,
   ...this.billingUploadedDocs]
-        console.log(uploadedDoc)
-        if(this.adminUploadedDocs.length>2){
-          localStorage.setItem('admindocs',JSON.stringify(this.adminUploadedDocs));
-        }
-        if(this.techUploadedDocs.length>2){
-          localStorage.setItem('techdocs',JSON.stringify(this.techUploadedDocs));
-        }
-        if(this.billingUploadedDocs.length>2){
-          localStorage.setItem('billdocs',JSON.stringify(this.billingUploadedDocs));
-        }
+      
       
       this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
         next:(response)=>{
