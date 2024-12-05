@@ -57,6 +57,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { ReminderComponent } from './reminder/reminder.component';
+import { ForgotPasswordResetComponent } from './forgot-password-reset/forgot-password-reset.component';
+import { ForgotPasswordEmailVerificationComponent } from './forgot-password-email-verification/forgot-password-email-verification.component';
+import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
+import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
+
 
 
 @NgModule({
@@ -96,6 +101,11 @@ import { ReminderComponent } from './reminder/reminder.component';
     VerifyDocumentsComponent,
     RegistrationSuccessComponent,
     ReminderComponent,
+    ForgotPasswordResetComponent,
+    ForgotPasswordEmailVerificationComponent,
+    ForgotPasswordOtpValidationComponent,
+    ForgotPasswordSuccessComponent,
+
    
   ],
   imports: [
