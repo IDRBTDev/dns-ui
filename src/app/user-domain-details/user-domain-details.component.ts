@@ -128,11 +128,11 @@ export class UserDomainDetailsComponent {
 
       if(this.organisationDetails != null && this.organisationDetails != undefined){
 
-        domainData.organisationName = this.organisationDetails.organisationName;
+        domainData.organizationName = this.organisationDetails.institutionName;
 
       }else{
 
-        domainData.organisationName = 'Onboarding Pending';
+        domainData.organizationName = 'Onboarding Pending';
 
       }
 
