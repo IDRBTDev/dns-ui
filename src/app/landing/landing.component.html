@@ -121,7 +121,7 @@
                     <tspan class="domain-extension" id="domain-extension" x="40" dy="50" font-size="16"> Find and register your perfect domain name{{ domainExtension }}</tspan>
                 </text></svg>
             </div>
-            <div id="second-image">
+            <div id="second-image" style="z-index:-10">
                 <div class="content-wrapper">
                  
                   <div class="text-content">
@@ -202,7 +202,10 @@
                         
                   </div>  
             </div></div>
-            <p class="heading">Your Trusted Partner in <br/> Domain Security</p>
+            <div class="trusted-partner" style="z-index: -10; position: relative; padding-top: 10px;">
+              <p class="heading">Your Trusted Partner in <br /> Domain Security</p>
+            </div>
+         
             <div class="container">
                 <div class="row d-flex justify-content-between align-items-center">
                     <div class=" first">
@@ -328,51 +331,90 @@
           
           
             </div> -->
-            <div id="below-part">
+            <div id="below-part" style="z-index: -10; position: relative;">
               <p id="heading-2">Important Announcements</p>
-             
-              <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                  <div class="carousel-inner">
-                      <!-- First Slide -->
-                      <div class="carousel-item" [class.active]="currentIndex === 0">
-                          <div id="middle-part">
-                              <p id="mid-first">{{ slides[0].title }}</p>
-                              <p id="mid-second">{{ slides[0].description }}</p>
-                              <p id="mid-three">Key Features:</p>
-                              <div *ngFor="let feature of slides[0].features" class="svg-text-container">
-                                  <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <circle cx="5" cy="5.5" r="5" fill="white"/>
-                                  </svg>
-                                  <p id="mid-four">{{ feature }}</p>
-                              </div>
-                          </div>
-                      </div>
-                    
-                      <!-- Second Slide -->
-                      <div class="carousel-item" [class.active]="currentIndex === 1">
-                          <div id="middle-part">
-                              <p id="mid-first">{{ slides[1].title }}</p>
-                              <p id="mid-second">{{ slides[1].description }}</p>
-                              <p id="mid-three">Key Features:</p>
-                              <div *ngFor="let feature of slides[1].features" class="svg-text-container">
-                                  <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <circle cx="5" cy="5.5" r="5" fill="white"/>
-                                  </svg>
-                                  <p id="mid-four">{{ feature }}</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div></div></div></div>
-          
-          
-    <div id="small-icon">
-    <svg  width="47" height="5" viewBox="0 0 47 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="30" height="5" rx="2.5" fill="#292978"/>
-        <rect x="31" width="7.5" height="5" rx="2.5" fill="#292978"/>
-        <rect x="39.5" width="7.5" height="5" rx="2.5" fill="#292978"/>
-        </svg>
         </div>
-
+              <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="z-index: -10;">
+                <div class="carousel-inner">
+         
+                  <div class="carousel-item active" data-bs-interval="2500ms">
+         
+                    <p id="mid-first">New Security Enhancement Rollout</p>
+                    <p id="mid-second">We're excited to announce our latest security protocols for domain registration. Our new
+                      multi-factor authentication and advanced threat detection systems provide an unprecedented level of
+                      protection for financial domain registrations. These enhancements are specifically designed to address the
+                      unique cybersecurity challenges faced by banking and financial institutions.</p>
+                    <p id="mid-three">Key features of our new security rollout include:</p>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Advanced real-time threat monitoring</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Enhanced multi-factor authentication</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Comprehensive domain protection mechanisms</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Continuous security updates and intelligence</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item " data-bs-interval="2500ms">
+         
+                    <p id="mid-first">New hello Enhancement Rollout</p>
+                    <p id="mid-second">We're excited to announce our latest security protocols for domain registration. Our new
+                      multi-factor authentication and advanced threat detection systems provide an unprecedented level of
+                      protection for financial domain registrations. These enhancements are specifically designed to address the
+                      unique cybersecurity challenges faced by banking and financial institutions.</p>
+                    <p id="mid-three">Key features of our new security rollout include:</p>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Advanced real-time threat monitoring</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Enhanced multi-factor authentication</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Comprehensive domain protection mechanisms</p>
+                    </div>
+                    <div class="svg-text-container">
+                      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5" cy="5.5" r="5" fill="white" />
+                      </svg>
+                      <p id="mid-four">Continuous security updates and intelligence</p>
+                    </div>
+                  </div>
+                </div></div>
+           
+           
+         
+          <div id="small-icon">
+            <svg width="47" height="5" viewBox="0 0 47 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="30" height="5" rx="2.5" fill="#292978" />
+              <rect x="31" width="7.5" height="5" rx="2.5" fill="#292978" />
+              <rect x="39.5" width="7.5" height="5" rx="2.5" fill="#292978" />
+            </svg>
+          </div>
+        
             <div class="second">
                 <h4>Ready To Secure Your Banking Domain?</h4><br />
                 <p>Get Started with IDRBT'S domain registration services today?</p><br />
