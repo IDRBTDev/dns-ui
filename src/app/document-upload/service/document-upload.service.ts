@@ -23,7 +23,8 @@ export class DocumentUploadService {
     uploadedDocs: any[],
     applicationId: string,
     user: string,
-    userMailId: string
+    userMailId: string,
+    organisationId: number
   ): Observable<string> {
     const formData = new FormData();
 
@@ -33,6 +34,8 @@ export class DocumentUploadService {
       formData.append('types', doc.type); // Document type
       formData.append('values', doc.value); // Additional document value
       formData.append('file',doc.file);
+      formData.append('organisationId', organisationId.toString());
+      formData.append('contactType', doc.contactType);
     });
 
     // Append other required fields
@@ -67,6 +70,8 @@ export class DocumentUploadService {
       formData.append('types', doc.type); // Document type
       formData.append('values', doc.value); // Additional document value
       formData.append('file',doc.file);
+      formData.append('organisationId', doc.organisationId);
+      formData.append('contactType', doc.contactType);
     });
 
     // Append other required fields

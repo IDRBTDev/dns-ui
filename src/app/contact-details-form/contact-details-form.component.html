@@ -129,6 +129,7 @@
                   ><span class="text-danger">*</span>
                   <app-document-upload
                   id="documentsToUpload"
+                  [organisationId]="organisationId"
                   [mode]="'admin'"
                   [adminUploadedDocs]="adminUploadedDocs"
                   [submissionAttempted]="submissionAttempted"
@@ -269,6 +270,7 @@
                   <app-document-upload
                   id="documentsToUpload"
                   [mode]="'tech'"
+                  [organisationId]="organisationId"
                   [techUploadedDocs]="techUploadedDocs"
                   [submissionAttempted]="submissionAttempted"
                   (onTechValidationChange)="
@@ -408,6 +410,7 @@
                   <app-document-upload
                   id="documentsToUpload"
                   [mode]="'bill'"
+                  [organisationId]="organisationId"
                   [billingUploadedDocs]="billingUploadedDocs"
                   [submissionAttempted]="submissionAttempted"
                   (onBillingValidationChange)="

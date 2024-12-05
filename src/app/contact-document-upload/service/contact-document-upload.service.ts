@@ -33,6 +33,8 @@ console.log("conytactservice called")
       formData.append('types', doc.type); // Document type
       formData.append('values', doc.value); // Additional document value
       formData.append('file',doc.file)
+      formData.append('organisationId', doc.organisationId);
+      formData.append('contactType', doc.contactType);
     });
 
     // Append other required fields
