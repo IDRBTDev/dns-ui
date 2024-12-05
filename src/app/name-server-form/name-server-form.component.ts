@@ -47,6 +47,7 @@ export class NameServerFormComponent implements OnInit {
     });
 
     this.addNameServer();
+    this.addNameServer();
   }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class NameServerFormComponent implements OnInit {
   }
 
   async getOrganisationDetails(){
-    
+
   }
 
   get nameServers(): FormArray {
@@ -97,14 +98,14 @@ export class NameServerFormComponent implements OnInit {
     this.nameServers.push(this.createNameServer());
   }
 
-  clearAllNameServers(): void {
-    while (this.nameServers.length !== 0) {
-      this.nameServers.removeAt(0);
+  removeLastNameServer(): void {
+    if (this.nameServers.length > 2) {
+      this.nameServers.removeAt(this.nameServers.length - 1);
     }
   }
-
-  removeLastNameServer(): void {
-    if (this.nameServers.length > 1) {
+  
+  clearAllNameServers(): void {
+    while (this.nameServers.length > 2) { 
       this.nameServers.removeAt(this.nameServers.length - 1);
     }
   }
@@ -124,7 +125,6 @@ export class NameServerFormComponent implements OnInit {
       };
       // Wrap in expected format
       //if(this.formSubmitted.emit() != null){
-        this.formSubmitted.emit();
       //}else{
       //  this.router.navigateByUrl('/domains');
       //}
@@ -134,8 +134,10 @@ export class NameServerFormComponent implements OnInit {
       this.nameServerService.addNameServer(formData).subscribe(
         (response) => {
           alert('Form submitted successfully!');
-
           console.log(response);
+          if(response != null){
+            this.formSubmitted.emit();
+          }
         },
 
         (error) => {

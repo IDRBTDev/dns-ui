@@ -58,9 +58,9 @@ export class DomainComponent implements OnInit {
           this.domainsList = response.body;
           console.log(this.domainsList)
           this.domainsDataSource.data = this.domainsList;
-          this.domainsDataSource.paginator = this.paginator;
           setTimeout(() => {
             this.domainsDataSource.sort = this.sort;
+            this.domainsDataSource.paginator = this.paginator;
           }, 0);
         }
       },

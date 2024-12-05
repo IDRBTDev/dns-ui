@@ -4,7 +4,59 @@
       <app-main-header></app-main-header>
       <div class="container-fluid">
         <div class="row" style="padding-top: 100px;">
-          <div class="col-sm-12">
+          <div class="col-sm-12" style="display: flex;">
+            <svg style="cursor: pointer;" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12.5H5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <h3>Verify Documents</h3>
+          </div>
+          <div>
+            <section class="example-container" style="margin-top: 10px;">
+              
+                <table id="table1" mat-table [dataSource]="documentsListDataSource" 
+                matSort matSortActive="id" class="mat-elevation-z8">
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                    <td style="cursor: pointer;text-decoration: underline;color: blue;" 
+                     mat-cell *matCellDef="let document">{{""}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Document</th>
+                    <td style="cursor: pointer;text-decoration: underline;color: blue;" 
+                     mat-cell *matCellDef="let document">{{""}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="documentType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Type</th>
+                    <td style="cursor: pointer;text-decoration: underline;color: blue;" 
+                     mat-cell *matCellDef="let document">{{""}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="approveOrReject">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Approve/Reject</th>
+                    <td style="cursor: pointer;text-decoration: underline;color: blue;" 
+                     mat-cell *matCellDef="let document">{{""}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="comment">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Comment</th>
+                    <td style="cursor: pointer;text-decoration: underline;color: blue;" 
+                     mat-cell *matCellDef="let document">{{""}}</td>
+                  </ng-container>
+    
+                  <!-- Header Row -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <!-- Data Rows -->
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </section>
+              <mat-paginator style="font-size: 13px;" [pageSizeOptions]="[5, 10, 20 ]"
+              showFirstLastButtons [pageSize]="10"
+              aria-label="Select page of periodic elements">
+             </mat-paginator>
           </div>
         </div>
        </div>

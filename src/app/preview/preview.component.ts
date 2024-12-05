@@ -317,6 +317,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       });
 
     // Fetch Name Server Details using getDetailsById
+    //this.namServerService.getNameServersByDomainId(this.domainId)
     this.http
       .get<any>(
         'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId
