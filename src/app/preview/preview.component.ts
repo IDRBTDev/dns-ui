@@ -318,7 +318,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Name Server Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/nameServer/get/'+this.organisationId
+        'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId
       )
       .subscribe({
         next: (data) => {
