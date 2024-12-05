@@ -170,7 +170,15 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.adminDocuments }}</p>
 
+                                <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
 
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                        <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <span>{{doc.fileName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 
@@ -220,7 +228,15 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.techDocuments }}</p>
 
+                                <div *ngIf="techUploadedDocs.length > 0" style="margin-top: 20px;">
 
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                        <div *ngFor="let doc of techUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <span>{{doc.fileName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
                         </div>
 
@@ -261,6 +277,15 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.billDocuments }}</p>
 
+                                <div *ngIf="billUploadedDocs.length > 0" style="margin-top: 20px;">
+
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                        <div *ngFor="let doc of billUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            <span>{{doc.fileName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                         </div>

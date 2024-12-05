@@ -69,7 +69,7 @@
                                 <div class="col">
                                     <input class="form-control" [(ngModel)]="ns.ipAddress" placeholder="Enter IP Address" maxlength="45">
                                 </div>
-                                <div class="col" style="padding-right: 100px;">
+                                <div class="col">
                                     <input class="form-control" [(ngModel)]="ns.ttl" placeholder="Enter TTL" maxlength="30">
                                 </div>
 
@@ -78,7 +78,8 @@
 
                             <button
                                 style="background: #007CF8;
-color:white; padding:5px;border: none; border-radius: 5px; width:70px; margin-left: 10px; margin-top: 20px; margin-bottom: 20px;">Submit</button>
+color:white; padding:5px;border: none; border-radius: 5px; width:70px; margin-left: 10px;
+ margin-top: 20px; margin-bottom: 20px;"  (click)="onSubmit()">Submit</button>
 
 
                             <hr />
