@@ -31,8 +31,8 @@ export class NameServerService {
   }
 
   updateNameServer(data: any): Observable<HttpResponse<any>> {
-    return this.http.put<HttpResponse<any>>(
-      `${this.nameServerUrl}/update`,
+    return this.http.post<HttpResponse<any>>(
+      `${this.nameServerUrl}`,
       data,
       { observe: 'response' }
     );

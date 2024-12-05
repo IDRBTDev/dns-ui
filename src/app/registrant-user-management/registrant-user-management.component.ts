@@ -347,4 +347,21 @@ export class RegistrantUserManagementComponent {
     )
   }
 
+  navigateToVerifyDocuments(user: any){
+    var contactUserType = '';
+    if(user.contactRole === 'AdminOfficer'){
+      contactUserType = 'Administrative';
+    }else if(user.contactRole === 'TechnicalOfficer'){
+      contactUserType = 'Technical';
+    }else{
+      contactUserType = 'Billing';
+    }
+    this.router.navigate(['/verify-documents'],
+      {
+        queryParams:{
+          organisationId:user.organisationId,
+          contactUserType: contactUserType
+        }})
+  }
+
 }
