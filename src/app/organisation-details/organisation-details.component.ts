@@ -401,7 +401,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const formData = {
             ...this.organisationForm.value,
         };
-        this.documentUploadComponent.handleDocumentSubmit();
+       
         // this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
         //     (response) => {
                 
@@ -423,6 +423,8 @@ export class OrganisationDetailsComponent implements OnInit {
 
                 const applicationId = response.applicationId; // Retrieve applicationId from the response
                 console.log('Generated Application ID:', applicationId);
+
+                this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
         
                 if (applicationId) {
                     sessionStorage.setItem('applicationId', applicationId); // Save to sessionStorage
@@ -436,6 +438,7 @@ export class OrganisationDetailsComponent implements OnInit {
             }
         );
     }
+    
         // Method to check form validity (to be used in parent)
         isFormValid(): boolean {
         return this.organisationForm.valid;

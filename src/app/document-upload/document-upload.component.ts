@@ -26,6 +26,8 @@ export class DocumentUploadComponent implements OnInit {
   @Output() setTechUploadedDocs = new EventEmitter<any[]>();
   @Output() setBillingUploadedDocs = new EventEmitter<any[]>();
 
+  @Input() organisationId: number = 0;
+
   // Organisation Section
   organisationRequiredDocs: string[] = [
     'Organisation GSTIN',
@@ -129,7 +131,9 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.organisationInputValue || null,
-      file:event.target.files[0]
+      organisationId: this.organisationId,
+      file:event.target.files[0],
+      contactType: 'Organisation'
     };
     
     this.organisationUploadedDocs.push(uploadedDoc);
@@ -178,6 +182,8 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.adminInputValue || null,
+      organisationId: this.organisationId,
+      contactType:'Administrative',
       file:file
     };
     console.log(uploadedDoc)
@@ -226,7 +232,9 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.techInputValue || null,
-      file:file
+      organisationId: this.organisationId,
+      file:file,
+      contactType: 'Technical'
     };
 
     this.techUploadedDocs.push(uploadedDoc);
@@ -275,7 +283,9 @@ export class DocumentUploadComponent implements OnInit {
       fileName: file.name,
       fileSize: file.size, // Optional for extra checks
       value: this.billingInputValue || null,
-      file:file
+      organisationId: this.organisationId,
+      file:file,
+      contactType: 'Billing'
     };
 
     this.billingUploadedDocs.push(uploadedDoc);
@@ -367,7 +377,7 @@ export class DocumentUploadComponent implements OnInit {
   }
 
   // Handle submit button
-  handleDocumentSubmit(): void {
+  handleDocumentSubmit(organisationId): void {
     this.submissionAttempted = true;
     const allDocs = [
       ...this.organisationUploadedDocs,
@@ -382,7 +392,7 @@ export class DocumentUploadComponent implements OnInit {
     }
   console.log(allDocs, this.applicationId, this.user, this.userMailId)
     this.documentUploadService
-      .uploadDocuments(allDocs, this.applicationId, this.user, this.userMailId)
+      .uploadDocuments(allDocs, this.applicationId, this.user, this.userMailId, organisationId)
       .subscribe({
         next: (res) => console.log('Upload successful:', res),
         error: (err) => console.error('Error uploading documents:', err),
