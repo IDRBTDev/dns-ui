@@ -358,7 +358,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
     setOrganisationUploadedDocuments(docs: any[]): void {
         this.organisationUploadedDocs = docs;
-        localStorage.setItem('orgDoc',JSON.stringify(this.organisationUploadedDocs));
+        // localStorage.setItem('orgDoc',JSON.stringify(this.organisationUploadedDocs));
         console.log('Uploaded documents updated:', this.organisationUploadedDocs);
     }
 

@@ -331,6 +331,7 @@
   </div>
   <!-- Submission Errors -->
   <div class="d-flex justify-content-center mt-1">
+    <p>{{submissionAttempted+""+ missingBillingDocs.length+""+billingErrors.message+''+billingInputFieldErrors.message}}</p>
     <p
       *ngIf="submissionAttempted && missingBillingDocs.length > 0"
       style="color: red; margin-top: 20px"

@@ -542,6 +542,7 @@ export class DocumentUploadComponent implements OnInit {
         this.billingInputFieldErrors = isValidPAN
           ? { message: '', type: '' }
           : { message: 'Invalid PAN format.', type: 'billingInputValue' };
+          localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.billingInputValue = event;
         if (this.billingSelectedDocType === 'Aadhaar') {
@@ -549,9 +550,11 @@ export class DocumentUploadComponent implements OnInit {
           this.billingInputFieldErrors = isValidOrgGST
             ? { message: '', type: '' }
             : { message: 'Invalid Aadhaar format.', type: 'billingInputValue' };
+            localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
         }
       } else {
         this.billingInputFieldErrors = { message: '', type: '' };
+        localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
       }
     }
     //this.billingInputFieldErrors.message = '';
@@ -602,6 +605,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('adminErrors',JSON.stringify(this.adminErrors));
+    localStorage.setItem('adminInputFieldErrors',JSON.stringify(this.adminInputFieldErrors));
     this.adminErrors = { message: '', type: '' };
     this.adminInputFieldErrors = { message: '', type: '' };
     console.log(document.getElementById('adminFileInput'))
