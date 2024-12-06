@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { DocumentUploadService } from './service/document-upload.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-document-upload',
@@ -72,7 +73,7 @@ export class DocumentUploadComponent implements OnInit {
   user = ''; // Replace with appropriate value
   userMailId = localStorage.getItem('email');
 
-  constructor(private documentUploadService: DocumentUploadService) {}
+  constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer) {}
 
  
   ngOnInit(): void {
@@ -678,6 +679,34 @@ export class DocumentUploadComponent implements OnInit {
 
     document.getElementById('billingFileInput')?.click();
   }
+
+  previewDocName:any;
+  imageUrl:any;
+  pdfUrl:any;
+  clickedDocument(docName) {
+    this.imageUrl=''
+  this.pdfUrl=''
+    console.log(docName);
+    this.previewDocName = docName;
+  
+    const file = this.previewDocName.file;
+  
+    // Read the file as ArrayBuffer
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if(file.type=="application/pdf"){
+          console.log("entered")
+          this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+        }else if(file.type=="image/jpeg"){
+          this.imageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+        }
+      
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
 }
 
 
