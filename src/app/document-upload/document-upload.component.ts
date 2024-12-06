@@ -101,6 +101,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.organisationSelectedDocType= localStorage.getItem('orgdoctype');
+    this.organisationInputValue= localStorage.getItem('orgInputValue')
+    // localStorage.setItem('orgInputValue',this.organisationInputValue);
     const docTypeExists = this.organisationUploadedDocs.some(
       (doc) => doc.type === this.organisationSelectedDocType
     );
@@ -583,6 +586,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('orgdoctype',this.organisationSelectedDocType);
+    localStorage.setItem('orgInputValue',this.organisationInputValue);
     this.organisationErrors = { message: '', type: '' };
     this.organisationInputFieldErrors = { message: '', type: '' };
 

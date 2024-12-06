@@ -44,9 +44,9 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchDataFromAPIs();
-    console.log(JSON.parse(localStorage.getItem('admindocs')))
-    console.log(JSON.parse(localStorage.getItem('techdocs')))
-    console.log(JSON.parse(localStorage.getItem('billdocs')))
+    // console.log(JSON.parse(localStorage.getItem('admindocs')))
+    // console.log(JSON.parse(localStorage.getItem('techdocs')))
+    // console.log(JSON.parse(localStorage.getItem('billdocs')))
   }
 
 
@@ -517,6 +517,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   @Input()adminDocDetails=[]
   @Input()techDocDetails =[]
   @Input()billDocDetails =[]
+  @Input()orgDocDetails=[]
   @Output() setAdminUploadedDocs = new EventEmitter<any[]>();
   handleRemoveAdminDoc(index: number): void {
     this.submissionAttempted = false;
@@ -563,5 +564,15 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.billDocDetails = docs;
     console.log('Uploaded documents updated:', this.billDocDetails);
   }
+  handleOrganisationValidationChange(isValid: boolean): void {
+    console.log('Validation status:', isValid);
+}
+
+setOrganisationUploadedDocuments(docs: any[]): void {
+    this.orgDocDetails = docs;
+    // localStorage.setItem('orgDoc',JSON.stringify(this.organisationUploadedDocs));
+    console.log('Uploaded documents updated:', this.orgDocDetails);
+}
+
 
 }
