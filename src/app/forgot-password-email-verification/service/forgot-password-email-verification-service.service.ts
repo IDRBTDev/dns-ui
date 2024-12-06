@@ -7,14 +7,21 @@ import { User } from 'src/app/model/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ForgotPasswordService {
+export class ForgotPasswordEmailVerificationService {
 
-  private verifyemailurl = 'http://localhost:9002/dr/user/verify-user';
+  private verifyemailUrl = 'http://localhost:9002/dr/user/verify-user';
+  private getOtpUrl = 'http://localhost:9002/dr/user/get-otp';
+ 
 
   constructor(private http: HttpClient) {}
 
-  // Method to verify if the user exists
-  verifyEmail(userId: string): Observable<User> {
-    return this.http.get<User>(`${this.verifyemailurl}/${userId}`);
+  verifyUserEmail(userId: string): Observable<string[]> {
+    return this.http.get<any>(`${this.verifyemailUrl}/${userId}`);
   }
+
+  getOtpForUser(userId: string): Observable<number> {
+    return this.http.get<number>(`${this.getOtpUrl}/${userId}`);
+  }
+
+ 
 }

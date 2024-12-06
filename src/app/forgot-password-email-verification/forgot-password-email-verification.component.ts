@@ -1,45 +1,73 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
-import { ForgotPasswordService } from './service/forgot-password-email-verification-service.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ForgotPasswordEmailVerificationService } from './service/forgot-password-email-verification-service.service';
 
 @Component({
   selector: 'app-forgot-password-email-verification',
   templateUrl: './forgot-password-email-verification.component.html',
   styleUrls: ['./forgot-password-email-verification.component.css']
 })
-export class ForgotPasswordEmailVerificationComponent {
+export class ForgotPasswordEmailVerificationComponent implements OnInit{
 
-  userId: string = '';
-  errorMessage: string = '';
-  successMessage: string = '';
-  user: User | null = null;
+  user: User = new User();
+  otp: number | null = null;
+  isOtpSent: boolean = false;
 
-  constructor(private forgotPasswordService: ForgotPasswordService, private router: Router, // For navigation
-    private toastr: ToastrService ) {}
 
-  
-   verifyUser() {
-    this.errorMessage = ''; 
-    this.successMessage = ''; 
-    this.user = null; 
+  constructor(private forgotPasswordEmailVerificationService: ForgotPasswordEmailVerificationService, private router: Router,
+    private toastr: ToastrService, private route: ActivatedRoute,) {}
 
-    if (this.userId) {
-      this.forgotPasswordService.verifyEmail(this.userId).subscribe(
-        (response: User) => {
-          this.user = response; 
-          this.toastr.success('Email verified successfully'); 
-          this.router.navigate(['/forgot-password-otp-validation']);
-        },
-        (error) => {
-          this.errorMessage = error.error; 
-          this.toastr.error('User does not exist'); 
-        }
-      );
-    } else {
-      this.errorMessage = 'Please enter a valid userId.'; 
-      this.toastr.warning('Please enter a valid userId'); 
+
+   ngOnInit(): void {}
+
+  verifyEmail() {
+    if (!this.user.userId || !this.isValidEmail(this.user.userId)) {
+      this.toastr.error('Please enter a valid email address.');
+      return;
     }
+  
+    this.forgotPasswordEmailVerificationService.verifyUserEmail(this.user.userId).subscribe(
+      (response) => {
+        if (response) {
+          this.sendOtp();
+        } else {
+          this.toastr.error('User not found.');
+        }
+      },
+      (error) => {
+        console.error('Verification failed', error);
+        if (error.status === 404) {
+          this.toastr.error('User not found.');
+        } else {
+          this.toastr.error('An error occurred while verifying the email.');
+        }
+      }
+    );
   }
+
+  sendOtp() {
+    this.forgotPasswordEmailVerificationService.getOtpForUser(this.user.userId).subscribe(
+      (otp) => {
+        this.otp = otp;
+        this.isOtpSent = true;
+        console.log(otp);
+        this.toastr.success('OTP sent successfully to your email ID.');
+        this.router.navigate(['/forgot-password-otp-validation'], {
+          queryParams: { email: this.user.userId, otp: this.otp }
+        });
+      },
+      (error) => {
+        this.toastr.error('An error occurred while sending OTP.');
+      }
+    );
+  }
+
+
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
+   
 }
