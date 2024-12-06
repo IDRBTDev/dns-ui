@@ -24,10 +24,8 @@ export class MainHeaderComponent implements OnInit{
 
   ngOnInit(): void {
      this.getUserDetails(); 
-     // Retrieve the stored profile picture URL from localStorage and set it
     const storedProfilePictureUrl = localStorage.getItem('profilePictureUrl');
     if (storedProfilePictureUrl) {
-        // Make sure 'user' is initialized before setting the profile picture URL
         if (this.user) {
             this.user.profilePictureUrl = storedProfilePictureUrl;
         }
@@ -45,7 +43,7 @@ export class MainHeaderComponent implements OnInit{
     this.isNotificationVisible = !this.isNotificationVisible;
   }
   onNotificationToggle(value: boolean): void {
-    this.isNotificationVisible = value; // Sync with the child component
+    this.isNotificationVisible = value; 
   }
 
   logout(){
@@ -107,6 +105,22 @@ export class MainHeaderComponent implements OnInit{
             }
         );
     }
+}
+
+deleteProfilePicture(): void {
+  if (this.user && this.user.userId) {
+    this.mainHeaderService.deleteProfilePicture(this.user.userId).subscribe(
+      () => {
+        this.user.profilePicture = null;
+        this.user.profilePictureUrl = null;
+        localStorage.removeItem('profilePictureUrl');
+        console.log('Profile picture deleted successfully.');
+      },
+      (error) => {
+        console.error('Error deleting profile picture:', error);
+      }
+    );
+  }
 }
 
   
