@@ -116,7 +116,15 @@
                             <p><strong>Organisation Email:</strong>
                                 {{ card.details.organisationEmail }}</p>
 
+                                <div *ngIf="orgDocDetails?.length > 0" style="margin-top: 20px;">
 
+                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                        <div *ngFor="let doc of orgDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                            <i class="bi bi-check-circle text-success"></i>
+                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+                                        </div>
+                                    </div>
+                                </div>
 
                         </div>
 
@@ -267,7 +275,7 @@
 
 
                             <p><strong>Documents:</strong>
-                                {{ card.details.billDocuments }}</p>
+                                </p>
 
                                 <div *ngIf="billDocDetails?.length > 0" style="margin-top: 20px;">
 
@@ -559,6 +567,31 @@
 
                                 <input type="email" class="form-control" id="email"
                                     [(ngModel)]="card.details.organisationEmail">
+
+
+
+                            </div>
+
+                            <div class="form-group">
+
+
+
+                                <label for="email">Organisation Documents:</label>
+
+
+                                <app-document-upload
+                                id="documentsToUpload"
+                                [mode]="'org'"
+                                [organisationUploadedDocs]="orgDocDetails"
+                                [submissionAttempted]="submissionAttempted"
+                                (onOrganisationValidationChange)="
+                                  handleOrganisationValidationChange($event)
+                                "
+                                (setOrganisationUploadedDocs)="
+                                  setOrganisationUploadedDocuments($event)
+                                "
+                              ></app-document-upload>
+                                
 
 
 

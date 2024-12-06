@@ -19,7 +19,9 @@
 
                 <mat-step completed=false label="Organisation Details">
                   
-                  <app-organisation-details (formSubmitted)="onFormSubmitted()" (organisationId)="getEmittedOrgIdFromChild($event)"></app-organisation-details>
+                  <app-organisation-details (formSubmitted)="onFormSubmitted()"
+                  (orgDocDetails)="SubmittedOrgDocs($event)" 
+                  (organisationId)="getEmittedOrgIdFromChild($event)"></app-organisation-details>
                   <!-- <div>
                     <button mat-button matStepperNext>Next</button>
                   </div> -->
@@ -53,6 +55,7 @@
                 <!-- Step 4: Review -->
                 <mat-step completed=false label="Preview">
                   <app-preview 
+                  [orgDocDetails]="orgDocDetails"
                   [adminDocDetails]="adminDocDetails"
                   [techDocDetails]="techDocDetails"
                   [billDocDetails]="billDocDetails"

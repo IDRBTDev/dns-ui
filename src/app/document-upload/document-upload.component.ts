@@ -101,6 +101,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    this.organisationSelectedDocType= localStorage.getItem('orgdoctype');
+    this.organisationInputValue= localStorage.getItem('orgInputValue')
+    // localStorage.setItem('orgInputValue',this.organisationInputValue);
     const docTypeExists = this.organisationUploadedDocs.some(
       (doc) => doc.type === this.organisationSelectedDocType
     );
@@ -261,6 +264,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    console.log(this.billingErrors)
+    this.billingErrors= JSON.parse(localStorage.getItem('billingErrors'))
+    this.billingInputFieldErrors=JSON.parse(localStorage.getItem('billingInputFieldErrors'))
     this.billingSelectedDocType=localStorage.getItem('billdoctype');
     this.billingInputValue=localStorage.getItem('billInputValue');
     
@@ -542,6 +548,7 @@ export class DocumentUploadComponent implements OnInit {
         this.billingInputFieldErrors = isValidPAN
           ? { message: '', type: '' }
           : { message: 'Invalid PAN format.', type: 'billingInputValue' };
+          localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.billingInputValue = event;
         if (this.billingSelectedDocType === 'Aadhaar') {
@@ -549,9 +556,11 @@ export class DocumentUploadComponent implements OnInit {
           this.billingInputFieldErrors = isValidOrgGST
             ? { message: '', type: '' }
             : { message: 'Invalid Aadhaar format.', type: 'billingInputValue' };
+            localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
         }
       } else {
         this.billingInputFieldErrors = { message: '', type: '' };
+        localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
       }
     }
     //this.billingInputFieldErrors.message = '';
@@ -577,6 +586,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('orgdoctype',this.organisationSelectedDocType);
+    localStorage.setItem('orgInputValue',this.organisationInputValue);
     this.organisationErrors = { message: '', type: '' };
     this.organisationInputFieldErrors = { message: '', type: '' };
 
@@ -602,6 +613,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('adminErrors',JSON.stringify(this.adminErrors));
+    localStorage.setItem('adminInputFieldErrors',JSON.stringify(this.adminInputFieldErrors));
     this.adminErrors = { message: '', type: '' };
     this.adminInputFieldErrors = { message: '', type: '' };
     console.log(document.getElementById('adminFileInput'))
@@ -628,6 +641,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('techErrors',JSON.stringify(this.techErrors));
+    localStorage.setItem('techInputFieldErrors',JSON.stringify(this.techInputFieldErrors));
     localStorage.setItem('techdoctype',this.techSelectedDocType);
     localStorage.setItem('techInputValue',this.techInputValue);
     this.techErrors = { message: '', type: '' };
@@ -654,6 +669,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('billingErrors',JSON.stringify(this.billingErrors));
+    localStorage.setItem('billingInputFieldErrors',JSON.stringify(this.billingInputFieldErrors));
     localStorage.setItem('billdoctype',this.billingSelectedDocType);
     localStorage.setItem('billInputValue',this.billingInputValue);
     this.billingErrors = { message: '', type: '' };

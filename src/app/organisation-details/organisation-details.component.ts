@@ -239,6 +239,7 @@ export class OrganisationDetailsComponent implements OnInit {
     @ViewChild(DocumentUploadComponent, { static: false }) documentUploadComponent?: DocumentUploadComponent;
     
     @Output() organisationId: EventEmitter<number> = new EventEmitter<number>();
+    @Output() orgDocDetails: EventEmitter<any>=new EventEmitter<any>();
     
     organisationForm: FormGroup;
     cityOptions: Array<{ name: string; district: string; state: string }> = [];
@@ -358,7 +359,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
     setOrganisationUploadedDocuments(docs: any[]): void {
         this.organisationUploadedDocs = docs;
-        localStorage.setItem('orgDoc',JSON.stringify(this.organisationUploadedDocs));
+        // localStorage.setItem('orgDoc',JSON.stringify(this.organisationUploadedDocs));
         console.log('Uploaded documents updated:', this.organisationUploadedDocs);
     }
 
@@ -395,6 +396,7 @@ export class OrganisationDetailsComponent implements OnInit {
             this.validationMessage = 'Please fill all required fields correctly.';
             return;
         }
+        this.orgDocDetails.emit(this.organisationUploadedDocs);
         this.formSubmitted.emit();
         console.log('Form is valid and ready for submission.');
 
