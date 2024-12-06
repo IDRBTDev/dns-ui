@@ -25,7 +25,8 @@ export class OnboardingStepperComponent implements OnInit{
   organisationId: number = 0;
  adminDocDetails :any
  techDocDetails :any 
- billDocDetails :any  
+ billDocDetails :any 
+ orgDocDetails :any 
   constructor(private router: Router){
     this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
     this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
@@ -67,6 +68,10 @@ export class OnboardingStepperComponent implements OnInit{
   submittedBillDocDetails(billDocs){
     console.log(billDocs)
     this.billDocDetails=billDocs
+  }
+  SubmittedOrgDocs(orgDoc){
+    console.log(orgDoc);
+    this.orgDocDetails=orgDoc;
   }
 
 

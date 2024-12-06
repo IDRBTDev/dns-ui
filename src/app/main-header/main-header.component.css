@@ -98,6 +98,7 @@ app-notification {
         height: 150px;
         width: 150px;
         background-size: cover;
+        position: relative;
 }
 
 .profile-pic {
@@ -115,6 +116,18 @@ a {
         padding-left: 20px;
          
     }
-    
-   
+
+
+.delete_pic {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        top: 25px;
+        right: 40px;
+}
+
+.profile_container:hover .delete_pic {
+   opacity: 1;
+}
+
     

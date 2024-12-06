@@ -55,4 +55,10 @@ console.log("conytactservice called")
         })
       );
   }
+
+  getContactOfficerDocuments(contactType: string, organisationId: number){
+    const apiUrl  = 'http://localhost:9002/dr/contactDocuments/contactOfficerDocuments/'+contactType+'/'+organisationId;
+    return this.http.get<any[]>(apiUrl,{observe: 'response'});
+  }
+
 }
