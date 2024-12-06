@@ -376,7 +376,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header" id="modalHeader">
-              <h5 class="modal-title" id="xlModalLabel">{{previewDocName?.fileName}}</h5>
+              <h5 class="modal-title" id="xlModalLabel">{{previewDocName?.docType+"-"+previewDocName?.fileName}}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
                       >&times;</span>
@@ -384,8 +384,8 @@
           </div>
           <!-- Modal body -->
           <div class="modal-body">
-            <div *ngIf="imageUrl">
-              <img [src]="imageUrl" alt="Image Preview">
+            <div  class="image-Container">
+              <img [src]="imageUrl" *ngIf="imageUrl" alt="Image Preview" width="400px" height="300px">
             </div>
             
             <div *ngIf="pdfUrl">
