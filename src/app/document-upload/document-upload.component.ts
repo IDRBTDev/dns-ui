@@ -261,6 +261,9 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
+    console.log(this.billingErrors)
+    this.billingErrors= JSON.parse(localStorage.getItem('billingErrors'))
+    this.billingInputFieldErrors=JSON.parse(localStorage.getItem('billingInputFieldErrors'))
     this.billingSelectedDocType=localStorage.getItem('billdoctype');
     this.billingInputValue=localStorage.getItem('billInputValue');
     
@@ -633,6 +636,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('techErrors',JSON.stringify(this.techErrors));
+    localStorage.setItem('techInputFieldErrors',JSON.stringify(this.techInputFieldErrors));
     localStorage.setItem('techdoctype',this.techSelectedDocType);
     localStorage.setItem('techInputValue',this.techInputValue);
     this.techErrors = { message: '', type: '' };
@@ -659,6 +664,8 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    localStorage.setItem('billingErrors',JSON.stringify(this.billingErrors));
+    localStorage.setItem('billingInputFieldErrors',JSON.stringify(this.billingInputFieldErrors));
     localStorage.setItem('billdoctype',this.billingSelectedDocType);
     localStorage.setItem('billInputValue',this.billingInputValue);
     this.billingErrors = { message: '', type: '' };
