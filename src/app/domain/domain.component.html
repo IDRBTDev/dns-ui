@@ -59,7 +59,7 @@
                     No data found matching the filters.
                   </div> -->
                   <table id="table1" *ngIf="!noDataFound" mat-table [dataSource]="domainsDataSource" 
-                  matSort class="mat-elevation-z8">
+                  matSort matSortActive="domainId" class="mat-elevation-z8">
                     <!-- Checkbox Column -->
                     <!-- <ng-container matColumnDef="checkbox">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>

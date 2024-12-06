@@ -26,26 +26,30 @@ export class MainHeaderService{
         });
     }
 
-    resetPassword( userId:string,newPassword: string,  confirmPassword: string): Observable<boolean> {
-        const body = {
-            userId:userId,
-           
-          newPassword: newPassword,
-          confirmPassword: confirmPassword
-        };
-    
-        const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    
-        // Send POST request to backend to reset the password
-        return this.httpClient.post<boolean>(this.resetUrl, body, { headers });
-      }
+    resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<any> {
+      if (newPassword !== confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
+    const params = new HttpParams()
+      .set('userId', email)
+      .set('newPassword', newPassword)
+      .set('confirmPassword', confirmPassword); 
+    return this.httpClient.post<any>(`${this.resetUrl}`, null, {
+      params: params,
+      observe: 'response'
+    });
+  }
   
-      validateOldPassword( oldPassword: string): Observable<any> {
-        const userId = localStorage.getItem('userId');
-        const params = new HttpParams()
-          .set('userId', userId)           // Pass userId as query parameter
-          .set('oldPassword', oldPassword); // Pass oldPassword as query parameter
+  validateOldPassword(email: string, oldPassword: string): Observable<boolean> {
+    // Prepare query parameters
+    const params = new HttpParams()
+      .set('userId', email)           // Pass userId (email) as query parameter
+      .set('oldPassword', oldPassword); // Pass oldPassword as query parameter
     
-        return this.httpClient.post<any>(this.oldUrl, null, { params });
-      
-}}
+    // Make HTTP POST request to the backend
+    return this.httpClient.post<boolean>(this.oldUrl, null, { 
+      params: params,
+      observe: 'body'            // Since the response body will be a boolean, we can observe 'body' only
+    });
+  }
+}

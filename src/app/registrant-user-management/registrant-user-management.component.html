@@ -96,7 +96,8 @@
                 <ng-container matColumnDef="documents">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Verify Documents</th>
                   <td mat-cell *matCellDef="let user">
-                    <a routerLink="/verify-documents" style="cursor: pointer;">View</a>
+                    <a (click)="navigateToVerifyDocuments(user)"
+                     style="cursor: pointer;text-decoration: underline;color: blue;">View</a>
                   </td>
                 </ng-container>
   

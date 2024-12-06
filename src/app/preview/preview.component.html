@@ -170,10 +170,10 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.adminDocuments }}</p>
 
-                            <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
+                            <div *ngIf="adminDocDetails?.length > 0" style="margin-top: 20px;">
 
                                 <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                    <div *ngFor="let doc of adminUploadedDocs; let i = index"
+                                    <div *ngFor="let doc of adminDocDetails; let i = index"
                                         style="display: flex; align-items: center; gap: 5px;">
                                         <i class="bi bi-check-circle text-success"></i>
                                         {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
@@ -220,10 +220,10 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.techDocuments }}</p>
 
-                                <div *ngIf="techUploadedDocs.length > 0" style="margin-top: 20px;">
+                                <div *ngIf="techDocDetails?.length > 0" style="margin-top: 20px;">
 
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of techUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                        <div *ngFor="let doc of techDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
                                             <i class="bi bi-check-circle text-success"></i>
                                             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                         </div>
@@ -269,10 +269,10 @@
                             <p><strong>Documents:</strong>
                                 {{ card.details.billDocuments }}</p>
 
-                                <div *ngIf="billUploadedDocs.length > 0" style="margin-top: 20px;">
+                                <div *ngIf="billDocDetails?.length > 0" style="margin-top: 20px;">
 
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of billUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                                        <div *ngFor="let doc of billDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
                                             <i class="bi bi-check-circle text-success"></i>
                                             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                         </div>
@@ -676,10 +676,10 @@
 
 .
                             </div>
-                            <app-document-upload
+                            <app-document-upload 
                                 id="documentsToUpload"
                                 [mode]="'admin'"
-                                [adminUploadedDocs]="adminUploadedDocs"
+                                [adminUploadedDocs]="adminDocDetails"
                                 [submissionAttempted]="submissionAttempted"
                                 (onAdminValidationChange)="
                                     handleAdminValidationChange($event)
@@ -796,21 +796,15 @@
 
 
                             </div>
-                            <!-- <div *ngFor="let doc of techUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
-                                <i class="bi bi-check-circle text-success"></i>
-                                <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-                                <button class="btn btn-sm btn-danger" (click)="handleRemovetechDoc(i)">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div> -->
+                           
                             <app-document-upload
                                 id="documentsToUpload"
                                 [mode]="'tech'"
-                                [techUploadedDocs]="techUploadedDocs"
+                                [techUploadedDocs]="techDocDetails"
                                 [submissionAttempted]="submissionAttempted"
                                 (onTechValidationChange)="handleTechValidationChange($event)"
                                 (setTechUploadedDocs)="setTechUploadedDocuments($event)"
-                            ></app-document-upload>
+                            ></app-document-upload> 
 
 
 
@@ -908,7 +902,7 @@
                             <app-document-upload
                             id="documentsToUpload"
                             [mode]="'bill'"
-                            [billingUploadedDocs]="billUploadedDocs"
+                            [billingUploadedDocs]="billDocDetails"
                             [submissionAttempted]="submissionAttempted"
                             (onBillingValidationChange)="
                               handleBillingValidationChange($event)
