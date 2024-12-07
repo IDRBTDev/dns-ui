@@ -220,7 +220,7 @@
 
 // rohith 
 
-import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user/service/user.service';
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
@@ -240,7 +240,9 @@ export class OrganisationDetailsComponent implements OnInit {
     
     @Output() organisationId: EventEmitter<number> = new EventEmitter<number>();
     @Output() orgDocDetails: EventEmitter<any>=new EventEmitter<any>();
-    
+    pdfUrl:any
+    imagUrl:any
+  
     organisationForm: FormGroup;
     cityOptions: Array<{ name: string; district: string; state: string }> = [];
     loading = false;
@@ -470,6 +472,17 @@ export class OrganisationDetailsComponent implements OnInit {
                 }
             }
         )
+     }
+     onImageViewClick(imageUrl){
+        console.log(imageUrl)
+        this.pdfUrl=null
+        this.imagUrl=imageUrl
+        document.getElementById('hiddenUpdateModal').click();
+     }
+     onPdfViewClick(pdfUrl){
+        this.imagUrl=null
+        this.pdfUrl=pdfUrl
+        document.getElementById('hiddenUpdateModal').click();
      }
 }
 

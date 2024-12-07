@@ -225,6 +225,8 @@
             (setOrganisationUploadedDocs)="
               setOrganisationUploadedDocuments($event)
             "
+            (imageUrl)="onImageViewClick($event)"
+            (pdfUrl)="onPdfViewClick($event)"
           ></app-document-upload>
         </div>
 
@@ -238,4 +240,33 @@
   </div>
   <!-- </div> -->
 </div>
-
+<div data-toggle="modal"
+data-target="#updateModal" id="hiddenUpdateModal" ></div>
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header" id="modalHeader">
+              <h5 class="modal-title" id="xlModalLabel">hi</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
+                      >&times;</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div  class="image-Container">
+              <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+            </div>
+            
+            <div *ngIf="pdfUrl">
+              <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer" role="alert">
+             
+          </div>
+      </div>
+  </div>
+</div>

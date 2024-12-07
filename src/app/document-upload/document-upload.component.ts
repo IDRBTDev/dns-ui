@@ -15,7 +15,8 @@ export class DocumentUploadComponent implements OnInit {
 
   @Output() onTechValidationChange = new EventEmitter<boolean>();
   @Output() onBillingValidationChange = new EventEmitter<boolean>();
-
+  @Output() imageUrl = new EventEmitter<any>();
+  @Output() pdfUrl = new EventEmitter<any>();
   @Input() organisationUploadedDocs: any[] = [];
   @Input() adminUploadedDocs: any[] = [];
   @Input() billingUploadedDocs: any[] = [];
@@ -381,16 +382,16 @@ export class DocumentUploadComponent implements OnInit {
   }
   checkAdminValidation(): void {
     console.log("adminValid")
-    const isValid = this.adminUploadedDocs.length >= 4;
+    const isValid = this.adminUploadedDocs.length >= 3;
     console.log(isValid)
     this.onAdminValidationChange.emit(isValid);
   }
   checkTechValidation(): void {
-    const isValid = this.techUploadedDocs.length >= 4;
+    const isValid = this.techUploadedDocs.length >= 3;
     this.onTechValidationChange.emit(isValid);
   }
   checkBillingValidation(): void {
-    const isValid = this.billingUploadedDocs.length >= 4;
+    const isValid = this.billingUploadedDocs.length >= 3;
     this.onBillingValidationChange.emit(isValid);
   }
 
@@ -506,8 +507,19 @@ export class DocumentUploadComponent implements OnInit {
         this.adminInputValue = event;
         if (this.adminSelectedDocType === 'Aadhaar') {
           console.log(event,this.adminSelectedDocType)
-          const isValidOrgGST = /^[0-9]{12}$/.test(event);
-          this.adminInputFieldErrors = isValidOrgGST
+          let formattedValue = this.adminInputValue.replace(/\s/g, '').slice(0, 12);
+
+          // Add a space after every 4 characters
+          formattedValue = formattedValue.replace(/(.{4})/g, '$1 ').trim();
+    
+          // Update the input value with formatted Aadhaar
+          this.adminInputValue = formattedValue;
+    
+          // Validate the Aadhaar format (12 digits without spaces)
+          const isValidAadhaar = /^[0-9]{12}$/.test(formattedValue.replace(/\s/g, ''));
+          console.log(isValidAadhaar)
+          // const isValidOrgGST = /^[0-9]{12}$/.test(event);
+          this.adminInputFieldErrors = isValidAadhaar
             ? { message: '', type: '' }
             : { message: 'Invalid Aadhaar format.', type: 'adminInputValue' };
         }
@@ -681,11 +693,11 @@ export class DocumentUploadComponent implements OnInit {
   }
 
   previewDocName:any;
-  imageUrl:any;
-  pdfUrl:any;
-  clickedDocument(docName) {
-    this.imageUrl=''
-  this.pdfUrl=''
+  tempimageUrl:any;
+  temppdfUrl:any;
+  clickedDocument(docName){
+    this.tempimageUrl=''
+    this.temppdfUrl=''
     console.log(docName);
     this.previewDocName = docName;
   
@@ -697,14 +709,19 @@ export class DocumentUploadComponent implements OnInit {
       reader.onload = (e) => {
         if(file.type=="application/pdf"){
           console.log("entered")
-          this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.imageUrl.emit(null)
+          this.pdfUrl.emit(this.temppdfUrl)
         }else if(file.type=="image/jpeg"){
-          this.imageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.pdfUrl.emit(null)
+          this.imageUrl.emit(this.tempimageUrl)
         }
       
       };
       reader.readAsDataURL(file);
     }
+
   }
 
 }

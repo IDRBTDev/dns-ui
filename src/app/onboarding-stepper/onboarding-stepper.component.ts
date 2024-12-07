@@ -5,6 +5,7 @@ import { OrganisationDetailsComponent } from '../organisation-details/organisati
 import { ContactDetailsFormComponent } from '../contact-details-form/contact-details-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PreviewComponent } from '../preview/preview.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-onboarding-stepper',
@@ -18,6 +19,7 @@ export class OnboardingStepperComponent implements OnInit{
   @ViewChild(ContactDetailsFormComponent) contactDetailsFormComponent: OrganisationDetailsComponent;
   @ViewChild(PreviewComponent) previewComponent: PreviewComponent;
  
+
   completed= false;
 
   domainId: number = 0;
@@ -27,7 +29,7 @@ export class OnboardingStepperComponent implements OnInit{
  techDocDetails :any 
  billDocDetails :any 
  orgDocDetails :any 
-  constructor(private router: Router){
+  constructor(private router: Router,private sanitizer: DomSanitizer){
     this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
     this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
   }
