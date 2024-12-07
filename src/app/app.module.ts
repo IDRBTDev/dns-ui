@@ -61,6 +61,7 @@ import { ForgotPasswordResetComponent } from './forgot-password-reset/forgot-pas
 import { ForgotPasswordEmailVerificationComponent } from './forgot-password-email-verification/forgot-password-email-verification.component';
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 
@@ -105,6 +106,7 @@ import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot
     ForgotPasswordEmailVerificationComponent,
     ForgotPasswordOtpValidationComponent,
     ForgotPasswordSuccessComponent,
+    ChangePasswordComponent,
 
    
   ],

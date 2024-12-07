@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { User } from "src/app/model/user.model";
@@ -10,21 +10,49 @@ import { User } from "src/app/model/user.model";
 export class MainHeaderService{
     private userDetailsUrl = 'http://localhost:9002/dr/user/get';
     private uploadProfilePictureUrl = 'http://localhost:9002/dr/user/upload-profile-picture';
-
+    private resetUrl = 'http://localhost:9002/dr/user/reset-password';
+    private oldUrl = 'http://localhost:9002/dr/user/check-oldpassword';
+    private deleteProfilePictureUrl = 'http://localhost:9002/dr/user/deleteprofilepicture';
     constructor(private httpClient: HttpClient){}
 
-    // Method to fetch user details based on userId (now a string)
     getUserDetailsById(userId: string): Observable<User> {
         return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
     }
 
-    // Method to upload the profile picture
     uploadProfilePicture(userId: string, formData: FormData): Observable<Blob> {
         return this.httpClient.post(`${this.uploadProfilePictureUrl}/${userId}`, formData, {
             responseType: 'blob' 
         });
     }
 
-    
 
+    resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<any> {
+      if (newPassword !== confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
+    const params = new HttpParams()
+      .set('userId', email)
+      .set('newPassword', newPassword)
+      .set('confirmPassword', confirmPassword); 
+    return this.httpClient.post<any>(`${this.resetUrl}`, null, {
+      params: params,
+      observe: 'response'
+    });
+  }
+  
+  validateOldPassword(email: string, oldPassword: string): Observable<boolean> {
+    // Prepare query parameters
+    const params = new HttpParams()
+      .set('userId', email)           // Pass userId (email) as query parameter
+      .set('oldPassword', oldPassword); // Pass oldPassword as query parameter
+
+    // Make HTTP POST request to the backend
+    return this.httpClient.post<boolean>(this.oldUrl, null, { 
+      params: params,
+      observe: 'body'            // Since the response body will be a boolean, we can observe 'body' only
+    });
+  }
+  deleteProfilePicture(userId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.deleteProfilePictureUrl}/${userId}`);
+}
 }
