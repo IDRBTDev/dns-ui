@@ -5,18 +5,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from '../user/service/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
+import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
-import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
-import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 
 @Component({
-  selector: 'app-registrant-user-management',
-  templateUrl: './registrant-user-management.component.html',
-  styleUrls: ['./registrant-user-management.component.css']
+  selector: 'app-rgnt-officer-details-mgmt',
+  templateUrl: './rgnt-officer-details-mgmt.component.html',
+  styleUrls: ['./rgnt-officer-details-mgmt.component.css']
 })
-export class RegistrantUserManagementComponent {
+export class RgntOfficerDetailsMgmtComponent {
 
   selectedOrganisation: number = 0;
 
@@ -106,7 +106,7 @@ export class RegistrantUserManagementComponent {
         'emailId',
         'contactRole',
         'documents',
-        'approveOrReject',
+        //'approveOrReject',
         'loginStatus'
       ]; 
     //}
@@ -115,11 +115,11 @@ export class RegistrantUserManagementComponent {
 
     this.getLoggedInUserDetails();
     
-    if(this.role === 'IDRBTADMIN'){
-      await this.getContactOfficersDetails(0);
-    }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+    // if(this.role === 'IDRBTADMIN'){
+    //   await this.getContactOfficersDetails(0);
+    // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
       await this.getContactOfficersDetails(parseInt(this.organisationId));
-    }
+    //}
 
   }
 
@@ -407,11 +407,11 @@ export class RegistrantUserManagementComponent {
         if(response.status === HttpStatusCode.Created){
           console.log(response);
           this.toastr.success('Login approved');
-          if(this.role === 'IDRBTADMIN'){
-             this.getContactOfficersDetails(0);
-          }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+          // if(this.role === 'IDRBTADMIN'){
+          //    this.getContactOfficersDetails(0);
+          // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
              this.getContactOfficersDetails(parseInt(this.organisationId));
-          }
+         // }
         }
       },error => {
         if(error.status === HttpStatusCode.Unauthorized){

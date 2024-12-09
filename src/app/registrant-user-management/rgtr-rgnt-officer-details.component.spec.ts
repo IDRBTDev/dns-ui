@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrantUserManagementComponent } from './registrant-user-management.component';
+import { RegistrantUserManagementComponent } from './rgtr-rgnt-officer-details.component';
 
 describe('RegistrantUserManagementComponent', () => {
   let component: RegistrantUserManagementComponent;

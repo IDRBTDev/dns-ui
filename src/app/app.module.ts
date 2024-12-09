@@ -38,7 +38,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PreviewComponent } from './preview/preview.component';
 import { DocumentUploadComponent } from './document-upload/document-upload.component';
-import { UserComponent } from './user/user.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { DomainInvoices } from './model/domain-invoices.model';
@@ -52,7 +51,7 @@ import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
+import { RgtrRgntOfficerDetailsComponent } from './registrant-user-management/rgtr-rgnt-officer-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
@@ -62,6 +61,10 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RgntOfficerDetailsMgmtComponent } from './rgnt-officer-details-mgmt/rgnt-officer-details-mgmt.component';
+import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgmt.component';
+import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
+import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 
 
 
@@ -80,7 +83,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     DomainApplicationComponent,
     DomainDetailsComponent,
     DomainApplicationDetailsComponent,
-    UserComponent,
+    RgtrRgntUserMgmtComponent,
     DomainInvoicesComponent,
     DomainInvoiceDetailsComponent,
     UserDomainDetailsComponent,
@@ -98,7 +101,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     NameServerComponent,
     DomainDetailsEditComponent,
     RolesComponent,
-    RegistrantUserManagementComponent,
+    RgtrRgntOfficerDetailsComponent,
     VerifyDocumentsComponent,
     RegistrationSuccessComponent,
     ReminderComponent,
@@ -107,6 +110,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ForgotPasswordOtpValidationComponent,
     ForgotPasswordSuccessComponent,
     ChangePasswordComponent,
+    RgntOfficerDetailsMgmtComponent,
+    RgntUserManagementComponent,
+    RgtrUsrMgmtComponent,
 
    
   ],

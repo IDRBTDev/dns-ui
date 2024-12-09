@@ -25,15 +25,7 @@ export class VerifyDocumentsComponent implements OnInit {
   userEmailId = localStorage.getItem('email');
   searchText:String='';
 
-  displayedColumns: string[] = [
-    // 'checkbox',
-    'id',
-    'document',
-    'documentType',
-    'approveOrReject',
-    'documentStatus',
-    'comment',
-  ];
+  displayedColumns: string[] = [];
 
   contactType: string = '';
   organisationId: number = 0;
@@ -50,6 +42,27 @@ export class VerifyDocumentsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    if(this.role === 'IDRBTADMIN'){
+      this.displayedColumns = [
+        // 'checkbox',
+        'id',
+        'document',
+        'documentType',
+        'approveOrReject',
+        'documentStatus',
+        'comment',
+      ];
+    }else{
+      this.displayedColumns = [
+        // 'checkbox',
+        'id',
+        'document',
+        'documentType',
+       // 'approveOrReject',
+        'documentStatus',
+        'comment',
+      ];
+    }
     await this.getContactOfficerDocuments(this.contactType, this.organisationId);
   }
 

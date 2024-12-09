@@ -12,7 +12,7 @@
           <!-- Administrative Card -->
           <div class="card mt-4 mb-4">
             <div class="card-header">
-              <h5>Administrative</h5>
+              <h5 class="mt-2">Administrative</h5>
             </div>
             <div class="card-body">
               <div class="row g-3">
@@ -132,7 +132,7 @@
                   [organisationId]="organisationId"
                   [mode]="'admin'"
                   [adminUploadedDocs]="adminUploadedDocs"
-                  [submissionAttempted]="submissionAttempted"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
                   (onAdminValidationChange)="
                     handleAdminValidationChange($event)
                   "
@@ -154,7 +154,7 @@
           <!-- Technical Card -->
           <div class="card mb-4">
             <div class="card-header">
-              <h5>Technical</h5>
+              <h5 class="mt-2">Technical</h5>
             </div>
             <div class="card-body">
               <div class="row g-3">
@@ -274,7 +274,7 @@
                   [mode]="'tech'"
                   [organisationId]="organisationId"
                   [techUploadedDocs]="techUploadedDocs"
-                  [submissionAttempted]="submissionAttempted"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
                   (onTechValidationChange)="
                     handleTechValidationChange($event)
                   "
@@ -296,7 +296,7 @@
           <!-- Billing Card -->
           <div class="card mb-4">
             <div class="card-header">
-              <h5>Billing</h5>
+              <h5 class="mt-2">Billing</h5>
             </div>
             <div class="card-body">
               <div class="row g-3">
@@ -416,7 +416,7 @@
                   [mode]="'bill'"
                   [organisationId]="organisationId"
                   [billingUploadedDocs]="billingUploadedDocs"
-                  [submissionAttempted]="submissionAttempted"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
                   (onBillingValidationChange)="
                     handleBillingValidationChange($event)
                   "
