@@ -541,7 +541,17 @@ export class DocumentUploadComponent implements OnInit {
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.techInputValue = event;
         if (this.techSelectedDocType === 'Aadhaar') {
-          const isValidOrgGST = /^[0-9]{12}$/.test(event);
+          let formattedValue = this.techInputValue.replace(/\s/g, '').slice(0, 12);
+
+          // Add a space after every 4 characters
+          formattedValue = formattedValue.replace(/(.{4})/g, '$1 ').trim();
+    
+          // Update the input value with formatted Aadhaar
+          this.techInputValue = formattedValue;
+    
+          // Validate the Aadhaar format (12 digits without spaces)
+          const isValidOrgGST = /^[0-9]{12}$/.test(formattedValue.replace(/\s/g, ''));
+          // const isValidOrgGST = /^[0-9]{12}$/.test(event);
           this.techInputFieldErrors = isValidOrgGST
             ? { message: '', type: '' }
             : { message: 'Invalid Aadhaar format.', type: 'techInputValue' };
@@ -565,8 +575,18 @@ export class DocumentUploadComponent implements OnInit {
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.billingInputValue = event;
         if (this.billingSelectedDocType === 'Aadhaar') {
-          const isValidOrgGST = /^[0-9]{12}$/.test(event);
-          this.billingInputFieldErrors = isValidOrgGST
+          let formattedValue = this.billingInputValue.replace(/\s/g, '').slice(0, 12);
+
+          // Add a space after every 4 characters
+          formattedValue = formattedValue.replace(/(.{4})/g, '$1 ').trim();
+    
+          // Update the input value with formatted Aadhaar
+          this.billingInputValue = formattedValue;
+    
+          // Validate the Aadhaar format (12 digits without spaces)
+          const isValidAadhaar = /^[0-9]{12}$/.test(formattedValue.replace(/\s/g, ''));
+          // const isValidOrgGST = /^[0-9]{12}$/.test(event);
+          this.billingInputFieldErrors = isValidAadhaar
             ? { message: '', type: '' }
             : { message: 'Invalid Aadhaar format.', type: 'billingInputValue' };
             localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
