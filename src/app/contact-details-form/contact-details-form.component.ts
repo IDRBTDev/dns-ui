@@ -31,7 +31,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   user = ''; // Replace with appropriate value
   userMailId = localStorage.getItem('email');
   selectedDocType = '';
-
+  imagUrl:any
+  pdfUrl:any
   constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute,
     private contactDoc:ContactDocumentUploadService) {}
 
@@ -208,6 +209,15 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       this.fullForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
     }
   }
+  onImageViewClick(imageUrl){
+    console.log(imageUrl)
+    this.pdfUrl=null
+    this.imagUrl=imageUrl
+ }
+ onPdfViewClick(pdfUrl){
+    this.imagUrl=null
+    this.pdfUrl=pdfUrl
+ }
  
 }
 

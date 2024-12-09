@@ -137,6 +137,8 @@
                     handleAdminValidationChange($event)
                   "
                   (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
+                  (imageUrl)="onImageViewClick($event)"
+                  (pdfUrl)="onPdfViewClick($event)"
                 ></app-document-upload>
                   <!-- <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="adminDocuments" class="form-select" formControlName="adminDocuments">
@@ -277,6 +279,8 @@
                     handleTechValidationChange($event)
                   "
                   (setTechUploadedDocs)="setTechUploadedDocuments($event)"
+                  (imageUrl)="onImageViewClick($event)"
+                  (pdfUrl)="onPdfViewClick($event)"
                 ></app-document-upload>
                   <!-- <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="techDocuments" class="form-select" formControlName="techDocuments">
@@ -419,6 +423,8 @@
                   (setBillingUploadedDocs)="
                     setBillingUploadedDocuments($event)
                   "
+                    (imageUrl)="onImageViewClick($event)"
+                    (pdfUrl)="onPdfViewClick($event)"
                 ></app-document-upload>
                   <!-- <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="billDocuments" class="form-select" formControlName="billDocuments">
@@ -442,6 +448,90 @@
         </form>
       </div>
     </div>
+  </div>
+</div>
+<div class="modal fade" id="adminDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header" id="modalHeader">
+              <h5 class="modal-title" id="xlModalLabel">view Document</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
+                      >&times;</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div  class="image-Container">
+              <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+            </div>
+            
+            <div *ngIf="pdfUrl">
+              <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer" role="alert">
+             
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade" id="techDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header" id="modalHeader">
+              <h5 class="modal-title" id="xlModalLabel">view Document</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
+                      >&times;</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div  class="image-Container">
+              <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+            </div>
+            
+            <div *ngIf="pdfUrl">
+              <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer" role="alert">
+             
+          </div>
+      </div>
+  </div>
+</div>
+<div class="modal fade" id="billDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header" id="modalHeader">
+              <h5 class="modal-title" id="xlModalLabel">view Document</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
+                      >&times;</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div  class="image-Container">
+              <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+            </div>
+            
+            <div *ngIf="pdfUrl">
+              <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer" role="alert">
+             
+          </div>
+      </div>
   </div>
 </div>
 
