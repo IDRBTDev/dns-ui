@@ -341,30 +341,22 @@ padding-top: 20px;
 padding-bottom: 20px;
  
   }
- 
- 
- 
- 
- 
-  /* Animation to handle the sliding transition */
-  @keyframes slideContent {
-    0% {
-      transform: translateX(0); /* Slide 1 appears */
-      opacity: 1; /* Make Slide 1 visible */
-    }
-    50% {
-      opacity: 1; /* Keep Slide 1 visible */
-    }
-    100% {
-      transform: translateX(-50%); /* Move Slide 1 out */
-      opacity: 0; /* Fade out Slide 1 */
-    }
-}
- 
- 
 
  
- 
+  @keyframes slideContent {
+    0% {
+      transform: translateX(0); 
+      opacity: 1; 
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-50%); 
+      opacity: 0; 
+    }
+}
+
 #mid-four {
 font-size: 16px;
 color: white;
@@ -398,11 +390,31 @@ padding-left: 20px;
 padding-right: 20px;
 padding-top: 10px;
   }
-  #small-icon{
-    padding-left: 700px;
- height:40px;
- padding-top: 0px;
-  }
+
+#small-icon {
+  position: absolute;
+  bottom: 10px; 
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 10;
+  transition: transform 0.5s ease-in-out;  
+}
+
+
+.carousel-item:nth-child(1).active ~ #small-icon {
+  transform: translateX(-50%) scale(1.2); 
+}
+.carousel-item:nth-child(2).active ~ #small-icon {
+  transform: translateX(-40%) scale(1); 
+}
+
+.carousel-item:nth-child(3).active ~ #small-icon {
+  transform: translateX(-60%) scale(1.1);
+}
+
+  
+
+  
   #mid-three{
     font-family: Inter;
 font-size: 24px;
@@ -427,9 +439,9 @@ padding-left: 20px;
 padding-right: 20px;
   }
   .svg-text-container {
-    display: flex; /* Use flexbox to arrange items horizontally */
-    align-items: center; /* Vertically align items in the center */
-    gap: 5px; /* Space between SVG and text */
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
     padding-left: 20px;
  
 padding-bottom: 10px;
@@ -450,8 +462,8 @@ padding-top: 10px;
     opacity: 0px;
     padding-top: 0px;
     margin-top: -20px;
-    display: flex; /* Enable flexbox */
-    justify-content: space-between; /* Distribute space between text and SVG */
+    display: flex;
+    justify-content: space-between; 
     align-items: center;
   }
   #small-para{
@@ -474,15 +486,15 @@ line-height: 1.5;
   }
 
   .content-wrapper {
-    display: flex; /* Use flexbox for the container */
-    justify-content: space-between; /* Spread text and SVG apart */
-    align-items: center; /* Vertically center items */
-    width: 100%; /* Ensure full width */
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
   }
  
   .text-content {
-    flex: 1; /* Allow text content to take up available space */
-    margin-right: 20px; /* Space between text and SVG */
+    flex: 1;
+    margin-right: 20px;
   }
  
  
@@ -501,26 +513,23 @@ line-height: 1.5;
       content: ".org";
     }
   }
-  /* Adjusting carousel styles */
+
  .carousel-inner {
-  position: relative;      /* Ensures positioning works for items */
-  height: 600px;           /* Set a fixed height for the carousel */
-  overflow: hidden;        /* Ensures no part of the previous slide appears */
+  position: relative;     
+  height: 600px;          
+  overflow: hidden;        
 }
- 
- 
-/* Active slide should be visible */
+
 .carousel-item.active {
-  opacity: 1;              /* Make the active slide visible */
-  visibility: visible;     /* Set visibility for active slide */
+  opacity: 1;             
+  visibility: visible;   
 }
  
 .carousel-item-next, .carousel-item-prev {
   opacity: 0;
   visibility: hidden;
 }
- 
-/* Ensure that carousel items do not overflow */
+
 .carousel-inner > .carousel-item {
   transition: transform 0.5s ease-in-out;
 }
@@ -553,3 +562,4 @@ line-height: 1.5;
     text-align: center;
    
   }
+ 
