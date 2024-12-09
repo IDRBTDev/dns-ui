@@ -8,6 +8,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { param } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-verify-documents',
@@ -38,7 +39,8 @@ export class VerifyDocumentsComponent implements OnInit {
   organisationId: number = 0;
   constructor(private contactDocumentsService: ContactDocumentUploadService,
     private router: Router, private activatedRouter: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
   ){
     this.documentsListDataSource = new MatTableDataSource<any>();
     this.activatedRouter.queryParams.subscribe(param => {
@@ -124,6 +126,10 @@ export class VerifyDocumentsComponent implements OnInit {
 
   storeCurrentDocumentDetails(document: any){
     this.currentDocument = document;
+  }
+
+  goBack(){
+    this.location.back();
   }
 
 }

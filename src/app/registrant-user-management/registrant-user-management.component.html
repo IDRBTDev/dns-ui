@@ -9,12 +9,14 @@
             <ng-select style="width: 200px;" placeholder="Select item" appendTo="body" 
                 [(ngModel)]="selectedOrganisation" (change)="getContactUsers()">
                 <ng-option [value]="0">Select</ng-option>
-                <ng-option *ngFor="let org of organisationsList" [value]="org.organisationDetailsId">{{org.institutionName}}</ng-option>
+                <ng-option *ngFor="let org of organisationsList" 
+                [value]="org.organisationDetailsId">{{org.institutionName}}</ng-option>
             </ng-select>
+            <button class="btn btn-primary" data-target="" data-toggle="">Add User</button>
             </div>
-  
             <section class="example-container" style="margin-top: 10px;">
-              <table id="table1" mat-table [dataSource]="usersDataSource" matSort class="mat-elevation-z8">
+              <table id="table1" mat-table [dataSource]="usersDataSource"
+               matSort class="mat-elevation-z8">
   
                 <!-- <ng-container matColumnDef="checkbox">
                   <th mat-header-cell *matHeaderCellDef>
@@ -92,7 +94,7 @@
                   </ng-container>
 
                 <ng-container matColumnDef="documents">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Verify Documents</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Login</th>
                   <td mat-cell *matCellDef="let user">
                     <a (click)="navigateToVerifyDocuments(user)"
                      style="cursor: pointer;text-decoration: underline;color: blue;">View</a>

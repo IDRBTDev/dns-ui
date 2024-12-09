@@ -331,11 +331,17 @@ export class RegistrantUserManagementComponent {
           console.log(count)
         }
       });
-      if(count === 3){
-        this.adminOfficerDetails.loginStatus = loginStatus;
+      if(count === 3 && loginStatus === 'Approved'){
+        this.adminOfficerDetails.loginStatus = 'Approved';
         await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
-      }else{
-        this.toastr.error('Document verification pending')
+      }else if(count < 3 && loginStatus === 'Approved'){
+        this.toastr.error('Document verification pending.')
+        return;
+      }else if(count === 3 && loginStatus === 'Rejected'){
+        this.adminOfficerDetails.loginStatus = 'Rejected';
+        await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
+      }else if(count < 3 && loginStatus === 'Rejected'){
+        this.toastr.error('Document verification pending');
         return;
       }
     }else if(contactOfficerDetails.contactRole === 'TechnicalOfficer'){
@@ -359,7 +365,6 @@ export class RegistrantUserManagementComponent {
         this.toastr.error('Document verification pending');
         return;
       }
-     
     }else{
       await this.getBillingOfficerDetails(contactOfficerDetails.id);
       await this.getContactOfficerDocuments("Billing",this.billingOfficerDetails.organisationId);
@@ -418,6 +423,10 @@ export class RegistrantUserManagementComponent {
     )
   }
 
+  /**
+   * 
+   * @param user 
+   */
   navigateToVerifyDocuments(user: any){
     var contactUserType = '';
     if(user.contactRole === 'AdminOfficer'){
