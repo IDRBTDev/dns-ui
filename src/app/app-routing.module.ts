@@ -14,7 +14,6 @@ import { OnboardingStepperComponent } from './onboarding-stepper/onboarding-step
 import { UserSideMenuComponent } from './user-side-menu/user-side-menu.component';
 import { DomainInvoicesComponent } from './domain-invoices/domain-invoices.component';
 import { DomainInvoiceDetailsComponent } from './domain-invoice-details/domain-invoice-details.component';
-import { UserComponent } from './user/user.component';
 import { OrganisationDetailsComponent } from './organisation-details/organisation-details.component';
 import { ContactDetailsFormComponent } from './contact-details-form/contact-details-form.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
@@ -23,7 +22,7 @@ import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-import { RegistrantUserManagementComponent } from './registrant-user-management/registrant-user-management.component';
+import { RgtrRgntOfficerDetailsComponent } from './registrant-user-management/rgtr-rgnt-officer-details.component';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { ForgotPasswordResetComponent } from './forgot-password-reset/forgot-password-reset.component';
@@ -31,6 +30,10 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RgntOfficerDetailsMgmtComponent } from './rgnt-officer-details-mgmt/rgnt-officer-details-mgmt.component';
+import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgmt.component';
+import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
+import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 
 
 
@@ -54,8 +57,6 @@ const routes: Routes = [
   {path:'invoices', component: DomainInvoicesComponent},
 
   {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
-  {path: 'users', component: UserComponent},
-  {path: 'roles', component:RolesComponent},
   {path:'',redirectTo:'/landing', pathMatch: 'full'},
   {path:'',component: LandingComponent},
   {path:'mainHeader',component:MainHeaderComponent},
@@ -65,14 +66,21 @@ const routes: Routes = [
   {path: 'add-domain', component: AddDomainComponent},
   {path: 'preview', component: PreviewComponent},
   {path: 'name-server', component: NameServerComponent},
-  {path: 'registrant-user-management', component: RegistrantUserManagementComponent},
   {path: 'verify-documents', component: VerifyDocumentsComponent},
   {path: 'reg-success', component: RegistrationSuccessComponent},
   {path:'forgot-password-reset', component:ForgotPasswordResetComponent},
   {path:'forgot-password-email-verification', component:ForgotPasswordEmailVerificationComponent},
   {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
-  {path:'change-password',component:ChangePasswordComponent}
+  {path:'change-password',component:ChangePasswordComponent},
+
+  // settings menu paths
+  {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
+  {path: 'rgtr-rgnt-ofd', component: RgtrRgntOfficerDetailsComponent},
+  {path:'rgnt-um', component: RgntUserManagementComponent},
+  {path: 'rgtr-rgnt-um', component: RgtrRgntUserMgmtComponent},
+  {path: 'rgtr-um', component: RgtrUsrMgmtComponent},
+  {path: 'rgtr-role', component:RolesComponent},
 
 ];
 
