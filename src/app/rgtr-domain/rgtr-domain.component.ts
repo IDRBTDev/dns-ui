@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DomainService } from './service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
+import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-domain',
-  templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.css'],
+  selector: 'app-rgtr-domain',
+  templateUrl: './rgtr-domain.component.html',
+  styleUrls: ['./rgtr-domain.component.css']
 })
-export class DomainComponent implements OnInit {
+export class RgtrDomainComponent {
+
   displayedColumns: string[] = [
     // 'checkbox',
     'domainId',
@@ -23,7 +24,7 @@ export class DomainComponent implements OnInit {
     'status',
   ]; // Matches matColumnDef values
 
-  domainsList: any[];
+  domainsList: any[] = [];
   domainsDataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -42,13 +43,13 @@ export class DomainComponent implements OnInit {
   
     console.log(this.role)
     console.log(this.userEmailId)
-    if(this.role !== 'IDRBTADMIN'){
-      console.log('exe')
-      this.getAllDomainsList(this.userEmailId);
-    }else{
-      console.log('exe 1')
+    // if(this.role !== 'IDRBTADMIN'){
+    //   console.log('exe')
+    //   this.getAllDomainsList(this.userEmailId);
+    // }else{
+    //   console.log('exe 1')
       this.getAllDomainsList("");
-    }
+    //}
   }
   
   async getAllDomainsList(userId: string) {
@@ -175,5 +176,5 @@ filterButton() {
      
       this.getFilteredDomains();
     }
-  
+
 }

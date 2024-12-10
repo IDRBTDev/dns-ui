@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { DomainService } from '../domain/service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 

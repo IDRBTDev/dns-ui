@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomainService } from '../domain/service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom, window } from 'rxjs';
 import { NameServerService } from './service/domain-details-edit.service';

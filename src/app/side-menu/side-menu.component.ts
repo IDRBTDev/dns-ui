@@ -14,10 +14,11 @@ export class SideMenuComponent implements OnInit{
   boxContent: string = 'Settings Box Opened';
   role: string = localStorage.getItem('userRole');
 
+  domainRoute: string = '';
+
   constructor(private router: Router) {
-   
-  
-}
+    this.domainRoute = this.role === 'IDRBTADMIN' ? '/rgtr-domains' : '/rgnt-domains';
+  }
   ngOnInit(): void {
     // const boxState = localStorage.getItem('isBoxVisible');
     // if (boxState === 'true') {

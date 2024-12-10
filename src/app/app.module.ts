@@ -13,7 +13,7 @@ import { LandingComponent } from './landing/landing.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
 import { ToastrModule } from 'ngx-toastr';
-import { DomainComponent } from './domain/domain.component';
+import { RgntDomainComponent } from './rgnt-domain/rgnt-domain.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -65,6 +65,7 @@ import { RgntOfficerDetailsMgmtComponent } from './rgnt-officer-details-mgmt/rgn
 import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgmt.component';
 import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
 import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
+import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
 
 
 
@@ -78,7 +79,7 @@ import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
     RegistrationComponent,
     HeaderComponent,
     LandingComponent,
-    DomainComponent,
+    RgntDomainComponent,
     SideMenuComponent,
     DomainApplicationComponent,
     DomainDetailsComponent,
@@ -113,6 +114,7 @@ import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
     RgntOfficerDetailsMgmtComponent,
     RgntUserManagementComponent,
     RgtrUsrMgmtComponent,
+    RgtrDomainComponent,
 
    
   ],
