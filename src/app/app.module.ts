@@ -62,6 +62,12 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RegistrarsDashboardComponent } from './registrars-dashboard/registrars-dashboard.component';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
+ 
+Chart.register(ChartDataLabels);
+ 
 
 
 
@@ -107,6 +113,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ForgotPasswordOtpValidationComponent,
     ForgotPasswordSuccessComponent,
     ChangePasswordComponent,
+    RegistrarsDashboardComponent,
 
    
   ],

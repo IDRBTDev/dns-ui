@@ -31,6 +31,7 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RegistrarsDashboardComponent } from './registrars-dashboard/registrars-dashboard.component';
 
 
 
@@ -72,7 +73,8 @@ const routes: Routes = [
   {path:'forgot-password-email-verification', component:ForgotPasswordEmailVerificationComponent},
   {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
-  {path:'change-password',component:ChangePasswordComponent}
+  {path:'change-password',component:ChangePasswordComponent},
+  {path:'registrar-dashboard',component:RegistrarsDashboardComponent}
 
 ];
 
