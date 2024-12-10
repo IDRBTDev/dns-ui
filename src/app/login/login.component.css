@@ -59,7 +59,8 @@ h4 {
     box-sizing: border-box;
     margin-bottom: 5px;
     margin-top: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-right: none; 
 }
 
 .form-control:focus {
