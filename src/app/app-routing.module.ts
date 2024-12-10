@@ -30,11 +30,13 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { RegistrarsDashboardComponent } from './registrars-dashboard/registrars-dashboard.component';
 import { RgntOfficerDetailsMgmtComponent } from './rgnt-officer-details-mgmt/rgnt-officer-details-mgmt.component';
 import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgmt.component';
 import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
 import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
+
 
 
 
@@ -74,6 +76,7 @@ const routes: Routes = [
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
   {path:'change-password',component:ChangePasswordComponent},
 
+  {path:'registrar-dashboard',component:RegistrarsDashboardComponent},
   // settings menu paths
   {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
   {path: 'rgtr-rgnt-ofd', component: RgtrRgntOfficerDetailsComponent},
@@ -83,6 +86,7 @@ const routes: Routes = [
   {path: 'rgtr-role', component:RolesComponent},
   {path:'rgnt-domains', component: RgntDomainComponent},
   {path:'rgtr-domains', component: RgtrDomainComponent},
+
 
 ];
 

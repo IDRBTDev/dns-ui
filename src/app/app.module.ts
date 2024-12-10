@@ -61,11 +61,18 @@ import { ForgotPasswordEmailVerificationComponent } from './forgot-password-emai
 import { ForgotPasswordOtpValidationComponent } from './forgot-password-otp-validation/forgot-password-otp-validation.component';
 import { ForgotPasswordSuccessComponent } from './forgot-password-success/forgot-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+
+import { RegistrarsDashboardComponent } from './registrars-dashboard/registrars-dashboard.component';
 import { RgntOfficerDetailsMgmtComponent } from './rgnt-officer-details-mgmt/rgnt-officer-details-mgmt.component';
 import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgmt.component';
 import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
 import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
+ 
+Chart.register(ChartDataLabels);
+
 
 
 
@@ -111,12 +118,11 @@ import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
     ForgotPasswordOtpValidationComponent,
     ForgotPasswordSuccessComponent,
     ChangePasswordComponent,
+    RegistrarsDashboardComponent,
     RgntOfficerDetailsMgmtComponent,
     RgntUserManagementComponent,
     RgtrUsrMgmtComponent,
     RgtrDomainComponent,
-
-   
   ],
   imports: [
     BrowserModule,
