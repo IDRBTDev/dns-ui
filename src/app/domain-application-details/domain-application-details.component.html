@@ -15,37 +15,37 @@
                                 <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <h3>Domain Applications Details</h3>
+                            <h3 style="font-family: Roboto; font-size: 24px;">Domain Applications Details</h3>
                         </div>
                         <div class="details-container">
                             <div class="detail-item">
-                                <p>Organization Name</p>
+                                <p style="font-family: Roboto; font-size: 20px;">Organization Name</p>
                                 <div class="box-content">{{domainsList?.organizationName}}</div>
                             </div>
                             <div class="detail-item">
-                                <p>Domain Name</p>
+                                <p style="font-family: Roboto; font-size: 20px;">Domain Name</p>
                                 <div class="box-content">{{domainsList?.domainName}}</div>
                             </div>
                             <div class="detail-item">
-                                <p>Submission Date</p>
+                                <p style="font-family: Roboto; font-size: 20px;">Submission Date</p>
 
                                 <div class="box-content">{{domainsList?.submissionDate|date:'MMM d, y, h:mm a'}}</div>
                             </div>
                             <div class="detail-item">
-                                <p>Application No</p>
+                                <p style="font-family: Roboto; font-size: 20px;">Application No</p>
                                 <div class="box-content">{{domainsList?.applicationId}}</div>
                             </div>
                             <div class="detail-item">
-                                <p>Status</p>
+                                <p style="font-family: Roboto; font-size: 20px;">Status</p>
                                 <div class="box-content">{{domainsList?.status}}</div>
                             </div>
                         </div>
 
                         
                         <div class=" main col-8">
-                            <h4> Organization Details</h4>
+                            <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
                             <div class="first">
-                                <h5 style="font-size: 15px;">Institution Name </h5>
+                                <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
                                 <div class="input-group">
                                     <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
                                         [(ngModel)]="organizationsList.institutionName" />
@@ -53,7 +53,7 @@
                                         <p>{{ organization?.institutionName }}</p>
                                     </div>
                                 </div>
-                                <h5 style="font-size: 15px;">Pin Code</h5>
+                                <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
                                 <div class="pin-page">
                                     <input type="text" class="form-control" placeholder="Enter a pin code"
                                         [(ngModel)]="organizationsList.pincode" />
@@ -67,7 +67,7 @@
                                         <p>{{ organization.state }}</p>
                                     </div>
                                 </div>
-                                <h5 style="font-size: 15px;">Address</h5>
+                                <h5 style="font-size: 16px; color:#000000">Address</h5>
                                 <div class="input-group">
                                     <input type="text" placeholder="Enter your Address 1" class="form-control"
                                         [(ngModel)]="organizationsList.address" />
@@ -75,7 +75,7 @@
                                         <p>{{ organization.address }}</p>
                                     </div>
                                 </div>
-                                <h5 style="font-size: 15px;">Email ID</h5>
+                                <h5 style="font-size: 16px; color:#000000">Email ID</h5>
                                 <div >
                                     <input type="email" placeholder="Enter your Email id" class="form-control"
                                         [(ngModel)]="organizationsList.userMailId" />
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-4">
-                                        <h5 style="font-size: 15px;">Payment Status</h5>
+                                        <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                         <div>
                                             <select class="form-control" [(ngModel)]="domainsList.paymentStatus" (ngModelChange)="onPaymentStatusChange()">
                                                 <option value="" disabled selected>Select Status</option>
@@ -97,7 +97,7 @@
                                     </div>
                                 
                                     <div class="col-4">
-                                        <h5 style="font-size: 15px;">NS Status</h5>
+                                        <h5 style="font-size: 16px; color:#000000">NS Status</h5>
                                         
                                             <select class="form-control" [(ngModel)]="domainsList.nsRecordStatus" [disabled]="domainsList.paymentStatus !== 'paid'">
                                                 <option value="" disabled selected>Select Status</option>
@@ -110,7 +110,7 @@
                                         </div>
                                     
                                     <div  class="col-4">
-                                        <h5 style="font-size: 15px;">Domain Status</h5>
+                                        <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
                                         <div>
                                             <select class="form-control" [(ngModel)]="domainsList.status" [disabled]="domainsList.paymentStatus !== 'paid'">
                                                 <option value="" disabled selected>Select Status</option>

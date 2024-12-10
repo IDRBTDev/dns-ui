@@ -11,18 +11,14 @@
         </div>
         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
 
-        <div id="email">
-            <h5>Email ID <span class="required">*</span></h5>
-            <div class="input-group">
-                <input type="email" placeholder="Enter your email id" class="form-control" [(ngModel)]="user.userId"
-                    (blur)="emailChange()" (input)="toggleEmailButton()" />
-                <button *ngIf="showEmailButton" type="button" class="get-email-btn" id="email-btn"
-                    (click)="saveRegUser()">Verify</button>
-                <button hidden="true" data-toggle="modal" data-target="#exampleModal" id="showModal"></button>
-            </div>
-            <div *ngIf="!emailInput" class="error-message">{{ emailerrorMessage }}</div>
-        </div>
-
+<div id="email">
+<h5>Email ID <span class="required">*</span></h5>
+    <div class="input-group">
+<input  type="email"  placeholder="Enter your email"  class="form-control"   [(ngModel)]="user.userId"   (input)="toggleEmailButton()"  (focus)="emailChange()" />
+<button *ngIf="showEmailButton" type="button" class="get-email-btn"  id="email-btn" (click)="saveRegUser()">Verify</button>
+    </div>
+    <div *ngIf="!emailInput" class="error-message">{{ emailerrorMessage }}</div>
+  </div>
         <div id="mobile-number">
             <h5>Mobile Number <span class="required">*</span></h5>
             <div class="input-group">
@@ -63,7 +59,8 @@
             You must agree to the terms and conditions to proceed.
         </div>
 
-        <button class="form-control login-btn" type="button" style="margin-top: 20px;" (click)="registerUser()"
+        <button class="form-control login-btn" type="button" style="margin-top: 20px; font-family: Roboto;
+        font-size: 18px;" (click)="registerUser()"
         >Register</button>
     </div>
 </div>

@@ -13,7 +13,7 @@
 
           <!-- Domains -->
           <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a routerLink="/domains">
+            <a [routerLink]="domainRoute">
               <mat-icon>public</mat-icon>
               <span>Domains</span>
             </a>
@@ -69,9 +69,15 @@
   <div *ngIf="isBoxVisible" class="box visible" (mouseleave)="toggleBoxout()">
     <div class="settings-content">
       <p>Settings</p>
-      <a [routerLink]="['/users']" (click)="usernavigation()">User Management</a>
-      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/registrant-user-management']">Registrant User Management</a>
-      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/roles']" (click)="rolenavigation()">Roles</a>
+      <!-- Registrar -->
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-um']">DR User Management</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-rgnt-um']">Registrant User Management</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-rgnt-ofd']">Registrant Officer Details</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-role']">Roles</a>
+      <!-- Registrant -->
+      <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-um']">User Management</a>
+      <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-ofd']">Officer Details Management</a>
+      
     </div>
   </div>
 

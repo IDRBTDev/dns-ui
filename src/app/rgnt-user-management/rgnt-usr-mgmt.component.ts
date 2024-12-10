@@ -2,21 +2,19 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DomainService } from '../domain/service/domain.service';
-import { Router } from '@angular/router';
-import { async, lastValueFrom } from 'rxjs';
-import { HttpStatusCode } from '@angular/common/http';
-import { UserService } from './service/user.service';
+import { UserService } from '../user/service/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
-//import { MatPaginator } from '@angular/material/paginator';
+import { lastValueFrom } from 'rxjs';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-rgnt-usr-mgmt',
+  templateUrl: './rgnt-usr-mgmt.component.html',
+  styleUrls: ['./rgnt-usr-mgmt.component.css']
 })
-export class UserComponent {
+export class RgntUserManagementComponent {
 
   user = {
     id: 0,
@@ -79,39 +77,39 @@ export class UserComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    //set table comumns based on role
-    if(this.role === 'IDRBTADMIN'){
+    // //set table comumns based on role
+    // if(this.role === 'IDRBTADMIN'){
+    //   this.displayedColumns = [
+    //     'checkbox',
+    //     'id',
+    //     'userId',
+    //     'userName',
+    //     'institutionName',
+    //     'role',
+    //     'access',
+    //     'active',
+    //     'actions',
+    //   ]; 
+    // }else{
       this.displayedColumns = [
-        'checkbox',
+        //'checkbox',
         'id',
         'userId',
         'userName',
         'institutionName',
         'role',
-        'access',
         'active',
-        'actions',
+       //'actions',
       ]; 
-    }else{
-      this.displayedColumns = [
-        'checkbox',
-        'id',
-        'userId',
-        'userName',
-        'institutionName',
-        'role',
-        'active',
-        'actions',
-      ]; 
-    }
+    //}
 
     this.getLoggedInUserDetails();
     
-    if(this.role === 'IDRBTADMIN'){
-      await this.getUsersList(0);
-    }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+    // if(this.role === 'IDRBTADMIN'){
+    //   await this.getUsersList(0);
+    // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
       await this.getUsersList(parseInt(this.organisationId));
-    }
+    //}
     // this.usersList.forEach(user => {
     //   if(user.organisationId > 0){
     //      this.getOrganisationDetailsOfUser(user.organisationId);
@@ -403,5 +401,3 @@ if (!this.user.mobileNumber) {
   }
 
 }
-
-

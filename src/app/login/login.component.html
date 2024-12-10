@@ -1,43 +1,17 @@
 <div class="container-fluid">
     <app-header></app-header>
-
-
-    
-
-  
-    <div id="login">
+ <div id="login">
         <h1 id="title" class="text-center" style="color: #353167; font-size: 40px; 
         font-weight: 600;">Login</h1>
-
-            
-            <div id="email">
-               
-                <div style="font-weight: 500; font-size: 16px;">Email</div>
-                <div class="input-group">
-               
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    class="form-control" 
-                    [(ngModel)]="user.email" 
-                    (input)="toggleOtpButton()" 
-                    (focus)="onFocus()" />
-              
-                  
-                  <button 
-                    *ngIf="showOtpButton" 
-                    type="button" 
-                    class="get-otp-btn" 
-                    id="otp-btn"
-                    (click)="getOtpForLoginUser()">
-                    Get OTP
-                  </button>
+<div id="email">
+ <div style="font-weight: 500; font-size: 16px;">Email</div>
+ <div class="input-group">
+<input  type="email"  placeholder="Enter your email" class="form-control"  [(ngModel)]="user.email"   />
+  <button type="button" class="get-otp-btn"  id="otp-btn" (click)="getOtpForLoginUser()"> Get OTP </button>
                 </div>
               </div>
-              
-              <div style="font-weight: 500; font-size: 16px;">Password</div>
-            
-            <div class="password-container">
+ <div style="font-weight: 500; font-size: 16px;">Password</div>
+  <div class="password-container">
                 <input type="password" id="password" placeholder="Enter your password"
                 [(ngModel)]="user.password" class="form-control">
                 <button type="button" id="togglePassword" class="eye-icon">
@@ -46,25 +20,19 @@
                 </button>
                 <a routerLink="/forgot-password-email-verification" class="forgot-password">Forgot Password</a>
             </div>
-            
-            <div style="font-weight: 500; font-size: 16px;">OTP</div>
+<div style="font-weight: 500; font-size: 16px;">OTP</div>
             <div class="otp-container">
                 <input type="text" id="otp" class="form-control" 
                 [(ngModel)]="otp"
                 id="otp" placeholder="Enter your OTP">
-                
-                <div class="resend-otp">
+ <a routerLink="/forgot-password-otp-validation" class="resend-otp">
                   Resend OTP
-                </div>
-                
-            </div>
-            
+                </a>
+ </div>
+ <p class="instruction-text">Enter the OTP sent to your registered email ID</p>
 
-            <p class="instruction-text">Enter the OTP sent to your registered email ID</p>
-
-            <button class="form-control login-btn" type="button" 
+            <button class="form-control login-btn" type="button" style="font-family: Roboto; font-size: 18px;"
             (click)="login()">Login</button>
-
-            <p class="small-text">Unauthorized access to this application is an offense and shall be prosecuted under the appropriate Indian Penal Code</p>
+<p class="small-text">Unauthorized access to this application is an offense and shall be prosecuted under the appropriate Indian Penal Code</p>
         </div>
     </div>

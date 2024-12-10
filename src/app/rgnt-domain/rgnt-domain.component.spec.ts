@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DomainComponent } from './domain.component';
+import { DomainComponent } from './rgnt-domain.component';
 
 describe('DomainComponent', () => {
   let component: DomainComponent;

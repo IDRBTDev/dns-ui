@@ -1,0 +1,105 @@
+.example-container {
+    /* height: 400px; */
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  table tr th{
+    background-color: #ECF4FC;
+  }
+
+  .layout-container {
+    display: flex;
+    height: 100vh; /* Full-height layout */
+  }
+  
+  app-side-menu {
+    flex: 0 0 250px; /* Fixed width for the sidebar */
+    max-width: 90px;
+    min-width: 90px;
+    background-color: #f8f9fa; /* Example background color */
+  }
+  
+  .content-area {
+    flex: 1; /* Fills the remaining space */
+    padding: 0;
+    overflow-y: auto; /* Handles scrolling for content */
+  }
+
+
+  table tr th{
+    font-size: 13px;
+  }
+
+  table tr td{
+    font-size: 13px;
+  }
+  .date {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+
+.input-group input {
+    flex: 1;  
+    padding-right: 35px;
+}
+
+.input-group svg {
+    position: absolute;
+    right: 10px;  
+    pointer-events: none; 
+}
+
+h3 {
+    margin-bottom: 5px;
+}
+
+  .input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+   
+  }
+ 
+  
+  .input-group svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .d-flex {
+    display: flex;
+    align-items: center;
+  }
+  
+  .ml-3 {
+    margin-left: 1rem;
+  }
+  table#table1 tr:nth-child(even) {
+    background: #FFFFFF;
+
+  }
+  
+  table#table1 tr:nth-child(odd) {
+    background: #F7F7F7;
+
+  }
+  .no-results-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    text-align: center; /* Center the text horizontally */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555; /* Optional: adjust text color */
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: semi-transparent background */
+    
+  }
+  

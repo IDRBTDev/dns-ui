@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -60,5 +60,28 @@ console.log("conytactservice called")
     const apiUrl  = 'http://localhost:9002/dr/contactDocuments/contactOfficerDocuments/'+contactType+'/'+organisationId;
     return this.http.get<any[]>(apiUrl,{observe: 'response'});
   }
+
+  updateDocumentStatus(
+    approvalStatus: string,
+    currentDocumentId: number,
+    organisationId: number,
+    contactType: string,
+    documentType: string,
+    comment: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('currentDocumentId', currentDocumentId.toString())
+      .set('organisationId', organisationId.toString())
+      .set('contactType', contactType)
+      .set('documentType', documentType)
+      .set('comment', comment);
+  
+    return this.http.get(
+      `http://localhost:9002/dr/contactDocuments/updateDocumentStatus/${approvalStatus}`,
+      { params: params, observe: 'response' }
+    );
+  }
+  
+  
 
 }

@@ -90,7 +90,7 @@ otp:number;
       }
     } else {
      
-      this.toastrService.error('Please fix the errors in the form.');
+     // this.toastrService.error('Please fix the errors in the form.');
     }
   }
   

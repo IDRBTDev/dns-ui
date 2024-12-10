@@ -82,16 +82,11 @@ export class ChangePasswordComponent {
     const confirmPasswordField = document.getElementById('confirmPassword') as HTMLInputElement;
     confirmPasswordField.type = this.isConfirmPasswordVisible ? 'text' : 'password';
   }
-
- 
- 
-
-  validateEmail(email: string): boolean {
+   validateEmail(email: string): boolean {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   }
 
-  // Password validation function
   validatePassword(password: string): boolean {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordPattern.test(password);
@@ -107,21 +102,15 @@ email:string='';
       this.toastr.error('All fields are required.', 'Error');
       return;
     }
-
-
-    // Validate password (custom validation for password strength)
     if (!this.validatePassword(this.user.newPassword)) {
       this.errorMessage = 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.';
       return;
     }
 
-    // Check if new password and confirm password match
     if (this.user.newPassword !== this.user.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       return;
     }
-
-    // Call the backend to validate the old password first before updating
     this.checkOldPassword();
     this.updateNewPassword();
   }
@@ -129,7 +118,6 @@ email:string='';
     const email = localStorage.getItem('email');
     console.log(email);
 
-    // Check if email or oldPassword is missing
     if (!email || !this.user.oldPassword) {
       console.error('User ID or Old Password is missing.');
       this.toastr.error('Please provide both email and old password.', 'Error');
@@ -139,19 +127,17 @@ email:string='';
       this.toastr.error('New password cannot be the same as the old password.', 'Error');
       return;
     }
-    // Call the service to validate old password
+    
     this.passwordService.validateOldPassword(email, this.user.oldPassword).subscribe({
       next: (isValid: boolean) => {
         if (isValid) {
          
-          this.toastr.success('Old password is correct. You can now update your password.', 'Success');
         } else {
-          // Only show error message if password is incorrect
-          this.toastr.error('Old password is incorrect.', 'Error');
+          this.toastr.warning('Old password is incorrect.', 'Error');
         }
       },
       error: (error) => {
-        // Handle error response
+        
         console.error('Error occurred:', error);
         this.toastr.error('An error occurred while validating the old password. Please try again.', 'Error');
       }
@@ -175,7 +161,6 @@ updateNewPassword(): void {
     return;
   }
 
-  // Call the backend service to reset the password
   this.passwordService.resetPassword(email, this.user.newPassword, this.user.confirmPassword).subscribe({
     next: (isUpdated: boolean) => {
       if (isUpdated) {

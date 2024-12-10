@@ -18,7 +18,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   adminUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   techUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
   billingUploadedDocs:{type: string; filename:string,file:Blob}[]=[];
-  submissionAttempted: boolean=false;
+ 
+  contactSubmissionAttempted: boolean = false;
   @Output()adminDocDetails : EventEmitter<any> = new EventEmitter<any>();
   @Output()techDocDetails : EventEmitter<any> = new EventEmitter<any>(); 
   @Output()billDocDetails : EventEmitter<any> = new EventEmitter<any>(); 
@@ -116,7 +117,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   onSubmit(): void {
 
   //  this.formSubmitted.emit();
-    if (this.fullForm.valid) {
+    if (this.fullForm.valid && this.adminUploadedDocs.length>2 && this.techUploadedDocs.length>2 && this.billingUploadedDocs.length>2) {
       
       const adminDetails = {
         adminFullName: this.fullForm.get('adminFullName')?.value,
@@ -150,6 +151,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         applicationId: this.applicationId,
         organisationId: this.organisationId
       };
+
         this.adminDocDetails.emit(this.adminUploadedDocs);
         setTimeout(() => {
           this.techDocDetails.emit(this.techUploadedDocs);
@@ -205,6 +207,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
 
     } 
     else {
+      this.contactSubmissionAttempted=true;
       console.log('Form is invalid');
       this.fullForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
     }

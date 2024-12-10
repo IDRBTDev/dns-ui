@@ -5,17 +5,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from '../user/service/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
+import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
-import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
 
 @Component({
-  selector: 'app-registrant-user-management',
-  templateUrl: './registrant-user-management.component.html',
-  styleUrls: ['./registrant-user-management.component.css']
+  selector: 'app-rgnt-officer-details-mgmt',
+  templateUrl: './rgnt-officer-details-mgmt.component.html',
+  styleUrls: ['./rgnt-officer-details-mgmt.component.css']
 })
-export class RegistrantUserManagementComponent {
+export class RgntOfficerDetailsMgmtComponent {
 
   selectedOrganisation: number = 0;
 
@@ -55,7 +56,8 @@ export class RegistrantUserManagementComponent {
 
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService,
-    private contactDetailsService: ContactDetailsFormService
+    private contactDetailsService: ContactDetailsFormService,
+    private contactDocumentsService: ContactDocumentUploadService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
@@ -95,7 +97,7 @@ export class RegistrantUserManagementComponent {
     //set table comumns based on role
     //if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
-        'checkbox',
+        //'checkbox',
         'id',
         'organisationName',
         'personName',
@@ -104,7 +106,8 @@ export class RegistrantUserManagementComponent {
         'emailId',
         'contactRole',
         'documents',
-        'approveOrReject'
+        //'approveOrReject',
+        'loginStatus'
       ]; 
     //}
 
@@ -112,11 +115,11 @@ export class RegistrantUserManagementComponent {
 
     this.getLoggedInUserDetails();
     
-    if(this.role === 'IDRBTADMIN'){
-      await this.getContactOfficersDetails(0);
-    }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+    // if(this.role === 'IDRBTADMIN'){
+    //   await this.getContactOfficersDetails(0);
+    // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
       await this.getContactOfficersDetails(parseInt(this.organisationId));
-    }
+    //}
 
   }
 
@@ -293,24 +296,97 @@ export class RegistrantUserManagementComponent {
       }
     )
   }
-  
+
+  documentsList: any[] = [];
+  async getContactOfficerDocuments(contactType: string, organisationId: number){
+    await lastValueFrom(this.contactDocumentsService.getContactOfficerDocuments(contactType,organisationId)).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+          this.documentsList = response.body;
+          console.log(this.documentsList);
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+    return this.documentsList;
+  }
 
   async enableOrDisableLoginStatus(loginStatus: string, contactOfficerDetails: any){
     //first update the login status of contact officer and then create the user login for the contact officer
     if(contactOfficerDetails.contactRole === 'AdminOfficer'){
       await this.getAdminOfficerDetails(contactOfficerDetails.id);
-      this.adminOfficerDetails.loginStatus = loginStatus;
-      await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
+      //before updating status
+      await this.getContactOfficerDocuments("Administrative",this.adminOfficerDetails.organisationId);
+      let count = 0;
+      console.log('exe')
+      this.documentsList.forEach(doc => {
+        if(doc.documentStatus === 'Approved'){
+          count = count + 1;
+          console.log(count)
+        }else{
+          count = count - 1;
+          console.log(count)
+        }
+      });
+      if(count === 3 && loginStatus === 'Approved'){
+        this.adminOfficerDetails.loginStatus = 'Approved';
+        await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
+      }else if(count < 3 && loginStatus === 'Approved'){
+        this.toastr.error('Document verification pending.')
+        return;
+      }else if(count === 3 && loginStatus === 'Rejected'){
+        this.adminOfficerDetails.loginStatus = 'Rejected';
+        await this.updateAdminOfficerLoginStatus(this.adminOfficerDetails);
+      }else if(count < 3 && loginStatus === 'Rejected'){
+        this.toastr.error('Document verification pending');
+        return;
+      }
     }else if(contactOfficerDetails.contactRole === 'TechnicalOfficer'){
       await this.getTechnicalOfficerDetails(contactOfficerDetails.id);
-      this.technicalOfficerDetails.loginStatus = loginStatus;
-      await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
+      await this.getContactOfficerDocuments("Technical",this.technicalOfficerDetails.organisationId);
+      let count = 0;
+      console.log('exe')
+      this.documentsList.forEach(doc => {
+        if(doc.documentStatus === 'Approved'){
+          count = count + 1;
+          console.log(count)
+        }else{
+          count = count - 1;
+          console.log(count)
+        }
+      });
+      if(count === 3){
+        this.technicalOfficerDetails.loginStatus = loginStatus;
+        await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
+      }else{
+        this.toastr.error('Document verification pending');
+        return;
+      }
     }else{
       await this.getBillingOfficerDetails(contactOfficerDetails.id);
-      this.billingOfficerDetails.loginStatus = loginStatus;
+      await this.getContactOfficerDocuments("Billing",this.billingOfficerDetails.organisationId);
+      let count = 0;
+      console.log('exe')
+      this.documentsList.forEach(doc => {
+        if(doc.documentStatus === 'Approved'){
+          count = count + 1;
+          console.log(count)
+        }else{
+          count = count - 1;
+          console.log(count)
+        }
+      });
+      if(count === 3){
+        this.billingOfficerDetails.loginStatus = loginStatus;
       await this.updateBillingOfficerLoginStatus(this.billingOfficerDetails);
+      }else{
+        this.toastr.error('Document verification pending');
+        return;
+      }
     }
-
     //create the new user based on login status
     if(loginStatus === 'Approved'){
       this.user.active = true;
@@ -331,11 +407,11 @@ export class RegistrantUserManagementComponent {
         if(response.status === HttpStatusCode.Created){
           console.log(response);
           this.toastr.success('Login approved');
-          if(this.role === 'IDRBTADMIN'){
-             this.getContactOfficersDetails(0);
-          }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
+          // if(this.role === 'IDRBTADMIN'){
+          //    this.getContactOfficersDetails(0);
+          // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
              this.getContactOfficersDetails(parseInt(this.organisationId));
-          }
+         // }
         }
       },error => {
         if(error.status === HttpStatusCode.Unauthorized){
@@ -347,6 +423,10 @@ export class RegistrantUserManagementComponent {
     )
   }
 
+  /**
+   * 
+   * @param user 
+   */
   navigateToVerifyDocuments(user: any){
     var contactUserType = '';
     if(user.contactRole === 'AdminOfficer'){

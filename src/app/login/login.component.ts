@@ -22,7 +22,7 @@ export class LoginComponent {
 
   showPassword: boolean | undefined;
   
-  showOtpButton: boolean = false;
+  
   otp: number ;
 
   user = {
@@ -69,10 +69,10 @@ export class LoginComponent {
             return;
           }
           if(role === 'IDRBTADMIN'){
-            this.router.navigateByUrl('/domains');
+            this.router.navigateByUrl('/rgtr-domains');
             this.toastr.success('Login Success');
            }else{
-            this.router.navigateByUrl('/domains');
+            this.router.navigateByUrl('/rgnt-domains');
             this.toastr.success('Login Success');
           }
         },error => {
@@ -92,17 +92,8 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  toggleOtpButton() {
-    this.showOtpButton = this.user.email.length > 0; 
-  }
 
-  onFocus() {
-
-    if (!this.showOtpButton && this.user.email.length > 0) {
-      this.showOtpButton = true;
-    }
-  }
-
+  
   loginUserOtp: number = 0;
   async getOtpForLoginUser(){
     await lastValueFrom(this.loginService.getOtpForLoginUserByUserId(this.user.email)).then(

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DomainService } from '../domain/service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 import { Router } from '@angular/router';
 import { DomainInvoices } from '../model/domain-invoices.model';
 import { DomainInvoiceService } from './service/domain-invoices.service';

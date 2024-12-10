@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DomainService } from '../domain/service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpStatusCode } from '@angular/common/http';
 import { DomainApplicationDetailsService } from './service/domain-application-details.service';

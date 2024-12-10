@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
-import { DomainService } from '../domain/service/domain.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 import { lastValueFrom } from 'rxjs';
 import { NameServerService } from '../name-server-form/service/name-server.service';
 import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
