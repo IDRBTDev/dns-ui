@@ -740,7 +740,7 @@ export class DocumentUploadComponent implements OnInit {
           this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
           this.imageUrl.emit(null)
           this.pdfUrl.emit(this.temppdfUrl)
-        }else if(file.type=="image/jpeg"){
+        }else if(file.type=="image/png"||file.type=="image/jpeg"||file.type=="image/jpg"){
           this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
           this.pdfUrl.emit(null)
           this.imageUrl.emit(this.tempimageUrl)
