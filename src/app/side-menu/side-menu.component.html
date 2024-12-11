@@ -13,7 +13,7 @@
 
           <!-- Domains -->
           <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a routerLink="/domains">
+            <a [routerLink]="domainRoute">
               <mat-icon>public</mat-icon>
               <span>Domains</span>
             </a>
@@ -66,7 +66,7 @@
     </mat-sidenav-container>
 
   <!-- Box that opens when Settings is clicked -->
-  <div *ngIf="isBoxVisible" class="box visible" (mouseleave)="toggleBoxout()">
+  <div *ngIf="isBoxVisible" class="box visible"  (mouseleave)="toggleBoxout()">
     <div class="settings-content">
       <p>Settings</p>
       <!-- Registrar -->

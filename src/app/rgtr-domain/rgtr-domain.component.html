@@ -3,129 +3,12 @@
     <div class="content-area">
       <app-main-header></app-main-header>
       <div class="container-fluid">
-        <div *ngIf="domainsList.length < 1 && role != 'IDRBTADMIN';else displayDomains">
-          <app-user-domain-details></app-user-domain-details>
-        </div>
         <div>
-          <ng-template #displayDomains>
-            <div *ngIf="domainsList.length > 0 && role != 'IDRBTADMIN'" class="row" style="padding-top: 100px;">
-              <div class="col-sm-12">
-                <h3 class="d-flex align-items-center">
-                  Domains 
-                  <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button>
-                  <div style="display: flex; align-items: center;">
-                    <div style="height: 20%; padding-left: 7px;">
-                        <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"  matInput #input>
-                    </div>
-                  <!-- <svg  style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
-            fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0.5" y="0.5" width="128" height="41" rx="2.5" stroke="#999999" />
-            <path
-              d="M18.4746 15.5469V25.5H17.1553V15.5469H18.4746ZM22.6445 20.0244V21.1045H18.1875V20.0244H22.6445ZM23.3213 15.5469V16.627H18.1875V15.5469H23.3213ZM26.0762 18.1035V25.5H24.8047V18.1035H26.0762ZM24.709 16.1416C24.709 15.9365 24.7705 15.7633 24.8936 15.6221C25.0212 15.4808 25.208 15.4102 25.4541 15.4102C25.6956 15.4102 25.8802 15.4808 26.0078 15.6221C26.14 15.7633 26.2061 15.9365 26.2061 16.1416C26.2061 16.3376 26.14 16.5062 26.0078 16.6475C25.8802 16.7842 25.6956 16.8525 25.4541 16.8525C25.208 16.8525 25.0212 16.7842 24.8936 16.6475C24.7705 16.5062 24.709 16.3376 24.709 16.1416ZM29.4805 15V25.5H28.209V15H29.4805ZM34.6074 18.1035V19.0742H30.6084V18.1035H34.6074ZM31.9619 16.3057H33.2266V23.668C33.2266 23.9186 33.2653 24.1077 33.3428 24.2354C33.4202 24.363 33.5205 24.4473 33.6436 24.4883C33.7666 24.5293 33.8988 24.5498 34.04 24.5498C34.1449 24.5498 34.2542 24.5407 34.3682 24.5225C34.4867 24.4997 34.5755 24.4814 34.6348 24.4678L34.6416 25.5C34.5413 25.5319 34.4092 25.5615 34.2451 25.5889C34.0856 25.6208 33.8919 25.6367 33.6641 25.6367C33.3542 25.6367 33.0693 25.5752 32.8096 25.4521C32.5498 25.3291 32.3424 25.124 32.1875 24.8369C32.0371 24.5452 31.9619 24.1533 31.9619 23.6611V16.3057ZM39.1602 25.6367C38.6452 25.6367 38.1781 25.5501 37.7588 25.377C37.3441 25.1992 36.9863 24.9508 36.6855 24.6318C36.3893 24.3128 36.1615 23.9346 36.002 23.4971C35.8424 23.0596 35.7627 22.5811 35.7627 22.0615V21.7744C35.7627 21.1729 35.8516 20.6374 36.0293 20.168C36.207 19.694 36.4486 19.293 36.7539 18.9648C37.0592 18.6367 37.4056 18.3883 37.793 18.2197C38.1803 18.0511 38.5814 17.9668 38.9961 17.9668C39.5247 17.9668 39.9805 18.0579 40.3633 18.2402C40.7507 18.4225 41.0674 18.6777 41.3135 19.0059C41.5596 19.3294 41.7419 19.7122 41.8604 20.1543C41.9788 20.5918 42.0381 21.0703 42.0381 21.5898V22.1572H36.5146V21.125H40.7734V21.0293C40.7552 20.7012 40.6868 20.3822 40.5684 20.0723C40.4544 19.7624 40.2721 19.5072 40.0215 19.3066C39.7708 19.1061 39.429 19.0059 38.9961 19.0059C38.709 19.0059 38.4447 19.0674 38.2031 19.1904C37.9616 19.3089 37.7542 19.4867 37.5811 19.7236C37.4079 19.9606 37.2734 20.25 37.1777 20.5918C37.082 20.9336 37.0342 21.3278 37.0342 21.7744V22.0615C37.0342 22.4124 37.082 22.7428 37.1777 23.0527C37.278 23.3581 37.4215 23.627 37.6084 23.8594C37.7998 24.0918 38.0299 24.2741 38.2988 24.4062C38.5723 24.5384 38.8822 24.6045 39.2285 24.6045C39.6751 24.6045 40.0534 24.5133 40.3633 24.3311C40.6732 24.1488 40.9443 23.9049 41.1768 23.5996L41.9424 24.208C41.7829 24.4495 41.5801 24.6797 41.334 24.8984C41.0879 25.1172 40.7848 25.2949 40.4248 25.4316C40.0693 25.5684 39.6478 25.6367 39.1602 25.6367ZM44.7793 19.2656V25.5H43.5146V18.1035H44.7451L44.7793 19.2656ZM47.0898 18.0625L47.083 19.2383C46.9782 19.2155 46.8779 19.2018 46.7822 19.1973C46.6911 19.1882 46.5863 19.1836 46.4678 19.1836C46.1761 19.1836 45.9186 19.2292 45.6953 19.3203C45.472 19.4115 45.2829 19.5391 45.1279 19.7031C44.973 19.8672 44.8499 20.0632 44.7588 20.291C44.6722 20.5143 44.6152 20.7604 44.5879 21.0293L44.2324 21.2344C44.2324 20.7878 44.2757 20.3685 44.3623 19.9766C44.4535 19.5846 44.5924 19.2383 44.7793 18.9375C44.9661 18.6322 45.2031 18.3952 45.4902 18.2266C45.7819 18.0534 46.1283 17.9668 46.5293 17.9668C46.6204 17.9668 46.7253 17.9782 46.8438 18.001C46.9622 18.0192 47.0443 18.0397 47.0898 18.0625ZM52.5654 23.5381C52.5654 23.3558 52.5244 23.1872 52.4424 23.0322C52.3649 22.8727 52.2031 22.7292 51.957 22.6016C51.7155 22.4694 51.3509 22.3555 50.8633 22.2598C50.4531 22.1732 50.0817 22.0706 49.749 21.9521C49.4209 21.8337 49.1406 21.6901 48.9082 21.5215C48.6803 21.3529 48.5049 21.1546 48.3818 20.9268C48.2588 20.6989 48.1973 20.4323 48.1973 20.127C48.1973 19.8353 48.2611 19.5596 48.3887 19.2998C48.5208 19.04 48.7054 18.8099 48.9424 18.6094C49.1839 18.4089 49.4733 18.2516 49.8105 18.1377C50.1478 18.0238 50.5238 17.9668 50.9385 17.9668C51.5309 17.9668 52.0368 18.0716 52.4561 18.2812C52.8753 18.4909 53.1966 18.7712 53.4199 19.1221C53.6432 19.4684 53.7549 19.8535 53.7549 20.2773H52.4902C52.4902 20.0723 52.4287 19.874 52.3057 19.6826C52.1872 19.4867 52.0117 19.3249 51.7793 19.1973C51.5514 19.0697 51.2712 19.0059 50.9385 19.0059C50.5876 19.0059 50.3027 19.0605 50.084 19.1699C49.8698 19.2747 49.7126 19.4092 49.6123 19.5732C49.5166 19.7373 49.4688 19.9105 49.4688 20.0928C49.4688 20.2295 49.4915 20.3525 49.5371 20.4619C49.5872 20.5667 49.6738 20.6647 49.7969 20.7559C49.9199 20.8424 50.0931 20.9245 50.3164 21.002C50.5397 21.0794 50.8245 21.1569 51.1709 21.2344C51.777 21.3711 52.276 21.5352 52.668 21.7266C53.0599 21.918 53.3516 22.1527 53.543 22.4307C53.7344 22.7087 53.8301 23.0459 53.8301 23.4424C53.8301 23.766 53.7617 24.0622 53.625 24.3311C53.4928 24.5999 53.2992 24.8324 53.0439 25.0283C52.7933 25.2197 52.4925 25.3701 52.1416 25.4795C51.7952 25.5843 51.4056 25.6367 50.9727 25.6367C50.321 25.6367 49.7695 25.5205 49.3184 25.2881C48.8672 25.0557 48.5254 24.7549 48.293 24.3857C48.0605 24.0166 47.9443 23.627 47.9443 23.2168H49.2158C49.234 23.5632 49.3343 23.8389 49.5166 24.0439C49.6989 24.2445 49.9222 24.388 50.1865 24.4746C50.4508 24.5566 50.7129 24.5977 50.9727 24.5977C51.319 24.5977 51.6084 24.5521 51.8408 24.4609C52.0778 24.3698 52.2578 24.2445 52.3809 24.085C52.5039 23.9255 52.5654 23.7432 52.5654 23.5381Z"
-              fill="#999999" />
-            <g clip-path="url(#clip0_669_3800)">
-              <path d="M110.75 27H105.5" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M102.5 27H97.25" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M110.75 21H104" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M101 21H97.25" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M110.75 15H107" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M104 15H97.25" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M105.5 29.25V24.75" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M101 23.25V18.75" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M107 17.25V12.75" stroke="#757575" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </g>
-            <defs>
-              <clipPath id="clip0_669_3800">
-                <rect width="18" height="18" fill="white" transform="matrix(0 -1 1 0 95 30)" />
-              </clipPath>
-            </defs>
-          </svg> -->
-        </div>
-                </h3>
-                
-      
-
-                <section class="example-container" style="margin-top: 10px;">
-                  <!-- <div *ngIf="noDataFound" class="no-results-message">
-                    No data found matching the filters.
-                  </div> -->
-                  <table id="table1" *ngIf="!noDataFound" mat-table [dataSource]="domainsDataSource" 
-                  matSort matSortActive="domainId" class="mat-elevation-z8">
-                    <!-- Checkbox Column -->
-                    <!-- <ng-container matColumnDef="checkbox">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        <input type="checkbox" id="mainCheckBox" />
-                      </th>
-                      <td mat-cell *matCellDef="let domain; let i = index">
-                        <input type="checkbox" id="subCheckBox{{i}}" class="subCheckBox" value="{{domain.domainId}}" />
-                      </td>
-                    </ng-container> -->
-      
-                    <!-- Domain ID Column -->
-                    <ng-container matColumnDef="domainId">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain ID</th>
-                      <td style="cursor: pointer;text-decoration: underline;color: blue;" (click)="navigateToDomainDetails(domain.domainId)" mat-cell *matCellDef="let domain">{{domain.domainId}}</td>
-                    </ng-container>
-      
-                    <!-- Domain Name Column -->
-                    <ng-container matColumnDef="domainName">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain Name</th>
-                      <td mat-cell *matCellDef="let domain">{{domain.domainName}}</td>
-                    </ng-container>
-      
-                    <!-- Organisation Name Column -->
-                    <ng-container matColumnDef="orgName">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisation Name</th>
-                      <td mat-cell *matCellDef="let domain">{{domain.organizationName}}</td>
-                    </ng-container>
-      
-                    <!-- Registration Date Column -->
-                    <ng-container matColumnDef="regDate">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Date</th>
-                      <td mat-cell *matCellDef="let domain">{{domain.registrationDate |date:'MMM d, y, h:mm a'}}</td>
-                    </ng-container>
-      
-                    <!-- Renewal Date Column -->
-                    <ng-container matColumnDef="renewalDate">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Renewal Date</th>
-                      <td mat-cell *matCellDef="let domain">{{domain.renewalDate |date:'MMM d, y, h:mm a'}}</td>
-                    </ng-container>
-      
-                    <!-- Status Column -->
-                    <ng-container matColumnDef="status">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-                      <td mat-cell *matCellDef="let domain">{{domain.status}}</td>
-                    </ng-container>
-      
-                    <!-- Header Row -->
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <!-- Data Rows -->
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                  </table>
-                </section>
-                <mat-paginator style="font-size: 13px;" [pageSizeOptions]="[5, 10, 20 ]"
-                showFirstLastButtons [pageSize]="10"
-                aria-label="Select page of periodic elements">
-               </mat-paginator>
-              </div>
-            </div>
-          </ng-template>
-        </div>
-        <div *ngIf="role === 'IDRBTADMIN'">
           <div class="row" style="padding-top: 100px;">
             <div class="col-sm-12">
               <h3 class="d-flex align-items-center">
                 Domains 
-                <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button>
+                <!-- <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button> -->
                 <div style="display: flex; align-items: center;">
                   <div style="height: 20%; padding-left: 7px;">
                       <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"  matInput #input>
@@ -191,7 +74,7 @@
                   <!-- Domain Name Column -->
                   <ng-container matColumnDef="domainName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain Name</th>
-                    <td mat-cell *matCellDef="let domain">{{domain.domainName}}</td>
+                    <td mat-cell *matCellDef="let domain">{{domain.bankName}}{{domain.domainName}}</td>
                   </ng-container>
     
                   <!-- Organisation Name Column -->

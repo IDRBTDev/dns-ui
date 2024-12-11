@@ -122,8 +122,11 @@
   padding: 30px;
   border-radius: 8px;
   height: 100%;
-
+  padding-top: 50px; 
+ 
 }
+
+
 
 .settings-content p {
   font-weight: 500;

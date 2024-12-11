@@ -1,0 +1,159 @@
+<div class="layout-container">
+    <app-side-menu></app-side-menu>
+    <div class="content-area">
+        <app-main-header></app-main-header>
+        <div class="container-fluid" style="margin-top: 70px;">
+                <div class="card-container">
+                        <div class="card displayCard">
+                            <div style="display: flex;flex-direction: row;">
+                                <div style="margin:10px">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 11.0799V11.9999C21.9988 14.1563 21.3005 16.2545 20.0093 17.9817C18.7182 19.7088 16.9033 20.9723 14.8354 21.5838C12.7674 22.1952 10.5573 22.1218 8.53447 21.3745C6.51168 20.6271 4.78465 19.246 3.61096 17.4369C2.43727 15.6279 1.87979 13.4879 2.02168 11.3362C2.16356 9.18443 2.99721 7.13619 4.39828 5.49694C5.79935 3.85768 7.69279 2.71525 9.79619 2.24001C11.8996 1.76477 14.1003 1.9822 16.07 2.85986" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M22 4L12 14.01L9 11.01" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                </div>
+                                <div style="margin:10px;padding-top:3px">
+                                    Total Registrants
+                                </div>
+                            </div>
+                            <div class="cardNumber">
+                                <p>{{totalRegistrants}}</p>
+                            </div>
+                            
+                                
+                        </div>
+                        <div class="card displayCard">
+                            <div style="display: flex;flex-direction: row;">
+                                <div style="margin:10px">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#55A1F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M2 12H22" stroke="#5580F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z" stroke="#5580F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                </div>
+                                <div style="margin:10px;padding-top:3px">
+                                    Total Domains
+                                </div>
+                            </div>
+                            <div class="cardNumber">
+                                <p>{{totalDomains}}</p>
+                            </div>
+                            
+                                
+                        </div>
+
+                        <div class="card displayCard">
+                            <div style="display: flex;flex-direction: row;">
+                                <div style="margin: 10px;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 17H4C3.46957 17 2.96086 16.7893 2.58579 16.4142C2.21071 16.0391 2 15.5304 2 15V5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H20C20.5304 3 21.0391 3.21071 21.4142 3.58579C21.7893 3.96086 22 4.46957 22 5V15C22 15.5304 21.7893 16.0391 21.4142 16.4142C21.0391 16.7893 20.5304 17 20 17H19" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15L17 21H7L12 15Z" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                </div>
+                                <div style="margin: 10px;padding-top:3px">
+                                    Application in queue
+                                </div>
+                            </div>
+                            <div class="cardNumber">
+                                <p>{{applicationInQueue}}</p>
+                            </div>
+                            
+                                
+                        </div>
+
+                        <div class="card displayCard">
+                            <div style="display: flex;flex-direction: row;">
+                                <div style="margin:10px">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 12H18L15 21L9 3L6 12H2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        
+                                </div>
+                                <div style="margin:10px;padding-top:3px">
+                                   Revenue Collected
+                                </div>
+                            </div>
+                            <div class="cardNumber">
+                                <p>{{revenueCollected}}/- ₹</p>
+                            </div>
+                            
+                                
+                        </div>
+                        
+                        
+                </div>
+                <div class="card" style="width:100%;height:52px;margin-top: 20px;">
+                    <div style="display: flex;flex-direction: row;">
+                        <div style="display: flex;flex-direction: row;margin: 10px;">
+                            <div>
+                                <p class="ptagDefaultpadding" style="color: rgba(47, 121, 202, 1);font-weight: 500;padding-top:6px">Pending Applications</p>
+                            </div>
+                            <div>
+                                <img style="padding-top: 3px;padding-left: 5px;" src="./assets/svg/sidewaysArrow.svg">
+                            </div>
+                        </div>
+                        <div style="border-right: 1px solid #ccc;margin-top: 2px;">
+
+                        </div>
+                      
+                        <div style="display: flex;flex-direction: row;margin: 10px;">
+                            <div>
+                                <p class="ptagDefaultpadding" style="color: rgba(47, 121, 202, 1);font-weight: 500;padding-top:6px">Inactive Domains</p>
+                            </div>
+                            <div>
+                                <img style="padding-top: 3px;padding-left: 5px;" src="./assets/svg/sidewaysArrow.svg">
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+
+                <div  style="width: 100%;display: flex;flex-direction: row;margin-left: 0px;margin-top:20px">
+                    <div class="card " style="width: 49.4%;height: 400px;margin-right: 16px;">
+                        <div class="card-header">
+                            <div>
+                                <p style="font-size: 20px;font-weight: 500;">Domain Registration Trends</p>
+                            </div>
+                            <div>
+                                <ng-select [searchable]="false" [clearable]="false" (change)="fetchDataForDomainRegistration('')" [(ngModel)]="periodFiltersApplication">
+                                    <ng-option value="week" >Weekly</ng-option>
+                                    <ng-option value="month" >Monthly</ng-option>
+                                    <ng-option value="year" >yearly</ng-option>
+                                </ng-select>
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <canvas style="padding: 12px;" id="applicationChart"></canvas>
+                        </div>
+
+                    </div>
+                    <!-- <div class="">
+
+                    </div> -->
+                    <div class="card" style="width: 49.4%;height: 400px;">
+                        <div class="card-header">
+                            <div>
+                                <p style="font-size: 20px;font-weight: 500;">Payment History Trend</p>
+                            </div>
+                            <div>
+                                <ng-select [searchable]="false" (change)="fetchDataForPaymentTrend()" [clearable]="false" [(ngModel)]="periodFilterForPriceTrend">
+                                    <ng-option value="week" >Weekly</ng-option>
+                                    <ng-option value="month" >Monthly</ng-option>
+                                    <ng-option value="year" >yearly</ng-option>
+                                </ng-select>
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <canvas style="padding: 12px;" id="paymentTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="width: 100%;margin-top: 40px;">
+                    
+                </div>
+
+        </div>
+    </div>
+</div>
