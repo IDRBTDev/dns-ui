@@ -97,6 +97,5 @@ export class LandingComponent implements OnInit {
   RegistrationPage(){
     this.router.navigateByUrl('registration')
   }
-
 }
 
