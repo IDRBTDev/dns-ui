@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainHeaderService } from '../main-header/service/main-header.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-change-password',
@@ -23,7 +24,10 @@ export class ChangePasswordComponent {
   
   }
   value: boolean;
-  constructor(private router:Router,private passwordService:MainHeaderService,private toastr: ToastrService){}
+  constructor(private router:Router,
+    private passwordService:MainHeaderService,
+    private toastr: ToastrService,
+  private location: Location){}
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
   passwordErrorMessage: string = '';
@@ -148,6 +152,7 @@ email:string='';
 cancelButton(){
 document.getElementById('clear').click();
 
+
 }
 
 forgetPasswordPage(){
@@ -183,4 +188,11 @@ updateNewPassword(): void {
 //   }, 100);
   
 // }
+
+
+goBack(){
+  console.log('executed')
+  this.location.back();
+}
+
 }
