@@ -134,10 +134,10 @@
                     <div class="card" style="width: 49.4%;height: 400px;">
                         <div class="card-header">
                             <div>
-                                <p style="font-size: 20px;font-weight: 500;">Payment History Trend</p>
+                                <p style="font-size: 20px;font-weight: 500;">Application By Status</p>
                             </div>
                             <div>
-                                <ng-select [searchable]="false" (change)="fetchDataForPaymentTrend()" [clearable]="false" [(ngModel)]="periodFilterForPriceTrend">
+                                <ng-select [searchable]="false" (change)="fetchDataForApplicationStatus()" [clearable]="false" [(ngModel)]="periodFilterForApplicationStatus">
                                     <ng-option value="week" >Weekly</ng-option>
                                     <ng-option value="month" >Monthly</ng-option>
                                     <ng-option value="year" >yearly</ng-option>
@@ -146,7 +146,7 @@
                             
                         </div>
                         <div>
-                            <canvas style="padding: 12px;" id="paymentTrendChart"></canvas>
+                            <canvas style="padding: 12px;" id="applicationStatusChart"></canvas>
                         </div>
                     </div>
                 </div>
