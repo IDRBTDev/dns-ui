@@ -34,8 +34,8 @@ showEmailButton: boolean = false;
     confirmPassword: '',
     role:'',
     organisationId: 0
-  
   }
+  
 otp:number;
   toggleEmailButton() {
     this.showEmailButton = this.user.userId.length > 0;
