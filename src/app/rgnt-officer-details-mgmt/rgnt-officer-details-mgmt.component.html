@@ -12,7 +12,7 @@
                 <ng-option *ngFor="let org of organisationsList" 
                 [value]="org.organisationDetailsId">{{org.institutionName}}</ng-option>
             </ng-select> -->
-            <button class="btn btn-primary" data-target="" data-toggle="">Add User</button>
+            <button class="btn btn-primary" data-target="#addContact" data-toggle="modal" (click)="validateAddUser()">Add User</button>
             </div>
             <section class="example-container" style="margin-top: 10px;">
               <table id="table1" mat-table [dataSource]="usersDataSource"
