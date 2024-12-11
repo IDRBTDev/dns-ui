@@ -3,7 +3,7 @@
     <div class="content-area">
       <app-main-header></app-main-header>
       <div class="container-fluid">
-        <div *ngIf="domainsList.length < 1 && role != 'IDRBTADMIN';else displayDomains">
+        <div *ngIf="domainsList.length < 1 ;else displayDomains">
           <app-user-domain-details></app-user-domain-details>
         </div>
         <div>

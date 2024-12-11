@@ -23,8 +23,9 @@ export class RgntDomainComponent implements OnInit {
     'status',
   ]; // Matches matColumnDef values
 
-  domainsList: any[];
+  domainsList: any[] = [];
   domainsDataSource: MatTableDataSource<any>;
+  organisationId: number =  parseInt(localStorage.getItem('organisationId'));
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   role: string = localStorage.getItem('userRole');
@@ -42,13 +43,36 @@ export class RgntDomainComponent implements OnInit {
   
     console.log(this.role)
     console.log(this.userEmailId)
+    console.log(this.organisationId);
     // if(this.role !== 'IDRBTADMIN'){
     //   console.log('exe')
-       this.getAllDomainsList(this.userEmailId);
+       this.getAllDomainsListByOrgId(this.organisationId);
     // }else{
       //console.log('exe 1')
-      //this.getAllDomainsList("");
+      //this.getAllDomainsList(this.userEmailId);
     //}
+  }
+
+  async getAllDomainsListByOrgId(orgId: number) {
+    console.log(orgId)
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log(this.domainsList)
+          this.domainsDataSource.data = this.domainsList;
+          setTimeout(() => {
+            this.domainsDataSource.sort = this.sort;
+            this.domainsDataSource.paginator = this.paginator;
+          }, 0);
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
   }
   
   async getAllDomainsList(userId: string) {

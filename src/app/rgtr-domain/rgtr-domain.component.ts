@@ -48,12 +48,33 @@ export class RgtrDomainComponent {
     //   this.getAllDomainsList(this.userEmailId);
     // }else{
     //   console.log('exe 1')
-      this.getAllDomainsList("");
+      this.getAllDomainsListByOrgId(0);
     //}
   }
   
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log(this.domainsList)
+          this.domainsDataSource.data = this.domainsList;
+          setTimeout(() => {
+            this.domainsDataSource.sort = this.sort;
+            this.domainsDataSource.paginator = this.paginator;
+          }, 0);
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
+  }
+
+  async getAllDomainsListByOrgId(orgId: number) {
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;
