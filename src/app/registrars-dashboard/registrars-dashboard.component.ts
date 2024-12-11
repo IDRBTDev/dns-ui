@@ -10,6 +10,7 @@ import { lastValueFrom } from 'rxjs';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../user/service/user.service';
 
 
 // Register required components
@@ -58,7 +59,8 @@ export class RegistrarsDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private registrarDashboardService:RegistrarDashboardServiceService,private organisationService:OrganisationDetailsService,private domainService:DomainService,private router:Router){
+  constructor(private registrarDashboardService:RegistrarDashboardServiceService,private organisationService:OrganisationDetailsService,private domainService:DomainService,
+    private router:Router,private userService:UserService){
     this.applicationInQueueDataSourse = new MatTableDataSource<any>();
   }
   ngOnInit(): void {
@@ -71,12 +73,24 @@ export class RegistrarsDashboardComponent implements OnInit {
   fetchDataForTopCards(){
      this.getAllOrg();
      this.getDomainDetails();
+     this.getAllActiveUsers();
   }
   getAllOrg(){
     this.organisationService.getAllOrganisations().subscribe({
       next: response=>{
         // console.log(response)
         this.totalRegistrants=response.body.length;
+      },error:error=>{
+
+      }
+    })
+  }
+  allActiveUsersCount:number=0
+  getAllActiveUsers(){
+    this.userService.getAllActiveUsers().subscribe({
+      next: response=>{
+        // console.log(response)
+        this.allActiveUsersCount=response.body;
       },error:error=>{
 
       }
