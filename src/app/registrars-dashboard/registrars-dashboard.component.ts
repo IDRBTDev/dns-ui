@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RegistrarDashboardServiceService } from './service/registrar-dashboard-service.service';
 import { Chart, BarController, BarElement, LineController, LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import { error } from 'jquery';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
+import { DomainService } from '../rgnt-domain/service/domain.service';
+import { HttpStatusCode } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 // Register required components
@@ -34,11 +41,31 @@ export class RegistrarsDashboardComponent implements OnInit {
   totalDomains:number=0
   applicationInQueue:number=0
   revenueCollected:number=0
-  constructor(private registrarDashboardService:RegistrarDashboardServiceService,private organisationService:OrganisationDetailsService){}
+  
+  displayedApplicationInQueue: string[] = [
+    // 'checkbox',
+    'domainId',
+    'domainName',
+    'orgName',
+    'regDate',
+    'renewalDate',
+    'status',
+  ]; // Matches matColumnDef values
+
+  applicationQueData: any[] = [];
+  applicationInQueueDataSourse: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+
+  constructor(private registrarDashboardService:RegistrarDashboardServiceService,private organisationService:OrganisationDetailsService,private domainService:DomainService,private router:Router){
+    this.applicationInQueueDataSourse = new MatTableDataSource<any>();
+  }
   ngOnInit(): void {
     this.fetchDataForTopCards();
     this.fetchDataForDomainRegistration('email');
     this.fetchDataForApplicationStatus();
+    this.fetchDataForApplicationInQueue("");
   }
 
   fetchDataForTopCards(){
@@ -984,4 +1011,31 @@ export class RegistrarsDashboardComponent implements OnInit {
 
   }
 
-}
+    async fetchDataForApplicationInQueue(userId){
+     
+        await lastValueFrom(this.domainService.getAllDomains(userId)).then(
+          (response) => {
+            if (response.status === HttpStatusCode.Ok) {
+              this.applicationQueData = response.body;
+              console.log(this.applicationQueData)
+              this.applicationInQueueDataSourse.data = this.applicationQueData;
+              setTimeout(() => {
+                this.applicationInQueueDataSourse.sort = this.sort;
+                this.applicationInQueueDataSourse.paginator = this.paginator;
+              }, 0);
+            }
+          },
+          (error) => {
+            if (error.status === HttpStatusCode.Unauthorized) {
+              this.navigateToSessionTimeout();
+            }
+          }
+        );
+      }
+
+      navigateToSessionTimeout() {
+        this.router.navigateByUrl('/session-timeout');
+      }
+    }
+
+
