@@ -26,6 +26,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
 
   @Input() organisationId: number =0;
 
+  @Input() choosenContactType: string = '';
+
   
   fullForm: FormGroup;
   applicationId: string | null = null; 
@@ -114,8 +116,98 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     this.billingUploadedDocs = docs;
     console.log('Uploaded documents updated:', this.billingUploadedDocs);
   }
-  onSubmit(): void {
 
+  onSubmitNewContact(choosenContactType: string){
+    if(choosenContactType !== ''){
+      if(choosenContactType === 'AdminOfficer'){
+        const adminDetails = {
+          adminFullName: this.fullForm.get('adminFullName')?.value,
+          adminEmail: this.fullForm.get('adminEmail')?.value,
+          adminPhone: this.fullForm.get('adminPhone')?.value,
+          adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
+          adminDesignation: this.fullForm.get('adminDesignation')?.value,
+          // documents: this.fullForm.get('adminDocuments')?.value,
+          applicationId: this.applicationId,
+          organisationId: this.organisationId,
+          isActive : false,
+        };
+        this.adminDocDetails.emit(this.adminUploadedDocs);
+      //  setTimeout(() => {
+      //   this.formSubmitted.emit();
+      //  }, 0);
+      // Save Admin details
+      this.contactDetailsFormService.updateAdminDetails(adminDetails).subscribe(response => {
+        console.log('Admin details saved successfully', response);
+        console.log(adminDetails);
+        // const applicationId = response.applicationId; // Ensure this is the correct field
+        // sessionStorage.setItem('applicationId', applicationId);
+        //console.log('Application ID saved to sessionStorage:', applicationId);
+        console.log(adminDetails);
+      }, error => {
+        console.error('Error saving admin details', error);
+      });
+      }else if(choosenContactType === 'TechnicalOfficer'){
+        const technicalDetails = {
+          techFullName: this.fullForm.get('techFullName')?.value,
+          techEmail: this.fullForm.get('techEmail')?.value,
+          techPhone: this.fullForm.get('techPhone')?.value,
+          techAltPhone: this.fullForm.get('techAltPhone')?.value,
+          techDesignation: this.fullForm.get('techDesignation')?.value,
+          // documents: this.fullForm.get('techDocuments')?.value,
+          applicationId: this.applicationId,
+          organisationId: this.organisationId,
+          isActive : false
+        };
+        setTimeout(() => {
+          this.techDocDetails.emit(this.techUploadedDocs);
+        }, 0);
+        // Save Technical details
+      this.contactDetailsFormService.updateTechDetails(technicalDetails).subscribe(response => {
+        console.log('Technical details saved successfully', response);
+      }, error => {
+        console.error('Error saving technical details', error);
+      });
+      }else{
+        const billingDetails = {
+          billFullName: this.fullForm.get('billFullName')?.value,
+          billEmail: this.fullForm.get('billEmail')?.value,
+          billPhone: this.fullForm.get('billPhone')?.value,
+          billAltPhone: this.fullForm.get('billAltPhone')?.value,
+          billDesignation: this.fullForm.get('billDesignation')?.value,
+          // documents: this.fullForm.get('billDocuments')?.value,
+          applicationId: this.applicationId,
+          organisationId: this.organisationId,
+          isActive : false
+        };
+        setTimeout(() => {
+          this.billDocDetails.emit(this.billingUploadedDocs);
+         }, 0);
+         // Save Billing details
+      this.contactDetailsFormService.updateBillDetails(billingDetails).subscribe(response => {
+        console.log('Billing details saved successfully', response);
+      }, error => {
+        console.error('Error saving billing details', error);
+      });
+      }
+      
+      const uploadedDoc=[...this.adminUploadedDocs,
+  ...this.techUploadedDocs,
+  ...this.billingUploadedDocs]
+      
+      
+  this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
+        next:(response)=>{
+          console.log(response)
+        },error:(error)=>{
+          console.log(error)
+        }
+      })
+    }
+  }
+
+  async onSubmit(): Promise<void> {
+    this.onSubmitNewContact(this.choosenContactType)
+    //if(this.adminUploadedDocs.length < )
   //  this.formSubmitted.emit();
     if (this.fullForm.valid && this.adminUploadedDocs.length>2 && this.techUploadedDocs.length>2 && this.billingUploadedDocs.length>2) {
       
@@ -127,7 +219,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
         applicationId: this.applicationId,
-        organisationId: this.organisationId
+        organisationId: this.organisationId,
+        isActive : false
       };
 
       const technicalDetails = {
@@ -138,7 +231,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         techDesignation: this.fullForm.get('techDesignation')?.value,
         // documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
-        organisationId: this.organisationId
+        organisationId: this.organisationId,
+        isActive : false
       };
 
       const billingDetails = {
@@ -149,9 +243,11 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         billDesignation: this.fullForm.get('billDesignation')?.value,
         // documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
-        organisationId: this.organisationId
+        organisationId: this.organisationId,
+        isActive : false
       };
 
+      //if(this.admin)
         this.adminDocDetails.emit(this.adminUploadedDocs);
         setTimeout(() => {
           this.techDocDetails.emit(this.techUploadedDocs);
@@ -193,18 +289,20 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       });
       
       const uploadedDoc=[...this.adminUploadedDocs,
-  ...this.techUploadedDocs,
-  ...this.billingUploadedDocs]
+      ...this.techUploadedDocs,
+      ...this.billingUploadedDocs]
       
       
-      this.contactDoc.uploadDocuments(uploadedDoc,this.applicationId,this.user,this.userMailId).subscribe({
+      this.contactDoc.uploadDocuments(
+        uploadedDoc,this.applicationId,
+        this.user,this.userMailId)
+      .subscribe({
         next:(response)=>{
           console.log(response)
         },error:(error)=>{
           console.log(error)
         }
       })
-
     } 
     else {
       this.contactSubmissionAttempted=true;
@@ -212,15 +310,15 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       this.fullForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
     }
   }
-  onImageViewClick(imageUrl){
+  onImageViewClick(imageUrl) {
     console.log(imageUrl)
-    this.pdfUrl=null
-    this.imagUrl=imageUrl
- }
- onPdfViewClick(pdfUrl){
-    this.imagUrl=null
-    this.pdfUrl=pdfUrl
- }
+    this.pdfUrl = null
+    this.imagUrl = imageUrl
+  }
+  onPdfViewClick(pdfUrl) {
+    this.imagUrl = null
+    this.pdfUrl = pdfUrl
+  }
  
 }
 
