@@ -3,6 +3,15 @@
     <mat-sidenav-container class="sidenav-container">
       <mat-sidenav mode="side" opened class="sidenav">
         <ul style="padding-top: 90px;">
+
+          <!-- Dashboard RGTR -->
+          <li *ngIf="role === 'IDRBTADMIN'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a routerLink="/rgtr-dashboard">
+              <mat-icon>dashboard</mat-icon>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
           <!-- Applications -->
           <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a routerLink="/applications">
