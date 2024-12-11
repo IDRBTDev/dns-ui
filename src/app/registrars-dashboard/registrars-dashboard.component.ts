@@ -1027,7 +1027,7 @@ export class RegistrarsDashboardComponent implements OnInit {
 
     async fetchDataForApplicationInQueue(userId){
      
-        await lastValueFrom(this.domainService.getAllDomains(userId)).then(
+        await lastValueFrom(this.domainService.getAllApplicationInQueue()).then(
           (response) => {
             if (response.status === HttpStatusCode.Ok) {
               this.applicationQueData = response.body;

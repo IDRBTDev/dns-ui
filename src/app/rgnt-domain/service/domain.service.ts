@@ -57,4 +57,8 @@ export class DomainService{
         return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domain.domainId}`,domain,{observe: 'response'});
     }
 
+    getAllApplicationInQueue(){
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/applicationInQueue`,{observe: 'response'});
+    }
+
 }
