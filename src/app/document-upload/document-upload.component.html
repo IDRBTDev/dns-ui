@@ -46,8 +46,10 @@
           <div *ngFor="let doc of organisationUploadedDocs; let i = index"
               style="display: flex; align-items: center; gap: 5px;" >
               <i class="bi bi-check-circle text-success"></i>
-              <span data-toggle="modal"
-              data-target="#updateModal" (click)="clickedDocument(doc)" >{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
@@ -107,10 +109,12 @@
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
           <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;"
-          data-toggle="modal"
-          data-target="#adminDoc">
+          >
               <i class="bi bi-check-circle text-success"></i>
-              <span style="cursor:pointer"  (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
@@ -207,10 +211,12 @@
       <div
         *ngFor="let doc of techUploadedDocs; let i = index"
         style="display: flex; align-items: center; gap: 5px"
-        data-toggle="modal"
-        data-target="#techDoc" >
+        >
         <i class="bi bi-check-circle text-success"></i>
-        <span style="cursor:pointer"  (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewTechDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
           <i class="bi bi-trash"></i>
         </button>
@@ -323,8 +329,10 @@
         style="display: flex; align-items: center; gap: 5px"
         >
         <i class="bi bi-check-circle text-success"></i>
-        <span data-toggle="modal"
-        data-target="#billDoc" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewBillDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button
           class="btn btn-sm btn-danger"
           (click)="handleRemoveBillingDoc(i)"

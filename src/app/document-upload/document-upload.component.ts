@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DocumentUploadComponent implements OnInit {
   @Input() mode: string = ''; // Default to 'organisation'
   @Input() submissionAttempted = false;
+  @Input()preview:string=''
   @Input() contactSubmissionAttempted= false;
 
   @Output() onOrganisationValidationChange = new EventEmitter<boolean>();
@@ -19,6 +20,8 @@ export class DocumentUploadComponent implements OnInit {
   @Output() onBillingValidationChange = new EventEmitter<boolean>();
   @Output() imageUrl = new EventEmitter<any>();
   @Output() pdfUrl = new EventEmitter<any>();
+  @Output() imagePreviewUrl = new EventEmitter<any>();
+  @Output() pdfPreviewUrl = new EventEmitter<any>();
   @Input() organisationUploadedDocs: any[] = [];
   @Input() adminUploadedDocs: any[] = [];
   @Input() billingUploadedDocs: any[] = [];
@@ -744,6 +747,34 @@ export class DocumentUploadComponent implements OnInit {
           this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
           this.pdfUrl.emit(null)
           this.imageUrl.emit(this.tempimageUrl)
+        }
+      
+      };
+      reader.readAsDataURL(file);
+    }
+
+  }
+  clickedPreviewDoc(docName){
+    this.tempimageUrl=''
+    this.temppdfUrl=''
+    console.log(docName);
+    this.previewDocName = docName;
+  
+    const file = this.previewDocName.file;
+  
+    // Read the file as ArrayBuffer
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if(file.type=="application/pdf"){
+          console.log("entered")
+          this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.imagePreviewUrl.emit(null)
+          this.pdfPreviewUrl.emit(this.temppdfUrl)
+        }else if(file.type=="image/png"||file.type=="image/jpeg"||file.type=="image/jpg"){
+          this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.pdfPreviewUrl.emit(null)
+          this.imagePreviewUrl.emit(this.tempimageUrl)
         }
       
       };
