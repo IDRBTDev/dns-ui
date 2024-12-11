@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="cardNumber">
-                                <p>{{revenueCollected}}/- ₹</p>
+                                <p>{{allActiveUsersCount}}</p>
                             </div>
                             
                                 
@@ -205,7 +205,7 @@
                           </ng-container>
             
                           <!-- Header Row -->
-                          <tr mat-header-row *matHeaderRowDef="displayedApplicationInQueue"></tr>
+                          <tr mat-header-row *matHeaderRowDef="displayedApplicationInQueue sticky: true" ></tr>
                           <!-- Data Rows -->
                           <tr mat-row *matRowDef="let row; columns: displayedApplicationInQueue;"></tr>
                         </table>
