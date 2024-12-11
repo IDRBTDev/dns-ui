@@ -688,7 +688,7 @@ export class RegistrarsDashboardComponent implements OnInit {
           labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
           datasets: [
             {
-              label: "Accepted",
+              label: "Approved",
               data: this.TotalApplicationStatusForWeek[0],
               backgroundColor: '#F2AA86',
               // backgroundColor: dayColors,
@@ -802,7 +802,7 @@ export class RegistrarsDashboardComponent implements OnInit {
           xLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [
             {
-              label: "Accepted",
+              label: "Approved",
               data:  this.TotalApplicationStatusForMonth[0],
               backgroundColor: '#F2AA86',
               // backgroundColor: dayColors,
@@ -915,7 +915,7 @@ export class RegistrarsDashboardComponent implements OnInit {
           labels:this.applicationYearLabel,
           datasets: [
             {
-              label: "Accepted",
+              label: "Approved",
               data:  this.TotalApplicationStatusForYear[0],
               backgroundColor: '#F2AA86',
               // backgroundColor: dayColors,
@@ -1027,7 +1027,7 @@ export class RegistrarsDashboardComponent implements OnInit {
 
     async fetchDataForApplicationInQueue(userId){
      
-        await lastValueFrom(this.domainService.getAllDomains(userId)).then(
+        await lastValueFrom(this.domainService.getAllApplicationInQueue()).then(
           (response) => {
             if (response.status === HttpStatusCode.Ok) {
               this.applicationQueData = response.body;
