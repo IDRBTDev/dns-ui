@@ -76,8 +76,6 @@ const routes: Routes = [
   {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
   {path:'change-password',component:ChangePasswordComponent},
-
-  {path:'registrar-dashboard',component:RegistrarsDashboardComponent},
   // settings menu paths
   {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
   {path: 'rgtr-rgnt-ofd', component: RgtrRgntOfficerDetailsComponent},
@@ -88,6 +86,7 @@ const routes: Routes = [
   {path:'rgnt-domains', component: RgntDomainComponent},
   {path:'rgtr-domains', component: RgtrDomainComponent},
   {path: 'dsc-verification', component: DscVerificationComponent},
+  {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent}
 
 
 ];
