@@ -12,7 +12,7 @@ export class UserService{
     private updateUserUrl = 'http://localhost:9002/dr/user/update';
     private deleteUserUrl = 'http://localhost:9002/dr/user/delete';
     private getUserByEmailUrl = 'http://localhost:9002/dr/user/get';
-
+    
     constructor(private httpClient: HttpClient){
 
     }
@@ -41,6 +41,11 @@ export class UserService{
 
     getUserByEmailId(userId: string){
         return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});
+    }
+    getAllActiveUsers(){
+        const url = "http://localhost:9002/dr/user";
+        console.log('API URL:', url); 
+        return this.httpClient.get<number>(url+"/"+"activeUser", { observe: 'response' });
     }
 
 }

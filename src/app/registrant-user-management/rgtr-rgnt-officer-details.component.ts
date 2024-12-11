@@ -18,7 +18,7 @@ import { ContactDocumentUploadService } from '../contact-document-upload/service
 })
 export class RgtrRgntOfficerDetailsComponent {
 
-  selectedOrganisation: number = 0;
+  selectedOrganisationId: number = 0;
 
   user = {
     id: 0,
@@ -126,7 +126,12 @@ export class RgtrRgntOfficerDetailsComponent {
 
   async getContactUsers(){
     //if(this.selectedOrganisation < 1){
-      await this.getContactOfficersDetails(this.selectedOrganisation);
+      await this.getContactOfficersDetails(this.selectedOrganisationId);
+      if(this.selectedOrganisationId === 0){
+        this.userInActiveMap = new Map();
+      }else{
+        this.validateAddUser();
+      }
     //}
   }
 
@@ -447,6 +452,51 @@ export class RgtrRgntOfficerDetailsComponent {
           organisationId:user.organisationId,
           contactUserType: contactUserType
         }})
+  }
+
+
+  userInActiveMap: Map<string, boolean> = new Map();
+  options: { key: string, value: boolean }[] = [];
+  selectedOfficerToAdd : string = '';
+
+  adminDocDetails :any
+  techDocDetails :any 
+  billDocDetails :any 
+  orgDocDetails :any 
+
+  SubmittedAdminDocs(adminDocs) {
+    console.log(adminDocs)
+    this.adminDocDetails=adminDocs
+   }
+   submittedTechDocDetails(techDocs){
+     console.log(techDocs)
+     this.techDocDetails=techDocs
+   }
+   submittedBillDocDetails(billDocs){
+     console.log(billDocs)
+     this.billDocDetails=billDocs
+   }
+   SubmittedOrgDocs(orgDoc){
+     console.log(orgDoc);
+     this.orgDocDetails=orgDoc;
+   }
+
+  /**
+   * 
+   */
+  validateAddUser(){
+    console.log(this.contactDetailsList)
+     if(this.selectedOrganisationId === 0){
+       this.toastr.error('Please select a Bank/Organisation')
+     }else{
+       this.contactDetailsList.forEach(contactUser => {
+        if(contactUser.isActive === false){
+          this.userInActiveMap.set(contactUser.contactRole, contactUser.isActive); 
+        }
+       });
+       this.options = Array.from(this.userInActiveMap, ([key, value]) => ({ key, value }));
+       console.log(this.userInActiveMap)
+     }
   }
 
 }

@@ -4,6 +4,7 @@
     flex-direction: row;
     width: 100%;
     overflow: hidden;
+   
   }
   
   app-side-menu {
@@ -108,7 +109,7 @@
     gap: 16px; 
     margin-top: 20px;
     margin-right: 10px;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .content-wrapper h3 {

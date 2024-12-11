@@ -36,6 +36,7 @@ import { RgntUserManagementComponent } from './rgnt-user-management/rgnt-usr-mgm
 import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
 import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
+import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
 
 
 
@@ -75,8 +76,6 @@ const routes: Routes = [
   {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
   {path:'change-password',component:ChangePasswordComponent},
-
-  {path:'registrar-dashboard',component:RegistrarsDashboardComponent},
   // settings menu paths
   {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
   {path: 'rgtr-rgnt-ofd', component: RgtrRgntOfficerDetailsComponent},
@@ -86,6 +85,8 @@ const routes: Routes = [
   {path: 'rgtr-role', component:RolesComponent},
   {path:'rgnt-domains', component: RgntDomainComponent},
   {path:'rgtr-domains', component: RgtrDomainComponent},
+  {path: 'dsc-verification', component: DscVerificationComponent},
+  {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent}
 
 
 ];

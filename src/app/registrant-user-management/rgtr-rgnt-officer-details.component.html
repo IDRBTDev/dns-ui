@@ -7,12 +7,12 @@
           <div class="col-sm-12">
             <div class="button-svg-container">
             <ng-select style="width: 200px;" placeholder="Select item" appendTo="body" 
-                [(ngModel)]="selectedOrganisation" (change)="getContactUsers()">
+                [(ngModel)]="selectedOrganisationId" (change)="getContactUsers()">
                 <ng-option [value]="0">Select</ng-option>
                 <ng-option *ngFor="let org of organisationsList" 
                 [value]="org.organisationDetailsId">{{org.institutionName}}</ng-option>
             </ng-select>
-            <button class="btn btn-primary" data-target="" data-toggle="">Add User</button>
+            <button class="btn btn-primary" data-target="#addContact" data-toggle="modal" (click)="validateAddUser()">Add User</button>
             </div>
             <section class="example-container" style="margin-top: 10px;">
               <table id="table1" mat-table [dataSource]="usersDataSource"
@@ -124,6 +124,51 @@
               aria-label="Select page of periodic elements">
             </mat-paginator>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Contact User modal -->
+  <div *ngIf="selectedOrganisationId != 0" class="modal" id="addContact" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Contact</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <p>Modal body text goes here.</p> -->
+          <ng-select style="width: 250px;" [(ngModel)]="selectedOfficerToAdd" bindLabel="value" bindValue="key" placeholder="choose officer">
+            <ng-option value='' disabled>select</ng-option>
+            <ng-option *ngFor="let option of options" [value]="option.key">
+              {{ option.key }}
+            </ng-option>
+          </ng-select>
+          <div>
+            <app-contact-details-form 
+                  [choosenContactType]="selectedOfficerToAdd"
+                  [organisationId] ="selectedOrganisationId" 
+                  (adminDocDetails)="SubmittedAdminDocs($event)" 
+                  (techDocDetails)="submittedTechDocDetails($event)"
+                  (billDocDetails)="submittedBillDocDetails($event)"
+                  ></app-contact-details-form> 
+          </div>
+          <!-- <div *ngIf="selectedOfficerToAdd === 'AdminOfficer'">
+            <p>Admin Officer</p>
+          </div>
+          <div *ngIf="selectedOfficerToAdd === 'TechnicalOfficer'">
+            <p>Technical Officer</p>
+          </div>
+          <div *ngIf="selectedOfficerToAdd === 'BillingOfficer'">
+            <p>Billing Officer</p>
+          </div> -->
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

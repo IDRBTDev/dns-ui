@@ -10,7 +10,7 @@
         <!-- Entire form in one form group -->
         <form [formGroup]="fullForm">
           <!-- Administrative Card -->
-          <div class="card mt-4 mb-4">
+          <div class="card mt-4 mb-4 ">
             <div class="card-header">
               <h5 class="mt-2">Administrative</h5>
             </div>
@@ -301,8 +301,8 @@
             <div class="card-body">
               <div class="row g-3">
                 <div class="col-md-4">
-                  <label for="billFullName" class="form-label">Full Name</label
-                  ><span class="text-danger">*</span>
+                  <label for="billFullName" class="form-label">Full Name</label>
+                  <span class="text-danger">*</span>
                   <input
                     type="text"
                     id="billFullName"
@@ -440,6 +440,450 @@
           <!-- Submit Button for the Entire Form -->
 
           <div class="d-flex justify-content-between">
+            <button class="btn btn-primary btn-lg" (click)="goBack()">Back</button>
+            <button (click)="onSubmit()" class="btn btn-primary btn-lg">
+              Save & Next
+            </button>
+          </div>
+        </form>
+
+        <!-- rgtr rgnt  -->
+         <!-- Entire form in one form group -->
+        <form [formGroup]="fullForm">
+          <!-- Administrative Card -->
+          <div class="card mt-4 mb-4 " *ngIf="choosenContactType === 'AdminOfficer'">
+            <div class="card-header">
+              <h5 class="mt-2">Administrative</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="adminFullName" class="form-label">Full Name</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="adminFullName"
+                    class="form-control"
+                    formControlName="adminFullName"
+                    placeholder="Enter full name"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('adminFullName')?.invalid &&
+                      fullForm.get('adminFullName')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Full name is required.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="adminEmail" class="form-label"
+                    >Organization Email</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="email"
+                    id="adminEmail"
+                    class="form-control"
+                    formControlName="adminEmail"
+                    placeholder="Enter organization email"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('adminEmail')?.invalid &&
+                      fullForm.get('adminEmail')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid email.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="adminPhone" class="form-label"
+                    >Organization Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="adminPhone"
+                    class="form-control"
+                    formControlName="adminPhone"
+                    (input)="sanitizeInput($event, 'adminPhone')"
+                    maxlength="10"
+                    placeholder="Enter phone number"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('adminPhone')?.invalid &&
+                      fullForm.get('adminPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="adminAltPhone" class="form-label"
+                    >Alternative Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="adminAltPhone"
+                    class="form-control"
+                    formControlName="adminAltPhone"
+                    (input)="sanitizeInput($event, 'adminAltPhone')"
+                    maxlength="10"
+                    placeholder="Enter alternative phone"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('adminAltPhone')?.invalid &&
+                      fullForm.get('adminAltPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="adminDesignation" class="form-label"
+                    >Designation</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="adminDesignation"
+                    class="form-control"
+                    formControlName="adminDesignation"
+                    placeholder="Enter your designation"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('adminDesignation')?.invalid &&
+                      fullForm.get('adminDesignation')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter your Designation.
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <label for="adminDocuments" class="form-label">Documents</label
+                  ><span class="text-danger">*</span>
+                  <app-document-upload
+                  id="documentsToUpload"
+                  [organisationId]="organisationId"
+                  [mode]="'admin'"
+                  [adminUploadedDocs]="adminUploadedDocs"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
+                  (onAdminValidationChange)="
+                    handleAdminValidationChange($event)
+                  "
+                  (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
+                  (imageUrl)="onImageViewClick($event)"
+                  (pdfUrl)="onPdfViewClick($event)"
+                ></app-document-upload>
+                  <!-- <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <select id="adminDocuments" class="form-select" formControlName="adminDocuments">
+                        <option selected>Select and upload</option>
+                        <option value="1">Document 1</option>
+                        <option value="2">Document 2</option>
+                      </select> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technical Card -->
+          <div class="card mb-4" *ngIf="choosenContactType === 'TechnicalOfficer'">
+            <div class="card-header">
+              <h5 class="mt-2">Technical</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="techFullName" class="form-label">Full Name</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="techFullName"
+                    class="form-control"
+                    formControlName="techFullName"
+                    placeholder="Enter full name"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('techFullName')?.invalid &&
+                      fullForm.get('techFullName')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Full name is required.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="techEmail" class="form-label"
+                    >Organization Email</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="email"
+                    id="techEmail"
+                    class="form-control"
+                    formControlName="techEmail"
+                    placeholder="Enter organization email"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('techEmail')?.invalid &&
+                      fullForm.get('techEmail')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid email.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="techPhone" class="form-label"
+                    >Organization Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="techPhone"
+                    class="form-control"
+                    formControlName="techPhone"
+                    maxlength="10"
+                    (input)="sanitizeInput($event, 'techPhone')"
+                    placeholder="Enter phone number"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('techPhone')?.invalid &&
+                      fullForm.get('techPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="techAltPhone" class="form-label"
+                    >Alternative Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="techAltPhone"
+                    class="form-control"
+                    formControlName="techAltPhone"
+                    (input)="sanitizeInput($event, 'techAltPhone')"
+                    maxlength="10"
+                    placeholder="Enter alternative phone"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('techAltPhone')?.invalid &&
+                      fullForm.get('techAltPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="techDesignation" class="form-label"
+                    >Designation</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="techDesignation"
+                    class="form-control"
+                    formControlName="techDesignation"
+                    placeholder="Enter your designation"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('techDesignation')?.invalid &&
+                      fullForm.get('techDesignation')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter your Designation.
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <label for="techDocuments" class="form-label">Documents</label
+                  ><span class="text-danger">*</span>
+                  <app-document-upload
+                  id="documentsToUpload"
+                  [mode]="'tech'"
+                  [organisationId]="organisationId"
+                  [techUploadedDocs]="techUploadedDocs"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
+                  (onTechValidationChange)="
+                    handleTechValidationChange($event)
+                  "
+                  (setTechUploadedDocs)="setTechUploadedDocuments($event)"
+                  (imageUrl)="onImageViewClick($event)"
+                  (pdfUrl)="onPdfViewClick($event)"
+                ></app-document-upload>
+                  <!-- <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <select id="techDocuments" class="form-select" formControlName="techDocuments">
+                        <option selected>Select and upload</option>
+                        <option value="1">Document 1</option>
+                        <option value="2">Document 2</option>
+                      </select> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Billing Card -->
+          <div class="card mb-4" *ngIf="choosenContactType === 'BillingOfficer'">
+            <div class="card-header">
+              <h5 class="mt-2">Billing</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="billFullName" class="form-label">Full Name</label>
+                  <span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="billFullName"
+                    class="form-control"
+                    formControlName="billFullName"
+                    placeholder="Enter full name"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('billFullName')?.invalid &&
+                      fullForm.get('billFullName')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Full name is required.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="billEmail" class="form-label"
+                    >Organization Email</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="email"
+                    id="billEmail"
+                    class="form-control"
+                    formControlName="billEmail"
+                    placeholder="Enter organization email"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('billEmail')?.invalid &&
+                      fullForm.get('billEmail')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid email.
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="billPhone" class="form-label"
+                    >Organization Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="billPhone"
+                    class="form-control"
+                    formControlName="billPhone"
+                    maxlength="10"
+                    (input)="sanitizeInput($event, 'billPhone')"
+                    placeholder="Enter phone number"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('billPhone')?.invalid &&
+                      fullForm.get('billPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="billAltPhone" class="form-label"
+                    >Alternative Phone No</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="billAltPhone"
+                    class="form-control"
+                    formControlName="billAltPhone"
+                    maxlength="10"
+                    (input)="sanitizeInput($event, 'billAltPhone')"
+                    placeholder="Enter alternative phone"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('billAltPhone')?.invalid &&
+                      fullForm.get('billAltPhone')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid Phone number.
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="billDesignation" class="form-label"
+                    >Designation</label
+                  ><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="billDesignation"
+                    class="form-control"
+                    formControlName="billDesignation"
+                    placeholder="Enter your designation"
+                  />
+                  <div
+                    *ngIf="
+                      fullForm.get('billDesignation')?.invalid &&
+                      fullForm.get('billDesignation')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter your Designation.
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <label for="billDocuments" class="form-label">Documents</label
+                  ><span class="text-danger">*</span>
+                  <app-document-upload
+                  id="documentsToUpload"
+                  [mode]="'bill'"
+                  [organisationId]="organisationId"
+                  [billingUploadedDocs]="billingUploadedDocs"
+                  [contactSubmissionAttempted]="contactSubmissionAttempted"
+                  (onBillingValidationChange)="
+                    handleBillingValidationChange($event)
+                  "
+                  (setBillingUploadedDocs)="
+                    setBillingUploadedDocuments($event)
+                  "
+                    (imageUrl)="onImageViewClick($event)"
+                    (pdfUrl)="onPdfViewClick($event)"
+                ></app-document-upload>
+                  <!-- <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
+                      <select id="billDocuments" class="form-select" formControlName="billDocuments">
+                        <option selected>Select and upload</option>
+                        <option value="1">Document 1</option>
+                        <option value="2">Document 2</option>
+                      </select> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button for the Entire Form -->
+
+          <div class="d-flex justify-content-between" 
+          *ngIf="choosenContactType === 'BillingOfficer' 
+          || choosenContactType === 'TechnicalOfficer' 
+          || choosenContactType === 'AdminOfficer'">
             <button class="btn btn-primary btn-lg" (click)="goBack()">Back</button>
             <button (click)="onSubmit()" class="btn btn-primary btn-lg">
               Save & Next

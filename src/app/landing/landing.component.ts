@@ -94,6 +94,8 @@ export class LandingComponent implements OnInit {
         return 'translateX(-50%)'; 
     }
   }
-
+  RegistrationPage(){
+    this.router.navigateByUrl('registration')
+  }
 }
 
