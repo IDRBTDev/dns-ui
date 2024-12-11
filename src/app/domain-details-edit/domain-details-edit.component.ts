@@ -60,10 +60,10 @@ export class DomainDetailsEditComponent implements OnInit {
     this.router.navigateByUrl('/session-timeout');
   }
 
+
   backDomain() {
-    this.router.navigate(['/domain-details'], {
-      state: { domainDetail: this.domainDetail } 
-    });
+    const domainId = this.domainDetail?.domainId;
+    this.router.navigateByUrl(`/domain-details?domainId=${domainId}`);
   }
   
     crossButton(){

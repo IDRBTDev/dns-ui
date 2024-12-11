@@ -127,6 +127,11 @@ export class RgtrRgntOfficerDetailsComponent {
   async getContactUsers(){
     //if(this.selectedOrganisation < 1){
       await this.getContactOfficersDetails(this.selectedOrganisation);
+      if(this.selectedOrganisation === 0){
+        this.userInActiveMap = new Map();
+      }else{
+        this.validateAddUser();
+      }
     //}
   }
 
@@ -447,6 +452,29 @@ export class RgtrRgntOfficerDetailsComponent {
           organisationId:user.organisationId,
           contactUserType: contactUserType
         }})
+  }
+
+
+  userInActiveMap: Map<string, boolean> = new Map();
+  options: { key: string, value: boolean }[] = [];
+  selectedOfficerToAdd : string = '';
+
+  /**
+   * 
+   */
+  validateAddUser(){
+    console.log(this.contactDetailsList)
+     if(this.selectedOrganisation === 0){
+       this.toastr.error('Please select a Bank/Organisation')
+     }else{
+       this.contactDetailsList.forEach(contactUser => {
+        if(contactUser.isActive === false){
+          this.userInActiveMap.set(contactUser.contactRole, contactUser.isActive); 
+        }
+       });
+       this.options = Array.from(this.userInActiveMap, ([key, value]) => ({ key, value }));
+       console.log(this.userInActiveMap)
+     }
   }
 
 }

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -70,6 +71,7 @@ import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
+import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
  
 Chart.register(ChartDataLabels);
 
@@ -123,6 +125,7 @@ Chart.register(ChartDataLabels);
     RgntUserManagementComponent,
     RgtrUsrMgmtComponent,
     RgtrDomainComponent,
+    DscVerificationComponent,
   ],
   imports: [
     BrowserModule,

@@ -24,6 +24,7 @@ export class MainHeaderComponent implements OnInit{
 
   ngOnInit(): void {
      this.getUserDetails(); 
+     this.notificationComponent.getNotificationsOfUser();
     const storedProfilePictureUrl = localStorage.getItem('profilePictureUrl');
     if (storedProfilePictureUrl) {
         if (this.user) {
@@ -53,11 +54,11 @@ export class MainHeaderComponent implements OnInit{
       window.location.reload();
     });
   }
-  notifications(){
-    if (this.notificationComponent) {
-      this.notificationComponent.showModal();
-    }
-  }
+  // notifications(){
+  //   if (this.notificationComponent) {
+  //     this.notificationComponent.showModal();
+  //   }
+  // }
 
 
   onImageLoad() {

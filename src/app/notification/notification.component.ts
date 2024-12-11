@@ -25,9 +25,13 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
   @ViewChild('notificationModal') notificationModal: ElementRef;
 
-  notificationList: Notification[];
+  //notificationList: Notification[];
+  notificationList = [];
   notificationCount = 0;
+  userMailId = localStorage.getItem('email');
+  notificationError: string | null = null; // Holds error messages if any
   //userDetails : Users;
+  notification
 
   constructor(
     private router: Router, private cdr :ChangeDetectorRef, private notificationService: NotificationService, private ngZone: NgZone){
@@ -53,6 +57,40 @@ export class NotificationComponent implements OnInit, AfterViewInit {
     this.isNotificationVisible = !this.isNotificationVisible;
     this.notificationToggle.emit(this.isNotificationVisible); // Notify the parent
   }
+  getNotificationsCount(): void {
+    this.notificationService.findNotificationCount(localStorage.getItem('email')).subscribe({
+      next: (response) => {
+        if (response.body !== null) {
+          this.notificationCount = response.body;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching notification count:', error);
+        this.notificationCount = null; // Optionally reset to null on error
+      }
+    });
+  }
+
+  loadNotifications(): void {
+    console.log(this.userMailId);
+    if (this.userMailId) {
+      this.notificationService.getNotifications(this.userMailId).subscribe(
+        (notifications: any[]) => {
+          this.notificationList = notifications; // Bind to the template
+          this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update count
+          this.cdr.detectChanges(); // Ensure view updates
+          console.log('Notifications loaded:', this.notificationList);
+        },
+        error => {
+          this.notificationError = 'Error fetching notifications: ' + error.message;
+          console.error('Error fetching notifications:', error);
+        }
+      );
+    }
+  }
+
+
+  
   getNotificationsOfUser(){
       //get top 10 notifications of user
     this.notificationService.getTopTenNotificationsByUserId(localStorage.getItem('email')).subscribe({
@@ -60,7 +98,7 @@ export class NotificationComponent implements OnInit, AfterViewInit {
         if(response.status === HttpStatusCode.Ok){
           this.notificationList = response.body;
           this.notificationCount = response.body.length;
-          localStorage.setItem('notificationCount',this.notificationCount.toString())
+          localStorage.setItem('notificationCount',this.notificationCount.toString());
           // this.notificationList.forEach(notification => {
           //    console.log(notification.profilepic)
           //    });

@@ -10,6 +10,8 @@ import { OrganisationDetailsService } from '../organisation-details/service/orga
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../user/service/user.service';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
+import { NotificationService } from '../notification/service/notification.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-preview',
@@ -27,13 +29,15 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   userId: string = localStorage.getItem('email');
   role: string = localStorage.getItem('userRole');
+  notificationList = [];
+  notificationCount = 0;
+  notificationError: string | null = null; // Holds error messages if any
 
   // domainDetails: any;
   // administrativeDetails: any;
   // billingDetails: any;
   // technicalDetails: any;
   // nameServerDetails: any;
-
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes['organisationId']) {
       this.organisationId = changes['organisationId'].currentValue;
@@ -172,7 +176,9 @@ export class PreviewComponent implements OnInit, OnChanges {
     private organisationService: OrganisationDetailsService,
     private router: Router,
     private toastr: ToastrService,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -189,9 +195,50 @@ export class PreviewComponent implements OnInit, OnChanges {
     //save the details into DB
     await this.updatePreviewDetails();
     this.cards[0].details.organizationName = this.cards[1].details.institutionName;
+
+    const notification = {
+      message: "Application submitted successfully",
+      moduleType: "DocumentUpload",
+      moduleRecordId: 102,
+      notificationTo: this.userId,
+      emailId: this.userId,
+      status: "Unread",
+      createdDateTime:  new Date().toISOString(), // Use ISO 8601 string for date/time
+      createdByEmailId: this.userId,
+      profilepic: null
+    };
+    
+    // Create notification via the notification service
+    this.notificationService.createNotification(notification).subscribe(response => {
+        console.log('Notification created successfully:', response);
+        this.loadNotifications();
+      },
+      error => {
+        console.error('Error creating notification:', error);
+      }
+    );
+
+
   }
 
   // Inside the PreviewComponent
+  loadNotifications(): void {
+    console.log(this.userId);
+    if (this.userId) {
+      this.notificationService.getNotifications(this.userId).subscribe(
+        (notifications: any[]) => {
+          this.notificationList = notifications; // Bind to the template
+          this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update count
+          this.cdr.detectChanges(); // Ensure view updates
+          console.log('Notifications loaded:', this.notificationList);
+        },
+        error => {
+          this.notificationError = 'Error fetching notifications: ' + error.message;
+          console.error('Error fetching notifications:', error);
+        }
+      );
+    }
+  }
 
   fetchDataFromAPIs() {
     this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({

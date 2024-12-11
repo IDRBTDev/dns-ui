@@ -65,10 +65,16 @@ export class DomainDetailsComponent implements OnInit {
     this.router.navigateByUrl('/session-timeout');
   }
 
-  cancelDomain(){
-    this.router.navigateByUrl('domains');
+  cancelDomain() {
+    const role = localStorage.getItem('userRole');
+  
+    if (role === 'IDRBTADMIN') {
+      this.router.navigateByUrl('/rgtr-domains');
+    } else {
+      this.router.navigateByUrl('/rgnt-domains');
     }
-
+  }
+  
     domainedit(){
   this.router.navigateByUrl('/DomainEditPage', { state: { domainDetail: this.domainDetail } });
 

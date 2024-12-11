@@ -1,11 +1,12 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-domain-application',
@@ -13,6 +14,12 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./domain-application.component.css']
 })
 export class DomainApplicationComponent {
+
+
+  @ViewChild('paymentDialog') paymentDialog!: TemplateRef<any>;
+  selectedFile: File | null = null;
+  dialogRef!: MatDialogRef<any>;
+  selectedFileName: string = 'No File Selected';
 
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
@@ -36,7 +43,7 @@ export class DomainApplicationComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private domainService: DomainService, private router: Router) {
+  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
@@ -135,6 +142,37 @@ export class DomainApplicationComponent {
   //     }
   //   );
   // }
+  openPaymentDialog(domainId: string): void {
+    this.dialogRef = this.dialog.open(this.paymentDialog, {
+      width: '400px',
+      data: { domainId },
+    });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = input.files[0].name; 
+      console.log(`File selected: ${this.selectedFile.name}`);
+    }
+  }
+  confirmPayment(): void {
+    if (this.selectedFile) {
+      console.log(`Processing payment for file: ${this.selectedFile.name}`);
+      // Simulate processing the file upload
+      setTimeout(() => {
+        console.log(`Payment successful with file: ${this.selectedFile.name}`);
+        this.dialogRef.close();
+      }, 2000);
+    } else {
+      console.error('No file selected.');
+    }
+  }
+
+  onDialogClose(): void {
+    this.dialogRef.close();
+  }
   
   navigateToDomainDetails(domainId: number) {
     this.router.navigate(['/domain-application-details'], { queryParams: { domainId: domainId } });
