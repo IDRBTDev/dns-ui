@@ -556,7 +556,9 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateBillingContactDetails();
     this.updateNameServers();
     this.toastr.success('Details updated successfully');
-    this.router.navigateByUrl('/domains');
+   // if(this.role === 'IDRBTADMIN'){
+      this.router.navigateByUrl('/rgnt-domains');
+    //}
   }
 
   submissionAttempted=false;
