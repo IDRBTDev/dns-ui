@@ -19,8 +19,8 @@ const Year = 'year';
 export class RegistrarsDashboardComponent implements OnInit {
   
 
-  periodFiltersApplication:string=Week
-  periodFilterForApplicationStatus:string=Week
+  periodFiltersApplication:string=Month
+  periodFilterForApplicationStatus:string=Month
   applicationStatusChart:any;
   applicationChart:any;
   applicationYearLabel:any[]=[];
@@ -500,7 +500,7 @@ export class RegistrarsDashboardComponent implements OnInit {
       this.applicationChart = new Chart("applicationChart", {
         type: 'bar',
         data: {
-          xLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          labels: this.applicationYearLabel,
           datasets: [
             {
               label: ".fin.in",
