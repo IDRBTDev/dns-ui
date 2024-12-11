@@ -30,11 +30,12 @@ export class DomainApplicationDetailsComponent implements OnInit{
     })
     console.log(this.domainId)
     await this.getDomainApplicationDetails(this.domainId);
-    await this.getOrganizationDetails(this.domainId);
+    console.log('executed')
+    console.log('executed2')
     this.setNsStatusOptions();
   }
   domainsList: Domain;
-  getDomainApplicationDetails(domainId:number) {
+  async getDomainApplicationDetails(domainId:number) {
    
     console.log("Datal",domainId)
     this.domainService.getDomainByDomainId(domainId).subscribe({
@@ -42,6 +43,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
         if (res.status === HttpStatusCode.Ok) {
           this.domainsList = res.body;
          console.log("domain data received:",res);
+        this.getOrganizationDetails(this.domainsList.organisationId);
         } else {
           console.log("Unexpected status code:", res.status);
          
@@ -54,7 +56,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
   }
 
   organizationsList:any;
-  getOrganizationDetails(organisationId:number) {
+  async getOrganizationDetails(organisationId:number) {
    
     console.log("Datal",organisationId)
     this.oreganizationService.getOrganizationByDomainId(organisationId).subscribe({

@@ -1,5 +1,5 @@
 // src/app/user-domain-details/user-domain-details.component.ts
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDomainService } from './service/user-domain.service';  // Import the service from the new folder
 import { NavigationExtras, Router } from '@angular/router';
@@ -14,13 +14,17 @@ import { ReminderComponent } from '../reminder/reminder.component';
   styleUrls: ['./user-domain-details.component.css']
 })
 
-export class UserDomainDetailsComponent {
+export class UserDomainDetailsComponent implements OnInit {
   userDomainForm: FormGroup;
   showResult = false;
   userId: string = localStorage.getItem('email');
   organisationId: number = parseInt(localStorage.getItem('organisationId'));
 
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
+
+  ngOnInit(): void {
+      console.log(this.organisationId)
+  }
   
   constructor(
 
@@ -125,6 +129,7 @@ export class UserDomainDetailsComponent {
       console.log(this.userDomainForm.value);
 
       domainData.userMailId = this.userId;
+      domainData.organisationId = this.organisationId;
 
       if(this.organisationDetails != null && this.organisationDetails != undefined){
 
