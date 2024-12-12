@@ -558,7 +558,9 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateBillingContactDetails();
     this.updateNameServers();
     this.toastr.success('Details updated successfully');
-    this.router.navigateByUrl('/domains');
+   // if(this.role === 'IDRBTADMIN'){
+      this.router.navigateByUrl('/rgnt-domains');
+    //}
   }
 
   submissionAttempted=false;
@@ -623,5 +625,17 @@ setOrganisationUploadedDocuments(docs: any[]): void {
     console.log('Uploaded documents updated:', this.orgDocDetails);
 }
 
+pdfUrl:any;
+imagUrl:any;
+preview:string="preview"
+onImageViewClick(imageUrl) {
+  console.log(imageUrl)
+  this.pdfUrl = null
+  this.imagUrl = imageUrl
+}
+onPdfViewClick(pdfUrl) {
+  this.imagUrl = null
+  this.pdfUrl = pdfUrl
+}
 
 }

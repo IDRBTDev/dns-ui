@@ -44,10 +44,12 @@
   <div *ngIf="organisationUploadedDocs.length > 0" style="margin-top: 20px;">
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
           <div *ngFor="let doc of organisationUploadedDocs; let i = index"
-              style="display: flex; align-items: center; gap: 5px;" data-toggle="modal"
-              data-target="#updateModal" (click)="clickedDocument(doc)">
+              style="display: flex; align-items: center; gap: 5px;" >
               <i class="bi bi-check-circle text-success"></i>
-              <span >{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
@@ -107,10 +109,12 @@
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
           <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;"
-          data-toggle="modal"
-          data-target="#updateModal" (click)="clickedDocument(doc)">
+          >
               <i class="bi bi-check-circle text-success"></i>
-              <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
@@ -207,10 +211,12 @@
       <div
         *ngFor="let doc of techUploadedDocs; let i = index"
         style="display: flex; align-items: center; gap: 5px"
-        data-toggle="modal"
-        data-target="#updateModal" (click)="clickedDocument(doc)">
+        >
         <i class="bi bi-check-circle text-success"></i>
-        <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewTechDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
           <i class="bi bi-trash"></i>
         </button>
@@ -321,10 +327,12 @@
       <div
         *ngFor="let doc of billingUploadedDocs; let i = index"
         style="display: flex; align-items: center; gap: 5px"
-        data-toggle="modal"
-        data-target="#updateModal" (click)="clickedDocument(doc)">
+        >
         <i class="bi bi-check-circle text-success"></i>
-        <span>{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview===''" data-toggle="modal"
+        data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <span *ngIf="preview!=''" data-toggle="modal"
+        data-target="#previewBillDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button
           class="btn btn-sm btn-danger"
           (click)="handleRemoveBillingDoc(i)"
@@ -371,32 +379,5 @@
       Required documents selected
   </p>
 </div> -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-      <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header" id="modalHeader">
-              <h5 class="modal-title" id="xlModalLabel">{{previewDocName?.fileName}}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
-                      >&times;</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div *ngIf="imageUrl">
-              <img [src]="imageUrl" alt="Image Preview">
-            </div>
-            
-            <div *ngIf="pdfUrl">
-              <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
-            </div>
-          </div>
-          <!-- Modal footer -->
-          <div class="modal-footer" role="alert">
-             
-          </div>
-      </div>
-  </div>
-</div>
+
 

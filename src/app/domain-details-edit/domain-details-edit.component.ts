@@ -68,25 +68,46 @@ export class DomainDetailsEditComponent implements OnInit {
   
     crossButton(){
       console.log("cancel button is working good");
+      location.reload();
+     
     }
 
      
+
   onSubmit(): void {
+    let updateCount = 0; 
+
     this.domainDetail.nameServers.forEach(ns => {
-      const nameServerId = ns.nameServerId; 
+      const nameServerId = ns.nameServerId;
       this.nameServerService.updateNameServer(nameServerId, ns)
         .subscribe(
           response => {
-            console.log('Name Server updated successfully', response);
-            this.toastr.success('Name Server details updated successfully');
+            console.log(`Name Server ${nameServerId} updated successfully`, response);
+            updateCount++;
+  
+            if (updateCount === this.domainDetail.nameServers.length) {
+              this.toastr.success('All Name Server details updated successfully');
+              this.updateLocalState(); 
+            }
           },
           error => {
             console.error('Error updating Name Server', error);
-
+            this.toastr.error('Error updating Name Server');
           }
         );
     });
   }
+
+  updateLocalState(): void {
+    this.domainDetail.nameServers = this.domainDetail.nameServers.map(ns => {
+      return {
+        ...ns,
+        updatedAt: new Date(), 
+      };
+    });
+    console.log('Manually updated Name Servers:', this.domainDetail.nameServers);
+  }
+  
 
     
 

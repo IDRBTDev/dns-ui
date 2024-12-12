@@ -14,4 +14,6 @@ export class NameServerService {
   updateNameServer(nameServerId: number, nameServerDetails: any): Observable<any> {
     return this.http.put(`${this.nameserverurl}/${nameServerId}`, nameServerDetails);
   }
+
+  
 }

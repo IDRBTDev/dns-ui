@@ -14,6 +14,12 @@ export class DomainService{
     getAllDomains(userId: string){
         return this.httpClient.get<any[]>(`${this.domainsUrl}/all?userId=${userId}`,{observe: 'response'});
     }
+
+    getAllDomainsByOrgId(orgId: number){
+        console.log(orgId)
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/get/all?organisationId=${orgId}`,{observe: 'response'});
+    }
+
     getFilteredData(filters: any) {
         let params = new HttpParams();
     
@@ -55,6 +61,10 @@ export class DomainService{
 
     updateDomainDetails(domain: any){
         return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domain.domainId}`,domain,{observe: 'response'});
+    }
+
+    getAllApplicationInQueue(){
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/applicationInQueue`,{observe: 'response'});
     }
 
 }
