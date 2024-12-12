@@ -66,5 +66,8 @@ export class DomainService{
     getAllApplicationInQueue(){
         return this.httpClient.get<any[]>(`${this.domainsUrl}/applicationInQueue`,{observe: 'response'});
     }
+    uploadPaymentReceipt(formData: FormData): Observable<any> {
+        return this.httpClient.post(`${this.domainsUrl}/uploadPaymentReceipt`, formData,{ responseType: 'text'});
+      }
 
 }
