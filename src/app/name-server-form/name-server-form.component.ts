@@ -133,7 +133,6 @@ export class NameServerFormComponent implements OnInit {
 
       this.nameServerService.addNameServer(formData).subscribe(
         (response) => {
-          alert('Form submitted successfully!');
           console.log(response);
           if(response != null){
             this.formSubmitted.emit();

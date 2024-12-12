@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { NotificationService } from '../notification/service/notification.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact-details-form',
@@ -37,9 +38,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   selectedDocType = '';
   imagUrl:any
   pdfUrl:any
-  notificationList = [];
+  notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
+  private notificationSubscription: Subscription;
   constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute,
     private contactDoc:ContactDocumentUploadService,private notificationService: NotificationService,private cdr: ChangeDetectorRef) {}
 
@@ -87,6 +89,19 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     this.applicationId = sessionStorage.getItem('applicationId'); // Retrieve applicationId
     console.log('Retrieved Application ID from sessionStorage:', this.applicationId);
     this.loadNotifications();
+    this.setupNotificationPolling();
+  }
+
+  ngOnDestroy(): void {
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
+    }
+  }
+
+  private setupNotificationPolling(): void {
+    this.notificationSubscription = interval(30000).subscribe(() => {
+      this.loadNotifications();
+    });
   }
 
   loadNotifications(): void {
@@ -330,24 +345,30 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       })
 
       const notification = {
-        message: "Login details sent to billing and technical persons.",
-        moduleType: "DocumentUpload",
-        moduleRecordId: 102,
-        notificationTo: this.fullForm.get('adminEmail')?.value,
-        emailId: this.fullForm.get('adminEmail')?.value,
-        status: "Unread",
-        createdDateTime:  new Date().toISOString(), // Use ISO 8601 string for date/time
-        createdByEmailId: this.fullForm.get('adminEmail')?.value,
-        profilepic: null
+        message: "Login details sent to billing and technical persons.", // Informative message
+        moduleType: "DocumentUpload", // Type of module generating the notification
+        moduleRecordId: 102, // Unique identifier for the module record, adjust if dynamic
+        notificationTo: this.fullForm.get('adminEmail')?.value, // Target recipient of the notification
+        emailId: this.fullForm.get('adminEmail')?.value, // Email ID of the recipient
+        status: "Unread", // Initial status of the notification
+        createdDateTime: new Date().toISOString(), // Current date and time in ISO format
+        createdByEmailId: this.userMailId, // Email ID of the creator (logged-in user)
+        profilepic: null // Placeholder for profile picture, can be updated later if needed
       };
       
-      // Create notification via the notification service
+      // Validate the email before creating the notification
+      if (!notification.notificationTo || !notification.emailId) {
+        console.error('Error: Notification creation failed because the email is missing or invalid.');
+        return;
+      }
+      
+      // Call the notification service to create a new notification
       this.notificationService.createNotification(notification).subscribe(
-        response => {
+        (response) => {
           console.log('Notification created successfully:', response);
-          this.loadNotifications();
+          this.loadNotifications(); // Refresh the notification list
         },
-        error => {
+        (error) => {
           console.error('Error creating notification:', error);
         }
       );

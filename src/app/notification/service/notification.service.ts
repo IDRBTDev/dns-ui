@@ -47,4 +47,8 @@ export class NotificationService{
           `${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/all/${email}`
         );
       }
+
+      markAllAsRead(emailId: string) {
+        return this.http.put(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/mark-all-as-read/${emailId}`,  {observe:'response'});
+      }
 }

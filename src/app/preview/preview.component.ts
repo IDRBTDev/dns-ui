@@ -29,7 +29,7 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   userId: string = localStorage.getItem('email');
   role: string = localStorage.getItem('userRole');
-  notificationList = [];
+  notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
 
@@ -48,6 +48,7 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchDataFromAPIs();
+    this.loadNotifications();
     // console.log(JSON.parse(localStorage.getItem('admindocs')))
     // console.log(JSON.parse(localStorage.getItem('techdocs')))
     // console.log(JSON.parse(localStorage.getItem('billdocs')))
@@ -230,6 +231,7 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.notificationList = notifications; // Bind to the template
           this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update count
           this.cdr.detectChanges(); // Ensure view updates
+          this.notificationError = null;
           console.log('Notifications loaded:', this.notificationList);
         },
         error => {
