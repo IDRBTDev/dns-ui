@@ -23,7 +23,7 @@ export class RgntDomainComponent implements OnInit {
     'status',
   ]; // Matches matColumnDef values
 
-  domainsList: any[] = [];
+  domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
   organisationId: number =  parseInt(localStorage.getItem('organisationId'));
   @ViewChild(MatPaginator) paginator!: MatPaginator;

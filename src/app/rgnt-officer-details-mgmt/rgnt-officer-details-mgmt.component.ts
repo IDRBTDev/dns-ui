@@ -94,6 +94,7 @@ export class RgntOfficerDetailsMgmtComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    this.selectedOrganisationId =parseInt(localStorage.getItem('organisationId'));
     //set table comumns based on role
     //if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
