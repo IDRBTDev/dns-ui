@@ -19,48 +19,49 @@
             </div>
 
 
-            <div class="col-6 " class="custom-element">
-
-                <!-- notifcation -->
+            <div class="col-6 custom-element">
                 <!-- Notification Icon -->
                 <div style="position: relative; display: inline-block;">
-                    <div (click)="toggleNotification()" style="cursor: pointer; display: inline-block;">
-                        <svg class="first" width="32" height="32" viewBox="0 0 32 32" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M24 10.6667C24 8.54492 23.1571 6.51009 21.6569 5.0098C20.1566 3.50951 18.1217 2.66666 16 2.66666C13.8783 2.66666 11.8434 3.50951 10.3431 5.0098C8.84286 6.51009 8 8.54492 8 10.6667C8 20 4 22.6667 4 22.6667H28C28 22.6667 24 20 24 10.6667Z"
-                                stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path
-                                d="M18.3067 28C18.0723 28.4041 17.7358 28.7395 17.331 28.9727C16.9262 29.2059 16.4672 29.3286 16 29.3286C15.5329 29.3286 15.0739 29.2059 14.6691 28.9727C14.2642 28.7395 13.9278 28.4041 13.6934 28"
-                                stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-
-                    <!-- Notification Modal Component (Always Visible) -->
-                </div>
-                <app-notification [modalId]="notificationModalId"
-                    [ngClass]="{'modal show': isNotificationVisible, 'modal fade': !isNotificationVisible}"
-                    [isNotificationVisible]="isNotificationVisible" (notificationToggle)="onNotificationToggle($event)"
-                    class="modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-                </app-notification>
-                <!-- profile icon -->
-                <div style="cursor: pointer">
-
-
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        data-toggle="modal" data-target="#exampleModal">
-                        <path
-                            d="M26.6663 28V25.3333C26.6663 23.9188 26.1044 22.5623 25.1042 21.5621C24.104 20.5619 22.7475 20 21.333 20H10.6663C9.25185 20 7.8953 20.5619 6.8951 21.5621C5.89491 22.5623 5.33301 23.9188 5.33301 25.3333V28"
-                            stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path
-                            d="M16.0003 14.6667C18.9458 14.6667 21.3337 12.2789 21.3337 9.33333C21.3337 6.38781 18.9458 4 16.0003 4C13.0548 4 10.667 6.38781 10.667 9.33333C10.667 12.2789 13.0548 14.6667 16.0003 14.6667Z"
-                            stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <div (click)="toggleNotification()" style="cursor: pointer; display: inline-block;">
+                    <svg class="first" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M24 10.6667C24 8.54492 23.1571 6.51009 21.6569 5.0098C20.1566 3.50951 18.1217 2.66666 16 2.66666C13.8783 2.66666 11.8434 3.50951 10.3431 5.0098C8.84286 6.51009 8 8.54492 8 10.6667C8 20 4 22.6667 4 22.6667H28C28 22.6667 24 20 24 10.6667Z"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M18.3067 28C18.0723 28.4041 17.7358 28.7395 17.331 28.9727C16.9262 29.2059 16.4672 29.3286 16 29.3286C15.5329 29.3286 15.0739 29.2059 14.6691 28.9727C14.2642 28.7395 13.9278 28.4041 13.6934 28"
+                        stroke="black"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
                     </svg>
-
+                  </div>
+              
+                  <!-- Red Indicator for Unread Notifications -->
+                  <div *ngIf="notificationCount > 0 && !isNotificationVisible" class="notification-indicator">{{ notificationCount }}</div>
                 </div>
-
-            </div>
-
+              
+                <!-- Notification Modal Component -->
+                <app-notification [modalId]="notificationModalId"
+                                  [ngClass]="{'modal show': isNotificationVisible, 'modal fade': !isNotificationVisible}"
+                                  [isNotificationVisible]="isNotificationVisible" 
+                                  (notificationToggle)="onNotificationToggle($event)"
+                                  class="modal" 
+                                  tabindex="-1" 
+                                  aria-labelledby="notificationModalLabel" 
+                                  aria-hidden="true">
+                </app-notification>
+              
+                <!-- Profile Icon -->
+                <div style="cursor: pointer">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" data-toggle="modal" data-target="#exampleModal">
+                    <path d="M26.6663 28V25.3333C26.6663 23.9188 26.1044 22.5623 25.1042 21.5621C24.104 20.5619 22.7475 20 21.333 20H10.6663C9.25185 20 7.8953 20.5619 6.8951 21.5621C5.89491 22.5623 5.33301 23.9188 5.33301 25.3333V28" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M16.0003 14.6667C18.9458 14.6667 21.3337 12.2789 21.3337 9.33333C21.3337 6.38781 18.9458 4 16.0003 4C13.0548 4 10.667 6.38781 10.667 9.33333C10.667 12.2789 13.0548 14.6667 16.0003 14.6667Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
         </div>
     </div>
 </div>

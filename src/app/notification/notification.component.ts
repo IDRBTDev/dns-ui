@@ -3,14 +3,10 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, NgZone, Input,
 import { error } from 'jquery';
 import { HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-//import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { interval, Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { NotificationService } from './service/notification.service';
 import { Notification } from '../model/Notification.model';
-import TimeAgo from "javascript-time-ago";
-declare var $: any;
-
 
 @Component({
   selector: 'app-notification',
@@ -25,63 +21,56 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
   @ViewChild('notificationModal') notificationModal: ElementRef;
 
-  //notificationList: Notification[];
-  notificationList = [];
+  notificationList: any[] = [];
   notificationCount = 0;
   userMailId = localStorage.getItem('email');
-  notificationError: string | null = null; // Holds error messages if any
-  //userDetails : Users;
-  notification
+  notificationError: string | null = null;
+
+  private notificationSubscription: Subscription;
 
   constructor(
-    private router: Router, private cdr :ChangeDetectorRef, private notificationService: NotificationService, private ngZone: NgZone){
-      this.getNotificationsOfUser();
-     // this.getAssignedUserProfile('Bharat@ikcontech.com')
-  }
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    this.getNotificationsOfUser();
-    this.showModal(); // Call the modal show on component load
+    this.loadNotifications(); // Load initial notifications
+    this.setupNotificationPolling(); // Start polling
+    this.showModal(); // Show the modal if applicable
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log(this.notificationModal);  // Should no longer be undefined
+      console.log(this.notificationModal); // Debugging modal visibility
     });
   }
 
-  /**
-   * 
-   */
+  ngOnDestroy(): void {
+    // Cleanup polling subscription to avoid memory leaks
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
+    }
+  }
+
   toggleVisibility(): void {
     this.isNotificationVisible = !this.isNotificationVisible;
-    this.notificationToggle.emit(this.isNotificationVisible); // Notify the parent
-  }
-  getNotificationsCount(): void {
-    this.notificationService.findNotificationCount(localStorage.getItem('email')).subscribe({
-      next: (response) => {
-        if (response.body !== null) {
-          this.notificationCount = response.body;
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching notification count:', error);
-        this.notificationCount = null; // Optionally reset to null on error
-      }
-    });
+    this.notificationToggle.emit(this.isNotificationVisible); // Notify parent
+    
   }
 
   loadNotifications(): void {
-    console.log(this.userMailId);
     if (this.userMailId) {
       this.notificationService.getNotifications(this.userMailId).subscribe(
         (notifications: any[]) => {
-          this.notificationList = notifications; // Bind to the template
-          this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update count
+          this.notificationList = notifications; // Update the notification list
+          this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update unread count
           this.cdr.detectChanges(); // Ensure view updates
+          this.notificationError = null;
           console.log('Notifications loaded:', this.notificationList);
         },
-        error => {
+        (error) => {
           this.notificationError = 'Error fetching notifications: ' + error.message;
           console.error('Error fetching notifications:', error);
         }
@@ -89,33 +78,37 @@ export class NotificationComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-  
-  getNotificationsOfUser(){
-      //get top 10 notifications of user
-    this.notificationService.getTopTenNotificationsByUserId(localStorage.getItem('email')).subscribe({
-      next: response => {
-        if(response.status === HttpStatusCode.Ok){
-          this.notificationList = response.body;
-          this.notificationCount = response.body.length;
-          localStorage.setItem('notificationCount',this.notificationCount.toString());
-          // this.notificationList.forEach(notification => {
-          //    console.log(notification.profilepic)
-          //    });
-          //for each notification set time ago
-          // this.notificationList.forEach(notification => {
-          //   notification.timeAgoDateTime = new TimeAgo('en-US')
-          //   notification.timeAgoDateTime.format(new Date(notification.createdDateTime))
-          // });
-        }
-      },
-      error: error => {
-        if(error.status === HttpStatusCode.Unauthorized){
-          //router tosession timeout
-          this.router.navigateByUrl('/session-timeout')
-        }
-      }
+  setupNotificationPolling(): void {
+    // Poll every 30 seconds for notification updates
+    this.notificationSubscription = interval(5000).subscribe(() => {
+      this.loadNotifications();
     });
+  }
+
+  markAllNotificationsAsRead(): void {
+    this.notificationService.markAllAsRead(this.userMailId).subscribe(() => {
+      this.notificationList.forEach((notification) => (notification.status = 'Read'));
+      this.notificationCount = 0; // Reset unread count
+      this.cdr.detectChanges(); // Trigger view update
+    });
+  }
+
+
+  updateNotificationStatus(notification: Notification): void {
+    if (notification.status === 'Unread') {
+      this.notificationService.updateNotification(notification).subscribe({
+        next: (response) => {
+          if (response.status === HttpStatusCode.PartialContent) {
+            this.loadNotifications(); // Refresh notifications after update
+          }
+        },
+        error: (error) => {
+          if (error.status === HttpStatusCode.Unauthorized) {
+            this.router.navigateByUrl('/session-timeout');
+          }
+        }
+      });
+    }
   }
 
   showModal() {
@@ -134,63 +127,12 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
         // Show the modal with the fade effect
         modal.show();
-        
-        // Apply the fade-in effect and ensure visibility
-        modalElement.classList.add('show'); // Ensure 'show' class is added for visibility
+        this.markAllNotificationsAsRead();
+
+        modalElement.classList.add('show'); // Ensure 'show' class is added
         modalElement.style.display = 'block'; // Ensure it's displayed
-        modalElement.style.opacity = '1'; // Ensure full opacity after displaying
+        modalElement.style.opacity = '1'; // Ensure full opacity
       });
     }
   }
-
-
- /**
-  * 
-  * @param notification 
-  */
-  updateNotificationStatus(notification: Notification){
-    if(notification.status === 'Unread'){
-      this.notificationService.updateNotification(notification).subscribe({
-        next: response => {
-          if(response.status === HttpStatusCode.PartialContent){
-          }
-        },error: error => {
-          if(error.status === HttpStatusCode.Unauthorized){
-            this.router.navigateByUrl('/session-timeout');
-          }
-        }
-      })
-    }
-    
-  }
-
-  /**
-   * 
-   * @param email 
-   */
-  // getAssignedUserProfile(email : string){
-  //   this.headerService.fetchUserProfile(email).subscribe({
-  //     next : response =>{
-  //       this.userDetails = response.body;
-  //     }
-
-  //   })
-
-  // }
-
-  /**
-   * 
-   * @param profilePic 
-   * @returns 
-   */
-  getProfilePicUrl(profilePic: string): string {
-     try {
-      //Assuming profilePic is a valid Base64 string
-      return 'data:image/jpg;base64,'+ profilePic;
-     } catch (error) {
-       console.error('Error creating profile pic URL:', error);
-          return ''; // or a default URL
-     }
-  }
- 
 }
