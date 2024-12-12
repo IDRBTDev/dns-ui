@@ -30,6 +30,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
 
   @Input() choosenContactType: string = '';
 
+  @Input() choosenOrgId: number = 0;
+
   
   fullForm: FormGroup;
   applicationId: string | null = null; 
@@ -60,6 +62,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log(this.organisationId)
     this.fullForm = this.fb.group({
       // Admin Form Controls
       administrativeContactId: 0,
