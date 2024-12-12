@@ -20,6 +20,7 @@ export class DomainApplicationComponent {
   selectedFile: File | null = null;
   dialogRef!: MatDialogRef<any>;
   selectedFileName: string = 'No File Selected';
+  domainId: string | null = null;
 
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
@@ -147,6 +148,7 @@ export class DomainApplicationComponent {
       width: '400px',
       data: { domainId },
     });
+    this.domainId = domainId;
   }
 
   onFileSelected(event: Event): void {
@@ -156,19 +158,26 @@ export class DomainApplicationComponent {
       this.selectedFileName = input.files[0].name; 
       console.log(`File selected: ${this.selectedFile.name}`);
     }
-  }
-  confirmPayment(): void {
+  } 
+  async confirmPayment(): Promise<void> {
     if (this.selectedFile) {
-      console.log(`Processing payment for file: ${this.selectedFile.name}`);
-      // Simulate processing the file upload
-      setTimeout(() => {
-        console.log(`Payment successful with file: ${this.selectedFile.name}`);
-        this.dialogRef.close();
-      }, 2000);
+        const domainId = this.domainId;
+        const formData = new FormData();
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+        formData.append('domainId', domainId);
+
+        try {
+            const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
+            console.log('Server Response:', response); // Plain text response
+            this.dialogRef.close();
+        } catch (error) {
+            console.error('Error uploading payment receipt:', error);
+        }
     } else {
-      console.error('No file selected.');
+        console.error('No file selected');
     }
-  }
+}
+
 
   onDialogClose(): void {
     this.dialogRef.close();
