@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NameServerService {
-  private nameServerUrl = 'http://localhost:9002/dr/nameServer';
+  private nameServerUrl =  environment.apiURL+'/dr/nameServer';
 
   constructor(private http: HttpClient) {}
 

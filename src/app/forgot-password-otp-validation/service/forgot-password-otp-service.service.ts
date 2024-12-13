@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForgotPasswordOtpValidationService {
 
-  private verifyOtpUrl = 'http://localhost:9002/dr/user/verify-otp'; 
-  private getOtpUrl = 'http://localhost:9002/dr/user/get-otp';
+  private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp'; 
+  private getOtpUrl = environment.apiURL+'/dr/user/get-otp';
 
   constructor(private http: HttpClient) {}
 

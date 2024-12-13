@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DocumentUploadService {
-  private apiUrl = 'http://localhost:9002/dr/documents/documentUpload';
+  private apiUrl = environment.apiURL+'/dr/documents/documentUpload';
 
   constructor(private http: HttpClient) {}
 

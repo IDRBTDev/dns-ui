@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user.model';
+import { environment } from 'src/app/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForgotPasswordResetService {
-  private resetPasswordUrl = 'http://localhost:9002/dr/user/update';  
+  private resetPasswordUrl = environment.apiURL+'/dr/user/update';  
 
   constructor(private http: HttpClient) {}
 

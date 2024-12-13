@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactDocumentUploadService {
-  private apiUrl = 'http://localhost:9002/dr/contactDocuments/contactDocumentUpload';
+  private apiUrl = environment.apiURL+'/dr/contactDocuments/contactDocumentUpload';
 
   constructor(private http: HttpClient) {}
 
@@ -57,7 +58,7 @@ console.log("conytactservice called")
   }
 
   getContactOfficerDocuments(contactType: string, organisationId: number){
-    const apiUrl  = 'http://localhost:9002/dr/contactDocuments/contactOfficerDocuments/'+contactType+'/'+organisationId;
+    const apiUrl  = environment.apiURL+'/dr/contactDocuments/contactOfficerDocuments/'+contactType+'/'+organisationId;
     return this.http.get<any[]>(apiUrl,{observe: 'response'});
   }
 
@@ -77,7 +78,7 @@ console.log("conytactservice called")
       .set('comment', comment);
   
     return this.http.get(
-      `http://localhost:9002/dr/contactDocuments/updateDocumentStatus/${approvalStatus}`,
+      environment.apiURL+`/dr/contactDocuments/updateDocumentStatus/${approvalStatus}`,
       { params: params, observe: 'response' }
     );
   }

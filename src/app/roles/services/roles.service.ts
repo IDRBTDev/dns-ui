@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Roles } from 'src/app/model/roles.model';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class RolesService {
   private roleMicroservicePathUrl: string;
 
   constructor(private http: HttpClient){
-      this.apiGatewayUrl = "http://localhost:9002";
+      this.apiGatewayUrl = environment.apiURL;
       this.roleMicroservicePathUrl = 'dr/roles';
   }
 

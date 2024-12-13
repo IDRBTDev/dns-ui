@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
 
 
 
@@ -15,22 +16,22 @@ export class OrganisationDetailsService {
     // Method to submit form data to the backend API
     saveOrganisationDetails(formData: any): Observable<any> {
         console.log('Sending form data:', formData);
-        const apiUrl = 'http://localhost:9002/dr/organisationDetails';
+        const apiUrl =  environment.apiURL+'/dr/organisationDetails';
         return this.http.post(apiUrl, formData);
     }
 
     updateOrganisationDetails(organisationdetails: any){
-        const apiUrl = 'http://localhost:9002/dr/organisationDetails/update';
+        const apiUrl = environment.apiURL+'/dr/organisationDetails/update';
         return this.http.put(apiUrl,organisationdetails,{observe: 'response'});
     }
 
     getOrganisationDetailsByOrganisationId(organisationId: number){
-        const apiUrl = 'http://localhost:9002/dr/organisationDetails/getDetailsById/'+organisationId;
+        const apiUrl = environment.apiURL+'/dr/organisationDetails/getDetailsById/'+organisationId;
         return this.http.get(apiUrl, {observe:'response'});
     }
 
     getAllOrganisations(){
-        const apiUrl = 'http://localhost:9002/dr/organisationDetails/all';
+        const apiUrl = environment.apiURL+'/dr/organisationDetails/all';
         return this.http.get<any[]>(apiUrl, {observe:'response'});
     }
 

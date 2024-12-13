@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user.model';
+import { environment } from 'src/app/environments/environment';
 
 
 @Injectable({
@@ -9,8 +10,8 @@ import { User } from 'src/app/model/user.model';
 })
 export class ForgotPasswordEmailVerificationService {
 
-  private verifyemailUrl = 'http://localhost:9002/dr/user/verify-user';
-  private getOtpUrl = 'http://localhost:9002/dr/user/get-otp';
+  private verifyemailUrl = environment.apiURL+'/dr/user/verify-user';
+  private getOtpUrl = environment.apiURL+'/dr/user/get-otp';
  
 
   constructor(private http: HttpClient) {}

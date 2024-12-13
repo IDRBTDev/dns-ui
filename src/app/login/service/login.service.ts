@@ -1,14 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "src/app/environments/environment";
 
 @Injectable({
     providedIn : 'root'
 })
 export class LoginService{
 
-    private drloginUrl = 'http://localhost:9002/dr/users/login';
-    private getOtpUrl = 'http://localhost:9002/dr/user/get-otp';
-    private verifyOtpUrl = 'http://localhost:9002/dr/user/verify-otp';
+    private drloginUrl = environment.apiURL+'/dr/users/login';
+    private getOtpUrl = environment.apiURL+'/dr/user/get-otp';
+    private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp';
 
     constructor(private httpClient: HttpClient){
 
