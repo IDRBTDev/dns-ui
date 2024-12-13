@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dsc-verification',
@@ -16,10 +17,13 @@ export class DscVerificationComponent {
     authOrganisationName: '',
     agree: false,
   };
+  ageError: boolean = false;
+  
   tokenPassword = '';
-  validationError = '';
+  validationError : string = '';
   passwordErrorMessage = '';
   isPasswordModalOpen = false;
+  isLoading : boolean = false;
   tokens: any[] = [];
   certificates: any[] = [];
   
@@ -36,15 +40,52 @@ export class DscVerificationComponent {
   selectedDataType: string = '';
 
   embridgeUrl = 'https://localhost.emudhra.com:26769';
-  dscApi = 'http://localhost:8080';
+  dscApi = 'http://localhost:9012';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  onAgeInput(event: any) {
+    const inputValue = event.target.value;
+    
+    // Remove any non-numeric characters
+    const numericValue = inputValue.replace(/\D/g, ''); // Remove all non-digit characters
+    
+    // Update the model with the cleaned value
+    this.formData.age = numericValue;
 
-  openPasswordModal() {
-    if (!this.formData.agree) {
+    // Check if the age is within the valid range
+    if (parseInt(numericValue) >= 150 || numericValue === '') {
+      this.ageError = true; // Display error if the age is invalid
+    } else {
+      this.ageError = false;
+      
+    }
+  }
+  
+  
+  
+  affixDSC() {
+    // Validate the form
+    if (!this.validateForm()||this.ageError) {
+      if (!this.formData.agree ) {
       this.validationError = 'You must agree to the terms and conditions.';
+      }
+      else{
+        this.validationError = 'You must fill all the details.';
+         // Exit if validation fails
+      }
       return;
     }
+    this.isLoading = true; // Show loading spinner
+
+    // Simulate a delay (for example, waiting for an API response)
+    setTimeout(() => {
+      this.isLoading = false; // Hide the loading spinner
+      this.openPasswordModal(); // Open the password modal
+    }, 2000); // Adjust time as necessary
+  }
+
+  openPasswordModal() {
+    
     this.validationError = '';
     this.getDscResponse();
     this.isPasswordModalOpen = true;
@@ -57,6 +98,24 @@ export class DscVerificationComponent {
     this.tokens = [];
     this.selectedToken = null;
   }
+  validateForm() {
+    // Check if all fields are filled and the user has agreed to the terms
+    if (
+      !this.formData.name ||
+      !this.formData.fatherName ||
+      !this.formData.age ||
+      !this.formData.organisationName ||
+      !this.formData.designation ||
+      !this.formData.authOrganisationName ||
+      !this.formData.agree
+    ) {
+      this.validationError = 'Please fill out all the fields and agree to the terms.';
+      return false;
+    }
+    this.validationError = '';
+    return true;
+  }
+
 
   getDscResponse() {
     // First API call to get the response (encryptedData and encryptionKeyID)
@@ -90,24 +149,24 @@ export class DscVerificationComponent {
                         console.log('====================================>'+this.selectedToken);
                     },
                     (error) => {
-                        console.error('Error occurred while calling third API:', error);
+                        console.error('Failed to get valid tokens.', error);
                     }
                 );
 
               }
             },
             (secondApiError) => {
-              console.error('Error occurred while calling the second API:', secondApiError);
-              this.passwordErrorMessage = 'Failed to fetch data from the second API.';
+              console.error('Failed to get valid tokens.', secondApiError);
+              this.passwordErrorMessage = 'Failed to get valid tokens.';
             }
           );
         } else {
-          this.passwordErrorMessage = 'Failed to get valid tokens from the first API.';
+          this.passwordErrorMessage = 'Failed to get valid tokens.';
         }
       },
       (error) => {
         console.error('Error occurred while fetching tokens from the first API:', error);
-        this.passwordErrorMessage = 'Failed to fetch tokens from the first API.';
+        this.passwordErrorMessage = 'Failed to get encrypted response from "getTokenRequest".';
       }
     );
   }
@@ -253,6 +312,8 @@ export class DscVerificationComponent {
                         console.log('Response from third API:', response);
                         //this.certificates = response.certificates || [];
                         console.log(response);
+                        this.closePasswordModal();
+                        this.toastr.success("Signed using DSC successfully");
                     },
                     (error) => {
                         console.error('Error occurred while calling third API:', error);

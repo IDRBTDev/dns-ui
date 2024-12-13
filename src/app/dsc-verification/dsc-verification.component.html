@@ -1,12 +1,12 @@
 
-<div class="container mt-5">
-  <div class="card card-custom">
+<div class="container mt-5 d-flex justify-content-center align-items-center">
+  <div class="card card-custom ">
     <div class="text-center">
-      <h4 class="text-left">Certification of Authorized Officer through DSC</h4>
+      <h1 style="font-weight:500;" class="text-center">Certification of Authorized Officer through DSC</h1>
     </div>
 
     <div class="card-body">
-      <form>
+      <form #form="ngForm">
         <p class="passage-text">
           I
           <input
@@ -16,6 +16,7 @@
             name="name"
             placeholder="Name"
             style="width: 300px"
+            required
           />
           son/daughter of
           <input
@@ -25,14 +26,18 @@
             name="fatherName"
             placeholder="Father's Name"
             style="width: 300px"
+            required
           />
           aged
           <input
-            type="number"
+            type="text"
             class="form-control inline-field small-field rounded-input"
             [(ngModel)]="formData.age"
             name="age"
             placeholder="Age"
+            (input)="onAgeInput($event)"
+          [class.is-invalid]="ageError" 
+            required
           />
           years, hereby undertake that I am working with
           <input
@@ -42,6 +47,7 @@
             name="organisationName"
             placeholder="Organisation's Name"
             style="width: 300px"
+            required
           />
           as
           <input
@@ -51,6 +57,7 @@
             name="designation"
             placeholder="Designation"
             style="width: 300px"
+            required
           />
           and I am authorized to sign the legal documents on behalf of
           <input
@@ -60,17 +67,19 @@
             name="authOrganisationName"
             placeholder="Authorised Organisation's Name"
             style="width: 300px"
+            required
           />
           .
         </p>
 
-        <div class="form-check mb-3">
+        <div class="form-check mb-3" style="margin-top: 10px;">
           <input
             class="form-check-input"
             type="checkbox"
             id="agree"
             [(ngModel)]="formData.agree"
             name="agree"
+            required
           />
           <label class="form-check-label" for="agree">
             I agree to the terms and conditions
@@ -80,15 +89,25 @@
         <div *ngIf="validationError" class="text-danger mb-3">
           {{ validationError }}
         </div>
+        <div *ngIf="ageError" class="text-danger">
+          Please enter a valid age below 150.
+        </div>
 
         <div class="text-center">
           <button
             type="button"
             class="btn btn-primary"
-            (click)="openPasswordModal()"
+            (click)="affixDSC()"
+            
           >
             Affix DSC
           </button>
+          <!-- Loading Spinner -->
+        <div *ngIf="isLoading" class="spinner-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
         </div>
       </form>
     </div>
@@ -103,24 +122,19 @@
     style="display: block"
     *ngIf="isPasswordModalOpen"
   >
-    <div class="modal-dialog" role="document" style="max-width: 400px; width: 100%">
+    <div class="modal-dialog" role="document" style="max-width:550px; width:100%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Enter DSC Token Pin</h5>
-          <button
-            type="button"
-            class="btn-close mb-2"
-            aria-label="Close"
-            (click)="closePasswordModal()"
-          >
-            &times;
-          </button>
+          <h1 class="modal-title">Sign Using DSC</h1>
+
+          <button type="button" class="btn-close" (click)="closePasswordModal()"></button>
+
         </div>
 
         <div class="modal-body">
 
-          <div *ngIf="tokens.length >= 0">
-            <label for="tokenSelect">Select DSC Token</label>
+          <div *ngIf="tokens.length >= 0" style="margin-bottom: 20px; margin-top: 10px;">
+            <label for="tokenSelect">Select DSC Token</label><span class="text-danger">*</span>
             <select id="tokenSelect" class="form-control" [(ngModel)]="selectedToken" (change)="onTokenSelect()">
               <option value="" disabled selected>Select Token</option>
               <option *ngFor="let token of tokens" [ngValue]="token">
@@ -128,8 +142,8 @@
               </option>
             </select>
           </div>
-          <div *ngIf="certificates.length >= 0">
-            <label for="certificateSelect">Select Certificate</label>
+          <div *ngIf="certificates.length >= 0"style=" margin-bottom: 20px;">
+            <label for="certificateSelect">Select Certificate</label><span class="text-danger">*</span>
             <select
               id="certificateSelect"
               class="form-control"
@@ -142,8 +156,8 @@
             </select>
           </div>
 
-          <div>
-            <label for="dataTypeSelect">Data Type</label>
+          <div style=" margin-bottom: 20px;">
+            <label for="dataTypeSelect">Data Type</label><span class="text-danger">*</span>
             <select id="dataTypeSelect" class="form-control" [(ngModel)]="selectedDataType">
               <option value="" disabled>Select Data Type</option>
               <option *ngFor="let type of dataTypes" [ngValue]="type">
@@ -152,7 +166,7 @@
             </select>
           </div>
 
-          <label for="passwordInput" class="form-label">Token Pin</label>
+          <label for="passwordInput" class="form-label">Token Pin</label><span class="text-danger">*</span>
           <input
             id="passwordInput"
             type="password"
@@ -166,7 +180,7 @@
           </div>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; margin: 20px;">
+        <div style="display:flex; justify-content: flex-end; margin: 20px; margin-bottom: 15px;">
           <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
           <button
             type="button"
