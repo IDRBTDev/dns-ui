@@ -46,7 +46,11 @@ export class RgntDomainComponent implements OnInit {
     console.log(this.organisationId);
     // if(this.role !== 'IDRBTADMIN'){
     //   console.log('exe')
-       this.getAllDomainsListByOrgId(this.organisationId);
+    if(this.organisationId > 0){
+      this.getAllDomainsListByOrgId(this.organisationId);
+    }else{
+      this.domainsList = [];
+    }
     // }else{
       //console.log('exe 1')
       //this.getAllDomainsList(this.userEmailId);
