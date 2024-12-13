@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dsc-verification',
@@ -42,7 +43,7 @@ export class DscVerificationComponent {
   embridgeUrl = 'https://localhost.emudhra.com:26769';
   dscApi = 'http://localhost:9012';
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {}
   onAgeInput(event: any) {
     const inputValue = event.target.value;
     
@@ -314,9 +315,11 @@ export class DscVerificationComponent {
                         console.log(response);
                         this.closePasswordModal();
                         this.toastr.success("Signed using DSC successfully");
+                        this.router.navigateByUrl('/rgnt-domains');
                     },
                     (error) => {
                         console.error('Error occurred while calling third API:', error);
+
                     }
                 );
 
