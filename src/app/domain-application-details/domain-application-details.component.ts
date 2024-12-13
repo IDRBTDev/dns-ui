@@ -15,6 +15,8 @@ import { Domain } from '../model/domain.model';
 })
 export class DomainApplicationDetailsComponent implements OnInit{
 
+  role: string = localStorage.getItem('userRole');
+
   constructor(private route: ActivatedRoute,
     private domainService: DomainService,
      private oreganizationService:DomainApplicationDetailsService,
