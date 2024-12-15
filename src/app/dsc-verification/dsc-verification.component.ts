@@ -86,10 +86,10 @@ export class DscVerificationComponent {
   }
 
   openPasswordModal() {
-    
-    this.validationError = '';
-    this.getDscResponse();
-    this.isPasswordModalOpen = true;
+    this.router.navigateByUrl('/rgnt-domains');
+    // this.validationError = '';
+    // this.getDscResponse();
+    // this.isPasswordModalOpen = true;
   }
 
   closePasswordModal() {

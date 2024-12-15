@@ -87,7 +87,8 @@
                                     <div class="col-4">
                                         <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                         <div>
-                                            <select [disabled]="role === 'IDRBTADMIN'" class="form-control" 
+                                            <select disabled="true"
+                                            class="form-control" 
                                             [(ngModel)]="domainsList.paymentStatus" 
                                             (ngModelChange)="onPaymentStatusChange()">
                                                 <option value="" disabled selected>Select Status</option>
@@ -102,7 +103,7 @@
                                         <h5 style="font-size: 16px; color:#000000">NS Status</h5>
                                             <select
                                              class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
-                                              [disabled]="role !== 'IDRBTADMIN' && domainsList.paymentStatus !== 'Paid'">
+                                              [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                 <option value="" disabled selected>Select Status</option>
                                                
                                                 <option value="OnHold">OnHold</option>
@@ -117,7 +118,7 @@
                                         <div>
                                             <select
                                              class="form-control" [(ngModel)]="domainsList.status" 
-                                             [disabled]="role !== 'IDRBTADMIN' && domainsList.paymentStatus !== 'Paid'">
+                                             [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                 <option value="" disabled selected>Select Status</option>
                                                 <option *ngFor="let status of status" [value]="status">{{ status }}</option>
                                                 <option value="Active">Active</option>

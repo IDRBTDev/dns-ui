@@ -184,7 +184,11 @@ export class DomainApplicationComponent {
   }
   
   navigateToDomainDetails(domainId: number) {
-    this.router.navigate(['/domain-application-details'], { queryParams: { domainId: domainId } });
+    if(this.role === 'IDRBTADMIN'){
+      this.router.navigate(['/domain-application-details'], { queryParams: { domainId: domainId } });
+    }else{
+      this.router.navigate(['/rngt-app-details'], { queryParams: { domainId: domainId } });
+    }
   }
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');

@@ -72,6 +72,7 @@ import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
+import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
  
 Chart.register(ChartDataLabels);
 
@@ -126,6 +127,7 @@ Chart.register(ChartDataLabels);
     RgtrUsrMgmtComponent,
     RgtrDomainComponent,
     DscVerificationComponent,
+    RgntDomainApplicationDetailsComponent,
   ],
   imports: [
     BrowserModule,
