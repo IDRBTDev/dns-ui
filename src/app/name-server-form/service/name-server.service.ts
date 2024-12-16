@@ -44,5 +44,13 @@ export class NameServerService {
       observe: 'response',
     });
   }
+
+  updateListNameServer(data: any): Observable<HttpResponse<any>> {
+    return this.http.put<HttpResponse<any>>(
+      `${this.nameServerUrl}/updateList`,
+      data,
+      { observe: 'response' }
+    );
+  }
   
 }

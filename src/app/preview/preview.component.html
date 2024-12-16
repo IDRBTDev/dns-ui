@@ -974,34 +974,26 @@
 
 
                             <div class="form-group">
-
-                                <div *ngFor="let item of nameDetails">
-                                    <label for="hostName">Name Server 1 Host Name:</label>
-
-
-
-                                    <input type="text" class="form-control" id="hostName"
-                                        [(ngModel)]="item.hostName">
-
-                                        <label for="ipAddress">Name Server 1 IP Address:</label>
-
-
-
-                                <input type="text" class="form-control" id="ipAddress"
-                                    [(ngModel)]="item.ipAddress">
-                                </div>
-
-                               
-
-
-
-                            </div>
-
-
-
                             
-
-
+                                <div *ngFor="let item of nameDetails; let i = index">
+                                    <label for="hostName">Name Server {{i+1}} Host Name:</label>
+                            
+                            
+                            
+                                    <input type="text" class="form-control" id="hostName" [(ngModel)]="item.hostName">
+                            
+                                    <label for="ipAddress">Name Server {{i+1}} IP Address:</label>
+                            
+                            
+                            
+                                    <input type="text" class="form-control" id="ipAddress" [(ngModel)]="item.ipAddress">
+                                </div>
+                            
+                            
+                            
+                            
+                            
+                            </div>
                         </div>
 
 

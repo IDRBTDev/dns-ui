@@ -3,12 +3,12 @@
     <div class="content-area">
       <app-main-header></app-main-header>
       <div class="container-fluid">
-        <div *ngIf="domainsList.length < 1 ;else displayDomains">
+        <div *ngIf="domainsList?.length < 1 ;else displayDomains">
           <app-user-domain-details></app-user-domain-details>
         </div>
         <div>
           <ng-template #displayDomains>
-            <div *ngIf="domainsList.length > 0 && role != 'IDRBTADMIN'" class="row" style="padding-top: 100px;">
+            <div *ngIf="domainsList?.length > 0 && role != 'IDRBTADMIN'" class="row" style="padding-top: 100px;">
               <div class="col-sm-12">
                 <h3 class="d-flex align-items-center">
                   Domains 

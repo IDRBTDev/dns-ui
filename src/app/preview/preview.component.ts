@@ -511,7 +511,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updateNameServers(){
-    await lastValueFrom(this.namServerService.updateNameServer(this.cards[5].details)).then(
+    await lastValueFrom(this.namServerService.updateListNameServer(this.nameDetails)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
           console.log('Name Server details saved successfully'+response.body);
