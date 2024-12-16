@@ -241,6 +241,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       );
     }
   }
+  nameDetails:any
 
   fetchDataFromAPIs() {
     this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({
@@ -374,6 +375,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       .subscribe({
         next: (data) => {
           console.log(data)
+          this.nameDetails=data;
           this.cards[5].details.nameServerId = data[0].nameServerId;
           this.cards[5].details.hostName = data[0].hostName;
           this.cards[5].details.ipAddress = data[0].ipAddress;
