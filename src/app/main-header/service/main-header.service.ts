@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "src/app/environments/environment";
 import { User } from "src/app/model/user.model";
 
 @Injectable({
@@ -8,11 +9,11 @@ import { User } from "src/app/model/user.model";
 })
 
 export class MainHeaderService{
-    private userDetailsUrl = 'http://localhost:9002/dr/user/get';
-    private uploadProfilePictureUrl = 'http://localhost:9002/dr/user/upload-profile-picture';
-    private resetUrl = 'http://localhost:9002/dr/user/reset-password';
-    private oldUrl = 'http://localhost:9002/dr/user/check-oldpassword';
-    private deleteProfilePictureUrl = 'http://localhost:9002/dr/user/deleteprofilepicture';
+    private userDetailsUrl = environment.apiURL+'/dr/user/get';
+    private uploadProfilePictureUrl = environment.apiURL+'/dr/user/upload-profile-picture';
+    private resetUrl =  environment.apiURL+'/dr/user/reset-password';
+    private oldUrl =  environment.apiURL+'/dr/user/check-oldpassword';
+    private deleteProfilePictureUrl =  environment.apiURL+'/dr/user/deleteprofilepicture';
     constructor(private httpClient: HttpClient){}
 
     getUserDetailsById(userId: string): Observable<User> {

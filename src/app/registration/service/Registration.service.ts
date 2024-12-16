@@ -1,15 +1,16 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "src/app/environments/environment";
 
 @Injectable({
     providedIn : 'root'
 })
 export class RegistrationService{
 
-    private drRegUrl = 'http://localhost:9002/dr/user/save';
-    private verifyOtpUrl = 'http://localhost:9002/dr/user/verify-otp'; 
-    private userRegUrl = 'http://localhost:9002/dr/registerDetail';
-    private getRegUserUrl = 'http://localhost:9002/dr/registerDetail/get';
+    private drRegUrl = environment.apiURL+'/dr/user/save';
+    private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp'; 
+    private userRegUrl = environment.apiURL+'/dr/registerDetail';
+    private getRegUserUrl = environment.apiURL+'/dr/registerDetail/get';
 
     constructor(private httpClient: HttpClient){
 

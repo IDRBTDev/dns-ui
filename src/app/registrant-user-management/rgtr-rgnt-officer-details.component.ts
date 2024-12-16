@@ -108,7 +108,8 @@ export class RgtrRgntOfficerDetailsComponent {
         'documents',
         'approveOrReject',
         'loginStatus',
-        'isActive'
+        'isActive',
+        'actions'
       ]; 
     //}
 
@@ -497,6 +498,24 @@ export class RgtrRgntOfficerDetailsComponent {
        this.options = Array.from(this.userInActiveMap, ([key, value]) => ({ key, value }));
        console.log(this.userInActiveMap)
      }
+  }
+
+  /**
+   * 
+   * @param id 
+   */
+  async getUserById(id: number, contactRole: string){
+    if(contactRole === 'AdminOfficer'){
+      this.getAdminOfficerDetails(id);
+    }else if(contactRole === 'TechnicalOfficer'){
+      await this.getTechnicalOfficerDetails(id);
+    }else{
+      await this.getBillingOfficerDetails(id);
+    }
+  }
+  
+  async getContactOfficerById(id: number){
+
   }
 
 }

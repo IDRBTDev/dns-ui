@@ -81,7 +81,7 @@
               <ng-container matColumnDef="paymentStatus">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>payment Status</th>
                 <td mat-cell *matCellDef="let domain">{{domain.paymentStatus}} 
-                  <button class="btn btn-primary btn-sm" *ngIf="domain.paymentStatus === 'Unpaid'" (click)="openPaymentDialog(domain.domainId)">Pay</button>
+                  <button class="btn btn-primary btn-sm" *ngIf="domain.paymentStatus === 'Unpaid' && role != 'IDRBTADMIN'" (click)="openPaymentDialog(domain.domainId)">Pay</button>
                 </td>
               </ng-container>
               <ng-container matColumnDef="nsRecordStatus">

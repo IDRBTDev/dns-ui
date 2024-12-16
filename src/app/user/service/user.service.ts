@@ -1,17 +1,18 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "src/app/environments/environment";
 
 @Injectable({
     providedIn : 'root'
 })
 export class UserService{
 
-    private drRegUrl = 'http://localhost:9002/dr/user/save';
-    private getAllUsersUrl = 'http://localhost:9002/dr/user/all';
-    private getUserUrl = 'http://localhost:9002/dr/user/getDetails';
-    private updateUserUrl = 'http://localhost:9002/dr/user/update';
-    private deleteUserUrl = 'http://localhost:9002/dr/user/delete';
-    private getUserByEmailUrl = 'http://localhost:9002/dr/user/get';
+    private drRegUrl = environment.apiURL+'/dr/user/save';
+    private getAllUsersUrl = environment.apiURL+'/dr/user/all';
+    private getUserUrl = environment.apiURL+'/dr/user/getDetails';
+    private updateUserUrl = environment.apiURL+'/dr/user/update';
+    private deleteUserUrl = environment.apiURL+'/dr/user/delete';
+    private getUserByEmailUrl = environment.apiURL+'/dr/user/get';
     
     constructor(private httpClient: HttpClient){
 
@@ -43,7 +44,7 @@ export class UserService{
         return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});
     }
     getAllActiveUsers(){
-        const url = "http://localhost:9002/dr/user";
+        const url = environment.apiURL+"/dr/user";
         console.log('API URL:', url); 
         return this.httpClient.get<number>(url+"/"+"activeUser", { observe: 'response' });
     }

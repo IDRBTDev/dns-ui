@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NameServerService {
-  private nameserverurl = 'http://localhost:9002/dr/nameServer/update'; 
+  private nameserverurl = environment.apiURL+'/dr/nameServer/update'; 
 
   constructor(private http: HttpClient) { }
 

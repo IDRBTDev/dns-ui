@@ -37,8 +37,7 @@ import { RgtrRgntUserMgmtComponent } from './user/rgtr-rgnt-usr-mgmt.component';
 import { RgtrUsrMgmtComponent } from './rgtr-usr-mgmt/rgtr-usr-mgmt.component';
 import { RgtrDomainComponent } from './rgtr-domain/rgtr-domain.component';
 import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
-
-
+import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
 
 
 const routes: Routes = [
@@ -86,7 +85,8 @@ const routes: Routes = [
   {path:'rgnt-domains', component: RgntDomainComponent},
   {path:'rgtr-domains', component: RgtrDomainComponent},
   {path: 'dsc-verification', component: DscVerificationComponent},
-  {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent}
+  {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
+  {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent}
 
 
 ];

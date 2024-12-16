@@ -72,7 +72,7 @@ export class LoginComponent {
             this.router.navigateByUrl('/rgtr-dashboard');
             this.toastr.success('Login Success');
            }else{
-            this.router.navigateByUrl('/rgnt-domains');
+            this.router.navigateByUrl('/dsc-verification');
             this.toastr.success('Login Success');
           }
         },error => {

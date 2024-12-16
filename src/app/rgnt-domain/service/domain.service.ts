@@ -1,13 +1,14 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { filter, Observable } from "rxjs";
+import { environment } from "src/app/environments/environment";
 
 @Injectable({
     providedIn:'root'
 })
 export class DomainService{
 
-    private domainsUrl = 'http://localhost:9002/dr/domain';
+    private domainsUrl = environment.apiURL+'/dr/domain';
 
     constructor(private httpClient: HttpClient){}
 

@@ -87,19 +87,23 @@
                                     <div class="col-4">
                                         <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                         <div>
-                                            <select class="form-control" [(ngModel)]="domainsList.paymentStatus" (ngModelChange)="onPaymentStatusChange()">
+                                            <select disabled="true"
+                                            class="form-control" 
+                                            [(ngModel)]="domainsList.paymentStatus" 
+                                            (ngModelChange)="onPaymentStatusChange()">
                                                 <option value="" disabled selected>Select Status</option>
-                                                <option value="paid">Paid</option>
+                                                <option value="Paid">Paid</option>
                                                 <option value="Unpaid">Unpaid</option>
-                                                <option value="initiated">Initiated</option>
+                                                <option value="Initiated">Initiated</option>
                                             </select>
                                         </div>
                                     </div>
                                 
                                     <div class="col-4">
                                         <h5 style="font-size: 16px; color:#000000">NS Status</h5>
-                                        
-                                            <select class="form-control" [(ngModel)]="domainsList.nsRecordStatus" [disabled]="domainsList.paymentStatus !== 'paid'">
+                                            <select
+                                             class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
+                                              [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                 <option value="" disabled selected>Select Status</option>
                                                
                                                 <option value="OnHold">OnHold</option>
@@ -109,10 +113,12 @@
                                             </select>
                                         </div>
                                     
-                                    <div  class="col-4">
+                                    <div class="col-4">
                                         <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
                                         <div>
-                                            <select class="form-control" [(ngModel)]="domainsList.status" [disabled]="domainsList.paymentStatus !== 'paid'">
+                                            <select
+                                             class="form-control" [(ngModel)]="domainsList.status" 
+                                             [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                 <option value="" disabled selected>Select Status</option>
                                                 <option *ngFor="let status of status" [value]="status">{{ status }}</option>
                                                 <option value="Active">Active</option>
@@ -121,7 +127,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
 
                                 <div class="button-group">
                                     <button type="button" (click)="updateDomain()">Submit</button>

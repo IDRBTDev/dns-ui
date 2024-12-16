@@ -8,7 +8,8 @@
         <h3>Contact Details</h3>
 
         <!-- Entire form in one form group -->
-        <form [formGroup]="fullForm">
+        <form [formGroup]="fullForm" 
+        *ngIf="choosenContactType === ''">
           <!-- Administrative Card -->
           <div class="card mt-4 mb-4 ">
             <div class="card-header">

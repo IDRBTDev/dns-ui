@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
+//import { environment } from 'src/app/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +13,15 @@ export class ContactDetailsFormService {
   // private techApiUrl = 'http://localhost:9010/dr/techContact';
   // private billApiUrl = 'http://localhost:9010/dr//billContact';
 
-  private adminApiUrl = 'http://localhost:9002/dr/administrativeContact';
+  private adminApiUrl = environment.apiURL+'/dr/administrativeContact';
 
 
 
-  private techApiUrl = 'http://localhost:9002/dr/technicalContact';
+  private techApiUrl = environment.apiURL+'/dr/technicalContact';
 
 
 
-  private billApiUrl = 'http://localhost:9002/dr/billingContact';
+  private billApiUrl = environment.apiURL+'/dr/billingContact';
 
 
   constructor(private http: HttpClient) {}

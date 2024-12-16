@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable } from 'rxjs';
+import { environment } from "src/app/environments/environment";
 import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 
@@ -9,7 +10,7 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 })
 
 export class DomainInvoiceService{
-    private domainInvoiceUrl = 'http://localhost:9002/dr/billingHistory/all';
+    private domainInvoiceUrl = environment.apiURL+'/dr/billingHistory/all';
 
     constructor(private httpClient: HttpClient){}
 

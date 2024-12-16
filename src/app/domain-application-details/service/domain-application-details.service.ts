@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "src/app/environments/environment";
 import { Domain } from "src/app/model/domain.model";
 
 
@@ -8,8 +9,8 @@ import { Domain } from "src/app/model/domain.model";
 })
 
 export class DomainApplicationDetailsService{
-    private domainsUrl = 'http://localhost:9002/dr/domain';
-    private domainOrgUrl = 'http://localhost:9002/dr/organisationDetails';
+    private domainsUrl = environment.apiURL+'/dr/domain';
+    private domainOrgUrl = environment.apiURL+'/dr/organisationDetails';
 
 
     constructor(private httpClient: HttpClient){}

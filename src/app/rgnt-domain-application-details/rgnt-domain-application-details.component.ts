@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { DomainService } from '../rgnt-domain/service/domain.service';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpStatusCode } from '@angular/common/http';
-import { DomainApplicationDetailsService } from './service/domain-application-details.service';
+import { DomainService } from '../rgnt-domain/service/domain.service';
+import { DomainApplicationDetailsService } from '../domain-application-details/service/domain-application-details.service';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs';
 import { Domain } from '../model/domain.model';
-
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
-  selector: 'app-domain-application-details',
-  templateUrl: './domain-application-details.component.html',
-  styleUrls: ['./domain-application-details.component.css']
+  selector: 'app-rgnt-domain-application-details',
+  templateUrl: './rgnt-domain-application-details.component.html',
+  styleUrls: ['./rgnt-domain-application-details.component.css']
 })
-export class DomainApplicationDetailsComponent implements OnInit{
+export class RgntDomainApplicationDetailsComponent {
 
   role: string = localStorage.getItem('userRole');
 
@@ -139,8 +137,5 @@ setNsStatusOptions() {
 cancelDomain(){
 this.router.navigateByUrl('applications');
 }
+
 }
-  
-
-
-

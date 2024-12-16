@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable } from 'rxjs';
+import { environment } from "src/app/environments/environment";
 import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 @Injectable({
@@ -8,7 +9,7 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 })
 export class AdminInvoiceDetailsService {
 
-  private adminInvoiceDetailsUrl = 'http://localhost:9002/dr/billingHistory';
+  private adminInvoiceDetailsUrl = environment.apiURL+'/dr/billingHistory';
 
   constructor(private httpClient: HttpClient) {}
 
