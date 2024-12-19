@@ -73,7 +73,7 @@
 
     font-size: 1.2rem;
 
-  } */ */
+  } */
 
   
 
@@ -82,7 +82,8 @@
 }
 
 .card-custom {
-    margin: auto;
+    /* margin: auto; */
+    margin-top: 60px;
     max-width: 1300px; /* Adjust the maximum width of the card */
     width: 150%;      /* Make the card responsive and take full container width */
     height: 380px;    /* Increase the height of the card */
@@ -107,8 +108,7 @@
 }
 
 .modal-title{
-    visibility: None;
-
+  visibility: None;
 }
 
 /* dsc-verification.component.css */
