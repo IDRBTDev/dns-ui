@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { DomainApplicationDetailsService } from '../domain-application-details/service/domain-application-details.service';
 import { ToastrService } from 'ngx-toastr';
 import { Domain } from '../model/domain.model';
 import { HttpStatusCode } from '@angular/common/http';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 
 @Component({
   selector: 'app-rgnt-domain-application-details',
@@ -13,13 +15,19 @@ import { HttpStatusCode } from '@angular/common/http';
 })
 export class RgntDomainApplicationDetailsComponent {
 
+  @ViewChild('paymentDialog') paymentDialog!: TemplateRef<any>;
+  selectedFile: File | null = null;
+  dialogRef!: MatDialogRef<any>;
+  selectedFileName: string = 'No File Selected';
+
   role: string = localStorage.getItem('userRole');
 
   constructor(private route: ActivatedRoute,
     private domainService: DomainService,
      private oreganizationService:DomainApplicationDetailsService,
      private toastrService: ToastrService,
-    private router: Router) {
+    private router: Router,
+  private dialog: MatDialog) {
     
   }
   domainId: number; 
@@ -138,4 +146,42 @@ cancelDomain(){
 this.router.navigateByUrl('applications');
 }
 
+openPaymentDialog(): void {
+  this.dialogRef = this.dialog.open(this.paymentDialog, {
+    width: '500px',
+  });
+}
+
+onFileSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.selectedFile = input.files[0];
+    this.selectedFileName = input.files[0].name; 
+    console.log(`File selected: ${this.selectedFile.name}`);
+  }
+} 
+async confirmPayment(): Promise<void> {
+  if (this.selectedFile) {
+      const domainId = this.domainId.toString();
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
+      formData.append('domainId', domainId);
+
+      try {
+          const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
+          console.log('Server Response:', response); // Plain text response
+          this.domainsList.paymentStatus ='Initiated';
+          this.dialogRef.close();
+      } catch (error) {
+          console.error('Error uploading payment receipt:', error);
+      }
+  } else {
+      console.error('No file selected');
+  }
+}
+
+
+onDialogClose(): void {
+  this.dialogRef.close();
+}
 }

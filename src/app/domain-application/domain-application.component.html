@@ -81,7 +81,6 @@
               <ng-container matColumnDef="paymentStatus">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>payment Status</th>
                 <td mat-cell *matCellDef="let domain">{{domain.paymentStatus}} 
-                  <button class="btn btn-primary btn-sm" *ngIf="domain.paymentStatus === 'Unpaid' && role != 'IDRBTADMIN'" (click)="openPaymentDialog(domain.domainId)">Pay</button>
                 </td>
               </ng-container>
               <ng-container matColumnDef="nsRecordStatus">
@@ -116,29 +115,6 @@
   </div>
 </div>
 
-<!-- payment dialog -->
-<ng-template #paymentDialog>
-  <h2 mat-dialog-title>Upload Payment Receipt</h2>
-  <mat-dialog-content class="d-flex flex-column align-items-center text-center">
-    <!-- <p>Please upload payment receipt:</p> -->
-    <label for="fileInput" class="btn btn-primary">
-      Upload File
-      <input
-        id="fileInput"
-        type="file"
-        (change)="onFileSelected($event)"
-        style="display: none"
-      />
-    </label>
-    <div *ngIf="selectedFileName" class="text-danger">
-      <span>{{ selectedFileName }}</span>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions class="justify-content-between">
-    <button class="btn btn-secondary btn" (click)="onDialogClose()">Cancel</button>
-    <button  class="btn btn-primary btn" (click)="confirmPayment()">Submit</button>
-  </mat-dialog-actions>
-</ng-template>
 <!-- Modal -->
  <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" 
   aria-hidden="true">

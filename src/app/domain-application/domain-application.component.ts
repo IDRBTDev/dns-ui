@@ -16,12 +16,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class DomainApplicationComponent {
 
 
-  @ViewChild('paymentDialog') paymentDialog!: TemplateRef<any>;
-  selectedFile: File | null = null;
-  dialogRef!: MatDialogRef<any>;
-  selectedFileName: string = 'No File Selected';
-  domainId: string | null = null;
-
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
 
@@ -143,45 +137,6 @@ export class DomainApplicationComponent {
   //     }
   //   );
   // }
-  openPaymentDialog(domainId: string): void {
-    this.dialogRef = this.dialog.open(this.paymentDialog, {
-      width: '400px',
-      data: { domainId },
-    });
-    this.domainId = domainId;
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.selectedFileName = input.files[0].name; 
-      console.log(`File selected: ${this.selectedFile.name}`);
-    }
-  } 
-  async confirmPayment(): Promise<void> {
-    if (this.selectedFile) {
-        const domainId = this.domainId;
-        const formData = new FormData();
-        formData.append('file', this.selectedFile, this.selectedFile.name);
-        formData.append('domainId', domainId);
-
-        try {
-            const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
-            console.log('Server Response:', response); // Plain text response
-            this.dialogRef.close();
-        } catch (error) {
-            console.error('Error uploading payment receipt:', error);
-        }
-    } else {
-        console.error('No file selected');
-    }
-}
-
-
-  onDialogClose(): void {
-    this.dialogRef.close();
-  }
   
   navigateToDomainDetails(domainId: number) {
     if(this.role === 'IDRBTADMIN'){

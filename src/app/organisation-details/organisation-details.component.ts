@@ -65,7 +65,7 @@ export class OrganisationDetailsComponent implements OnInit {
         }
     }
     preventSpecialChars(event: KeyboardEvent): void {
-        const regex = /^[a-zA-Z0-9]+$/; // Only allows alphanumeric characters
+        const regex = /^[a-zA-Z0-9\s]+$/; // Only allows alphanumeric characters
         const key = event.key;
         if (!regex.test(key)) {
           event.preventDefault(); // Prevent the default behavior if the character is not allowed
