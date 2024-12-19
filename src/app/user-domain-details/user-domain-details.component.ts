@@ -50,17 +50,6 @@ export class UserDomainDetailsComponent implements OnInit {
 
   }
 
-  ngAfterViewInit(): void {
-
-    // Make sure the modal is shown after the view is initialized
-
-    if (this.reminder) {
-
-      this.reminder.openModal();  // Open the modal when the parent page loads
-
-    }
-
-  }
 
   onSearch() {
 

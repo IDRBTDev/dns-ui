@@ -9,17 +9,20 @@ declare var bootstrap: any;  // Bootstrap JS library
 })
 export class ReminderComponent implements OnInit {
 
-  private modal: any;
+  private modal: bootstrap.Modal | null = null;
 
   constructor() { }
 
   ngOnInit(): void {
+    const modalElement = document.getElementById('reminderModal');
+    if (modalElement) {
+      this.modal = new bootstrap.Modal(modalElement,{backdrop: "static", Keyboard: "false"})
+    }
+    this.openModal()
   }
 
   // Open the modal
   openModal(): void {
-    const modalElement = document.getElementById('reminderModal');
-    this.modal = new bootstrap.Modal(modalElement); // Create modal instance
     this.modal.show(); // Show modal
   }
 
