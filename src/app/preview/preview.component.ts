@@ -12,6 +12,8 @@ import { UserService } from '../user/service/user.service';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 import { NotificationService } from '../notification/service/notification.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { DscVerificationComponent } from '../dsc-verification/dsc-verification.component';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-preview',
@@ -24,6 +26,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
   @ViewChild(DocumentUploadComponent, { static: false }) documentUploadComponent?: DocumentUploadComponent;
+  @ViewChild(DscVerificationComponent, { static: false }) dscVerificationComponent!: DscVerificationComponent;
   @Input() organisationId: number = 0;
   @Input() domainId: number = 0;
 
@@ -32,6 +35,35 @@ export class PreviewComponent implements OnInit, OnChanges {
   notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
+
+  formData = {
+    name: '',
+    organisationName: '',
+    designation: '',
+  };
+  
+  tokenPassword = '';
+  passwordErrorMessage = '';
+  isSigned= false;
+  isLoading : boolean = false;
+  tokens: any[] = [];
+  certificates: any[] = [];
+  
+  dataTypes: string[] = [
+    'TextPKCS7',
+    'TextPKCS1',
+    'XML',
+    'Sha256HashPKCS7',
+    'Sha256HashPKCS1',
+    'TextPKCS7ATTACHED'
+  ];
+  selectedToken: any = null;
+  selectedCertificate: any = null;
+  selectedDataType: string = '';
+  embridgeUrl = 'https://localhost.emudhra.com:26769';
+  dscApi = 'http://localhost:9002';
+  enable: boolean = true;
+
 
   // domainDetails: any;
   // administrativeDetails: any;
@@ -46,12 +78,11 @@ export class PreviewComponent implements OnInit, OnChanges {
     }
   }
 
+  private modalInstance: bootstrap.Modal | null = null;
+
   ngOnInit(): void {
     this.fetchDataFromAPIs();
     this.loadNotifications();
-    // console.log(JSON.parse(localStorage.getItem('admindocs')))
-    // console.log(JSON.parse(localStorage.getItem('techdocs')))
-    // console.log(JSON.parse(localStorage.getItem('billdocs')))
   }
 
 
@@ -290,6 +321,10 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[1].details.userMailId = data.userMailId;
           this.cards[1].details.userName = data.userName;
           this.cards[1].details.applicationId = data.applicationId;
+
+
+          // for signing
+          this.formData.organisationName=data.institutionName;
         },
         error: (error) =>
           console.error('Error fetching organisation details:', error),
@@ -314,6 +349,9 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[2].details.userMailId = data.userMailId;
           this.cards[2].details.userName = data.userName;
           this.cards[2].details.applicationId = data.applicationId;
+          // for siginng
+          this.formData.name=data.adminFullName;
+          this.formData.designation=data.adminDesignation;
         },
         error: (error) =>
           console.error('Error fetching admin contact details:', error),
@@ -639,5 +677,235 @@ onPdfViewClick(pdfUrl) {
   this.imagUrl = null
   this.pdfUrl = pdfUrl
 }
+
+toggleModal(): void {
+  // const isChecked = (event.target as HTMLInputElement).checked;
+  // console.log("jshdfgjk");
+  // if (isChecked) {
+    this.isLoading = true;
+    this.getDscResponse();
+    const modalElement = document.getElementById('passwordModal');
+    console.log(modalElement)
+    console.log("kauyrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    if (modalElement) {
+      this.modalInstance = new bootstrap.Modal(modalElement,{
+        backdrop: 'static',  // This ensures that the backdrop is static (clicking outside won't close the modal)
+        keyboard: false      // This disables closing the modal with the escape key
+      });
+    }
+     // Show the modal when the checkbox is checked
+  // } else {
+  //   this.modalInstance.hide(); // Hide the modal when the checkbox is unchecked
+  // }
+}
+
+closePasswordModal() {
+  if (!this.isSigned) {
+    const checkbox = document.getElementById('toggleModalCheckbox') as HTMLInputElement;
+    if (checkbox) {
+      checkbox.checked = false; // Uncheck the checkbox
+    }
+  }
+  
+  this.modalInstance.hide();  // Hide the modal
+  this.tokenPassword = '';
+  this.passwordErrorMessage = '';
+  this.tokens = [];
+  this.selectedToken = null;
+}
+getDscResponse() {
+  this.http.get(`${this.dscApi}/dsc/getTokenRequest`).subscribe(
+    (response: any) => {
+      console.log('Response from first API:', response);
+      if (response && response.encryptedData && response.encryptionKeyID) {
+        const payload = {
+          encryptedRequest: response.encryptedData,
+          encryptionKeyID: response.encryptionKeyID
+        };
+        this.http.post(`${this.embridgeUrl}/DSC/ListToken`, payload).subscribe(
+          (secondApiResponse: any) => {
+            console.log('Response from second API:', secondApiResponse);
+            if (secondApiResponse) {
+              const secondApiResponseData = secondApiResponse.responseData;
+              this.http.get(`${this.dscApi}/dsc/getTokenList?data=${encodeURIComponent(secondApiResponseData)}`).subscribe(
+                  (response: any) => {
+                      console.log('Response from third API:', response);
+                      if(response.tokenNames != null && response.tokenNames.length != 0){
+                        this.tokens = response.tokenNames;
+                        this.isLoading = false;
+                        this.modalInstance.show();
+                        this.toastr.success("Fetched tokens successfully");
+                      }
+                      else{
+                        this.tokens = [];
+                        this.isLoading = false;
+                        this.toastr.error("Failed to fetch tokens");
+                        this.toastr.warning("If DSC token is not inserted, please insert your DSC Token");
+                      }
+                      console.log('====================================>'+this.selectedToken);
+                  },
+                  (error) => {
+                      console.error('Failed to get valid tokens.', error);
+                      this.isLoading = false;
+                      this.toastr.warning("If DSC token is not inserted, please insert your DSC Token");
+                  }
+              );
+
+            }
+          },
+          (secondApiError) => {
+            console.error('Failed to get valid tokens.', secondApiError);
+            this.passwordErrorMessage = 'Failed to get valid tokens.';
+            this.isLoading = false;
+            this.toastr.warning("If DSC token is not inserted, please insert your DSC Token");
+          }
+        );
+      } else {
+        this.passwordErrorMessage = 'Failed to get valid tokens.';
+        this.isLoading = false;
+        this.toastr.warning("If DSC token is not inserted, please insert your DSC Token");
+      }
+    },
+    (error) => {
+      console.error('Error occurred while fetching tokens from the first API:', error);
+      this.passwordErrorMessage = 'Failed to get encrypted response from "getTokenRequest".';
+      this.isLoading = false;
+      this.toastr.warning("If DSC token is not inserted, please insert your DSC Token");
+    }
+  );
+}
+
+onTokenSelect(){
+  this.isLoading = true;
+  console.log('Selected Token:', this.selectedToken);
+  this.http.get(`${this.dscApi}/dsc/getCertificateRequest?keyStoreDisplayName=${encodeURIComponent(this.selectedToken)}`).subscribe(
+    (response: any) => {
+      console.log('Response from first API:', response);
+      if (response && response.encryptedData && response.encryptionKeyID) {
+        const payload = {
+          encryptedRequest: response.encryptedData,
+          encryptionKeyID: response.encryptionKeyID
+        };
+        this.http.post(`${this.embridgeUrl}/DSC/ListCertificate`, payload).subscribe(
+          (secondApiResponse: any) => {
+            console.log('Response from second API:', secondApiResponse);
+            if (secondApiResponse) {
+              //const secondApiResponseData = secondApiResponse.responseData;
+              const secondApiResponseData = {
+                encryptedCertificateData: secondApiResponse.responseData
+              };
+              this.http.post(`${this.dscApi}/dsc/getCertificateList`, secondApiResponseData).subscribe(
+                  (response: any) => {
+                      console.log('Response from third API:', response);
+                      if(response.certificates != null && response.certificates.length != 0){
+                        this.certificates = response.certificates;
+                        this.isLoading = false;
+                        this.toastr.success("Fetched certificates successfully");
+                      }
+                      else{
+                        this.certificates = [];
+                        this.isLoading = false;
+                        this.toastr.error("Failed to fetch certificates from token");
+                      }
+                      console.log(this.certificates);
+                  },
+                  (error) => {
+                      console.error('Error occurred while calling third API:', error);
+                      this.isLoading = false;
+                  }
+              );
+
+            }
+          },
+          (secondApiError) => {
+            console.error('Error occurred while calling the second API:', secondApiError);
+            this.passwordErrorMessage = 'Failed to fetch data from the second API.';
+            this.isLoading = false;
+          }
+        );  
+      } else {
+        this.passwordErrorMessage = 'Failed to get valid tokens from the first API.';
+        this.isLoading = false;
+      }
+    },
+    (error) => {
+      console.error('Error occurred while fetching tokens from the first API:', error);
+      this.passwordErrorMessage = 'Failed to fetch tokens from the first API.';
+      this.isLoading = false;
+    }
+  );
+}
+
+onSign(){
+  this.isLoading = true;
+  console.log('Selected Token:', this.selectedCertificate);
+  const signingRequestData = {
+    keyId: this.selectedCertificate.keyId,
+    keyStoreDisplayName: this.selectedToken,
+    keyStorePassPhrase: this.tokenPassword,
+    dataType: this.selectedDataType,
+    dataToSign: "I " + this.formData.name + ", hereby undertake that I am working with" 
+                + this.formData.organisationName + " as" + this.formData.designation 
+                + " and I am authorized to sign the legal documents."
+  };
+  const encodedSigningRequestData = encodeURIComponent(JSON.stringify(signingRequestData));
+  this.http.get(`${this.dscApi}/dsc/getSigningRequest?signingRequestData=${encodeURIComponent(encodedSigningRequestData)}`).subscribe(
+    (response: any) => {
+      console.log('Response from first API:', response);
+      if (response && response.encryptedData && response.encryptionKeyID) {
+        const payload = {
+          encryptedRequest: response.encryptedData,
+          encryptionKeyID: response.encryptionKeyID
+        };
+        this.http.post(`${this.embridgeUrl}/DSC/PKCSSign`, payload).subscribe(
+          (secondApiResponseee: any) => {
+            console.log('Response from secondddddd API:', secondApiResponseee);
+            if (secondApiResponseee) {
+              const secondApiResponseData = {
+                encryptedSignedData: secondApiResponseee.responseData
+              };
+              console.log('==========================>   '+secondApiResponseee);
+              this.http.post(`${this.dscApi}/dsc/getSignedResponse`, secondApiResponseData).subscribe(
+                  (response: any) => {
+                      this.enable=false;
+                      this.isSigned=true
+                      this.closePasswordModal();
+                      console.log('Response from third API:', response);
+                      this.isLoading = false;
+                      console.log(response);
+                      this.toastr.success("Signed using DSC successfully");
+                  },
+                  (error) => {
+                      console.error('Error occurred while calling third API:', error);
+                      this.toastr.error("Failed to sign data");
+                  }
+              );
+
+            }
+          },
+          (secondApiError) => {
+            console.error('Error occurred while calling the second API:', secondApiError);
+            this.passwordErrorMessage = 'Failed to fetch data from the second API.';
+            this.isLoading = false;
+          }
+        );
+      } else {
+        this.passwordErrorMessage = 'Failed to get valid tokens from the first API.';
+        this.isLoading = false;
+      }
+    },
+    (error) => {
+      console.error('Error occurred while fetching tokens from the first API:', error);
+      this.passwordErrorMessage = 'Failed to fetch tokens from the first API.';
+      this.isLoading = false;
+    }
+  );
+}
+
+// this.enable=false;
+// this.isSigned=true
+// dataToSign: "I " + this.formData.name + ", hereby undertake that I am working with" 
+//                 + this.formData.organisationName + " as" + this.formData.designation 
+//                 + " and I am authorized to sign the legal documents."
 
 }
