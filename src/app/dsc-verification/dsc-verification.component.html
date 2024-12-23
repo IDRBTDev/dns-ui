@@ -135,20 +135,16 @@
 
           <div *ngIf="tokens.length >= 0" style="margin-bottom: 20px; margin-top: 10px;">
             <label for="tokenSelect">Select DSC Token</label><span class="text-danger">*</span>
-            <select id="tokenSelect" class="form-control" [(ngModel)]="selectedToken" (change)="onTokenSelect()">
+            <select id="tokenSelect" class="form-control" [(ngModel)]="selectedToken" placeholder="Select Token" (change)="onTokenSelect()">
               <option value="" disabled selected>Select Token</option>
               <option *ngFor="let token of tokens" [ngValue]="token">
                 {{ token }}
               </option>
             </select>
           </div>
-          <div *ngIf="certificates.length >= 0"style=" margin-bottom: 20px;">
+          <div *ngIf="certificates.length >= 0" style=" margin-bottom: 20px;">
             <label for="certificateSelect">Select Certificate</label><span class="text-danger">*</span>
-            <select
-              id="certificateSelect"
-              class="form-control"
-              [(ngModel)]="selectedCertificate"
-            >
+            <select id="certificateSelect" class="form-control" [(ngModel)]="selectedCertificate" aria-placeholder="Select Certificate">
               <option value="" disabled selected>Select Certificate</option>
               <option *ngFor="let certificate of certificates" [ngValue]="certificate">
                 {{ certificate.commonName }} - {{ certificate.validTill }}

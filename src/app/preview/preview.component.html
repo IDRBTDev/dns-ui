@@ -1,185 +1,66 @@
 <div class="name container ld mt-5">
-
-
     <div class="col-md justify-content-center mt-5">
-
         <!-- Loop through the cards array and display each card -->
-
-
-
         <div *ngFor="let card of cards  " class="col-ld mt-5">
-
-
-
             <div class="card ">
-
-
-
                 <div class="card-body">
-
-
-
                     <h2 class="card-title">{{ card.heading }}</h2>
-
-
                     <!-- Display details if not in editing mode -->
-
-
-
                     <div *ngIf="!card.details.isEditing">
-
-
-
-
-
-
-
                         <!-- Domain Applying For Card -->
-
-
-
                         <div *ngIf="card.heading === 'Domain Applying For'">
-
-
-
                             <p><strong>Bank Name:</strong>
                                 {{ card.details.bankName }}</p>
-
-
-
                             <p><strong>Domain Name:</strong>
                                 {{ card.details.domainName }}</p>
-
-
-
                             <p><strong>Term:</strong>
                                 {{ card.details.numberOfYears }}</p>
-
-
-
                             <p><strong>Cost:</strong>
                                 {{ card.details.cost }}</p>
-
-
-
                         </div>
-
-
-
-
-
-
-
                         <!-- Organisation Details Card -->
-
-
-
                         <div *ngIf="card.heading === 'Organisation Details'">
-
-
-
                             <p><strong>Institution Name:</strong>
                                 {{ card.details.institutionName }}</p>
-
-
-
                             <p><strong>Pincode:</strong>
                                 {{ card.details.pincode }}</p>
-
-
-
                             <p><strong>City:</strong>
                                 {{ card.details.city }}</p>
-
-
-
                             <p><strong>State:</strong>
                                 {{ card.details.state }}</p>
-
-
-
                             <p><strong>Address:</strong>
                                 {{ card.details.address }}</p>
-
-
-
                             <p><strong>STD Telephone:</strong>
                                 {{ card.details.stdTelephone }}</p>
-
-
-
                             <p><strong>Mobile No:</strong>
                                 {{ card.details.mobileNumber}}</p>
-
-
-
                             <p><strong>Organisation Email:</strong>
                                 {{ card.details.organisationEmail }}</p>
-
-                                <div *ngIf="orgDocDetails?.length > 0" style="margin-top: 20px;">
-
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of orgDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
-                                            <i class="bi bi-check-circle text-success"></i>
-                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
-                                        </div>
+                            <div *ngIf="orgDocDetails?.length > 0" style="margin-top: 20px;">
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                    <div *ngFor="let doc of orgDocDetails; let i = index"
+                                        style="display: flex; align-items: center; gap: 5px;">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                     </div>
                                 </div>
-
+                            </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <!-- Administrative Contact Card -->
-
-
-
                         <div *ngIf="card.heading === 'Administrative Contact'">
-
-
-
                             <p><strong>Full Name:</strong>
                                 {{ card.details.adminFullName }}</p>
-
-
-
                             <p><strong>Email:</strong>
                                 {{ card.details.adminEmail }}</p>
-
-
-
                             <p><strong>Phone:</strong>
                                 {{ card.details.adminPhone }}</p>
-
-
-
                             <p><strong>Alternative Phone:</strong>
                                 {{ card.details.adminAltPhone }}</p>
-
-
-
                             <p><strong>Designation:</strong>
                                 {{ card.details.adminDesignation }}</p>
-
-
-
                             <p><strong>Documents:</strong>
                                 {{ card.details.adminDocuments }}</p>
-
                             <div *ngIf="adminDocDetails?.length > 0" style="margin-top: 20px;">
-
                                 <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
                                     <div *ngFor="let doc of adminDocDetails; let i = index"
                                         style="display: flex; align-items: center; gap: 5px;">
@@ -188,961 +69,458 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                         <!-- Technical Contact Card -->
-
-
-
                         <div *ngIf="card.heading === 'Technical Contact'">
-
-
-
                             <p><strong>FullName:</strong>
                                 {{ card.details.techFullName }}</p>
-
-
-
                             <p><strong>Email:</strong>
                                 {{ card.details.techEmail }}</p>
-
-
-
                             <p><strong>Phone:</strong>
                                 {{ card.details.techPhone }}</p>
-
-
-
                             <p><strong>Alternative Phone:</strong>
                                 {{ card.details.techAltPhone }}</p>
-
-
-
                             <p><strong>Designation:</strong>
                                 {{ card.details.techDesignation }}</p>
-
-
-
                             <p><strong>Documents:</strong>
                                 {{ card.details.techDocuments }}</p>
-
-                                <div *ngIf="techDocDetails?.length > 0" style="margin-top: 20px;">
-
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of techDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
-                                            <i class="bi bi-check-circle text-success"></i>
-                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
-                                        </div>
+                            <div *ngIf="techDocDetails?.length > 0" style="margin-top: 20px;">
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                    <div *ngFor="let doc of techDocDetails; let i = index"
+                                        style="display: flex; align-items: center; gap: 5px;">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                     </div>
                                 </div>
-
+                            </div>
                         </div>
-
-
-
-
-
-
-
                         <!-- Billing Contact Card -->
-
-
-
                         <div *ngIf="card.heading === 'Billing Contact'">
-
-
-
                             <p><strong>Full Name:</strong>
                                 {{ card.details.billFullName }}</p>
-
-
-
                             <p><strong>Email:</strong>
                                 {{ card.details.billEmail }}</p>
-
-
-
                             <p><strong>Phone:</strong>
                                 {{ card.details.billPhone }}</p>
-
-
-
                             <p><strong>Alternative Phone:</strong>
                                 {{ card.details.billAltPhone }}</p>
-
-
-
                             <p><strong>Documents:</strong>
-                                </p>
-
-                                <div *ngIf="billDocDetails?.length > 0" style="margin-top: 20px;">
-
-                                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-                                        <div *ngFor="let doc of billDocDetails; let i = index" style="display: flex; align-items: center; gap: 5px;">
-                                            <i class="bi bi-check-circle text-success"></i>
-                                            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
-                                        </div>
+                            </p>
+                            <div *ngIf="billDocDetails?.length > 0" style="margin-top: 20px;">
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                                    <div *ngFor="let doc of billDocDetails; let i = index"
+                                        style="display: flex; align-items: center; gap: 5px;">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                                     </div>
                                 </div>
-
-
+                            </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
                         <!-- Name Server Details Card -->
-
-
-
                         <div *ngIf="card.heading === 'Name Server Details'">
-
-
-
-                           <div *ngFor="let nameServer of nameDetails; let i = index">
-      <p><strong>Name Server {{ i + 1 }} Host Name:</strong> {{ nameServer.hostName }}</p>
-      <p><strong>Name Server {{ i + 1 }} IP Address:</strong> {{ nameServer.ipAddress }}</p>
-      <hr/>
-    </div>
-
-
-
+                            <div *ngFor="let nameServer of nameDetails; let i = index">
+                                <p><strong>Name Server {{ i + 1 }} Host Name:</strong> {{ nameServer.hostName }}</p>
+                                <p><strong>Name Server {{ i + 1 }} IP Address:</strong> {{ nameServer.ipAddress }}</p>
+                                <hr />
+                            </div>
                         </div>
-
-
-
-
-
-
-
                         <button *ngIf="!card.details.isEditing" class="btn btn-primary mt-3"
                             (click)="toggleEdit(card)">Edit</button>
-
-
-
                     </div>
-
-
-
-
-
-
-
                     <!-- Editable fields (shown only when isEditing is true) -->
-
-
-
                     <div *ngIf="card.details.isEditing">
-
-
-
-
-
-
-
                         <!-- Domain Applying For Card (Edit) -->
-
-
-
                         <div *ngIf="card.heading === 'Domain Applying For'">
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="bankName">Bank Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="bankName"
                                     [(ngModel)]="card.details.bankName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="domainName">Domain Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="domainName"
                                     [(ngModel)]="card.details.domainName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="term">Term:</label>
-
-
-
                                 <input type="text" class="form-control" id="term"
                                     [(ngModel)]="card.details.numberOfYears">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="cost">Cost:</label>
-
-
-
                                 <input type="text" class="form-control" id="cost" [(ngModel)]="card.details.cost">
-
-
-
                             </div>
-
-
-
                         </div>
-
-
-
-
-
-
-
                         <!-- Organisation Details Card (Editable) -->
-
-
-
                         <div *ngIf="card.heading === 'Organisation Details'">
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="institutionName">Institution Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="institutionName"
                                     [(ngModel)]="card.details.institutionName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="pincode">Pincode:</label>
-
-
-
                                 <input type="text" class="form-control" id="pincode" [(ngModel)]="card.details.pincode">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="city">City:</label>
-
-
-
                                 <input type="text" class="form-control" id="city" [(ngModel)]="card.details.city">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="state">State:</label>
-
-
-
                                 <input type="text" class="form-control" id="state" [(ngModel)]="card.details.state">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="address">Address:</label>
-
-
-
                                 <input type="text" class="form-control" id="address" [(ngModel)]="card.details.address">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="stdTelephone">STD Telephone:</label>
-
-
-
                                 <input type="text" class="form-control" id="stdTelephone"
                                     [(ngModel)]="card.details.stdTelephone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="mobileNo">Mobile No:</label>
-
-
-
                                 <input type="text" class="form-control" id="mobileNo"
                                     [(ngModel)]="card.details.mobileNumber">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="email">Organisation Email:</label>
-
-
-
                                 <input type="email" class="form-control" id="email"
                                     [(ngModel)]="card.details.organisationEmail">
-
-
-
                             </div>
-
                             <div class="form-group">
-
-
-
                                 <label for="email">Organisation Documents:</label>
-
-
-                                <app-document-upload
-                                id="documentsToUpload"
-                                [mode]="'org'"
-                                [organisationUploadedDocs]="orgDocDetails"
-                                [submissionAttempted]="submissionAttempted"
-                                (onOrganisationValidationChange)="
+                                <app-document-upload id="documentsToUpload" [mode]="'org'"
+                                    [organisationUploadedDocs]="orgDocDetails"
+                                    [submissionAttempted]="submissionAttempted" (onOrganisationValidationChange)="
                                   handleOrganisationValidationChange($event)
-                                "
-                                (setOrganisationUploadedDocs)="
+                                " (setOrganisationUploadedDocs)="
                                   setOrganisationUploadedDocuments($event)
-                                "
-                                (imagePreviewUrl)="onImageViewClick($event)"
-                                (pdfPreviewUrl)="onPdfViewClick($event)"
-                             [preview]="preview"
-                              ></app-document-upload>
-                                
-
-
-
+                                " (imagePreviewUrl)="onImageViewClick($event)" (pdfPreviewUrl)="onPdfViewClick($event)"
+                                    [preview]="preview"></app-document-upload>
                             </div>
-
-
-
                         </div>
-
-
-
-
-
-
-
                         <!-- Administrative Contact Card (Editable) -->
-
-
-
                         <div *ngIf="card.heading === 'Administrative Contact'">
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminFullName">Admin Full Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="adminFullName"
                                     [(ngModel)]="card.details.adminFullName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminEmail">Admin Email:</label>
-
-
-
                                 <input type="email" class="form-control" id="adminEmail"
                                     [(ngModel)]="card.details.adminEmail">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminPhone">Admin Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="adminPhone"
                                     [(ngModel)]="card.details.adminPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminAltPhone">Admin Alt Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="adminAltPhone"
                                     [(ngModel)]="card.details.adminAltPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminDesignation">Admin Designation:</label>
-
-
-
                                 <input type="text" class="form-control" id="adminDesignation"
                                     [(ngModel)]="card.details.adminDesignation">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="adminDocuments">Admin Documents:</label>
-
-
-.
+                                .
                             </div>
-                            <app-document-upload 
-                                id="documentsToUpload"
-                                [mode]="'admin'"
-                                [adminUploadedDocs]="adminDocDetails"
-                                [submissionAttempted]="submissionAttempted"
+                            <app-document-upload id="documentsToUpload" [mode]="'admin'"
+                                [adminUploadedDocs]="adminDocDetails" [submissionAttempted]="submissionAttempted"
                                 (onAdminValidationChange)="
                                     handleAdminValidationChange($event)
-                                "
-                                (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
-                                (imagePreviewUrl)="onImageViewClick($event)"
-                                (pdfPreviewUrl)="onPdfViewClick($event)"
-                             [preview]="preview"
-                            ></app-document-upload>
-
+                                " (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
+                                (imagePreviewUrl)="onImageViewClick($event)" (pdfPreviewUrl)="onPdfViewClick($event)"
+                                [preview]="preview"></app-document-upload>
                         </div>
-
-
-
-
-
-
-
                         <!-- Technical Contact Card (Editable) -->
-
-
-
                         <div *ngIf="card.heading === 'Technical Contact'">
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techFullName">Tech Full Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="techFullName"
                                     [(ngModel)]="card.details.techFullName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techEmail">Tech Email:</label>
-
-
-
                                 <input type="email" class="form-control" id="techEmail"
                                     [(ngModel)]="card.details.techEmail">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techPhone">Tech Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="techPhone"
                                     [(ngModel)]="card.details.techPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techAltPhone">Tech Alt Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="techAltPhone"
                                     [(ngModel)]="card.details.techAltPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techDesignation">Tech Designation:</label>
-
-
-
                                 <input type="text" class="form-control" id="techDesignation"
                                     [(ngModel)]="card.details.techDesignation">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="techDocuments">Tech Documents:</label>
-
-
                             </div>
-                           
-                            <app-document-upload
-                                id="documentsToUpload"
-                                [mode]="'tech'"
-                                [techUploadedDocs]="techDocDetails"
-                                [submissionAttempted]="submissionAttempted"
+                            <app-document-upload id="documentsToUpload" [mode]="'tech'"
+                                [techUploadedDocs]="techDocDetails" [submissionAttempted]="submissionAttempted"
                                 (onTechValidationChange)="handleTechValidationChange($event)"
                                 (setTechUploadedDocs)="setTechUploadedDocuments($event)"
-                                (imagePreviewUrl)="onImageViewClick($event)"
-                                (pdfPreviewUrl)="onPdfViewClick($event)"
-                             [preview]="preview"
-                            ></app-document-upload> 
-
-
-
+                                (imagePreviewUrl)="onImageViewClick($event)" (pdfPreviewUrl)="onPdfViewClick($event)"
+                                [preview]="preview"></app-document-upload>
                         </div>
-
-
-
-
-
-
-
                         <!-- Billing Contact Card (Editable) -->
-
-
-
                         <div *ngIf="card.heading === 'Billing Contact'">
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="billFullName">Bill Full Name:</label>
-
-
-
                                 <input type="text" class="form-control" id="billFullName"
                                     [(ngModel)]="card.details.billFullName">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="billEmail">Bill Email:</label>
-
-
-
                                 <input type="email" class="form-control" id="billEmail"
                                     [(ngModel)]="card.details.billEmail">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="billPhone">Bill Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="billPhone"
                                     [(ngModel)]="card.details.billPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="billAltPhone">Bill Alt Phone:</label>
-
-
-
                                 <input type="text" class="form-control" id="billAltPhone"
                                     [(ngModel)]="card.details.billAltPhone">
-
-
-
                             </div>
-
-
-
                             <div class="form-group">
-
-
-
                                 <label for="billDocuments">Bill Documents:</label>
-
                             </div>
-                            <app-document-upload
-                            id="documentsToUpload"
-                            [mode]="'bill'"
-                            [billingUploadedDocs]="billDocDetails"
-                            [submissionAttempted]="submissionAttempted"
-                            (onBillingValidationChange)="
+                            <app-document-upload id="documentsToUpload" [mode]="'bill'"
+                                [billingUploadedDocs]="billDocDetails" [submissionAttempted]="submissionAttempted"
+                                (onBillingValidationChange)="
                               handleBillingValidationChange($event)
-                            "
-                            (setBillingUploadedDocs)="
+                            " (setBillingUploadedDocs)="
                               setBillingUploadedDocuments($event)
-                            "
-                             (imagePreviewUrl)="onImageViewClick($event)"
-                             (pdfPreviewUrl)="onPdfViewClick($event)"
-                             [preview]="preview"
-                          ></app-document-upload>
-
-
-
+                            " (imagePreviewUrl)="onImageViewClick($event)" (pdfPreviewUrl)="onPdfViewClick($event)"
+                                [preview]="preview"></app-document-upload>
                         </div>
-
-
-
-
-
-
-
                         <!-- Name Server Details Card (Editable) -->
-
-
-
                         <div *ngIf="card.heading === 'Name Server Details'">
-
-
-
                             <div class="form-group">
-                            
                                 <div *ngFor="let item of nameDetails; let i = index">
                                     <label for="hostName">Name Server {{i+1}} Host Name:</label>
-                            
-                            
-                            
                                     <input type="text" class="form-control" id="hostName" [(ngModel)]="item.hostName">
-                            
                                     <label for="ipAddress">Name Server {{i+1}} IP Address:</label>
-                            
-                            
-                            
                                     <input type="text" class="form-control" id="ipAddress" [(ngModel)]="item.ipAddress">
                                 </div>
-                            
-                            
-                            
-                            
-                            
                             </div>
                         </div>
-
-
-
-
-
-
-
                         <button class="btn btn-success mt-3" (click)="onSave(card)">Save</button>
-
-
-
                         <button class="btn btn-secondary mt-3" (click)="onCancel(card)">Cancel</button>
-
-
-
                     </div>
-
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-            <div class="navigation-buttons justify-content-between mt-2">
-                <button class="btn btn-primary" (click)="goBack()">Back</button>
-                <button class="btn btn-primary" (click)="onSubmit()">Save & Next</button>
+        <!-- Checkbox -->
+        <div class="card" style="border: 0cap;">
+            <div class="card-body">
+                <input type="checkbox" id="toggleModalCheckbox" (change)="toggleModal()"/>
+                <span>&nbsp;&nbsp;I hereby declare that the information given above and in the enclosed documents is true to 
+                    the best of my knowledge and belief and nothing has been concealed therein.</span>
             </div>
+        </div>
+        
+        <div class="d-flex navigation-buttons justify-content-between mt-2">
+            <button class="btn btn-primary" (click)="goBack()">Back</button>
+            <button class="btn btn-primary" [disabled]="enable" (click)="onSubmit()">Save & Next</button>
+        </div>
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading" class="spinner-container">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
-
-
-
 </div>
-
-<div class="modal fade" id="previewBillDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+<div class="modal fade" id="previewBillDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" id="modalHeader">
                 <h5 class="modal-title" id="xlModalLabel">view Document</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
-                        >&times;</span>
+                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;">&times;</span>
                 </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <div  class="image-Container">
-                <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
-              </div>
-              
-              <div *ngIf="pdfUrl">
-                <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
-              </div>
+                <div class="image-Container">
+                    <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+                </div>
+                <div *ngIf="pdfUrl">
+                    <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+                </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer" role="alert">
-               
             </div>
         </div>
     </div>
-  </div>
-
-  <div class="modal fade" id="previewTechDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+</div>
+<div class="modal fade" id="previewTechDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" id="modalHeader">
                 <h5 class="modal-title" id="xlModalLabel">view Document</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
-                        >&times;</span>
+                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;">&times;</span>
                 </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <div  class="image-Container">
-                <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
-              </div>
-              
-              <div *ngIf="pdfUrl">
-                <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
-              </div>
+                <div class="image-Container">
+                    <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+                </div>
+                <div *ngIf="pdfUrl">
+                    <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+                </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer" role="alert">
-               
             </div>
         </div>
     </div>
-  </div>
-
-  <div class="modal fade" id="previewAdminDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+</div>
+<div class="modal fade" id="previewAdminDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" id="modalHeader">
                 <h5 class="modal-title" id="xlModalLabel">view Document</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
-                        >&times;</span>
+                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;">&times;</span>
                 </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <div  class="image-Container">
-                <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
-              </div>
-              
-              <div *ngIf="pdfUrl">
-                <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
-              </div>
+                <div class="image-Container">
+                    <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+                </div>
+                <div *ngIf="pdfUrl">
+                    <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+                </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer" role="alert">
-               
             </div>
         </div>
     </div>
-  </div>
-
-  <div class="modal fade" id="previewOrgDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+</div>
+<div class="modal fade" id="previewOrgDoc" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header" id="modalHeader">
                 <h5 class="modal-title" id="xlModalLabel">view Document</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;"
-                        >&times;</span>
+                    <span aria-hidden="true" style="color:red; padding: 5px; padding-top: 0px;">&times;</span>
                 </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <div  class="image-Container">
-                <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
-              </div>
-              
-              <div *ngIf="pdfUrl">
-                <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
-              </div>
+                <div class="image-Container">
+                    <img [src]="imagUrl" *ngIf="imagUrl" alt="Image Preview" width="400px" height="300px">
+                </div>
+                <div *ngIf="pdfUrl">
+                    <iframe [src]="pdfUrl" width="100%" height="500px"></iframe>
+                </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer" role="alert">
-               
             </div>
         </div>
     </div>
-  </div>
+</div>
+<div class="modal fade"
+    tabindex="-1"
+    id="passwordModal"
+    role="dialog"
+    aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:550px; width:100%">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title">Sign Using DSC</h1>
+
+          <button type="button" class="btn-close" (click)="closePasswordModal()"></button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div *ngIf="tokens.length >= 0" style="margin-bottom: 20px; margin-top: 10px;">
+            <label for="tokenSelect">Select DSC Token</label><span class="text-danger">*</span>
+            <select id="tokenSelect" class="form-control" [(ngModel)]="selectedToken" (change)="onTokenSelect()">
+              <option value="" disabled selected>Select Token</option>
+              <option *ngFor="let token of tokens" [ngValue]="token">
+                {{ token }}
+              </option>
+            </select>
+          </div>
+          <div *ngIf="certificates.length >= 0"style=" margin-bottom: 20px;">
+            <label for="certificateSelect">Select Certificate</label><span class="text-danger">*</span>
+            <select
+              id="certificateSelect"
+              class="form-control"
+              [(ngModel)]="selectedCertificate"
+            >
+              <option value="" disabled selected>Select Certificate</option>
+              <option *ngFor="let certificate of certificates" [ngValue]="certificate">
+                {{ certificate.commonName }} - {{ certificate.validTill }}
+              </option>
+            </select>
+          </div>
+
+          <div style=" margin-bottom: 20px;">
+            <label for="dataTypeSelect">Data Type</label><span class="text-danger">*</span>
+            <select id="dataTypeSelect" class="form-control" [(ngModel)]="selectedDataType">
+              <option value="" disabled>Select Data Type</option>
+              <option *ngFor="let type of dataTypes" [ngValue]="type">
+                {{ type }}
+              </option>
+            </select>
+          </div>
+
+          <label for="passwordInput" class="form-label">Token Pin</label><span class="text-danger">*</span>
+          <input
+            id="passwordInput"
+            type="password"
+            class="form-control rounded-input"
+            placeholder="Enter token pin"
+            [(ngModel)]="tokenPassword"
+            style="width:100%; margin-bottom: 10px"
+          />
+          <div *ngIf="passwordErrorMessage" class="text-danger mt-2">
+            {{ passwordErrorMessage }}
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content: flex-end; margin: 20px; margin-bottom: 15px;">
+            <button type="button" class="btn btn-secondary" (click)="closePasswordModal()" style="margin-left: 10px">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="onSign()">Submit</button>
+        </div>
+      </div>
+    </div>
+</div>
