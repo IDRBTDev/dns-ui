@@ -236,4 +236,15 @@ app-side-menu {
         .detail-item {
             flex: 1 1 100%;
         }}
-}
+        .Browse{
+   
+            margin-top: 20px;
+             height:50px;
+            width:150px;
+            border-color: #007CF8;
+            color: #007CF8;
+            background-color: white;
+            border-radius: 5px;
+         }
+
+    }

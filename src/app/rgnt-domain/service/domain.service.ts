@@ -70,5 +70,12 @@ export class DomainService{
     uploadPaymentReceipt(formData: FormData): Observable<any> {
         return this.httpClient.post(`${this.domainsUrl}/uploadPaymentReceipt`, formData,{ responseType: 'text'});
       }
-
+      updatePaymentReceipt(domainId: number, file: File): Observable<any> {
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+        formData.append('domainId', domainId.toString());
+    
+        // Send PUT request to update the file
+        return this.httpClient.put(`${this.domainsUrl}/updatePaymentReceipt/${domainId}`, formData);
+      }
 }

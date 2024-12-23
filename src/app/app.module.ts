@@ -73,6 +73,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
 import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
+import { UploadPaymentDocumentComponent } from './upload-payment-document/upload-payment-document.component';
+import { UploadPaymentDocumentChangeComponent } from './upload-payment-document-change/upload-payment-document-change.component';
  
 Chart.register(ChartDataLabels);
 
@@ -128,6 +130,8 @@ Chart.register(ChartDataLabels);
     RgtrDomainComponent,
     DscVerificationComponent,
     RgntDomainApplicationDetailsComponent,
+    UploadPaymentDocumentComponent,
+    UploadPaymentDocumentChangeComponent,
   ],
   imports: [
     BrowserModule,

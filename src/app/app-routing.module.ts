@@ -40,6 +40,7 @@ import { DscVerificationComponent } from './dsc-verification/dsc-verification.co
 import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
 
 
+
 const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'organisation-details', component: OrganisationDetailsComponent},
@@ -87,6 +88,7 @@ const routes: Routes = [
   {path: 'dsc-verification', component: DscVerificationComponent},
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
   {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent}
+
 
 
 ];
