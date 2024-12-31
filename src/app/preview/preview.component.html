@@ -58,6 +58,8 @@
                                 {{ card.details.adminAltPhone }}</p>
                             <p><strong>Designation:</strong>
                                 {{ card.details.adminDesignation }}</p>
+                            <p><strong>Address:</strong>
+                                {{ card.details.adminAddress }}</p>
                             <p><strong>Documents:</strong>
                                 {{ card.details.adminDocuments }}</p>
                             <div *ngIf="adminDocDetails?.length > 0" style="margin-top: 20px;">
@@ -82,6 +84,8 @@
                                 {{ card.details.techAltPhone }}</p>
                             <p><strong>Designation:</strong>
                                 {{ card.details.techDesignation }}</p>
+                             <p><strong>Address:</strong>
+                                {{ card.details.techAddress }}</p>
                             <p><strong>Documents:</strong>
                                 {{ card.details.techDocuments }}</p>
                             <div *ngIf="techDocDetails?.length > 0" style="margin-top: 20px;">
@@ -104,6 +108,10 @@
                                 {{ card.details.billPhone }}</p>
                             <p><strong>Alternative Phone:</strong>
                                 {{ card.details.billAltPhone }}</p>
+                            <p><strong>Designation:</strong>
+                                {{ card.details.billDesignation }}</p>
+                            <p><strong>Address:</strong>
+                                 {{ card.details.billAddress }}</p>
                             <p><strong>Documents:</strong>
                             </p>
                             <div *ngIf="billDocDetails?.length > 0" style="margin-top: 20px;">
