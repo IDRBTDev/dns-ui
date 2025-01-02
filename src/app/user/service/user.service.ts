@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/app/environments/environment";
 
@@ -13,7 +13,7 @@ export class UserService{
     private updateUserUrl = environment.apiURL+'/dr/user/update';
     private deleteUserUrl = environment.apiURL+'/dr/user/delete';
     private getUserByEmailUrl = environment.apiURL+'/dr/user/get';
-    
+    private deleteadminUrl = environment.apiURL+'/dr/administrativeContact/delete';
     constructor(private httpClient: HttpClient){
 
     }
@@ -39,7 +39,11 @@ export class UserService{
     deleteUserById(id: number){
         return this.httpClient.delete<void>(this.deleteUserUrl+"/"+id, {observe: 'response'});
     }
-
+    deleteAdminById(id: number, contactRole: string) {
+        return this.httpClient.delete<void>(`${this.deleteadminUrl}/${id}?contactRole=${contactRole}`, { observe: 'response' });
+      }
+      
+      
     getUserByEmailId(userId: string){
         return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});
     }

@@ -91,3 +91,35 @@
   .rejected{
     cursor: pointer;
   }
+
+  /* Add some spacing between the buttons */
+.button-container {
+  display: flex;
+  gap: 15px; /* Adjust the gap between buttons */
+  justify-content: flex-start; /* Align buttons to the left (can also use 'center' for centering) */
+  margin-top: 20px; /* Optional: Add margin at the top */
+}
+
+/* Style for the Submit button */
+.submit-btn {
+  background-color: #00376A;  /* Example background color */
+  color: white;               /* Text color */
+  border: none;               /* Remove border */
+  padding: 10px 20px;         /* Padding for better size */
+  font-size: 16px;            /* Adjust font size */
+  cursor: pointer;           /* Show pointer on hover */
+  border-radius: 5px;         /* Optional: Add rounded corners */
+}
+
+/* Style for the Cancel button */
+.cancel-btn {
+  background-color: #f44336;  /* Example background color for cancel */
+  color: white;               /* Text color */
+  border: none;               /* Remove border */
+  padding: 10px 20px;         /* Padding for better size */
+  font-size: 16px;            /* Adjust font size */
+  cursor: pointer;           /* Show pointer on hover */
+  border-radius: 5px;         /* Optional: Add rounded corners */
+}
+
+
