@@ -59,7 +59,7 @@ export class MainHeaderComponent implements OnInit{
           this.notificationCount = notifications.filter(n => n.status === 'Unread').length; 
           this.cdr.detectChanges(); 
           this.notificationError = null;
-          console.log('Notifications loaded:', this.notificationList);
+          // console.log('Notifications loaded:', this.notificationList);
         },
         (error) => {
           this.notificationError = 'Error fetching notifications: ' + error.message;

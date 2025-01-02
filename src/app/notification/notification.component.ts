@@ -68,7 +68,7 @@ export class NotificationComponent implements OnInit, AfterViewInit {
           this.notificationCount = notifications.filter(n => n.status === 'Unread').length; // Update unread count
           this.cdr.detectChanges(); // Ensure view updates
           this.notificationError = null;
-          console.log('Notifications loaded:', this.notificationList);
+          // console.log('Notifications loaded:', this.notificationList);
         },
         (error) => {
           this.notificationError = 'Error fetching notifications: ' + error.message;
