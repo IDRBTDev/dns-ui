@@ -141,11 +141,13 @@ export class PreviewComponent implements OnInit, OnChanges {
         adminPhone: '',
         adminAltPhone: '',
         adminDesignation: '',
+        adminAddress: '',
         organisationId:this.organisationId,
         adminDocuments: '',
         applicationId:0,
         userMailId:0,
         isEditing: false,
+
       },
     },
 
@@ -159,6 +161,7 @@ export class PreviewComponent implements OnInit, OnChanges {
         techPhone: '',
         techAltPhone: '',
         techDesignation: '',
+        techAddress: '',
         applicationId:0,
         userMailId:0,
         techDocuments: '',
@@ -176,6 +179,8 @@ export class PreviewComponent implements OnInit, OnChanges {
         billEmail: '',
         billPhone: '',
         billAltPhone: '',
+        billDesignation: '',
+        billAddress: '',
         billDocuments: '',
         applicationId:0,
         userMailId:0,
@@ -344,6 +349,7 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[2].details.adminPhone = data.adminPhone;
           this.cards[2].details.adminAltPhone = data.adminAltPhone;
           this.cards[2].details.adminDesignation = data.adminDesignation;
+          this.cards[2].details.adminAddress = data.adminAddress;
           this.cards[2].details.adminDocuments = data.documents;
           this.cards[2].details.organisationId= this.organisationId;
           this.cards[2].details.userMailId = data.userMailId;
@@ -371,6 +377,7 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[3].details.techPhone = data.techPhone;
           this.cards[3].details.techAltPhone = data.techAltPhone;
           this.cards[3].details.techDesignation = data.techDesignation;
+          this.cards[3].details.techAddress = data.techAddress;
           this.cards[3].details.techDocuments = data.documents;
           this.cards[3].details.organisationId= this.organisationId;
           this.cards[3].details.userMailId = data.userMailId;
@@ -394,6 +401,8 @@ export class PreviewComponent implements OnInit, OnChanges {
           this.cards[4].details.billEmail = data.billEmail;
           this.cards[4].details.billPhone = data.billPhone;
           this.cards[4].details.billAltPhone = data.billAltPhone;
+          this.cards[4].details.billDesignation = data.billDesignation;
+          this.cards[4].details.billAddress = data.billAddress;
           this.cards[4].details.billDocuments = data.documents;
           this.cards[4].details.organisationId= this.organisationId;
           this.cards[4].details.userMailId = data.userMailId;
@@ -877,7 +886,9 @@ onSign(){
                   },
                   (error) => {
                       console.error('Error occurred while calling third API:', error);
+                      this.isLoading = false;
                       this.toastr.error("Failed to sign data");
+                      this.toastr.warning("Make sure the password entered was right");
                   }
               );
 

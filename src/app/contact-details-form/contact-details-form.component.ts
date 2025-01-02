@@ -43,9 +43,44 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
+  addressDetails: any;
   private notificationSubscription: Subscription;
+    
+      adminAddress: string = ''; 
+      techAddress: string = ''; 
+      billAddress: string = ''; 
+      fullAddress: string = '';
   constructor(private fb: FormBuilder, private contactDetailsFormService: ContactDetailsFormService, private route: ActivatedRoute,
-    private contactDoc:ContactDocumentUploadService,private notificationService: NotificationService,private cdr: ChangeDetectorRef) {}
+    private contactDoc:ContactDocumentUploadService,private notificationService: NotificationService,private cdr: ChangeDetectorRef) {
+    this.fullForm = this.fb.group({
+      // Admin Form Controls
+      administrativeContactId: 0,
+      adminFullName: ['', [Validators.required]],
+      adminEmail: ['', [Validators.required, Validators.email]],
+      adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      adminAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      adminDesignation: ['', [Validators.required]],
+      adminAddress: [''], 
+
+      // Technical Form Controls
+      technicalContactId: 0,
+      techFullName: ['', [Validators.required]],
+      techEmail: ['', [Validators.required, Validators.email]],
+      techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      techAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      techDesignation: ['', [Validators.required]],
+      techAddress: [''],
+
+      // Billing Form Controls
+      organisationalContactId: 0,
+      billFullName: ['', [Validators.required]],
+      billEmail: ['', [Validators.required, Validators.email]],
+      billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      billAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      billDesignation: ['', [Validators.required]],
+      billAddress: [''],
+    });
+    }
 
   goBack(): void{
     console.log('goBack');
@@ -58,41 +93,34 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       console.log('organisationId changed:', changes['organisationId'].currentValue);
       // Add custom logic here for handling the updated data
     }
+    this.setAddress();
     this.loadNotifications();
   }
 
   ngOnInit(): void {
     console.log(this.organisationId)
-    this.fullForm = this.fb.group({
-      // Admin Form Controls
-      administrativeContactId: 0,
-      adminFullName: ['', [Validators.required]],
-      adminEmail: ['', [Validators.required, Validators.email]],
-      adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      adminAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      adminDesignation: ['', [Validators.required]],
-
-      // Technical Form Controls
-      technicalContactId: 0,
-      techFullName: ['', [Validators.required]],
-      techEmail: ['', [Validators.required, Validators.email]],
-      techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      techAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      techDesignation: ['', [Validators.required]],
-
-      // Billing Form Controls
-      organisationalContactId: 0,
-      billFullName: ['', [Validators.required]],
-      billEmail: ['', [Validators.required, Validators.email]],
-      billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      billAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      billDesignation: ['', [Validators.required]],
-    });
-    // Retrieve applicationId from sessionStorage
+    this.setAddress();
     this.applicationId = sessionStorage.getItem('applicationId'); // Retrieve applicationId
     console.log('Retrieved Application ID from sessionStorage:', this.applicationId);
     this.loadNotifications();
     this.setupNotificationPolling();
+  }
+ 
+  setAddress(): void {
+    const addressDetails = JSON.parse(sessionStorage.getItem('addressDetails') || '{}');
+
+    if (addressDetails && addressDetails.address) {
+      // Concatenate the full address into one string
+      this.fullAddress = `${addressDetails.address}, ${addressDetails.city}, ${addressDetails.state} - ${addressDetails.pincode}`;
+      this.fullForm.patchValue({
+        adminAddress: this.fullAddress,
+        techAddress: this.fullAddress,
+        billAddress: this.fullAddress,
+      });
+
+      this.cdr.detectChanges();
+
+    }
   }
 
   ngOnDestroy(): void {
@@ -128,8 +156,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
 
   sanitizeInput(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^0-9]/g, ''); // Allow only numbers
-    // Update the specific FormControl value
+    input.value = input.value.replace(/[^0-9]/g, '');
     this.fullForm.get(controlName)?.setValue(input.value, { emitEvent: false });
   }
 
@@ -169,7 +196,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           adminPhone: this.fullForm.get('adminPhone')?.value,
           adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
           adminDesignation: this.fullForm.get('adminDesignation')?.value,
+          adminAddress: this.fullForm.value.adminAddress,
           // documents: this.fullForm.get('adminDocuments')?.value,
+
           applicationId: this.applicationId,
           organisationId: this.organisationId,
           isActive : false,
@@ -197,6 +226,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           techAltPhone: this.fullForm.get('techAltPhone')?.value,
           techDesignation: this.fullForm.get('techDesignation')?.value,
           // documents: this.fullForm.get('techDocuments')?.value,
+          techAddress: this.fullForm.value.techAddress,
           applicationId: this.applicationId,
           organisationId: this.organisationId,
           isActive : false
@@ -217,6 +247,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           billPhone: this.fullForm.get('billPhone')?.value,
           billAltPhone: this.fullForm.get('billAltPhone')?.value,
           billDesignation: this.fullForm.get('billDesignation')?.value,
+          billAddress: this.fullForm.value.billAddress,
           // documents: this.fullForm.get('billDocuments')?.value,
           applicationId: this.applicationId,
           organisationId: this.organisationId,
@@ -261,6 +292,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
         adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
+        adminAddress: this.fullForm.value.adminAddress,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
         isActive : false
@@ -272,6 +304,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         techPhone: this.fullForm.get('techPhone')?.value,
         techAltPhone: this.fullForm.get('techAltPhone')?.value,
         techDesignation: this.fullForm.get('techDesignation')?.value,
+        techAddress: this.fullForm.value.techAddress,
         // documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
@@ -284,6 +317,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         billPhone: this.fullForm.get('billPhone')?.value,
         billAltPhone: this.fullForm.get('billAltPhone')?.value,
         billDesignation: this.fullForm.get('billDesignation')?.value,
+        billAddress: this.fullForm.value.billAddress,
         // documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
@@ -348,28 +382,28 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       })
 
       const notification = {
-        message: "Login details sent to billing and technical persons.", // Informative message
-        moduleType: "DocumentUpload", // Type of module generating the notification
-        moduleRecordId: 102, // Unique identifier for the module record, adjust if dynamic
-        notificationTo: this.fullForm.get('adminEmail')?.value, // Target recipient of the notification
-        emailId: this.fullForm.get('adminEmail')?.value, // Email ID of the recipient
-        status: "Unread", // Initial status of the notification
-        createdDateTime: new Date().toISOString(), // Current date and time in ISO format
-        createdByEmailId: this.userMailId, // Email ID of the creator (logged-in user)
-        profilepic: null // Placeholder for profile picture, can be updated later if needed
+        message: "Login details sent to billing and technical persons.",
+        moduleType: "DocumentUpload", 
+        moduleRecordId: 102,
+        notificationTo: this.fullForm.get('adminEmail')?.value, 
+        emailId: this.fullForm.get('adminEmail')?.value, 
+        status: "Unread", 
+        createdDateTime: new Date().toISOString(), 
+        createdByEmailId: this.userMailId, 
+        profilepic: null 
       };
       
-      // Validate the email before creating the notification
+   
       if (!notification.notificationTo || !notification.emailId) {
         console.error('Error: Notification creation failed because the email is missing or invalid.');
         return;
       }
       
-      // Call the notification service to create a new notification
+     
       this.notificationService.createNotification(notification).subscribe(
         (response) => {
           console.log('Notification created successfully:', response);
-          this.loadNotifications(); // Refresh the notification list
+          this.loadNotifications(); 
         },
         (error) => {
           console.error('Error creating notification:', error);
@@ -382,7 +416,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     else {
       this.contactSubmissionAttempted=true;
       console.log('Form is invalid');
-      this.fullForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
+      this.fullForm.markAllAsTouched(); 
     }
   }
   onImageViewClick(imageUrl) {

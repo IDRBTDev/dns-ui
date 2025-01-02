@@ -279,7 +279,9 @@ export class DscVerificationComponent {
                     },
                     (error) => {
                         console.error('Error occurred while calling third API:', error);
+                        this.isLoading = false;
                         this.toastr.error("Failed to sign data");
+                        this.toastr.warning("Make sure the password entered was right");
                     }
                 );
 

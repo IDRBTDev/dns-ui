@@ -47,7 +47,7 @@
               style="display: flex; align-items: center; gap: 5px;" >
               <i class="bi bi-check-circle text-success"></i>
               <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <span *ngIf="preview!=''" data-toggle="modal"
         data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
@@ -112,7 +112,7 @@
           >
               <i class="bi bi-check-circle text-success"></i>
               <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <span *ngIf="preview!=''" data-toggle="modal"
         data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
               <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
@@ -214,7 +214,7 @@
         >
         <i class="bi bi-check-circle text-success"></i>
         <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <span *ngIf="preview!=''" data-toggle="modal"
         data-target="#previewTechDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
@@ -330,7 +330,7 @@
         >
         <i class="bi bi-check-circle text-success"></i>
         <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <span *ngIf="preview!=''" data-toggle="modal"
         data-target="#previewBillDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
         <button
