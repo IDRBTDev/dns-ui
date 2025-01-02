@@ -146,7 +146,16 @@ export class OrganisationDetailsComponent implements OnInit {
     }
 
     async handleSubmit(): Promise<void> {
-        this.submitted = true;
+        
+        const addressDetails = {
+            address: this.organisationForm.get('address')?.value,
+            city: this.organisationForm.get('city')?.value,
+            state: this.organisationForm.get('state')?.value,
+            pincode: this.organisationForm.get('pincode')?.value,
+          };
+        sessionStorage.setItem('addressDetails', JSON.stringify(addressDetails));
+        console.log(addressDetails)
+
 
         // if (this.documentUploadComponent) {
         //     this.documentUploadComponent.handleDocumentSubmit(); // Call child method
@@ -155,7 +164,7 @@ export class OrganisationDetailsComponent implements OnInit {
         // }else {
         //     console.warn('DocumentUploadComponent not found!');
         // }
-
+        this.submitted = true;
         if (this.organisationForm.invalid ||  this.documentUploadComponent.organisationUploadedDocs.length < 4) {
             this.organisationForm.markAllAsTouched();
             this.documentUploadComponent.submissionAttempted=true;

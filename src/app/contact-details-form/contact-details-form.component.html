@@ -126,6 +126,21 @@
                   </div>
                 </div>
                 <div class="col-md-12">
+                  <label for="adminAddress" class="form-label">Address</label><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="adminAddress"
+                    class="form-control"
+                    formControlName="adminAddress"
+                    placeholder="Enter your address"
+                    [value]="fullAddress"  
+                    readonly  
+                  />
+                  <div *ngIf="fullForm.get('adminAddress')?.invalid && fullForm.get('adminAddress')?.touched" class="text-danger">
+                    Please enter your Address.
+                  </div>
+                </div>
+                <div class="col-md-12">
                   <label for="adminDocuments" class="form-label">Documents</label
                   ><span class="text-danger">*</span>
                   <app-document-upload
@@ -268,6 +283,21 @@
                   </div>
                 </div>
                 <div class="col-md-12">
+                  <label for="techAddress" class="form-label">Address</label><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="techAddress"
+                    class="form-control"
+                    formControlName="techAddress"
+                    placeholder="Enter your address"
+                    [value]="fullAddress"  
+                    readonly  
+                  />
+                  <div *ngIf="fullForm.get('techAddress')?.invalid && fullForm.get('techAddress')?.touched" class="text-danger">
+                    Please enter your Address.
+                  </div>
+                </div>
+                <div class="col-md-12">
                   <label for="techDocuments" class="form-label">Documents</label
                   ><span class="text-danger">*</span>
                   <app-document-upload
@@ -407,6 +437,21 @@
                     class="text-danger"
                   >
                     Please enter your Designation.
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <label for="billAddress" class="form-label">Address</label><span class="text-danger">*</span>
+                  <input
+                    type="text"
+                    id="billAddress"
+                    class="form-control"
+                    formControlName="billAddress"
+                    placeholder="Enter your address"
+                    [value]="fullAddress"  
+                    readonly  
+                  />
+                  <div *ngIf="fullForm.get('billAddress')?.invalid && fullForm.get('billAddress')?.touched" class="text-danger">
+                    Please enter your Address.
                   </div>
                 </div>
                 <div class="col-md-12">

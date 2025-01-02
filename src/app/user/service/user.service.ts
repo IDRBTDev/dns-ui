@@ -14,6 +14,8 @@ export class UserService{
     private deleteUserUrl = environment.apiURL+'/dr/user/delete';
     private getUserByEmailUrl = environment.apiURL+'/dr/user/get';
     private deleteadminUrl = environment.apiURL+'/dr/administrativeContact/delete';
+    private deletebillnUrl = environment.apiURL+'/dr/billingContact/delete';
+    private deletetechUrl = environment.apiURL+'/dr/technicalContact/delete';
     constructor(private httpClient: HttpClient){
 
     }
@@ -39,10 +41,15 @@ export class UserService{
     deleteUserById(id: number){
         return this.httpClient.delete<void>(this.deleteUserUrl+"/"+id, {observe: 'response'});
     }
-    deleteAdminById(id: number, contactRole: string) {
+    deleteBillById(id: number, contactRole: string) {
+        return this.httpClient.delete<void>(`${this.deletebillnUrl}/${id}?contactRole=${contactRole}`, { observe: 'response' });
+      }
+      deleteTechById(id: number, contactRole: string) {
+        return this.httpClient.delete<void>(`${this.deletetechUrl}/${id}?contactRole=${contactRole}`, { observe: 'response' });
+      }
+      deleteAdminById(id: number, contactRole: string) {
         return this.httpClient.delete<void>(`${this.deleteadminUrl}/${id}?contactRole=${contactRole}`, { observe: 'response' });
       }
-      
       
     getUserByEmailId(userId: string){
         return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});

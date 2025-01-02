@@ -241,6 +241,7 @@ export class RgntOfficerDetailsMgmtComponent {
   billingOfficerDetails: any = null;
   officerDetails:any=null;
   async getAdminOfficerDetails(id: number){
+  
     await lastValueFrom(this.contactDetailsService.getAdminOfficerDetailsById(id)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
@@ -316,6 +317,7 @@ export class RgntOfficerDetailsMgmtComponent {
         adminEmail: '',
         contactRole: ''
       };
+      document.getElementById('admin').click()
     } else if (modalType === 'billing') {
       this.billingOfficerDetails = {
         organisationName: '',
@@ -556,8 +558,10 @@ export class RgntOfficerDetailsMgmtComponent {
     }
   }
 
-  deleteUserById(id: number, contactRole: string) {
-   
+  deleteAdminById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
       this.userService.deleteAdminById(id, contactRole).subscribe({
         next: (res) => {
           if (res.status === HttpStatusCode.NoContent) {
@@ -572,6 +576,53 @@ export class RgntOfficerDetailsMgmtComponent {
           this.toastr.error('An error occurred while deleting data');
         },
       });
+    } else {
+      this.toastr.info('Data deletion cancelled');
     }
-  
+  }
+  deleteBillingById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
+      this.userService.deleteBillById(id, contactRole).subscribe({
+        next: (res) => {
+          if (res.status === HttpStatusCode.NoContent) {
+            this.toastr.success('Data deleted successfully');
+            window.location.reload();
+          } else {
+            this.toastr.error('Failed to delete data');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting data:', err);
+          this.toastr.error('An error occurred while deleting data');
+        },
+      });
+    } else {
+      this.toastr.info('Data deletion cancelled');
+    }
+  }
+ 
+  deleteTechById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
+      this.userService.deleteTechById(id, contactRole).subscribe({
+        next: (res) => {
+          if (res.status === HttpStatusCode.NoContent) {
+            this.toastr.success('Data deleted successfully');
+            window.location.reload();
+          } else {
+            this.toastr.error('Failed to delete data');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting data:', err);
+          this.toastr.error('An error occurred while deleting data');
+        },
+      });
+    } else {
+      this.toastr.info('Data deletion cancelled');
+    }
+  }
 }
