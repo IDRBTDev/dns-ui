@@ -80,17 +80,16 @@ export class NameServerFormComponent implements OnInit {
       userMailId: localStorage.getItem('email'),
 
       hostName: ['', Validators.required],
-
-      ipAddress: [
+       ipAddress: [
         '',
         [
           Validators.required,
-
           Validators.pattern(
-            /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
-          ),
-        ],
-      ],
+            /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$/
+          )
+        ]
+      ]
+      
     });
   }
 

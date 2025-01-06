@@ -5,6 +5,8 @@ export class Domain{
     userMailId : string;
     bankName : string;
     domainName : string;
+    zone:string;
+    label:string;
     numberOfYears : number;
     cost : number;
     organizationName : string;
