@@ -186,7 +186,7 @@ if(this.domainsList.paymentStatus=="Paid") {
           console.log('Response received:', response);
   
           if (response.status === HttpStatusCode.Ok) {
-            this.toastrService.success("Payment Status updated to paid");
+            this.toastrService.success("Application Rejected");
           } else if (response.status === HttpStatusCode.NotFound) {
             console.log('Domain not found.');
             this.toastrService.error("Domain not found.");
@@ -198,7 +198,7 @@ if(this.domainsList.paymentStatus=="Paid") {
   
         }
       })
-    this.toastrService.success("Application Rejected");
+   
 
   }
 }

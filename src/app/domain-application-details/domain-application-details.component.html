@@ -109,7 +109,7 @@
                                                       [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                         <option value="" disabled selected>Select Status</option>
                                                        
-                                                        <option value="OnHold">OnHold</option>
+                                                        <option value="OnHold">On Hold</option>
                                                         <option value="Inprogress">Inprogress</option>
                                                         <option value="Approved">Approved</option>
                                                         <option value="Rejected">Rejected</option>
@@ -125,7 +125,7 @@
                                                         <option value="" disabled selected>Select Status</option>
                                                         <option *ngFor="let status of status" [value]="status">{{ status }}</option>
                                                         <option value="Active">Active</option>
-                                                        <option value="InActive">InActive</option>
+                                                        <option value="InActive">In Active</option>
                                                     </select>
                                                 </div>
                                             </div>
