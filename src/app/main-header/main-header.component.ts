@@ -5,6 +5,7 @@ import { MainHeaderService } from './service/main-header.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { NotificationService } from '../notification/service/notification.service';
 import { interval, Subscription } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-main-header',
@@ -156,10 +157,16 @@ export class MainHeaderComponent implements OnInit{
   triggerFileInput() {
     this.fileInput.nativeElement.click();
   }
-
+maxFileSizeInMB: number = environment.maxFileSizeMB;
   onChangeFile(event: any): void {
     if (event.target.files.length > 0) {
         const file = event.target.files[0];
+        const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 
+        if (file.size > maxFileSize) {
+          alert(`File size exceeds the ${maxFileSize}MB limit. Please select a smaller file.`);
+          event.target.value = ''; 
+          return; 
+        }
         const formData = new FormData();
         formData.append('file', file);
 
