@@ -41,102 +41,446 @@
                             </div>
                         </div>
 
-                        
-                        <div class=" main col-8">
-                            <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
-                            <div class="first">
-                                <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
-                                <div class="input-group">
-                                    <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
-                                        [(ngModel)]="organizationsList.institutionName" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization?.institutionName }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
-                                <div class="pin-page">
-                                    <input type="text" class="form-control" placeholder="Enter a pin code"
-                                        [(ngModel)]="organizationsList.pincode" />
-                                    <input type="text" class="form-control" placeholder="Enter a City"
-                                        [(ngModel)]="organizationsList.city" />
-                                    <input type="text" class="form-control" placeholder="Enter a state"
-                                        [(ngModel)]="organizationsList.state" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.pincode }}</p>
-                                        <p>{{ organization.city }}</p>
-                                        <p>{{ organization.state }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Address</h5>
-                                <div class="input-group">
-                                    <input type="text" placeholder="Enter your Address 1" class="form-control"
-                                        [(ngModel)]="organizationsList.address" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.address }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Email ID</h5>
-                                <div >
-                                    <input type="email" placeholder="Enter your Email id" class="form-control"
-                                        [(ngModel)]="organizationsList.userMailId" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.userMailId }}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
-                                        <div>
-                                            <select disabled="true"
-                                            class="form-control" 
-                                            [(ngModel)]="domainsList.paymentStatus" 
-                                            (ngModelChange)="onPaymentStatusChange()">
-                                                <option value="" disabled selected>Select Status</option>
-                                                <option value="Paid">Paid</option>
-                                                <option value="Unpaid">Unpaid</option>
-                                                <option value="Initiated">Initiated</option>
-                                            </select>
+                        <div style="margin-left: 80px;" class="row">
+                            <div class="main col-6 pe-3">
+                                <div class="card card-equal-height">
+                                    <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
+                                    <div class="first">
+                                        <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
+                                        <div class="input-group">
+                                            <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
+                                                [(ngModel)]="organizationsList.institutionName" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization?.institutionName }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                
-                                    <div class="col-4">
-                                        <h5 style="font-size: 16px; color:#000000">NS Status</h5>
-                                            <select
-                                             class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
-                                              [disabled]="domainsList.paymentStatus !== 'Paid'">
-                                                <option value="" disabled selected>Select Status</option>
+                                        <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
+                                        <div class="pin-page">
+                                            <input type="text" class="form-control" placeholder="Enter a pin code"
+                                                [(ngModel)]="organizationsList.pincode" />
+                                            <input type="text" class="form-control" placeholder="Enter a City"
+                                                [(ngModel)]="organizationsList.city" />
+                                            <input type="text" class="form-control" placeholder="Enter a state"
+                                                [(ngModel)]="organizationsList.state" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.pincode }}</p>
+                                                <p>{{ organization.city }}</p>
+                                                <p>{{ organization.state }}</p>
+                                            </div>
+                                        </div>
+                                        <h5 style="font-size: 16px; color:#000000">Address</h5>
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Enter your Address 1" class="form-control"
+                                                [(ngModel)]="organizationsList.address" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.address }}</p>
+                                            </div>
+                                        </div>
+                                        <h5 style="font-size: 16px; color:#000000">Email ID</h5>
+                                        <div >
+                                            <input type="email" placeholder="Enter your Email id" class="form-control"
+                                                [(ngModel)]="organizationsList.userMailId" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.userMailId }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
+                                                <div style="margin-bottom: 0px;">
+                                                    <select 
+                                                    class="form-control" 
+                                                    [(ngModel)]="domainsList.paymentStatus" 
+                                                    (ngModelChange)="onPaymentStatusChange()">
+                                                        <option value="" disabled selected>Select Status</option>
+                                                        <option value="Paid">Paid</option>
+                                                        <option value="Unpaid">Unpaid</option>
+                                                        <option value="Initiated">Initiated</option>
+                                                        <option value="Ready for payment">Ready for payment</option>
+                                                    </select>
+                                                </div>
                                                
-                                                <option value="OnHold">OnHold</option>
-                                                <option value="Inprogress">Inprogress</option>
-                                                <option value="Approved">Approved</option>
-                                                <option value="Rejected">Rejected</option>
-                                            </select>
+                                            </div>
+                                           
+                                            <div class="col-4">
+                                                <h5 style="font-size: 16px; color:#000000">NS Status</h5>
+                                                    <select
+                                                     class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
+                                                      [disabled]="domainsList.paymentStatus !== 'Paid'">
+                                                        <option value="" disabled selected>Select Status</option>
+                                                       
+                                                        <option value="OnHold">On Hold</option>
+                                                        <option value="Inprogress">Inprogress</option>
+                                                        <option value="Approved">Approved</option>
+                                                        <option value="Rejected">Rejected</option>
+                                                    </select>
+                                                </div>
+                                            
+                                            <div class="col-4">
+                                                <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
+                                                <div>
+                                                    <select
+                                                     class="form-control" [(ngModel)]="domainsList.status" 
+                                                     [disabled]="domainsList.paymentStatus !== 'Paid'">
+                                                        <option value="" disabled selected>Select Status</option>
+                                                        <option *ngFor="let status of status" [value]="status">{{ status }}</option>
+                                                        <option value="Active">Active</option>
+                                                        <option value="InActive">In Active</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    
-                                    <div class="col-4">
-                                        <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
-                                        <div>
-                                            <select
-                                             class="form-control" [(ngModel)]="domainsList.status" 
-                                             [disabled]="domainsList.paymentStatus !== 'Paid'">
-                                                <option value="" disabled selected>Select Status</option>
-                                                <option *ngFor="let status of status" [value]="status">{{ status }}</option>
-                                                <option value="Active">Active</option>
-                                                <option value="InActive">InActive</option>
-                                            </select>
+                                        <div class="card">
+                                            <div *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Ready for payment'">
+                                                <div style="display:flex;flex-direction:row">
+                                                    <div>
+                                                        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M34 0H6C4.4087 0 2.88258 0.632141 1.75736 1.75736C0.632141 2.88258 0 4.4087 0 6V34C0 35.5913 0.632141 37.1174 1.75736 38.2426C2.88258 39.3679 4.4087 40 6 40H34C34.329 39.9954 34.6569 39.962 34.98 39.9L35.58 39.76H35.72H35.82L36.56 39.48L36.82 39.34C37.02 39.22 37.24 39.12 37.44 38.98C37.7071 38.7835 37.9609 38.5697 38.2 38.34L38.34 38.16C38.5364 37.961 38.7169 37.747 38.88 37.52L39.06 37.26C39.1997 37.0373 39.3201 36.8032 39.42 36.56C39.4749 36.464 39.5217 36.3637 39.56 36.26C39.66 36.02 39.72 35.76 39.8 35.5V35.2C39.9134 34.8092 39.9805 34.4064 40 34V6C40 4.4087 39.3679 2.88258 38.2426 1.75736C37.1174 0.632141 35.5913 0 34 0ZM6 36C5.46957 36 4.96086 35.7893 4.58579 35.4142C4.21071 35.0391 4 34.5304 4 34V25.38L10.58 18.78C10.7659 18.5925 10.9871 18.4438 11.2308 18.3422C11.4746 18.2407 11.736 18.1884 12 18.1884C12.264 18.1884 12.5254 18.2407 12.7692 18.3422C13.0129 18.4438 13.2341 18.5925 13.42 18.78L30.62 36H6ZM36 34C35.9981 34.2466 35.9507 34.4907 35.86 34.72C35.8143 34.8175 35.7608 34.9111 35.7 35C35.6465 35.0847 35.5863 35.1649 35.52 35.24L24.82 24.54L26.58 22.78C26.7659 22.5925 26.9871 22.4438 27.2308 22.3422C27.4746 22.2407 27.736 22.1884 28 22.1884C28.264 22.1884 28.5254 22.2407 28.7692 22.3422C29.0129 22.4438 29.2341 22.5925 29.42 22.78L36 29.38V34ZM36 23.72L32.24 20C31.0954 18.914 29.5778 18.3086 28 18.3086C26.4222 18.3086 24.9046 18.914 23.76 20L22 21.76L16.24 16C15.0954 14.914 13.5778 14.3086 12 14.3086C10.4222 14.3086 8.90456 14.914 7.76 16L4 19.72V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H34C34.5304 4 35.0391 4.21071 35.4142 4.58579C35.7893 4.96086 36 5.46957 36 6V23.72ZM23 8C22.4067 8 21.8266 8.17595 21.3333 8.50559C20.8399 8.83524 20.4554 9.30377 20.2284 9.85195C20.0013 10.4001 19.9419 11.0033 20.0576 11.5853C20.1734 12.1672 20.4591 12.7018 20.8787 13.1213C21.2982 13.5409 21.8328 13.8266 22.4147 13.9424C22.9967 14.0581 23.5999 13.9987 24.1481 13.7716C24.6962 13.5446 25.1648 13.1601 25.4944 12.6667C25.8241 12.1734 26 11.5933 26 11C26 10.2044 25.6839 9.44129 25.1213 8.87868C24.5587 8.31607 23.7956 8 23 8Z"
+                                                                fill="#747474" />
+                                                        </svg>
+                                                    </div>
+                                                    <div style="margin-left: 10px;">
+                                                        <p style="text-decoration: underline;cursor: pointer;color:rgba(0, 124, 248, 1);font-size: 1rem;padding-top:5px"
+                                                            data-toggle="modal" data-target="#viewThePaymentReciept">
+                                                            View Payment Receipt
+                                                        </p>
+                                                    </div>
+                                            
+                                                </div>
+                                            
+                                            </div>
                                         </div>
+                                       
+        
+                                       
                                     </div>
                                 </div>
+                                
+                               
+                            </div>
+                            <div  class="main col-6 ps-3">
+                                <div class="card">
+                                    <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Documents</h4>
 
+                                GSTIN
+                                    <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                        <div style="display:flex;justify-content: space-between;">
+                                            <div style="text-align: center;">
+                                                <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                </svg>
+                                               <span class="ClickDisplayDoc" (click)="viewDocuments('GSTIN')">GSTIN</span>
+                                            </div>
+                                            <div class="status" [ngClass]="{
+                                                'rejected': orgGstStatus === 'Rejected',
+                                                'approved': orgGstStatus === 'Approved',
+                                                'notReviewed': orgGstStatus === 'Not Reviewed'
+                                              }">
+                                              {{orgGstStatus}}
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                            
+                                    </div>
+                                PAN
+                                    <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                        <div style="display:flex;justify-content: space-between;">
+                                            <div>
+                                                <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                </svg>
+                                               <span class="ClickDisplayDoc" (click)="viewDocuments('PAN')">PAN</span>
+                                            </div>
+                                             <div class="status" [ngClass]="{
+                                                'rejected': orgPanStatus === 'Rejected',
+                                                'approved': orgPanStatus === 'Approved',
+                                                'notReviewed': orgPanStatus === 'Not Reviewed'
+                                              }">
+                                               {{orgPanStatus}}
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                            
+                                    </div>
+                                    Licence Number
+                                    <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                        <div style="display:flex;justify-content: space-between;">
+                                            <div>
+                                                <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                </svg>
+                                               <span class="ClickDisplayDoc" (click)="viewDocuments('LICENCE')">Licence Number</span> 
+                                            </div>
+                                            <div class="status" [ngClass]="{
+                                                'rejected': orgLicenceStatus === 'Rejected',
+                                                'approved': orgLicenceStatus === 'Approved',
+                                                'notReviewed': orgLicenceStatus === 'Not Reviewed'
+                                              }">
+                                               {{orgLicenceStatus}}
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                            
+                                    </div>
+                                    Board Resolution
+                                    <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                        <div style="display:flex;justify-content: space-between;">
+                                            <div>
+                                                <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                </svg>
+                                              <span class="ClickDisplayDoc" (click)="viewDocuments('BOARD')">Board Resolution</span>  
+                                            </div>
+                                            <div class="status" [ngClass]="{
+                                                'rejected': orgBoardStatus === 'Rejected',
+                                                'approved': orgBoardStatus === 'Approved',
+                                                'notReviewed': orgBoardStatus === 'Not Reviewed'
+                                              }">
+                                              {{orgBoardStatus}}
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                            
+                                    </div>
+                                </div>
+                                <div class="card" style="margin-top: 20px;">
+                                    <table>
+                                        <thead>
+                                          <tr>
+                                            <th>Officers</th>
+                                            <th>Status</th>
+                                            <th>Links</th>
+                                          </tr>
+                                        </thead>
+                                        <tr>
+                                          <td colspan="3">
+                                            <hr>
+                                          </td>
+                                        </tr>
+                                        <tbody id="officerTbody">
+                                          <tr style="padding-bottom: 20px;">
+                                            <td style="padding-bottom: 15px;">Administrative Officer</td>
+                                            <td   class="status" [ngClass]="{
+                                                'rejected': adminStatus === 'Rejected',
+                                                'approved': adminStatus === 'Approved',
+                                                'notReviewed': adminStatus === 'Not Reviewed'
+                                              }">{{adminStatus}}</td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                          </tr>
+                                          <tr>
+                                            <td style="padding-bottom: 15px">Technical Officer</td>
+                                            <td   class="status" [ngClass]="{
+                                                'rejected': technicalOfficerStatus === 'Rejected',
+                                                'approved': technicalOfficerStatus === 'Approved',
+                                                'notReviewed': technicalOfficerStatus === 'Not Reviewed'
+                                              }">{{technicalOfficerStatus}}</td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                          </tr>
+                                          <tr>
+                                            <td style="padding-bottom: 15px">Billing Officer</td>
+                                            <td   class="status" [ngClass]="{
+                                                'rejected': billingOfficerStatus === 'Rejected',
+                                                'approved': billingOfficerStatus === 'Approved',
+                                                'notReviewed': billingOfficerStatus === 'Not Reviewed'
+                                              }">{{billingOfficerStatus}}</td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+                            <!-- <div class="col-"></div> -->
+                           
+                        </div>
+                        
+                        <div  style="margin-left: 95px;margin-top: 15px;margin-bottom: 15px;" >
+                            <div class="card col-12">
                                 <div class="button-group">
                                     <button type="button" (click)="updateDomain()">Submit</button>
                                     <button type="button" (click)="cancelDomain()">Cancel</button>
                                 </div>
                             </div>
-
+                           
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
+
+        <div class="modal fade" id="viewThePaymentReciept" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" id="modalHeader">
+                        <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                                >&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <div  class="image-Container">
+                        <img [src]="'data:image/png/jpg/jpeg;base64,'+domainsList.paymentReceipt "width="100%" height="100%">
+                      </div>
+                      
+                      <!-- <div >
+                        <iframe width="100%" height="500px"></iframe>
+                      </div> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" role="alert">
+                       <button class="btn btn-primary" (click)="approvePaymentStatus()">Approve</button>
+                       <button class="btn btn-danger"(click)="rejectPaymentStatus()">Reject</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="viewTheOrgPanDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" id="modalHeader">
+                        <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                                >&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                     
+                      
+                      <div *ngIf="OrgPanImage==false">
+                        <iframe [src]="panDocPdf" width="100%" height="500px"></iframe>
+                      </div>
+                     
+                        <div *ngIf="OrgPanImage==true" class="image-Container">
+                            <img [src]="'data:image/png/jpg/jpeg;base64,'+panDoc"  width="100%" height="100%">
+                        </div>
+                     
+                     
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" role="alert">
+                       <button class="btn btn-primary" (click)="approveOrgDocs('PAN')">Approve</button>
+                       <button class="btn btn-danger"(click)="rejectOrgDocs('PAN')">Reject</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div id="gstModal" hidden  data-toggle="modal"
+          data-target="#viewTheOrgGstDocs"></div>
+          <div id="panModal" hidden  data-toggle="modal"
+          data-target="#viewTheOrgPanDocs"></div>
+          <div id="licenceModal" hidden  data-toggle="modal"
+          data-target="#viewTheOrgLicenceDocs"></div>
+          <div id="boardModal" hidden  data-toggle="modal"
+          data-target="#viewTheBoardDocs"></div>
+          <div class="modal fade" id="viewTheOrgGstDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" id="modalHeader">
+                        <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                                >&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                     
+                      
+                      <div *ngIf="OrgGstDocImage==false">
+                        <iframe [src]="gstDocPdf" width="100%" height="500px"></iframe>
+                      </div>
+                      
+                        <div *ngIf="OrgGstDocImage==true" class="image-Container">
+                            <img [src]="'data:image/png/jpg/jpeg;base64,'+gstDoc"  width="100%" height="100%">
+                        </div>
+                     
+                     
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" role="alert">
+                       <button class="btn btn-primary" (click)="approveOrgDocs('GST')">Approve</button>
+                       <button class="btn btn-danger"(click)="rejectOrgDocs('GST')">Reject</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal fade" id="viewTheOrgLicenceDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" id="modalHeader">
+                        <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                                >&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                     
+                      
+                      <div *ngIf="OrgLicenceImage==false">
+                        <iframe [src]="licenceDocPdf" width="100%" height="500px"></iframe>
+                      </div>
+                    
+                        <div *ngIf="OrgLicenceImage==true" class="image-Container">
+                            <img [src]="'data:image/png/jpg/jpeg;base64,'+licenseDoc"  width="100%" height="100%">
+                        </div>
+                  
+                     
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" role="alert">
+                       <button class="btn btn-primary" (click)="approveOrgDocs('LICENCE')">Approve</button>
+                       <button class="btn btn-danger"(click)="rejectOrgDocs('LICENCE')">Reject</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="viewTheBoardDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" id="modalHeader">
+                        <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                                >&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                     
+                      
+                      <div *ngIf="BoardDocImage==false">
+                        <iframe [src]="boardResolutionDocPdf" width="100%" height="500px"></iframe>
+                      </div>
+                  
+                        <div  *ngIf="BoardDocImage==true" class="image-Container">
+                            <img [src]="'data:image/png/jpg/jpeg;base64,'+boardResolutionDoc"  width="100%" height="100%">
+                        </div>
+                  
+                     
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" role="alert">
+                       <button class="btn btn-primary" (click)="approveOrgDocs('BOARD')">Approve</button>
+                       <button class="btn btn-danger"(click)="rejectOrgDocs('BOARD')">Reject</button>
+                    </div>
+                </div>
+            </div>
+          </div>

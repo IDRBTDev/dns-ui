@@ -25,8 +25,10 @@ export class DomainService{
         let params = new HttpParams();
     
         // Add filters to params if they are provided
+        if (filters.applicationId) params = params.set('applicationId', filters.applicationId);
         if (filters.userId) params = params.set('userId', filters.userId);
         if (filters.organisationName) params = params.set('organisationName', filters.organisationName);
+        if (filters.domainName) params = params.set('domainName',filters.domainName);
         if (filters.nsRecordStatus) params = params.set('nsRecordStatus', filters.nsRecordStatus);
         if (filters.status) params = params.set('status', filters.status);
     
@@ -35,12 +37,12 @@ export class DomainService{
         
         // Format the dates before adding them to params
         if (filters.submissionDateFrom) {
-            const formattedFromDate = this.formatDate(filters.submissionDateFrom);
-            params = params.set('submissionDateFrom', formattedFromDate);
+            // const formattedFromDate = this.formatDate(filters.submissionDateFrom);
+            params = params.set('submissionDateFrom', filters.submissionDateFrom);
         }
         if (filters.submissionDateTo) {
-            const formattedToDate = this.formatDate(filters.submissionDateTo);
-            params = params.set('submissionDateTo', formattedToDate);
+            // const formattedToDate = this.formatDate(filters.submissionDateTo);
+            params = params.set('submissionDateTo', filters.submissionDateTo);
         }
         
         // Make the GET request with the query parameters

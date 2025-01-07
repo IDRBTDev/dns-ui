@@ -112,31 +112,33 @@ export class DomainApplicationComponent {
       }
     );
   }
-  // getFilteredDomains(): void {
-  //   const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
-  //  console.log("filterd data is:",filters);
-  //   this.domainService.getFilteredData(filters).subscribe(
-  //     (response) => {
-  //       // Check if the response has data
-  //       if (response.body && response.body.length > 0) {
-  //         this.domainsList = response.body;
-  //         this.domainsDataSource.data = this.domainsList;
-  //         this.domainsDataSource.paginator = this.paginator;
-  //         this.domainsDataSource.sort = this.sort;
-  //         this.noDataFound = false; // Hide "No results" message if data is found
-  //       } else {
-  //         // If no data is found, display the "No results found" message
-  //         this.domainsList = []; // Ensure the data list is empty
-  //         this.domainsDataSource.data = this.domainsList; // Set the data source to empty
-  //         this.noDataFound = true; // Set the flag to true to show "No results" message
-  //       }
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching filtered domains:', error);
-  //       this.noDataFound = true; // In case of error, show "No results" message
-  //     }
-  //   );
-  // }
+  getFilteredDomains(): void {
+    const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
+   console.log("filterd data is:",filters);
+    this.domainService.getFilteredData(this.filters).subscribe(
+      (response) => {
+        // Check if the response has data
+        console.log(response)
+        if (response.body && response.body.length > 0) {
+          this.domainsList = response.body;
+          console.log(this.domainsList)
+          this.domainsDataSource.data = this.domainsList;
+          this.domainsDataSource.paginator = this.paginator;
+          this.domainsDataSource.sort = this.sort;
+          this.noDataFound = false; // Hide "No results" message if data is found
+        } else {
+          // If no data is found, display the "No results found" message
+          this.domainsList = []; // Ensure the data list is empty
+          this.domainsDataSource.data = this.domainsList; // Set the data source to empty
+          this.noDataFound = true; // Set the flag to true to show "No results" message
+        }
+      },
+      (error) => {
+        console.error('Error fetching filtered domains:', error);
+        this.noDataFound = true; // In case of error, show "No results" message
+      }
+    );
+  }
   
   navigateToDomainDetails(domainId: number) {
     if(this.role === 'IDRBTADMIN'){
@@ -156,14 +158,16 @@ export class DomainApplicationComponent {
     }
   }
 
-  // filters = {
-  //   userId: '',
-  //   organisationName: '',
-  //   nsRecordStatus: '',
-  //   status: '',
-  //   submissionDateFrom: '', // Add this field for the "From" date
-  //   submissionDateTo: '' 
-  // };
+  filters = {
+    applicationId:'',
+    userId: this.userEmailId,
+    organisationName: '',
+    domainName:'',
+    nsRecordStatus: '',
+    status: '',
+    submissionDateFrom: '', // Add this field for the "From" date
+    submissionDateTo: '' 
+  };
 
   // resetFilters(): void {
   //   this.filters = {
@@ -177,50 +181,55 @@ export class DomainApplicationComponent {
   //   this.getFilteredDomains();
   // }
 
-  // filterButton() {
-  //   // Assuming you have a filter object with values (e.g., from input fields)
-  //   const filters = {
-  //     organisationName: this.filters.organisationName, // The value entered by the user
-  //     nsRecordStatus: this.filters.nsRecordStatus,    // The value entered by the user
-  //     status: this.filters.status, 
-  //     submissionDateFrom:this.filters.submissionDateFrom,
-  //     submissionDateTo:this.filters.submissionDateTo
+  filterButton() {
+    // Assuming you have a filter object with values (e.g., from input fields)
+    console.log(this.filters.submissionDateFrom)
+    const filters = {
+      userId:this.userEmailId,
+      applicationId:this.filters.applicationId,
+      organisationName: this.filters.organisationName,
+      domainName:this.filters.domainName, // The value entered by the user
+      nsRecordStatus: this.filters.nsRecordStatus,    // The value entered by the user
+      status: this.filters.status, 
+      submissionDateFrom:this.filters.submissionDateFrom,
+      submissionDateTo:this.filters.submissionDateTo
+    };
 
-  //   };
+    // Store the filters in localStorage as a JSON string
+    localStorage.setItem('filters', JSON.stringify(filters));
 
-  //   // Store the filters in localStorage as a JSON string
-  //   localStorage.setItem('filters', JSON.stringify(filters));
+    // Clear the noDataFound flag and fetch filtered data
+    this.noDataFound = false;
+    this.getFilteredDomains(); // Fetch the filtered data
+    // window.location.reload();
+  }
+  noDataFound: boolean = false;
 
-  //   // Clear the noDataFound flag and fetch filtered data
-  //   this.noDataFound = false;
-  //   this.getFilteredDomains(); // Fetch the filtered data
-  //   window.location.reload();
-  // }
-  // noDataFound: boolean = false;
+  clearButton() {
 
-  // clearButton() {
+    //localStorage.removeItem('filters');
 
-  //   //localStorage.removeItem('filters');
+    // Clear any local filter variables
+    this.filters.organisationName = '';
+    this.filters.domainName='',
+    this.filters.nsRecordStatus = '';
+    this.filters.status = '';
+    this.filters.submissionDateFrom= '', // Add this field for the "From" date
+    this.filters.submissionDateTo= '';
+    this.filters.applicationId=''
+    localStorage.setItem('filters', JSON.stringify(this.filters));
 
-  //   // Clear any local filter variables
-  //   this.filters.organisationName = '';
-  //   this.filters.nsRecordStatus = '';
-  //   this.filters.status = '';
-  //   this.filters. submissionDateFrom= '', // Add this field for the "From" date
-  //   this.filters. submissionDateTo= '';
-  //   localStorage.setItem('filters', JSON.stringify(this.filters));
-
-  //   // Fetch all domains without any filters
-  //   if (this.role !== 'IDRBTADMIN') {
-  //     console.log('exe')
+    // Fetch all domains without any filters
+    if (this.role !== 'IDRBTADMIN') {
+      console.log('exe')
      
-  //     this.getAllDomainsList(this.userEmailId);
+      this.getAllDomainsList(this.userEmailId);
     
    
-  //   } else {
+    } else {
     
-  //     this.getAllDomainsList("");
+      this.getAllDomainsList("");
    
-  // }
-  // }
+  }
+  }
 }

@@ -9,7 +9,8 @@ import { environment } from 'src/app/environments/environment';
 })
 export class DocumentUploadService {
   private apiUrl = environment.apiURL+'/dr/documents/documentUpload';
-
+  private fetchDocUrl = environment.apiURL+'/dr/documents/orgDocs';
+   private updateDocStatusUrl = environment.apiURL+'/dr/documents/updateorgDocs'
   constructor(private http: HttpClient) {}
 
   /**
@@ -93,4 +94,17 @@ export class DocumentUploadService {
         })
       );
   }
+
+  getOrgDoucumentsById(OrgId: number) {
+   
+    return this.http.get<any>(`${this.fetchDocUrl}/${OrgId}`, {
+        
+        observe: 'response'
+    });
+}
+
+approveOrRejectOrgDocs(docType,status,orgId): Observable<any> {
+   console.log(status)
+  return this.http.post<any>(`${this.updateDocStatusUrl}/${orgId}/${docType}`,status);
+}
 }
