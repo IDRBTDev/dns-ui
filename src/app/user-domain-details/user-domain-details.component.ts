@@ -21,6 +21,8 @@ export class UserDomainDetailsComponent implements OnInit {
   organisationId: number = parseInt(localStorage.getItem('organisationId'));
 
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
+  submissionError: string;
+  isSubmitting: boolean;
 
   ngOnInit(): void {
       console.log(this.organisationId);
@@ -41,13 +43,12 @@ export class UserDomainDetailsComponent implements OnInit {
   ) {
     this.userDomainForm = this.fb.group({
  
-      zone: ['', [Validators.required, Validators.minLength(3)]],
+      label: ['', [Validators.required, Validators.minLength(3)]],
  
-      label: ['', Validators.required],
+      zone: ['', Validators.required],
  
-      numberOfYears:5,
- 
-      cost:5900
+      numberOfYears: [5],  // Default value for number of years
+    cost: [5900]   
  
     });
   }
@@ -57,24 +58,48 @@ export class UserDomainDetailsComponent implements OnInit {
   label: string = '';
   isReserved: boolean | null = null;
 
-  onSearch(): void {
-    if (this.userDomainForm.valid) {
-      const zone = this.userDomainForm.get('zone')?.value;
-      const label = this.userDomainForm.get('label')?.value;
+  // onSearch(): void {
+  //   if (this.userDomainForm.valid) {
+  //     const zone = this.userDomainForm.get('zone')?.value;
+  //     const label = this.userDomainForm.get('label')?.value;
 
-      // Assuming the API returns a boolean indicating if the domain is reserved or available
-      this.userDomainService.validateReservedDomain(zone, label).subscribe(
-        (isReserved) => {
-          this.isReserved = isReserved;
+      
+  //     this.userDomainService.validateReservedDomain(zone, label).subscribe(
+  //       (isReserved) => {
+  //         this.isReserved = isReserved;
+  //         this.showResult = true;
+  //       },
+  //       (error) => {
+  //         console.error('Error validating domain:', error);
+  //         this.showResult = false;
+  //       }
+  //     );
+  //   }
+  // }
+
+  onSearch() {
+    const bankName = this.userDomainForm.get('label')?.value;
+    const domainName = this.userDomainForm.get('zone')?.value;
+    const zone = this.userDomainForm.get('zone')?.value;  // This could be a select option like '.bank.in', '.fin.in', etc.
+    const label = this.userDomainForm.get('label')?.value;  // This is the bank name or identifier.
+  
+    // Make the API call to check both combinations
+    this.userDomainService.checkDomainCombination(bankName, domainName, zone, label).subscribe(
+      (response: boolean) => {
+        if (response) {
+          this.isReserved = false;  // Available
           this.showResult = true;
-        },
-        (error) => {
-          console.error('Error validating domain:', error);
-          this.showResult = false;
+        } else {
+          this.isReserved = true;   // Reserved
+          this.showResult = true;
         }
-      );
-    }
+      },
+      (error) => {
+        console.error('Error checking domain combination:', error);
+      }
+    );
   }
+  
 
  
 
@@ -104,41 +129,116 @@ export class UserDomainDetailsComponent implements OnInit {
 
   // Handle form submission
 
-  async onSubmit() {
+  // async onSubmit() {
 
-    if(this.organisationId > 0){
+  //   if(this.organisationId > 0){
 
-      await this.getOrganisationDetailsById(this.organisationId);
+  //     await this.getOrganisationDetailsById(this.organisationId);
 
-    }
+  //   }
 
+  //   if (this.userDomainForm.valid) {
+
+  //     this.showResult = true;
+
+  //     const domainData = this.userDomainForm.value;
+
+  //     console.log(this.userDomainForm.value);
+
+  //     domainData.userMailId = this.userId;
+  //     domainData.organisationId = this.organisationId;
+
+  //     if(this.organisationDetails != null && this.organisationDetails != undefined){
+
+  //       domainData.organizationName = this.organisationDetails.institutionName;
+
+  //     }else{
+
+  //       domainData.organizationName = 'Onboarding Pending';
+
+  //     }
+
+  //     console.log(domainData)
+
+      
+
+  //     this.userDomainService.sendDomainData(domainData).subscribe(
+
+  //       (response) => {
+
+  //         console.log('Domain data submitted successfully', response);
+
+  //         let navigationExtras: NavigationExtras = {
+
+  //           state: {
+
+  //             domainId: response.domainId,
+
+  //             applicationId: response.applicationId,
+
+  //             organisationId: this.organisationId
+
+  //           }
+
+  //         }
+
+  //         console.log(navigationExtras);
+
+  //         if(this.organisationId < 1){
+
+  //           this.router.navigate(['/onboarding-stepper'], navigationExtras);
+
+  //         }else{
+
+  //           this.router.navigateByUrl('/name-server',navigationExtras);
+
+  //         }
+
+         
+
+  //       },
+
+  //       (error) => {
+
+  //         console.error('Error submitting domain data', error);
+
+  //       }
+
+  //     );
+
+     
+
+  //   }
+
+  //   else{
+
+  //       this.userDomainForm.markAllAsTouched();
+
+  //   }
+
+   
+
+  // }
+
+  onSubmit() {
     if (this.userDomainForm.valid) {
+      const domainData = {
+        bankName: this.userDomainForm.get('label')?.value,
+        domainName: this.userDomainForm.get('zone')?.value,
+        numberOfYears: this.userDomainForm.get('numberOfYears')?.value,
+        cost: this.userDomainForm.get('cost')?.value,
+        organisationId: this.organisationId
+      };
 
-      this.showResult = true;  // Show result after submission
+      console.log('Submitting data:', domainData);
 
-      const domainData = this.userDomainForm.value;
-
-      console.log(this.userDomainForm.value);
-
-      domainData.userMailId = this.userId;
-      domainData.organisationId = this.organisationId;
-
-      if(this.organisationDetails != null && this.organisationDetails != undefined){
-
-        domainData.organizationName = this.organisationDetails.institutionName;
-
-      }else{
-
-        domainData.organizationName = 'Onboarding Pending';
-
+      // If domain is reserved, prevent submission
+      if (this.isReserved) {
+        alert('The combination of Bank Name and Domain is already reserved. Please choose a different one.');
+        return;
       }
-
-      console.log(domainData)
-
-      // Call the service to send domain data
-
       this.userDomainService.sendDomainData(domainData).subscribe(
-
+      
         (response) => {
 
           console.log('Domain data submitted successfully', response);
@@ -190,9 +290,7 @@ export class UserDomainDetailsComponent implements OnInit {
         this.userDomainForm.markAllAsTouched();
 
     }
-
-   
-
+  
   }
 
   backButton(){

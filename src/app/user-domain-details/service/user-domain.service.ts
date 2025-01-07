@@ -19,4 +19,14 @@ private domainurl=environment.apiURL+'/dr/domain/validateReservedDomain';
     const params = new HttpParams().set('zone', zone).set('label', label);
     return this.http.get<boolean>(this.domainurl, { params });
   }
+
+  checkDomainCombination(bankName: string, domainName: string, zone: string, label: string): Observable<boolean> {
+    const params = new HttpParams()
+      .set('bankName', bankName)
+      .set('domainName', domainName)
+      .set('zone', zone)
+      .set('label', label);
+
+    return this.http.get<boolean>(`${this.apiUrl}/check-combination`, { params });
+  }
 }
