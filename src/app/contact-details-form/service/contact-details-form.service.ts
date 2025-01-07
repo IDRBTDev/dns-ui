@@ -64,7 +64,9 @@ export class ContactDetailsFormService {
   }
 
   getAdminOfficerDetailsById(id: number){
+    console.log(id);
     const apiUrl = this.adminApiUrl+'/getDetails/'+id;
+    console.log(id);
     return this.http.get<any>(apiUrl, {observe: 'response'});
   }
 

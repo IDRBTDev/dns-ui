@@ -74,7 +74,7 @@ class="form-card shadow-lg"
                             <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress"
                                 class="custom-text-field" placeholder="Name Server {{ i + 1 }} - IP Address" required />
 
-                            <div *ngIf="
+                            <!-- <div *ngIf="
 
                   server.get('ipAddress')?.invalid &&
 
@@ -84,7 +84,16 @@ class="form-card shadow-lg"
 
                                 IP address is required
 
-                            </div>
+                            </div> -->
+
+                            <div *ngIf="server.get('ipAddress')?.invalid && server.get('ipAddress')?.touched" class="error-message">
+                                <div *ngIf="server.get('ipAddress')?.hasError('required')">IP address is required.</div>
+                                <div *ngIf="server.get('ipAddress')?.hasError('pattern')">
+                                  Invalid IP address format. Please enter a valid IP address.
+                                </div>
+                                
+                              </div>
+                              
                         </div>
                     </div>
                 </div>

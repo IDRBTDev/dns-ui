@@ -53,6 +53,7 @@ export class RgntOfficerDetailsMgmtComponent {
   userId = localStorage.getItem('email');
   role = localStorage.getItem('userRole');
   organisationId = localStorage.getItem('organisationId');
+  myForm: any;
 
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService,
@@ -66,6 +67,7 @@ export class RgntOfficerDetailsMgmtComponent {
   async getOrganisations(){
     await lastValueFrom(this.organisationService.getAllOrganisations()).then(
       response => {
+        console.log(this.organisationsList);
         if(response.status === HttpStatusCode.Ok){
           this.organisationsList = response.body;
         }
@@ -76,6 +78,19 @@ export class RgntOfficerDetailsMgmtComponent {
       }
     )
   }
+
+  async getUserById(id: number, contactRole: string) {
+    console.log('Role passed:', contactRole);  // Debugging line
+    if (contactRole === 'AdminOfficer') {
+      this.getAdminOfficerDetails(id);
+      console.log(contactRole);
+    } else if (contactRole === 'TechnicalOfficer') {
+      await this.getTechnicalOfficerDetails(id);
+    } else {
+      await this.getBillingOfficerDetails(id);
+    }
+  }
+  
 
   loggedInUser: any;
   async getLoggedInUserDetails(){
@@ -108,7 +123,8 @@ export class RgntOfficerDetailsMgmtComponent {
         'contactRole',
         'documents',
         //'approveOrReject',
-        'loginStatus'
+        'loginStatus',
+        'actions'
       ]; 
     //}
 
@@ -223,12 +239,14 @@ export class RgntOfficerDetailsMgmtComponent {
   adminOfficerDetails: any = null;
   technicalOfficerDetails: any = null;
   billingOfficerDetails: any = null;
-
+  officerDetails:any=null;
   async getAdminOfficerDetails(id: number){
+  
     await lastValueFrom(this.contactDetailsService.getAdminOfficerDetailsById(id)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
           this.adminOfficerDetails = response.body;
+          console.log(this.adminOfficerDetails)
         }
       },error => {
         if(error.status === HttpStatusCode.Unauthorized){
@@ -243,6 +261,7 @@ export class RgntOfficerDetailsMgmtComponent {
       response => {
         if(response.status === HttpStatusCode.Ok){
           this.technicalOfficerDetails = response.body;
+          console.log(this.technicalOfficerDetails)
         }
       },error => {
         if(error.status === HttpStatusCode.Unauthorized){
@@ -265,24 +284,67 @@ export class RgntOfficerDetailsMgmtComponent {
       }
     )
   }
+  
+  updateMessage: string = '';
+  async updateAdminOfficerLoginStatus(adminOfficerDetails: any) {
+    console.log('Sending Admin Details:', adminOfficerDetails);  // Log to verify the details
 
-  async updateAdminOfficerLoginStatus(adminDetails: any){
-    await lastValueFrom(this.contactDetailsService.updateAdminDetails(adminDetails)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-         // this.getContactOfficersDetails(response.body.organisationId);
-         console.log(response);
-        }
+    try {
+      const response = await lastValueFrom(this.contactDetailsService.updateAdminDetails(adminOfficerDetails));
+
+      if (response.status === HttpStatusCode.Ok) {
+        this.updateMessage = 'Admin Officer details updated successfully!';
+        console.log('Admin Officer details updated:', response);
+       window.location.reload();
+      } else {
+        this.updateMessage = 'Failed to update admin officer details.';
+        console.log('Failed to update:', response.status);
       }
-    )
+    } catch (error) {
+      console.error('Error updating admin officer:', error);
+      this.updateMessage = 'An error occurred while updating details.';
+    }
   }
 
+  clearButton(modalType: string) {
+    // Reset the corresponding officer details based on the modal type
+    if (modalType === 'admin') {
+      this.adminOfficerDetails = {
+        organisationName: '',
+        adminFullName: '',
+        adminDesignation: '',
+        adminPhone: '',
+        adminEmail: '',
+        contactRole: ''
+      };
+      document.getElementById('admin').click()
+    } else if (modalType === 'billing') {
+      this.billingOfficerDetails = {
+        organisationName: '',
+        billFullName: '',
+        billDesignation: '',
+        billPhone: '',
+        billEmail: ''
+      };
+    } else if (modalType === 'technical') {
+      this.technicalOfficerDetails = {
+        organisationName: '',
+        techFullName: '',
+        techDesignation: '',
+        techPhone: '',
+        techEmail: ''
+      };
+    }
+  }
+  
+  
   async updateTechnicalOfficerLoginStatus(techDetails: any){
     await lastValueFrom(this.contactDetailsService.updateTechDetails(techDetails)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
          // this.getContactOfficersDetails(response.body.organisationId);
          console.log(response)
+         window.location.reload();
         }
       }
     )
@@ -294,6 +356,7 @@ export class RgntOfficerDetailsMgmtComponent {
         if(response.status === HttpStatusCode.Ok){
          // this.getContactOfficersDetails(response.body.organisationId);
          console.log(response)
+         window.location.reload();
         }
       }
     )
@@ -487,5 +550,79 @@ export class RgntOfficerDetailsMgmtComponent {
        this.options = Array.from(this.userInActiveMap, ([key, value]) => ({ key, value }));
        console.log(this.userInActiveMap)
   }
+  async getUsersList(organisationId: number) {
+    console.log('Organisation ID:', organisationId);
+    if (isNaN(organisationId) || organisationId <= 1) {
+      console.error('Invalid organisationId:', organisationId);
+      //return;
+    }
+  }
 
+  deleteAdminById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
+      this.userService.deleteAdminById(id, contactRole).subscribe({
+        next: (res) => {
+          if (res.status === HttpStatusCode.NoContent) {
+            this.toastr.success('Data deleted successfully');
+            window.location.reload();
+          } else {
+            this.toastr.error('Failed to delete data');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting data:', err);
+          this.toastr.error('An error occurred while deleting data');
+        },
+      });
+    } else {
+      this.toastr.info('Data deletion cancelled');
+    }
+  }
+  deleteBillingById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
+      this.userService.deleteBillById(id, contactRole).subscribe({
+        next: (res) => {
+          if (res.status === HttpStatusCode.NoContent) {
+            this.toastr.success('Data deleted successfully');
+            window.location.reload();
+          } else {
+            this.toastr.error('Failed to delete data');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting data:', err);
+          this.toastr.error('An error occurred while deleting data');
+        },
+      });
+    } else {
+      this.toastr.info('Data deletion cancelled');
+    }
+  }
+ 
+  deleteTechById(id: number, contactRole: string) {
+    const confirmation = window.confirm('Are you sure you want to delete this data?');
+    
+    if (confirmation) {
+      this.userService.deleteTechById(id, contactRole).subscribe({
+        next: (res) => {
+          if (res.status === HttpStatusCode.NoContent) {
+            this.toastr.success('Data deleted successfully');
+            window.location.reload();
+          } else {
+            this.toastr.error('Failed to delete data');
+          }
+        },
+        error: (err) => {
+          console.error('Error deleting data:', err);
+          this.toastr.error('An error occurred while deleting data');
+        },
+      });
+    } else {
+      this.toastr.info('Data deletion cancelled');
+    }
+  }
 }

@@ -5,6 +5,8 @@ export class Domain{
     userMailId : string;
     bankName : string;
     domainName : string;
+    zone:string;
+    label:string;
     numberOfYears : number;
     cost : number;
     organizationName : string;
@@ -17,5 +19,5 @@ export class Domain{
     nameServerIds : string;
     organisationId : number;
     paymentStatus : string;
-    paymentReceipt:Blob;
+    paymentReceipt: string;
 }

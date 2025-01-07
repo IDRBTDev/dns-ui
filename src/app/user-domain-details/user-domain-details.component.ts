@@ -23,7 +23,11 @@ export class UserDomainDetailsComponent implements OnInit {
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
 
   ngOnInit(): void {
-      console.log(this.organisationId)
+      console.log(this.organisationId);
+      // this.userDomainForm = this.fb.group({
+      //   zone: ['', Validators.required],
+      //   label: ['', Validators.required]
+      // });
   }
   
   constructor(
@@ -35,42 +39,41 @@ export class UserDomainDetailsComponent implements OnInit {
     public router:Router, private organisationService: OrganisationDetailsService
 
   ) {
-
     this.userDomainForm = this.fb.group({
-
-      bankName: ['', [Validators.required, Validators.minLength(3)]],
-
-      domainName: ['', Validators.required],
-
+ 
+      zone: ['', [Validators.required, Validators.minLength(3)]],
+ 
+      label: ['', Validators.required],
+ 
       numberOfYears:5,
-
+ 
       cost:5900
-
+ 
     });
-
   }
 
 
-  onSearch() {
+  zone: string = '';
+  label: string = '';
+  isReserved: boolean | null = null;
 
+  onSearch(): void {
     if (this.userDomainForm.valid) {
+      const zone = this.userDomainForm.get('zone')?.value;
+      const label = this.userDomainForm.get('label')?.value;
 
-      // Show the search result if the form is valid
-
-      this.showResult = true;
-
-      console.log('Form is valid, showing results');
-
-      // You can also add further logic for making an API call or searching
-
-    } else {
-
-      this.userDomainForm.markAllAsTouched();
-
-      console.log('Form is invalid');
-
+      // Assuming the API returns a boolean indicating if the domain is reserved or available
+      this.userDomainService.validateReservedDomain(zone, label).subscribe(
+        (isReserved) => {
+          this.isReserved = isReserved;
+          this.showResult = true;
+        },
+        (error) => {
+          console.error('Error validating domain:', error);
+          this.showResult = false;
+        }
+      );
     }
-
   }
 
  
