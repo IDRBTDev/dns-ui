@@ -83,6 +83,14 @@ console.log("conytactservice called")
     );
   }
   
+  getDocStatusOfOfficers(
+    organisationId: number
+  ): Observable<any> {
+    return this.http.get(
+      environment.apiURL+`/dr/contactDocuments/documentStatus/${organisationId}`,
+      {observe: 'response' }
+    );
+  }
   
 
 }

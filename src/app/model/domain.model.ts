@@ -17,4 +17,5 @@ export class Domain{
     nameServerIds : string;
     organisationId : number;
     paymentStatus : string;
+    paymentReceipt:Blob;
 }

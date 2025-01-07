@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from '../user/service/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { lastValueFrom } from 'rxjs';
@@ -57,7 +57,7 @@ export class RgtrRgntOfficerDetailsComponent {
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService,
     private contactDetailsService: ContactDetailsFormService,
-    private contactDocumentsService: ContactDocumentUploadService
+    private contactDocumentsService: ContactDocumentUploadService,private route:ActivatedRoute
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
@@ -96,6 +96,15 @@ export class RgtrRgntOfficerDetailsComponent {
   async ngOnInit(): Promise<void> {
     //set table comumns based on role
     //if(this.role === 'IDRBTADMIN'){
+    console.log(typeof(this.route.snapshot.queryParams['data']))
+    this.selectedOrganisationId=this.route.snapshot.queryParams['data']?Number(this.route.snapshot.queryParams['data']):0;
+    if(this.route.snapshot.queryParams['data']){
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {}, // Clear query params
+        replaceUrl: true, // Replace the URL in the browser history
+      });
+    }
       this.displayedColumns = [
         //'checkbox',
         'id',
@@ -118,7 +127,7 @@ export class RgtrRgntOfficerDetailsComponent {
     this.getLoggedInUserDetails();
     
     //if(this.role === 'IDRBTADMIN'){
-      await this.getContactOfficersDetails(0);
+      await this.getContactOfficersDetails(this.selectedOrganisationId);
     //}else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
       //await this.getContactOfficersDetails(parseInt(this.organisationId));
     //}
