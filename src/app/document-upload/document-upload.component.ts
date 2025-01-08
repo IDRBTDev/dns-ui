@@ -144,7 +144,7 @@ export class DocumentUploadComponent implements OnInit {
     if (file.size > maxFileSize) {
       this.organisationErrors = {
         type: 'fileUpload',
-        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+        message: `Select a file less than ${this.maxFileSizeInMB}MB `,
       };
       input.value = ''; // Reset file input
       return;
@@ -214,7 +214,7 @@ export class DocumentUploadComponent implements OnInit {
     if (file.size > maxFileSize) {
       this.adminErrors = {
         type: 'fileUpload',
-        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+        message: `Select a file less than ${this.maxFileSizeInMB}MB `,
       };
       input.value = ''; // Reset file input
       return;
@@ -275,7 +275,7 @@ export class DocumentUploadComponent implements OnInit {
     if (file.size > maxFileSize) {
       this.techErrors = {
         type: 'fileUpload',
-        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+        message: `Select a file less than  ${this.maxFileSizeInMB}MB`,
       };
       input.value = ''; // Reset file input
       return;

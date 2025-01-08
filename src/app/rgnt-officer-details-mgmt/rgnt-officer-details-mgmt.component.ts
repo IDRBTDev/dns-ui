@@ -288,7 +288,13 @@ export class RgntOfficerDetailsMgmtComponent {
   
   updateMessage: string = '';
   async updateAdminOfficerLoginStatus(adminOfficerDetails: any) {
-    console.log('Sending Admin Details:', adminOfficerDetails);  // Log to verify the details
+    this.AdminOrganisationNameChange();
+    this.AdminPersonNameChange();
+    this.AdminDesignationNameChange();
+    this.AdminMobileNameChange();
+    this.AdminEmailNameChange();
+    console.log('Sending Admin Details:', adminOfficerDetails);  
+    if (this.orgNameInput && this.personNameInput && this.designationNameInput && this.mobileNameInput && this.emailNameInput){
 
     try {
       const response = await lastValueFrom(this.contactDetailsService.updateAdminDetails(adminOfficerDetails));
@@ -296,6 +302,8 @@ export class RgntOfficerDetailsMgmtComponent {
       if (response.status === HttpStatusCode.Ok) {
         this.updateMessage = 'Admin Officer details updated successfully!';
         console.log('Admin Officer details updated:', response);
+        this.toastr.success(' updated successfully');
+        this.resetForm();
        window.location.reload();
       } else {
         this.updateMessage = 'Failed to update admin officer details.';
@@ -305,40 +313,86 @@ export class RgntOfficerDetailsMgmtComponent {
       console.error('Error updating admin officer:', error);
       this.updateMessage = 'An error occurred while updating details.';
     }
-  }
+  }}
 
   clearButton() {
+    this.resetForm();
     document.getElementById('closeRegForm').click();
 
   }
+  cancelButton(){
+    this.resetForm();
+    document.getElementById('closeRegForm2').click();
+  }
+  clearButtons() {
+    this.resetForm();
+    document.getElementById('closeRegForm1').click();
+
+  }
+
+  resetForm() {
+    this.orgNameInput = true;
+    this.personNameInput = true;
+    this.designationNameInput = true;
+    this.mobileNameInput = true;
+    this.emailNameInput = true;
   
+    // Clear all error messages
+    this.orgNameErrorMessage = '';
+    this.personNameErrorMessage = '';
+    this.designationNameErrorMessage = '';
+    this.mobileNameErrorMessage = '';
+    this.emailNameErrorMessage = '';
+  }
+
 
   
-  
-  async updateTechnicalOfficerLoginStatus(techDetails: any){
-    await lastValueFrom(this.contactDetailsService.updateTechDetails(techDetails)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-         // this.getContactOfficersDetails(response.body.organisationId);
-         console.log(response)
-         window.location.reload();
-        }
+  async updateTechnicalOfficerLoginStatus(techDetails: any) {
+    this.organisationNameChange();
+this.personNameChange();
+this.designationNameChange();
+this.mobileNameChange();
+this.emailNameChange();
+    
+    console.log("data")
+    if (this.orgNameInput && this.personNameInput && this.designationNameInput && this.mobileNameInput && this.emailNameInput){
+    try {
+      const response = await lastValueFrom(this.contactDetailsService.updateTechDetails(techDetails));
+      if (response.status === HttpStatusCode.Ok) {
+        // If the response is successful, reload the page or handle the response accordingly
+        console.log(response);
+        this.toastr.success(' updated successfully');
+        this.resetForm();
+        window.location.reload();
       }
-    )
+    } catch (error) {
+      // Handle any errors that occur during the update request
+      console.error('Error updating technical officer details', error);
+    }
+  }
+  
   }
 
   async updateBillingOfficerLoginStatus(billDetails: any){
+    this.billingOrganisationNameChange();
+    this.billingPersonNameChange();
+    this.billingdesignationNameChange();
+    this.billingMobileNameChange();
+    this.billingEmailNameChange();
+    if (this.orgNameInput && this.personNameInput && this.designationNameInput && this.mobileNameInput && this.emailNameInput){
     await lastValueFrom(this.contactDetailsService.updateBillDetails(billDetails)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
          // this.getContactOfficersDetails(response.body.organisationId);
-         console.log(response)
+         console.log(response);
+         this.toastr.success(' updated successfully');
+         this.resetForm();
          window.location.reload();
         }
       }
     )
   }
-
+  }
   documentsList: any[] = [];
   async getContactOfficerDocuments(contactType: string, organisationId: number){
     await lastValueFrom(this.contactDocumentsService.getContactOfficerDocuments(contactType,organisationId)).then(
@@ -602,4 +656,347 @@ export class RgntOfficerDetailsMgmtComponent {
       this.toastr.info('Data deletion cancelled');
     }
   }
+
+  orgNameInput: boolean = true;
+  orgNameErrorMessage: string = '';
+  isValidOrgName: boolean = false;
+  
+  organisationNameChange() {
+    const orgName = this.technicalOfficerDetails.organisationName;
+  
+    if (!orgName) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Please enter organisation name to save';
+      this.isValidOrgName = false; // Validation failed
+    } else if (orgName.length <= 3) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Organisation name should be a minimum of 3 characters to save';
+      this.isValidOrgName = false; // Validation failed
+    } else {
+      this.orgNameInput = true;
+      this.orgNameErrorMessage = '';
+      this.isValidOrgName = true; // Validation passed
+    }
+  }
+  billingOrganisationNameChange(){
+    const orgName = this.billingOfficerDetails.organisationName;
+  
+    if (!orgName) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Please enter organisation name to save';
+      this.isValidOrgName = false; // Validation failed
+    } else if (orgName.length <= 3) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Organisation name should be a minimum of 3 characters to save';
+      this.isValidOrgName = false; // Validation failed
+    } else {
+      this.orgNameInput = true;
+      this.orgNameErrorMessage = '';
+      this.isValidOrgName = true; // Validation passed
+    }
+  }
+
+  AdminOrganisationNameChange(){
+    const orgName = this.adminOfficerDetails.organisationName;
+  
+    if (!orgName) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Please enter organisation name to save';
+      this.isValidOrgName = false; // Validation failed
+    } else if (orgName.length <= 3) {
+      this.orgNameInput = false;
+      this.orgNameErrorMessage = 'Organisation name should be a minimum of 3 characters to save';
+      this.isValidOrgName = false; // Validation failed
+    } else {
+      this.orgNameInput = true;
+      this.orgNameErrorMessage = '';
+      this.isValidOrgName = true; // Validation passed
+    }
+  }
+
+  personNameInput: boolean = true;
+  personNameErrorMessage: string = '';
+  isValidPersonName: boolean = false;
+  personNameChange() {
+    const personName = this.technicalOfficerDetails.techFullName?.trim(); // Trim spaces from the input
+  
+    // Check if the person name is empty
+    if (!personName) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Please enter person name to save';
+      this.isValidPersonName = false; // Validation failed
+    }
+    // Check if the person name has less than or equal to 3 characters
+    else if (personName.length <= 3) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Person name should be a minimum of 3 characters to save';
+      this.isValidPersonName = false; // Validation failed
+    } else {
+      // If person name is valid (not empty and more than 3 characters)
+      this.personNameInput = true;
+      this.personNameErrorMessage = '';
+      this.isValidPersonName = true; // Validation passed
+    }
+  }
+  
+  billingPersonNameChange(){
+    const personName = this.billingOfficerDetails.billFullName?.trim(); // Trim spaces from the input
+  
+    // Check if the person name is empty
+    if (!personName) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Please enter person name to save';
+      this.isValidPersonName = false; // Validation failed
+    }
+    // Check if the person name has less than or equal to 3 characters
+    else if (personName.length <= 3) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Person name should be a minimum of 3 characters to save';
+      this.isValidPersonName = false; // Validation failed
+    } else {
+      // If person name is valid (not empty and more than 3 characters)
+      this.personNameInput = true;
+      this.personNameErrorMessage = '';
+      this.isValidPersonName = true; // Validation passed
+    }
+  }
+
+  AdminPersonNameChange(){
+    const personName = this.adminOfficerDetails.adminFullName?.trim(); // Trim spaces from the input
+  
+    // Check if the person name is empty
+    if (!personName) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Please enter person name to save';
+      this.isValidPersonName = false; // Validation failed
+    }
+    // Check if the person name has less than or equal to 3 characters
+    else if (personName.length <= 3) {
+      this.personNameInput = false;
+      this.personNameErrorMessage = 'Person name should be a minimum of 3 characters to save';
+      this.isValidPersonName = false; // Validation failed
+    } else {
+      // If person name is valid (not empty and more than 3 characters)
+      this.personNameInput = true;
+      this.personNameErrorMessage = '';
+      this.isValidPersonName = true; // Validation passed
+    }
+  }
+
+
+  designationNameInput: boolean = true;
+  designationNameErrorMessage: string = '';
+  isValidDesignationName: boolean = false;
+
+  designationNameChange() {
+    const desName = this.technicalOfficerDetails.techDesignation?.trim(); // Trim the input to remove leading/trailing spaces
+  
+    // Check if designation name is empty
+    if (!desName) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Please enter designation name to save';
+      this.isValidDesignationName = false; // Validation failed
+    }
+    // Check if designation name length is less than or equal to 3
+    else if (desName.length <= 3) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Designation name should be a minimum of 3 characters to save';
+      this.isValidDesignationName = false; // Validation failed
+    } else {
+      // If the input is valid (non-empty, and length greater than 3)
+      this.designationNameInput = true;
+      this.designationNameErrorMessage = '';
+      this.isValidDesignationName = true; // Validation passed
+    }
+  }
+  
+  billingdesignationNameChange(){
+    const desName = this.billingOfficerDetails.billDesignation?.trim(); // Trim the input to remove leading/trailing spaces
+  
+    // Check if designation name is empty
+    if (!desName) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Please enter designation name to save';
+      this.isValidDesignationName = false; // Validation failed
+    }
+    // Check if designation name length is less than or equal to 3
+    else if (desName.length <= 3) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Designation name should be a minimum of 3 characters to save';
+      this.isValidDesignationName = false; // Validation failed
+    } else {
+      // If the input is valid (non-empty, and length greater than 3)
+      this.designationNameInput = true;
+      this.designationNameErrorMessage = '';
+      this.isValidDesignationName = true; // Validation passed
+    }
+  }
+
+  AdminDesignationNameChange(){
+    const desName = this.adminOfficerDetails.adminDesignation?.trim(); // Trim the input to remove leading/trailing spaces
+  
+    // Check if designation name is empty
+    if (!desName) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Please enter designation name to save';
+      this.isValidDesignationName = false; // Validation failed
+    }
+    // Check if designation name length is less than or equal to 3
+    else if (desName.length <= 3) {
+      this.designationNameInput = false;
+      this.designationNameErrorMessage = 'Designation name should be a minimum of 3 characters to save';
+      this.isValidDesignationName = false; // Validation failed
+    } else {
+      // If the input is valid (non-empty, and length greater than 3)
+      this.designationNameInput = true;
+      this.designationNameErrorMessage = '';
+      this.isValidDesignationName = true; // Validation passed
+    }
+  }
+
+  mobileNameInput: boolean = true;
+  mobileNameErrorMessage: string = '';
+  isValidMobileName: boolean = false;
+
+  mobileNameChange() {
+    const mobileName = this.technicalOfficerDetails.techPhone;
+  
+    // Check if the mobile number is empty
+    if (!mobileName) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Please enter mobile number to save';
+      this.isValidMobileName = false;
+    }
+    // Check if the mobile number has exactly 10 digits
+    else if (!/^\d{10}$/.test(mobileName)) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Mobile number should be exactly 10 digits';
+      this.isValidMobileName = false;
+    } else {
+      // If valid mobile number (exactly 10 digits)
+      this.mobileNameInput = true;
+      this.mobileNameErrorMessage = '';
+      this.isValidMobileName = true;
+    }
+  }
+  billingMobileNameChange(){
+    const mobileName = this.billingOfficerDetails.billPhone;
+  
+    // Check if the mobile number is empty
+    if (!mobileName) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Please enter mobile number to save';
+      this.isValidMobileName = false;
+    }
+    // Check if the mobile number has exactly 10 digits
+    else if (!/^\d{10}$/.test(mobileName)) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Mobile number should be exactly 10 digits';
+      this.isValidMobileName = false;
+    } else {
+      // If valid mobile number (exactly 10 digits)
+      this.mobileNameInput = true;
+      this.mobileNameErrorMessage = '';
+      this.isValidMobileName = true;
+    }
+  }
+  AdminMobileNameChange(){
+    const mobileName = this.adminOfficerDetails.adminPhone;
+  
+    // Check if the mobile number is empty
+    if (!mobileName) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Please enter mobile number to save';
+      this.isValidMobileName = false;
+    }
+    // Check if the mobile number has exactly 10 digits
+    else if (!/^\d{10}$/.test(mobileName)) {
+      this.mobileNameInput = false;
+      this.mobileNameErrorMessage = 'Mobile number should be exactly 10 digits';
+      this.isValidMobileName = false;
+    } else {
+      // If valid mobile number (exactly 10 digits)
+      this.mobileNameInput = true;
+      this.mobileNameErrorMessage = '';
+      this.isValidMobileName = true;
+    }
+  }
+
+
+  emailNameInput: boolean = true;
+  emailNameErrorMessage: string = '';
+  isValidemailName: boolean = false;
+  emailNameChange() {
+    const email = this.technicalOfficerDetails.techEmail;
+  
+    // Check if email is empty
+    if (!email) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter email to save';
+      this.isValidemailName = false;
+    }
+    // Check if email matches the correct email pattern (basic email validation)
+    else if (!this.isValidEmailFormat(email)) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter a valid email address to save';
+      this.isValidemailName = false;
+    } else {
+      // If email is valid
+      this.emailNameInput = true;
+      this.emailNameErrorMessage = '';
+      this.isValidemailName = true;
+    }
+  }
+  
+  billingEmailNameChange(){
+    const email = this.billingOfficerDetails.billEmail;
+  
+    // Check if email is empty
+    if (!email) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter email to save';
+      this.isValidemailName = false;
+    }
+    // Check if email matches the correct email pattern (basic email validation)
+    else if (!this.isValidEmailFormat(email)) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter a valid email address to save';
+      this.isValidemailName = false;
+    } else {
+      // If email is valid
+      this.emailNameInput = true;
+      this.emailNameErrorMessage = '';
+      this.isValidemailName = true;
+    }
+  }
+  AdminEmailNameChange(){
+    const email = this.adminOfficerDetails.adminEmail;
+  
+    // Check if email is empty
+    if (!email) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter email to save';
+      this.isValidemailName = false;
+    }
+    // Check if email matches the correct email pattern (basic email validation)
+    else if (!this.isValidEmailFormat(email)) {
+      this.emailNameInput = false;
+      this.emailNameErrorMessage = 'Please enter a valid email address to save';
+      this.isValidemailName = false;
+    } else {
+      // If email is valid
+      this.emailNameInput = true;
+      this.emailNameErrorMessage = '';
+      this.isValidemailName = true;
+    }
+  }
+
+
+  // Helper function to validate the email format
+  isValidEmailFormat(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
+  
+
 }

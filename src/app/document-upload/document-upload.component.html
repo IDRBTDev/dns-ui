@@ -95,10 +95,10 @@
       </div>
       <div *ngIf="adminSelectedDocType === 'Aadhaar' ||
                   adminSelectedDocType === 'PAN'" style="flex: 1;">
-          <input type="text" class="form-control" [(ngModel)]="adminInputValue"
+          <input  type="text" class="form-control" [(ngModel)]="adminInputValue"
               (ngModelChange)="handleAdminInputChange($event)" placeholder="Enter {{ adminSelectedDocType }}"
               [attr.maxLength]="adminSelectedDocType === 'Aadhaar' ? 14 : adminSelectedDocType === 'PAN' ? 10 : null" />
-          <div *ngIf="adminInputFieldErrors.type === 'adminInputValue'" style="color: red; font-size: 0.875rem;">
+          <div *ngIf="adminInputFieldErrors.type === 'adminInputValue'" style="color: red; font-size: 0.875rem; position: absolute;">
               {{ adminInputFieldErrors.message }}
           </div>
       </div>
@@ -190,7 +190,7 @@
       />
       <div
         *ngIf="techInputFieldErrors.type === 'techInputValue'"
-        style="color: red; font-size: 0.875rem"
+        style="color: red; font-size: 0.875rem; position: absolute;"
       >
         {{ techInputFieldErrors.message }}
       </div>
@@ -306,7 +306,7 @@
       />
       <div
         *ngIf="billingInputFieldErrors.type === 'billingInputValue'"
-        style="color: red; font-size: 0.875rem"
+        style="color: red; font-size: 0.875rem; position: absolute;"
       >
         {{ billingInputFieldErrors.message }}
       </div>

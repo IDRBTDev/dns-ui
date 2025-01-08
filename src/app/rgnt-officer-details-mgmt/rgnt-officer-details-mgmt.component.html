@@ -247,39 +247,51 @@
 
       <div class="modal-body">
        <div class="form-group" *ngIf="adminOfficerDetails">
-  <label for="organisationName">Organization Name</label>
-  <input type="text" id="organisationName" name="organisationName" class="form-control"
+  <label for="organisationName">Organization Name<span style="color:red">*</span></label>
+  <input type="text" id="organisationName" name="organisationName" class="form-control"  (keyup)="AdminOrganisationNameChange()"
     [(ngModel)]="adminOfficerDetails.organisationName" placeholder="Enter Organisation Name">
 </div>
-
+<div *ngIf="!orgNameInput" class="error-message">
+  {{ orgNameErrorMessage }}
+</div>
 <div class="form-group" *ngIf="adminOfficerDetails">
-  <label for="personName">Person Name</label>
-  <input type="text" id="personName" name="personName" class="form-control"
+  <label for="personName">Person Name<span style="color:red">*</span></label>
+  <input type="text" id="personName" name="personName" class="form-control" (keyup)="AdminPersonNameChange()"
     [(ngModel)]="adminOfficerDetails.adminFullName" placeholder="Enter Person Name">
 </div>
-
+<div *ngIf="!personNameInput" class="error-message">
+  {{ personNameErrorMessage }}
+</div>
 <div class="form-group" *ngIf="adminOfficerDetails">
-  <label for="Designation">Designation</label>
-  <input type="text" id="Designation" name="Designation" class="form-control"
+  <label for="Designation">Designation<span style="color:red">*</span></label>
+  <input type="text" id="Designation" name="Designation" class="form-control" (keyup)="AdminDesignationNameChange()"
     [(ngModel)]="adminOfficerDetails.adminDesignation" placeholder="Enter Designation">
 </div>
-
-<div class="form-group" *ngIf="adminOfficerDetails">
-  <label for="MobileNumber">Mobile Number</label>
-  <input type="text" id="MobileNumber" name="MobileNumber" class="form-control"
-    [(ngModel)]="adminOfficerDetails.adminPhone" placeholder="Enter Mobile Number">
+<div *ngIf="!designationNameInput" class="error-message">
+  {{ designationNameErrorMessage }}
 </div>
 
 <div class="form-group" *ngIf="adminOfficerDetails">
-  <label for="EmailId">Email ID</label>
-  <input type="text" id="EmailId" name="EmailId" class="form-control"
+  <label for="MobileNumber">Mobile Number<span style="color:red">*</span></label>
+  <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" (keyup)="AdminMobileNameChange()"
+    [(ngModel)]="adminOfficerDetails.adminPhone" placeholder="Enter Mobile Number">
+</div>
+<div *ngIf="!mobileNameInput" class="error-message">
+  {{ mobileNameErrorMessage }}
+</div>
+<div class="form-group" *ngIf="adminOfficerDetails">
+  <label for="EmailId">Email ID<span style="color:red">*</span></label>
+  <input type="text" id="EmailId" name="EmailId" class="form-control" (keyup)="AdminEmailNameChange()"
     [(ngModel)]="adminOfficerDetails.adminEmail" placeholder="Enter Email ID">
+</div>
+<div *ngIf="!emailNameInput" class="error-message">
+  {{ emailNameErrorMessage }}
 </div>
 
 
         <div class="button-container">
           <!-- Submit Button with background color styling -->
-          <button (click)="updateAdminOfficerLoginStatus(adminOfficerDetails)" class="submit-btn">Submit</button>
+          <button (click)="updateAdminOfficerLoginStatus(adminOfficerDetails)" class="submit-btn">Update</button>
 
           <!-- Cancel Button with background color styling and space between -->
           <button (click)="clearButton()"  class="cancel-btn">Cancel</button>
@@ -296,91 +308,115 @@
     <div class="modal-content">
       <div class="modal-header" style="background-color: #00376A;">
         <h5 class="modal-title" id="exampleModalLabel" style="color: white; font-size: 18px;">Update Officer Details</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: white;" id="closeRegForm" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" style="color: white;" id="closeRegForm1" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
         <div class="form-group" *ngIf="billingOfficerDetails">
-          <label for="organisationName">Organization Name</label>
-          <input type="text" id="organisationName" name="organisationName" class="form-control" [(ngModel)]="billingOfficerDetails.organisationName" placeholder="Enter Organisation Name">
+          <label for="organisationName">Organization Name<span style="color:red">*</span></label>
+          <input type="text" id="organisationName" name="organisationName" class="form-control" (keyup)="billingOrganisationNameChange()" [(ngModel)]="billingOfficerDetails.organisationName" placeholder="Enter Organisation Name">
         </div>
+        <div *ngIf="!orgNameInput" class="error-message">
+          {{ orgNameErrorMessage }}
+      </div>
 
         <div class="form-group" *ngIf="billingOfficerDetails">
-          <label for="personName">Person Name</label>
-          <input type="text" id="personName" name="personName" class="form-control" [(ngModel)]="billingOfficerDetails.billFullName" placeholder="Enter Person Name">
+          <label for="personName">Person Name<span style="color:red">*</span></label>
+          <input type="text" id="personName" name="personName" class="form-control"  (keyup)="billingPersonNameChange()" [(ngModel)]="billingOfficerDetails.billFullName" placeholder="Enter Person Name">
         </div>
-
+        <div *ngIf="!personNameInput" class="error-message">
+          {{ personNameErrorMessage }}
+      </div>
         <div class="form-group" *ngIf="billingOfficerDetails">
-          <label for="Designation">Designation</label>
-          <input type="text" id="Designation" name="Designation" class="form-control" [(ngModel)]="billingOfficerDetails.billDesignation" placeholder="Enter Designation">
+          <label for="Designation">Designation<span style="color:red">*</span></label>
+          <input type="text" id="Designation" name="Designation" class="form-control" (keyup)="billingdesignationNameChange()"  [(ngModel)]="billingOfficerDetails.billDesignation" placeholder="Enter Designation">
         </div>
-
+        <div *ngIf="!designationNameInput" class="error-message">
+          {{ designationNameErrorMessage }}
+      </div>
         <div class="form-group" *ngIf="billingOfficerDetails">
-          <label for="MobileNumber">Mobile Number</label>
-          <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" [(ngModel)]="billingOfficerDetails.billPhone" placeholder="Enter Mobile Number">
+          <label for="MobileNumber">Mobile Number<span style="color:red">*</span></label>
+          <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" (keyup)="billingMobileNameChange()"   [(ngModel)]="billingOfficerDetails.billPhone" placeholder="Enter Mobile Number">
         </div>
-
+        <div *ngIf="!mobileNameInput" class="error-message">
+          {{ mobileNameErrorMessage }}
+      </div>
         <div class="form-group" *ngIf="billingOfficerDetails">
-          <label for="EmailId">Email ID</label>
-          <input type="text" id="EmailId" name="EmailId" class="form-control" [(ngModel)]="billingOfficerDetails.billEmail" placeholder="Enter Email ID">
+          <label for="EmailId">Email ID<span style="color:red">*</span></label>
+          <input type="text" id="EmailId" name="EmailId" class="form-control" (keyup)="billingEmailNameChange()"  [(ngModel)]="billingOfficerDetails.billEmail" placeholder="Enter Email ID">
         </div>
-
+        <div *ngIf="!emailNameInput" class="error-message">
+          {{ emailNameErrorMessage }}
+      </div>
         <div class="button-container">
           <!-- Submit Button with background color styling -->
-          <button (click)="updateBillingOfficerLoginStatus(billingOfficerDetails)" class="submit-btn">Submit</button>
+          <button (click)="updateBillingOfficerLoginStatus(billingOfficerDetails)" class="submit-btn">Update</button>
 
           <!-- Cancel Button with background color styling and space between -->
-          <button class="cancel-btn" (click)="clearButton()" >Cancel</button>
+          <button class="cancel-btn" (click)="clearButtons()" >Cancel</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="lastModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="lastModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #00376A;">
         <h5 class="modal-title" id="exampleModalLabel" style="color: white; font-size: 18px;">Update Officer Details</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: white;" id="closeRegForm" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" style="color: white;" id="closeRegForm2" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
         <div class="form-group" *ngIf="technicalOfficerDetails">
-          <label for="organisationName">Organization Name</label>
-          <input type="text" id="organisationName" name="organisationName" class="form-control" [(ngModel)]="technicalOfficerDetails.organisationName" placeholder="Enter Organisation Name">
+          <label for="organisationName">Organization Name<span style="color:red">*</span></label>
+          <input type="text" id="organisationName" name="organisationName" class="form-control"  (keyup)="organisationNameChange()" [(ngModel)]="technicalOfficerDetails.organisationName" placeholder="Enter Organisation Name">
         </div>
+        <div *ngIf="!orgNameInput" class="error-message">
+          {{ orgNameErrorMessage }}
+      </div>
+        <div class="form-group" *ngIf="technicalOfficerDetails">
+          <label for="personName">Person Name<span style="color:red">*</span></label>
+          <input type="text" id="personName" name="personName" class="form-control" (keyup)="personNameChange()" [(ngModel)]="technicalOfficerDetails.techFullName" placeholder="Enter Person Name">
+        </div>
+        <div *ngIf="!personNameInput" class="error-message">
+          {{ personNameErrorMessage }}
+      </div>
+        <div class="form-group" *ngIf="technicalOfficerDetails">
+          <label for="Designation">Designation<span style="color:red">*</span></label>
+          <input type="text" id="Designation" name="Designation" class="form-control" (keyup)="designationNameChange()" [(ngModel)]="technicalOfficerDetails.techDesignation" placeholder="Enter Designation">
+        </div>
+        <div *ngIf="!designationNameInput" class="error-message">
+          {{ designationNameErrorMessage }}
+      </div>
 
         <div class="form-group" *ngIf="technicalOfficerDetails">
-          <label for="personName">Person Name</label>
-          <input type="text" id="personName" name="personName" class="form-control" [(ngModel)]="technicalOfficerDetails.techFullName" placeholder="Enter Person Name">
+          <label for="MobileNumber">Mobile Number<span style="color:red">*</span></label>
+          <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" (keyup)="mobileNameChange()" [(ngModel)]="technicalOfficerDetails.techPhone" placeholder="Enter Mobile Number">
         </div>
+        <div *ngIf="!mobileNameInput" class="error-message">
+          {{ mobileNameErrorMessage }}
+      </div>
 
         <div class="form-group" *ngIf="technicalOfficerDetails">
-          <label for="Designation">Designation</label>
-          <input type="text" id="Designation" name="Designation" class="form-control" [(ngModel)]="technicalOfficerDetails.techDesignation" placeholder="Enter Designation">
+          <label for="EmailId">Email ID<span style="color:red">*</span></label>
+          <input type="text" id="EmailId" name="EmailId" class="form-control" (keyup)="emailNameChange()" [(ngModel)]="technicalOfficerDetails.techEmail" placeholder="Enter Email ID">
         </div>
-
-        <div class="form-group" *ngIf="technicalOfficerDetails">
-          <label for="MobileNumber">Mobile Number</label>
-          <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" [(ngModel)]="technicalOfficerDetails.techPhone" placeholder="Enter Mobile Number">
-        </div>
-
-        <div class="form-group" *ngIf="technicalOfficerDetails">
-          <label for="EmailId">Email ID</label>
-          <input type="text" id="EmailId" name="EmailId" class="form-control" [(ngModel)]="technicalOfficerDetails.techEmail" placeholder="Enter Email ID">
-        </div>
+        <div *ngIf="!emailNameInput" class="error-message">
+          {{ emailNameErrorMessage }}
+      </div>
 
         <div class="button-container">
-          <!-- Submit Button with background color styling -->
-          <button (click)="updateTechnicalOfficerLoginStatus(technicalOfficerDetails)" class="submit-btn">Submit</button>
+         
+          <button (click)="updateTechnicalOfficerLoginStatus(technicalOfficerDetails)" class="submit-btn">Update</button>
 
-          <!-- Cancel Button with background color styling and space between -->
-          <button  class="cancel-btn" (click)="clearButton()"  >Cancel</button>
+         
+          <button  class="cancel-btn" (click)="cancelButton()"  >Cancel</button>
         </div>
       </div>
     </div>
