@@ -271,14 +271,16 @@ export class DomainApplicationComponent {
       "transactionSource": "ONLINE"
      
   }
-    this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
-      next:(response)=>{
-        console.log(response)   
-        this.updatePaymentSatus(domain);
-      },error:(error)=>{
-        console.log(error)
-      }
-    })
+  window.open('https://test.sbiepay.sbi/secure/AggregatorHostedListener', '_blank', 'noopener noreferrer');
+  // this.router.navigateByUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener")
+    // this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
+    //   next:(response)=>{
+    //     console.log(response)   
+    //     this.updatePaymentSatus(domain);
+    //   },error:(error)=>{
+    //     console.log(error)
+    //   }
+    // })
      
   }
   updatePaymentSatus(domain:Domain) {
