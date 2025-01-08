@@ -32,10 +32,14 @@
       </div>
 
       <!-- Upload Button -->
-      <button class="btn btn-primary" (click)="handleOrganisationFileUploadClick()"
+      <button class="btn btn-primary" (click)="handleOrganisationFileUploadClick()" 
           [disabled]="organisationInputFieldErrors.message !== ''">
           Select File & Upload
       </button>
+<!-- File Input Field -->
+
+
+
       <input type="file" id="organisationFileInput" hidden (change)="handleOrganisationFileChange($event)"
           accept=".png,.jpg,.jpeg,.pdf" />
   </div>

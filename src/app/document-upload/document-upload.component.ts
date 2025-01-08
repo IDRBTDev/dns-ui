@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { DocumentUploadService } from './service/document-upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
+
 
 @Component({
   selector: 'app-document-upload',
@@ -8,6 +10,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./document-upload.component.css'],
 })
 export class DocumentUploadComponent implements OnInit {
+
+
+  maxFileSizeInMB: number = environment.maxFileSizeMB;
   @Input() mode: string = ''; // Default to 'organisation'
   @Input() submissionAttempted = false;
   @Input()preview:string=''
@@ -78,7 +83,7 @@ export class DocumentUploadComponent implements OnInit {
   applicationId = ''; // Replace with appropriate value
   user = ''; // Replace with appropriate value
   userMailId = localStorage.getItem('email');
-
+  
   constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer) {}
 
  
@@ -101,7 +106,7 @@ export class DocumentUploadComponent implements OnInit {
       this.organisationInputFieldErrors = { message: '', type: '' };
     }
   }
-  // Handle file uploads for each section
+  
   handleOrganisationFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
 
@@ -135,7 +140,16 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
-    // If the file is new
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024;  // Convert MB to bytes
+    if (file.size > maxFileSize) {
+      this.organisationErrors = {
+        type: 'fileUpload',
+        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+      };
+      input.value = ''; // Reset file input
+      return;
+    }
+
     const uploadedDoc = {
       type: this.organisationSelectedDocType,
       fileName: file.name,
@@ -177,6 +191,8 @@ export class DocumentUploadComponent implements OnInit {
       input.value = ''; // Reset file input
       return;
     }
+    
+
     const file = input.files[0]; // Assuming single file upload
     console.log(file)
     const fileExists = this.adminUploadedDocs.some(
@@ -191,8 +207,19 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+
+
     console.log(this.adminInputValue)
-    // If the file is new
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024;  // Convert MB to bytes
+    if (file.size > maxFileSize) {
+      this.adminErrors = {
+        type: 'fileUpload',
+        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+      };
+      input.value = ''; // Reset file input
+      return;
+    }
+
     const uploadedDoc = {
       type: this.adminSelectedDocType,
       fileName: file.name,
@@ -244,7 +271,15 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
-    // If the file is new
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 
+    if (file.size > maxFileSize) {
+      this.techErrors = {
+        type: 'fileUpload',
+        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+      };
+      input.value = ''; // Reset file input
+      return;
+    }
     const uploadedDoc = {
       type: this.techSelectedDocType,
       fileName: file.name,
@@ -301,7 +336,15 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
-    // If the file is new
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 
+    if (file.size > maxFileSize) {
+      this.billingErrors = {
+        type: 'fileUpload',
+        message: `The file size exceeds the ${this.maxFileSizeInMB}MB limit. Please choose a smaller file.`,
+      };
+      input.value = ''; // Reset file input
+      return;
+    }
     const uploadedDoc = {
       type: this.billingSelectedDocType,
       fileName: file.name,

@@ -10,6 +10,7 @@ import { OrganisationDetailsService } from '../organisation-details/service/orga
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-rgnt-officer-details-mgmt',
@@ -306,36 +307,12 @@ export class RgntOfficerDetailsMgmtComponent {
     }
   }
 
-  clearButton(modalType: string) {
-    // Reset the corresponding officer details based on the modal type
-    if (modalType === 'admin') {
-      this.adminOfficerDetails = {
-        organisationName: '',
-        adminFullName: '',
-        adminDesignation: '',
-        adminPhone: '',
-        adminEmail: '',
-        contactRole: ''
-      };
-      document.getElementById('admin').click()
-    } else if (modalType === 'billing') {
-      this.billingOfficerDetails = {
-        organisationName: '',
-        billFullName: '',
-        billDesignation: '',
-        billPhone: '',
-        billEmail: ''
-      };
-    } else if (modalType === 'technical') {
-      this.technicalOfficerDetails = {
-        organisationName: '',
-        techFullName: '',
-        techDesignation: '',
-        techPhone: '',
-        techEmail: ''
-      };
-    }
+  clearButton() {
+    document.getElementById('closeRegForm').click();
+
   }
+  
+
   
   
   async updateTechnicalOfficerLoginStatus(techDetails: any){
