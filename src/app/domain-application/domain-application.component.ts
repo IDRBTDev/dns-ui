@@ -30,6 +30,7 @@ export class DomainApplicationComponent {
     'nsRecordStatus',
     // 'industry',
     'tenure',
+    'payment'
 
   ]; // Matches matColumnDef values
 

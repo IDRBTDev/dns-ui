@@ -73,6 +73,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
 import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
  
 Chart.register(ChartDataLabels);
@@ -156,7 +158,9 @@ Chart.register(ChartDataLabels);
     MatSlideToggleModule,
     
   ],
-  providers: [],
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

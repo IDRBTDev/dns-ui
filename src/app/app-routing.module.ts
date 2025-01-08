@@ -87,14 +87,14 @@ const routes: Routes = [
   {path:'rgtr-domains', component: RgtrDomainComponent},
   {path: 'dsc-verification', component: DscVerificationComponent},
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
-  {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent}
-
+  {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent},
+ {path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
 
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash :true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
