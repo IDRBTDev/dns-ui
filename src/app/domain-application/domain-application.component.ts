@@ -8,6 +8,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Domain } from '../model/domain.model';
+import { TransactionRequest } from '../model/TransactionRequest.model';
+import { DomainInvoiceService } from '../domain-invoices/service/domain-invoices.service';
+import { DomainApplicationService } from './service/domain-application.service';
 
 @Component({
   selector: 'app-domain-application',
@@ -26,10 +29,11 @@ export class DomainApplicationComponent {
 
   domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
+  transactionReqObj:TransactionRequest=new TransactionRequest();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog) {
+  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
@@ -249,7 +253,33 @@ export class DomainApplicationComponent {
   }
   }
   processPayment(domain:Domain){
-      this.updatePaymentSatus(domain);
+    this.transactionReqObj={
+      "merchantId": "1000605",
+      "operatingMode": "DOM",
+      "merchantKey" : "pWhMnIEMc4q6hKdi2Fx50Ii8CKAoSIqv9ScSpwuMHM4=",
+      "merchantCountry": "IN",
+      "merchantCurrency": "INR",
+      "orderAmount": 100,
+      "successURL": "https://www.sbiepay.sbi",
+      "failURL": "https://www.sbiepay.sbi",
+      "aggregatorId": "SBIEPAY",
+      "merchantOrderNo":"12345",
+      "merchantCustomerID": "12345",
+      "payMode" : "NB",
+      "actionUrl": "https://test.sbiepay.sbi/secure/AggregatorHostedListener",
+      "accessMedium": "ONLINE",
+      "transactionSource": "ONLINE"
+     
+  }
+    this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
+      next:(response)=>{
+        console.log(response)   
+        this.updatePaymentSatus(domain);
+      },error:(error)=>{
+        console.log(error)
+      }
+    })
+     
   }
   updatePaymentSatus(domain:Domain) {
    domain.paymentStatus='processing'
