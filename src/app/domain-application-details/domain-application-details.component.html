@@ -130,8 +130,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card">
-                                            <div *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Ready for payment'">
+                                        <div class="card" *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Ready for payment'">
+                                            <div >
                                                 <div style="display:flex;flex-direction:row">
                                                     <div>
                                                         <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -7,6 +7,10 @@ import { DomainService } from '../rgnt-domain/service/domain.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Domain } from '../model/domain.model';
+import { TransactionRequest } from '../model/TransactionRequest.model';
+import { DomainInvoiceService } from '../domain-invoices/service/domain-invoices.service';
+import { DomainApplicationService } from './service/domain-application.service';
 
 @Component({
   selector: 'app-domain-application',
@@ -20,25 +24,16 @@ export class DomainApplicationComponent {
   userEmailId = localStorage.getItem('email');
 
   displayedColumns: string[] = [
-    // 'checkbox',
-    'domainId',
-    'organisationName',
-    'domainName',
-    'submissionDate',
-    'status',
-    'paymentStatus',
-    'nsRecordStatus',
-    // 'industry',
-    'tenure',
-
+    //initialized in ngOninit based on the role
   ]; // Matches matColumnDef values
 
   domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
+  transactionReqObj:TransactionRequest=new TransactionRequest();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog) {
+  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
@@ -65,8 +60,33 @@ export class DomainApplicationComponent {
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
     this.getAllDomainsList(this.userEmailId);
+    this.displayedColumns=[
+       // 'checkbox',
+    'domainId',
+    'organisationName',
+    'domainName',
+    'submissionDate',
+    'status',
+    'paymentStatus',
+    'nsRecordStatus',
+    // 'industry',
+    'tenure',
+    'payment'
+    ]
   }else{
     console.log('exe 1')
+    this.displayedColumns=[
+      // 'checkbox',
+   'domainId',
+   'organisationName',
+   'domainName',
+   'submissionDate',
+   'status',
+   'paymentStatus',
+   'nsRecordStatus',
+   // 'industry',
+   'tenure'
+   ]
     this.getAllDomainsList("");
   }
 
@@ -231,5 +251,47 @@ export class DomainApplicationComponent {
       this.getAllDomainsList("");
    
   }
+  }
+  processPayment(domain:Domain){
+    this.transactionReqObj={
+      "merchantId": "1000605",
+      "operatingMode": "DOM",
+      "merchantKey" : "pWhMnIEMc4q6hKdi2Fx50Ii8CKAoSIqv9ScSpwuMHM4=",
+      "merchantCountry": "IN",
+      "merchantCurrency": "INR",
+      "orderAmount": 100,
+      "successURL": "http:localhost:9018/payment/success",
+      "failURL": "http:localhost:9018/payment/fail",
+      "aggregatorId": "SBIEPAY",
+      "merchantOrderNo":"12345",
+      "merchantCustomerID": "12345",
+      "payMode" : "NB",
+      "actionUrl": "https://test.sbiepay.sbi/secure/AggregatorHostedListener",
+      "accessMedium": "ONLINE",
+      "transactionSource": "ONLINE"
+     
+  }
+  this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
+    next:(response)=>{
+      console.log(response)   
+      this.updatePaymentSatus(domain);
+    },error:(error)=>{
+      console.log(error)
+    }
+  })
+  window.open('https://test.sbiepay.sbi/secure/AggregatorHostedListener', '_blank', 'noopener noreferrer');
+  // this.router.navigateByUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener")
+   
+     
+  }
+  updatePaymentSatus(domain:Domain) {
+   domain.paymentStatus='processing'
+   this.domainService.updateDomainDetails(domain).subscribe({
+    next:(response)=>{
+      this.getAllDomainsList(this.userEmailId)
+    },error:(error)=>{
+
+    }
+   })
   }
 }

@@ -134,7 +134,6 @@
                     formControlName="adminAddress"
                     placeholder="Enter your address"
                     [value]="fullAddress"  
-                    readonly  
                   />
                   <div *ngIf="fullForm.get('adminAddress')?.invalid && fullForm.get('adminAddress')?.touched" class="text-danger">
                     Please enter your Address.
