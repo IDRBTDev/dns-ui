@@ -260,8 +260,8 @@ export class DomainApplicationComponent {
       "merchantCountry": "IN",
       "merchantCurrency": "INR",
       "orderAmount": 100,
-      "successURL": "https://www.sbiepay.sbi",
-      "failURL": "https://www.sbiepay.sbi",
+      "successURL": "http:localhost:9018/payment/success",
+      "failURL": "http:localhost:9018/payment/fail",
       "aggregatorId": "SBIEPAY",
       "merchantOrderNo":"12345",
       "merchantCustomerID": "12345",
@@ -271,16 +271,17 @@ export class DomainApplicationComponent {
       "transactionSource": "ONLINE"
      
   }
+  this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
+    next:(response)=>{
+      console.log(response)   
+      this.updatePaymentSatus(domain);
+    },error:(error)=>{
+      console.log(error)
+    }
+  })
   window.open('https://test.sbiepay.sbi/secure/AggregatorHostedListener', '_blank', 'noopener noreferrer');
   // this.router.navigateByUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener")
-    // this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
-    //   next:(response)=>{
-    //     console.log(response)   
-    //     this.updatePaymentSatus(domain);
-    //   },error:(error)=>{
-    //     console.log(error)
-    //   }
-    // })
+   
      
   }
   updatePaymentSatus(domain:Domain) {
