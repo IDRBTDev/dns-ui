@@ -45,7 +45,6 @@ export class MainHeaderComponent implements OnInit{
     this.loadNotifications();
    }
    ngOnDestroy(): void {
-    // Cleanup polling subscription to avoid memory leaks
     if (this.notificationSubscription) {
       this.notificationSubscription.unsubscribe();
     }
@@ -71,7 +70,6 @@ export class MainHeaderComponent implements OnInit{
   }
 
   setupNotificationPolling(): void {
-    // Poll every 30 seconds for notification updates
     this.notificationSubscription = interval(5000).subscribe(() => {
       this.loadNotifications();
     });
@@ -163,7 +161,7 @@ maxFileSizeInMB: number = environment.maxFileSizeMB;
         const file = event.target.files[0];
         const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 
         if (file.size > maxFileSize) {
-          alert(`File size exceeds the ${maxFileSize}MB limit. Please select a smaller file.`);
+          alert(`Select a file less than  ${maxFileSize}MB`);
           event.target.value = ''; 
           return; 
         }

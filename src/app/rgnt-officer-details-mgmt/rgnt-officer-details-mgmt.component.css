@@ -122,4 +122,7 @@
   border-radius: 5px;         /* Optional: Add rounded corners */
 }
 
-
+.error-message{
+  color:red;
+  font-size: small;
+}
