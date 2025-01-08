@@ -181,7 +181,7 @@ async confirmPayment(): Promise<void> {
     try {
       const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
       console.log('Server Response:', response);
-      this.domainsList.paymentStatus = 'Initiated';
+      // this.domainsList.paymentStatus = 'Paid';
       this.dialogRef.close();
     } catch (error) {
       console.error('Error uploading payment receipt:', error);

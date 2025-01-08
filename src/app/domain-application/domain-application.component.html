@@ -103,7 +103,7 @@
               <ng-container matColumnDef="payment">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment</th>
                 <td mat-cell *matCellDef="let domain">
-                  <button (click)='processPayment(domain)' class="btn btn-primary">
+                  <button [disabled]="domain.paymentStatus!='Unpaid'" (click)='processPayment(domain)' class="btn btn-primary">
                       Pay
                   </button>
                 </td>
