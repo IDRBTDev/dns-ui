@@ -185,15 +185,15 @@
 
                 <br>
 
-                <div class="text1">
+                <div class="text1" *ngIf="user.role!='IDRBTADMIN'">
                     <p>Organization</p>
                 </div>
 
-                <div class="text2">
+                <div class="text2" *ngIf="user.role!='IDRBTADMIN'">
                     <p *ngIf="user">{{user.organisationDetailsDto?.institutionName}}</p>
 
                 </div>
-                <br>
+                <br  *ngIf="user.role!='IDRBTADMIN'">
                 <div>
                     <p><a href="/change-password"><span>Change Password</span></a></p>
                 </div>
