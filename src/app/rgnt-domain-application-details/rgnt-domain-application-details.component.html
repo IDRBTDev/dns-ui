@@ -94,7 +94,7 @@
                                                 style="padding-right: 30px; padding-left: 10px;" readonly />
                                 
                                             <!-- Modal trigger button to upload file -->
-                                            <span class="input-group-text" data-toggle="modal" 
+                                            <span [ngClass]="domainsList.paymentStatus!='Paid'?'disableUploadPayment':''" class="input-group-text" data-toggle="modal" 
                                                 data-target="#exampleModalCenter" 
                                                 style="background-color: transparent; color:black; border: none; cursor: pointer; position: absolute; right: 10px; top: 55%; transform: translateY(-50%);">
                                                 <i class="bi bi-upload"></i>
@@ -116,6 +116,7 @@
                                                 <option value="Paid">Paid</option>
                                                 <option value="Unpaid">Unpaid</option>
                                                 <option value="Initiated">Initiated</option>
+                                                <option value="Ready for payment">Ready For Payment</option>
                                             </select>
                                         </div>
                                     </div>

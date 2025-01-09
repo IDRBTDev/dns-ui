@@ -207,6 +207,9 @@ app-side-menu {
     border-radius: 5px;
     border: 2px solid #007CF8;
  }
+ .disableUploadPayment{
+    pointer-events: none;
+ }
 @media (min-width: 576px) {
     .pin-page input {
         width: 30%;
