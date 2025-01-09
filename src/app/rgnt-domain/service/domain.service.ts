@@ -77,7 +77,10 @@ export class DomainService{
         formData.append('file', file, file.name);
         formData.append('domainId', domainId.toString());
     
-        // Send PUT request to update the file
+        // Perform the PUT request and expect JSON response
         return this.httpClient.put(`${this.domainsUrl}/updatePaymentReceipt/${domainId}`, formData);
-      }
+    }
+    
+   
+   
 }

@@ -224,7 +224,7 @@
                             <p style="padding-top: 20px;">Drag and drop your payment receipt</p>
                             <p style="padding-top: 10px;">Supported formats: PDF, DOC, JPEG</p>
 
-<input type="file" #fileInput style="display: none;" (change)="onFileChange($event)" />
+<input type="file" #fileInput style="display: none;" (change)="onFileChange1($event)" />
 
 <button class="Browse" (click)="fileInput.click()">Browse Files</button>
 
@@ -237,7 +237,7 @@
                             style="display: flex; justify-content: flex-end; gap: 20px;  padding-right: 50px; margin-bottom: 10px;">
                             <button
                                 style=" color: white; background-color: #007CF8; border-radius: 5px; border:2px solid #007CF8;"
-                                (click)="uploadFile()">Upload</button>
+                                (click)="uploadPaymentReceipt()">Upload</button>
                             <button
                                 style=" color: #999999; background-color: white; border-radius: 5px; border: 2px solid #999999;"
                                 id="closePaymentReceipt" class="close" data-dismiss="modal"
@@ -249,103 +249,97 @@
             </div>
 
 
-          
-<div class="modal fade" id="exampleModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div style="background: #F7F7F7; padding-top: 10px; padding-left: 10px;" class="d-flex justify-content-between align-items-center;">
-        <h1>Payment Receipt</h1>
-        
-        <i class="bi bi-x" style="font-size: 40px; cursor: pointer; color: #000;" (click)="closedButton()"></i>
-      </div>
-      <div class="d-flex justify-content-center align-items-center">
-        <div class="text-center" style="padding-top: 30px; color: #000;">
-          <h1>Upload Your Payment Receipt</h1>
-          <p>To verify your payment status, add your payment receipt</p>
-        </div>
-      </div>
-      <div>
-        <div class="card" style="border-radius: 5px; height: 300px; margin: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          
-          <div *ngIf="fileType === 'application/pdf'">
-            
-            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M48 48L36 36L24 48" stroke="#9A9A9A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M36 36V63" stroke="#9A9A9A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
 
-          <div *ngIf="fileType === 'application/msword' || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
-           
-            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M36 2C16.117 2 2 16.117 2 36C2 55.883 16.117 70 36 70C55.883 70 70 55.883 70 36C70 16.117 55.883 2 36 2Z" fill="#4B92A3" />
-              <path d="M27 21H45C46.1046 21 47 21.8954 47 23V43C47 44.1046 46.1046 45 45 45H27C25.8954 45 25 44.1046 25 43V23C25 21.8954 25.8954 21 27 21Z" fill="#ffffff" />
-            </svg>
-          </div>
-
-          <div *ngIf="fileType === 'image/jpeg' || fileType === 'image/png'">
-          
-            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="36" cy="36" r="32" stroke="#9A9A9A" stroke-width="4" />
-              <path d="M28 28L36 38L44 28H28Z" stroke="#9A9A9A" stroke-width="4" />
-            </svg>
-          </div>
-
-          
-          <p *ngIf="fileName" style="color: red;">
-            
-            <span  (click)="previewDocument()"
-             style="color: red; text-decoration: underline; cursor: pointer;">{{ fileName }}</span>
-          </p>
-          <input type="file" #fileInput style="display: none;" (change)="onFileChange($event)" />
-
-          <p style="padding-top: 20px;">Click the file name above to preview your uploaded document</p>
-          <hr style="width: 80%; border: 2px solid #9A9A9A; margin: 10px 0;" />
-          <p style="padding-top: 10px; padding-left: 15px;">If the uploaded document is not correct, click below to upload again</p>
-
-          <button class="Browse" (click)="fileInput.click()" style="margin-top: 10px;">Browse Files</button>
-
-        </div>
-
-     
-        <div style="display: flex; justify-content: flex-end; gap: 20px; padding-right: 50px; margin-bottom: 10px;">
-          
-          <button style="color: white; background-color: #007CF8; border-radius: 5px; border:2px solid #007CF8;" (click)="uploadAndConfirmPayment()">Upload</button>
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div style="background: #F7F7F7; padding-top: 10px; padding-left: 10px;" class="d-flex justify-content-between align-items-center;">
+          <h1>Payment Receipt</h1>
          
-          <button id="closePaymentReceipt1" style="color: #999999; background-color: white; border-radius: 5px; border: 2px solid #999999;" (click)="closedButton()">Cancel</button>
+          <i class="bi bi-x" style="font-size: 40px; cursor: pointer; color: #000;" (click)="closedButton()"></i>
         </div>
-
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="text-center" style="padding-top: 30px; color: #000;">
+            <h1>Upload Your Payment Receipt</h1>
+            <p>To verify your payment status, add your payment receipt</p>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="border-radius: 5px; height: 300px; margin: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+           
+            <div *ngIf="fileType === 'application/pdf'">
+             
+              <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M48 48L36 36L24 48" stroke="#9A9A9A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M36 36V63" stroke="#9A9A9A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+   
+          
+   
+            <div *ngIf="fileType === 'image/jpeg' || fileType === 'image/png'">
+           
+              <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="36" cy="36" r="32" stroke="#9A9A9A" stroke-width="4" />
+                <path d="M28 28L36 38L44 28H28Z" stroke="#9A9A9A" stroke-width="4" />
+              </svg>
+            </div>
+   
+           
+            <p *ngIf="fileName" style="color: red;">
+             
+              <span  (click)="previewDocument()"
+               style="color: red; text-decoration: underline; cursor: pointer;">{{ fileName }}</span>
+            </p>
+            <input type="file" #fileInput style="display: none;"  (change)="onFileChange($event, 'update')" />
+            <p *ngIf="fileError" style="color: red;">{{ fileError }}</p>
+            <p style="padding-top: 20px;">Click the file name above to preview your uploaded document</p>
+            <hr style="width: 80%; border: 2px solid #9A9A9A; margin: 10px 0;" />
+            <p style="padding-top: 10px; padding-left: 15px;">If the uploaded document is not correct, click below to upload again</p>
+   
+            <button class="Browse" (click)="fileInput.click()" style="margin-top: 10px;">Browse Files</button>
+   
+          </div>
+   
+       
+          <div style="display: flex; justify-content: flex-end; gap: 20px; padding-right: 50px; margin-bottom: 10px;">
+           
+            <button style="color: white; background-color: #007CF8; border-radius: 5px; border:2px solid #007CF8;" (click)="updatePaymentReceipt()">update</button>
+           
+            <button id="closePaymentReceipt1" style="color: #999999; background-color: white; border-radius: 5px; border: 2px solid #999999;" (click)="updatecancelButton()">Cancel</button>
+          </div>
+   
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div data-toggle="modal"
-data-target="#updateModal" id="hiddenUpdateModal" ></div>
-<div class="modal fade" id="viewPaymentReceipt" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
-      <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header" id="modalHeader">
-              <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
-              <button  class="close" (click)="popUPButtonClose()" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
-                      >&times;</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div  class="image-Container">
-              <img [src]="tempimageUrl" *ngIf="tempimageUrl" alt="Image Preview" width="400px" height="300px">
+
+  
+  <div data-toggle="modal" class="modal fade" data-target="#updateModal" id="viewPaymentReceipt" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                <button  class="close" (click)="popUPButtonClose()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        >&times;</span>
+                </button>
             </div>
-            
-            <div *ngIf="temppdfUrl">
-              <iframe [src]="temppdfUrl" width="100%" height="500px"></iframe>
-            </div>
-          </div>
-          <!-- Modal footer -->
-          <div class="modal-footer" role="alert">
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div  class="image-Container" *ngIf="tempimageUrl">
+                <img [src]="tempimageUrl"  alt="Image Preview" width="400px" height="300px">
+              </div>
              
-          </div>
-      </div>
+              <div *ngIf="temppdfUrl">
+                <iframe [src]="temppdfUrl" width="100%" height="500px"></iframe>
+              </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer" role="alert">
+               
+            </div>
+        </div>
+    </div>
   </div>
-</div>
