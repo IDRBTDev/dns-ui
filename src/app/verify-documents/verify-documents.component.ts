@@ -61,6 +61,7 @@ export class VerifyDocumentsComponent implements OnInit {
        // 'approveOrReject',
         'documentStatus',
         'comment',
+        'reUpload'
       ];
     }
     await this.getContactOfficerDocuments(this.contactType, this.organisationId);
@@ -143,6 +144,31 @@ export class VerifyDocumentsComponent implements OnInit {
 
   goBack(){
     this.location.back();
+  }
+  clickedDocDetails:any;
+  openFileReupload(documents){
+    console.log(documents)
+    this.clickedDocDetails=documents
+    document.getElementById("reUploadDocument")?.click();
+  }
+  handleTheDocument(event:any){
+    const file = event.target.files[0]; 
+    let docType=this.clickedDocDetails['documentType']
+    
+    console.log(this.clickedDocDetails['contactDocumentId'])
+    
+    this.contactDocumentsService.updateContactDocument(this.clickedDocDetails['contactDocumentId'],file,docType).subscribe({
+      next:(response)=>{
+        console.log("updatedSuccessfully")
+       this.getContactOfficerDocuments(this.contactType, this.organisationId);
+       this.toastr.success("Document uploaded successfully")
+      },error:(error)=>{
+        console.log(error)
+      }
+    })
+    
+   
+   
   }
 
 }

@@ -91,6 +91,16 @@ console.log("conytactservice called")
       {observe: 'response' }
     );
   }
+  updateContactDocument(docId, file: File, docType: string) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('docId', docId.toString()); // Convert docId to string
+    formData.append('docType', docType);
   
+    const apiUrl = environment.apiURL + '/dr/contactDocuments/updateContactDocumentUpload';
+  
+    // Use Http.post instead of Http.get for sending form data
+    return this.http.post<any>(apiUrl, formData);
+  }
 
 }

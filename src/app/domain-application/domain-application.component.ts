@@ -27,6 +27,7 @@ export class DomainApplicationComponent {
     //initialized in ngOninit based on the role
   ]; // Matches matColumnDef values
 
+  organisationId=parseInt(localStorage.getItem('organisationId'));
   domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
   transactionReqObj:TransactionRequest=new TransactionRequest();
@@ -59,7 +60,8 @@ export class DomainApplicationComponent {
   console.log(this.userEmailId)
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
-    this.getAllDomainsList(this.userEmailId);
+    this.getAllDomainsListByOrgId(this.organisationId);
+    // this.getAllDomainsList(this.userEmailId);
     this.displayedColumns=[
        // 'checkbox',
     'domainId',
@@ -87,7 +89,7 @@ export class DomainApplicationComponent {
    // 'industry',
    'tenure'
    ]
-    this.getAllDomainsList("");
+   this.getAllDomainsListByOrgId(0);
   }
 
     // localStorage.setItem('isBoxVisible', 'false');
@@ -114,10 +116,33 @@ export class DomainApplicationComponent {
  
 
   async getAllDomainsList(userId: string) {
+    console.log(userId)
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;
+          console.log("domainList",this.domainsList)
+          this.domainsDataSource.data = this.domainsList;
+          this.domainsDataSource.paginator = this.paginator;
+          setTimeout(() => {
+            this.domainsDataSource.sort = this.sort;
+          }, 0);
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
+  }
+  async getAllDomainsListByOrgId(orgId: number) {
+    console.log(orgId)
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log("domainList",this.domainsList)
           this.domainsDataSource.data = this.domainsList;
           this.domainsDataSource.paginator = this.paginator;
           setTimeout(() => {
