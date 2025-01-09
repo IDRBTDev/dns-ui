@@ -140,6 +140,16 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    if (!validFileTypes.includes(file.type)) {
+      this.organisationErrors = {
+        type: 'fileUpload',
+        message: 'Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.',
+      };
+      input.value = ''; // Reset the file input field
+      return;
+    }
+
     const maxFileSize = this.maxFileSizeInMB * 1024 * 1024;  // Convert MB to bytes
     if (file.size > maxFileSize) {
       this.organisationErrors = {
@@ -210,6 +220,16 @@ export class DocumentUploadComponent implements OnInit {
 
 
     console.log(this.adminInputValue)
+
+    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    if (!validFileTypes.includes(file.type)) {
+      this.adminErrors = {
+        type: 'fileUpload',
+        message: 'Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.',
+      };
+      input.value = ''; // Reset the file input field
+      return;
+    }
     const maxFileSize = this.maxFileSizeInMB * 1024 * 1024;  // Convert MB to bytes
     if (file.size > maxFileSize) {
       this.adminErrors = {
@@ -271,6 +291,16 @@ export class DocumentUploadComponent implements OnInit {
       };
       return;
     }
+    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    if (!validFileTypes.includes(file.type)) {
+      this.techErrors = {
+        type: 'fileUpload',
+        message: 'Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.',
+      };
+      input.value = ''; // Reset the file input field
+      return;
+    }
+    this.techErrors = { type: '', message: '' };
     const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 
     if (file.size > maxFileSize) {
       this.techErrors = {
@@ -334,6 +364,15 @@ export class DocumentUploadComponent implements OnInit {
         message:
           'This file is already uploaded. Please choose a different file.',
       };
+      return;
+    }
+    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    if (!validFileTypes.includes(file.type)) {
+      this.billingErrors = {
+        type: 'fileUpload',
+        message: 'Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.',
+      };
+      input.value = ''; // Reset the file input field
       return;
     }
     const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; 

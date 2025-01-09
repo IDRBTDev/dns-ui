@@ -8,6 +8,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-rgnt-domain-application-details',
@@ -58,6 +59,7 @@ export class RgntDomainApplicationDetailsComponent implements OnInit {
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.domainsList = res.body;
+          this.fileName=this.domainsList.paymentReceiptName;
          console.log("domain data received:",res);
         this.getOrganizationDetails(this.domainsList.organisationId);
         } else {
@@ -171,25 +173,7 @@ onFileSelected(event: Event): void {
   }
 }
 
-async confirmPayment(): Promise<void> {
-  if (this.selectedFile) {
-    const domainId = this.domainId.toString();
-    const formData = new FormData();
-    formData.append('file', this.selectedFile, this.selectedFile.name);
-    formData.append('domainId', domainId);
 
-    try {
-      const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
-      console.log('Server Response:', response);
-      // this.domainsList.paymentStatus = 'Paid';
-      this.dialogRef.close();
-    } catch (error) {
-      console.error('Error uploading payment receipt:', error);
-    }
-  } else {
-    console.error('No file selected');
-  }
-}
 
 onDialogClose(): void {
   this.dialogRef.close();
@@ -207,108 +191,219 @@ cancelButton(){
 closedButton(){
   $('#exampleModel').modal('hide');
 }
-
-onFileChange(event: any) {
-  const file = event.target.files[0]; 
+updatecancelButton(){
+  $('#updateModal').modal('hide');
+}
+ onFileChange1(event: any) {
+  const file = event.target.files[0];  // Get the selected file
 
   if (file) {
-    this.file = file; 
-    this.fileName = file.name; 
-    this.fileType = file.type;  
-    console.log('File selected:', this.file);  
-    this.clickedDocument(this.file)
+    this.fileError = '';
+    this.file = file;
+    this.fileName = file.name;
+    this.selectedFile = file;
+    this.fileType = file.type;
+    
+    console.log('File selected:', this.file);
+  
+    // Define the maximum allowed file size (in MB)
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024; // Convert MB to bytes
+    
+    // Check if the file type is valid
+    if (
+      this.fileType === 'application/pdf' ||
+      this.fileType === 'image/png' ||
+      this.fileType === 'image/jpeg' ||
+      this.fileType === 'image/jpg'
+    ) {
+      // Check if the file size is valid
+      if (this.file.size > maxFileSize) {
+        this.toastrService.error(`Please select a file less than ${this.maxFileSizeInMB}MB.`);
+        this.file = null;  // Reset the file input field
+        this.fileName = ''; // Clear the file name display
+        return;  // Stop further execution if the file is too large
+      }
+      localStorage.setItem('uploadedFileName', this.fileName);
+      
+      // You can add other logic here to handle the file (e.g., file upload, preview)
+    } else {
+      // If the file type is invalid, show an error message
+      this.toastrService.error('Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.');
+      this.file = null;  // Reset the file input field
+      this.fileName = ''; // Clear the file name display
+    }
   } else {
+    // If no file is selected, log the message or handle it as needed
     console.error('No file selected.');
   }
-  localStorage.setItem('uploadedFileName', this.fileName);
+}
+
+
+onFileChange(event: any, type: string) {
+  const file = event.target.files[0];
+ 
+  if (file) {
+    
+    this.fileError = '';
+    const fileType = file.type;
+    const fileSize = file.size; // File size in bytes
+
+    const MAX_FILE_SIZE = this.maxFileSizeInMB * 1024 * 1024; // 2MB limit
+
+    // Validate file type and size
+    if (
+      fileType === 'application/pdf' ||
+      fileType === 'image/png' ||
+      fileType === 'image/jpeg' ||
+      fileType === 'image/jpg'
+    ) {
+      if (fileSize <= MAX_FILE_SIZE) {
+        this.file = file;
+        this.fileName = file.name;
+        this.fileType = fileType;
+      
+        this.fileError = ''; // Clear any previous error
+      //  this.clickedDocument(file);
+      } else {
+        this.fileError = 'File size exceeds the 2MB limit. Please upload a smaller file.';
+        this.file = null;
+        this.fileName = '';
+      }
+    } else {
+      this.fileError = 'Invalid file type. Only PDF, DOC, JPEG, and PNG are allowed.';
+      this.file = null;
+      this.fileName = '';
+    }
+  }
+}
+closeModal() {
+  this.fileName = '';
+  this.fileError = '';
+  this.file = null;
+  // Add logic to hide the modal here, e.g., using Bootstrap modal methods
 }
 
 filePath: string = '';
 
-clickedDocument(fileName){
-  this.tempimageUrl=''
-  this.temppdfUrl=''
-  console.log(fileName);
-  this.previewDocName = this.fileName;
 
-  const file = fileName
-console.log(file)
-  // Read the file as ArrayBuffer
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if(file.type=="application/pdf"){
-        console.log("entered")
-        this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-        
-      }else if(file.type=="image/png"||file.type=="image/jpeg"||file.type=="image/jpg"){
-        console.log('prabhakaran');
-        this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-        
-      }
-    
-    };
-    reader.readAsDataURL(file);
-  }
-  document.getElementById('hiddenUpdateModal')?.click();
+// clickedDocument(file: File) {
+//   this.tempimageUrl = '';  // Reset image preview
+//   this.temppdfUrl = '';  // Reset PDF preview
 
-  $('#exampleModel').modal('hide');
-}
-previewDocument(){
-  $('#exampleModel').modal('hide');
+//   const fileType = file.type;
+
+//   // Set file name for preview
+//   this.previewDocName = file.name;
+
+//   const reader = new FileReader();
+//   reader.onload = (e) => {
+//     if (fileType === 'application/pdf') {
+//       // Handle PDF
+//       this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+//       console.log('PDF URL:', this.temppdfUrl); 
+//     } else if (fileType === 'image/png' || fileType === 'image/jpeg' || fileType === 'image/jpg') {
+//       // Handle image
+//       this.tempimageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+//     };
+
+//     reader.readAsDataURL(file);
+//   }
+  
+// }
+// previewDocument(){
+//   $('#updateModal').modal('hide');
+//   $('#viewPaymentReceipt').modal('show');
+  
+// }
+previewDocument() {
+  console.log("Previewing Document: ", this.file);
+  $('#updateModal').modal('hide');
   $('#viewPaymentReceipt').modal('show');
+  this.tempimageUrl = ''; 
+  this.temppdfUrl = ''; 
+
+  const file = this.selectedFile; // Get the file that was selected previously
+  
+  const fileType = file.type;
+  console.log('File Type:', fileType);
+
+  const reader = new FileReader();
+  
+  reader.onload = (e) => {
+    if (fileType === 'application/pdf') {
+      this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+      console.log('PDF URL:', this.temppdfUrl);
+    } else if (fileType === 'image/png' || fileType === 'image/jpeg' || fileType === 'image/jpg') {
+      this.tempimageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+      console.log('Image URL:', this.tempimageUrl);
+    }
+  };
+
+  reader.readAsDataURL(file);  // Read file as Data URL
 }
+
 file: File | null = null; 
-uploadFile() {
-  if (!this.file) {
-    this.fileError = 'Please select a file to upload.';
-  } else {
-   
-    console.log('File uploaded:', this.file); 
+maxFileSizeInMB: number = environment.maxFileSizeMB;
 
-    document.getElementById('closePaymentReceipt')?.click();
 
-    $('#exampleModel').modal('show');
-  }
-}
+
+
 popUPButtonClose(){
   $('#viewPaymentReceipt').modal('hide');
-  $('#exampleModel').modal('show');
+  $('#updateModal').modal('show');
 }
-async uploadAndConfirmPayment(): Promise<void> {
-  if (!this.selectedFile && !this.file) {
-    this.fileError = 'Please select a file to upload.';
-    return;
-  }
 
-  
-  const fileToUpload = this.selectedFile || this.file;
 
-  const domainId = this.domainId.toString();
-  const formData = new FormData();
-  formData.append('file', fileToUpload, fileToUpload.name);
-  formData.append('domainId', domainId);
-
-  try {
-      const response = await lastValueFrom(this.domainService.uploadPaymentReceipt(formData));
-    console.log('Server Response:', response); 
-
-    this.domainsList.paymentStatus = 'Initiated';
-
-    this.dialogRef.close();
-
-  } catch (error) {
-    console.error('Error uploading payment receipt:', error);
-   
-  }
-  document.getElementById('closePaymentReceipt')?.click();
-
-  $('#exampleModel').modal('hide');
-}
 temppdfUrl:any;
 previewDocName:any;
   tempimageUrl:any;
  
+
+  uploadPaymentReceipt() {
+    if (!this.file) {
+      this.fileError = 'Please select a file to upload';
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('file', this.file);
+    formData.append('domainId', this.domainId.toString());
+
+    this.domainService.uploadPaymentReceipt(formData).subscribe(
+      (response) => {
+        
+        document.getElementById('closePaymentReceipt')?.click();
+   $('#updateModal').modal('show');
+   this.toastrService.success('Payment receipt uploaded successfully!');
+      },
+      (error) => {
+       // this.fileError = 'Error uploading file: ' + error.message;
+      }
+    );
+  }
+
+  updatePaymentReceipt() {
+    if (!this.file) {
+      this.fileError = 'Please select a file to update';
+      return;
+    }
+
+    this.domainService.updatePaymentReceipt(this.domainId, this.file).subscribe(
+      (response) => {
+        console.log('Response:', response);  // Log the response to see the exact structure
+        if (response && response.message) {
+        this.toastrService.success(' payment receipt updated successfully');
+          $('#updateModal').modal('hide');
+        } else {
+          alert('Unexpected response format');
+        }
+      },
+      (error) => {
+        console.error('Error response:', error);  // Log the error for debugging
+        this.fileError = error.error?.message || 'Error updating file';  // Show the error message
+      }
+    );
+}
 
 
 
