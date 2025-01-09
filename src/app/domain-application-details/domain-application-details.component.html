@@ -175,9 +175,9 @@
                                             <div class="status" [ngClass]="{
                                                 'rejected': orgGstStatus === 'Rejected',
                                                 'approved': orgGstStatus === 'Approved',
-                                                'notReviewed': orgGstStatus === 'Not Reviewed'
+                                                'notReviewed': orgGstStatus === 'Not Reviewed'||orgGstStatus === null
                                               }">
-                                              {{orgGstStatus}}
+                                              {{orgGstStatus?orgGstStatus:'Not Reviewed'}}
                                             </div>
                                            
                                         </div>
@@ -196,9 +196,9 @@
                                              <div class="status" [ngClass]="{
                                                 'rejected': orgPanStatus === 'Rejected',
                                                 'approved': orgPanStatus === 'Approved',
-                                                'notReviewed': orgPanStatus === 'Not Reviewed'
+                                                'notReviewed': orgPanStatus === 'Not Reviewed'||orgPanStatus === 'null'
                                               }">
-                                               {{orgPanStatus}}
+                                               {{orgPanStatus?orgPanStatus:'Not Reviewed'}}
                                             </div>
                                            
                                         </div>
@@ -217,9 +217,9 @@
                                             <div class="status" [ngClass]="{
                                                 'rejected': orgLicenceStatus === 'Rejected',
                                                 'approved': orgLicenceStatus === 'Approved',
-                                                'notReviewed': orgLicenceStatus === 'Not Reviewed'
+                                                'notReviewed': orgLicenceStatus === 'Not Reviewed'||orgLicenceStatus===null
                                               }">
-                                               {{orgLicenceStatus}}
+                                               {{orgLicenceStatus?orgLicenceStatus:'Not Reviewed'}}
                                             </div>
                                            
                                         </div>
@@ -238,9 +238,9 @@
                                             <div class="status" [ngClass]="{
                                                 'rejected': orgBoardStatus === 'Rejected',
                                                 'approved': orgBoardStatus === 'Approved',
-                                                'notReviewed': orgBoardStatus === 'Not Reviewed'
+                                                'notReviewed': orgBoardStatus === 'Not Reviewed'||orgBoardStatus === null
                                               }">
-                                              {{orgBoardStatus}}
+                                              {{orgBoardStatus?orgBoardStatus:'Not Reviewed'}}
                                             </div>
                                            
                                         </div>
