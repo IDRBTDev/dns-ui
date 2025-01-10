@@ -91,3 +91,9 @@
   .rejected{
     cursor: pointer;
   }
+  .approved.disableApprRejec{
+    pointer-events: none;
+  }
+  .rejected.disableApprRejec{
+    pointer-events: none;
+  }
