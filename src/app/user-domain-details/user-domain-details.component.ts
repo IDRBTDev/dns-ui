@@ -7,6 +7,7 @@ import { lastValueFrom } from 'rxjs';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { ReminderComponent } from '../reminder/reminder.component';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -23,6 +24,7 @@ export class UserDomainDetailsComponent implements OnInit {
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
   submissionError: string;
   isSubmitting: boolean;
+  domainsList: any[];
 
   ngOnInit(): void {
       console.log(this.organisationId);
@@ -30,6 +32,11 @@ export class UserDomainDetailsComponent implements OnInit {
       //   zone: ['', Validators.required],
       //   label: ['', Validators.required]
       // });
+      if(this.organisationId > 0){
+        this.getAllDomainsListByOrgId(this.organisationId);
+      }else{
+        this.domainsList = [];
+      }
   }
   
   constructor(
@@ -37,6 +44,8 @@ export class UserDomainDetailsComponent implements OnInit {
     private fb: FormBuilder,
 
     private userDomainService: UserDomainService,  // Inject the service here
+    
+    private domainService: DomainService,
 
     public router:Router, private organisationService: OrganisationDetailsService
 
@@ -219,6 +228,26 @@ export class UserDomainDetailsComponent implements OnInit {
    
 
   // }
+  navigateToSessionTimeout() {
+    this.router.navigateByUrl('/session-timeout');
+  }
+  
+  async getAllDomainsListByOrgId(orgId: number) {
+    console.log(orgId)
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log(this.domainsList)
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
+  }
 
   onSubmit() {
     if (this.userDomainForm.valid) {
