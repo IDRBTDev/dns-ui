@@ -211,3 +211,75 @@ h4 {
     font-size: 14px;
 
 }
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content; 
+  }
+  
+  .imageContainer img {
+    max-width: 100%;
+    max-height: 100%; 
+  }
+.idrbtText{
+    font-family: Roboto;
+font-size: 16px;
+font-weight: 500;
+line-height: 18.75px;
+text-align: left;
+
+text-decoration-skip-ink: none;
+
+}
+
+  .input-container {
+    position: relative; /* To position the "Get OTP" span */
+  }
+  
+  input[type="text"],input[type="password"] {
+    border: none; /* Remove default border */
+    border-bottom: 1px solid rgba(47, 121, 202, 1); /* Add bottom border */
+    padding: 5px 10px;
+    width: 100%; /* Make input field fill available space */
+    height:36px
+  }
+  
+  .get-otp {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: rgba(228, 250, 255, 1); 
+    border-bottom: 1px solid rgba(47, 121, 202, 1);
+    padding: 5px 10px;
+    cursor: pointer;
+    height:35px
+  }
+  input[type="text"]:focus, input[type="password"]:focus {
+    outline: none; 
+  }
+  .loginMsg{
+    font-family: Roboto;
+font-size: 20px;
+font-weight: 700;
+line-height: 37.5px;
+color:rgba(53, 49, 103, 1)
+
+  }
+  .col-6 {
+    position: relative; /* Make .col-6 the relative container */
+  }
+  
+  .col-6 .bottom-links {
+    position: absolute; /* Position the links absolutely within .col-6 */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+   
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
