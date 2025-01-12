@@ -84,7 +84,7 @@
                     <input type="text" [(ngModel)]="otp" placeholder="Enter OTP">
                     <div style='display: flex;justify-content: space-between;margin-top: 5px;'>
                       <div> <p>Enter the OTP sent to your registered email</p></div>
-                      <div>Resend OTP</div>
+                      <div (click)="getOtpForLoginUser()">Resend OTP</div>
                     </div>
                    
                     <div style='display: flex;justify-content: space-between;margin-top: 25px;'>

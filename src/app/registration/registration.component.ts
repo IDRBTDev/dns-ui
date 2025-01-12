@@ -57,6 +57,14 @@ otp:number;
     confirmPasswordField.type = this.isConfirmPasswordVisible ? 'text' : 'password';
   }
 
+  disclaimerChecked = false;
+  legitimatePurposeChecked = false;
+  // is = false;
+
+  checkBoth() {
+    this.isAuthorized = this.disclaimerChecked && this.legitimatePurposeChecked;
+    this.validateCheckbox()
+  }
 
   
 
