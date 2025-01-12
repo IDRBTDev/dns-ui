@@ -139,11 +139,11 @@
                       </div>
                       <div style="margin-bottom: 10px;margin-top: 10px;">
                         <input type="checkbox" [(ngModel)]="disclaimerChecked" (change)="checkBoth()" id="disclaimerCheckbox">
-                        <label for="disclaimerCheckbox">I agree to the Disclaimer and the Privacy Policy laid down by RBI</label><br>
+                        <label for="disclaimerCheckbox" style="padding-left: 10px;">I agree to the Disclaimer and the Privacy Policy laid down by RBI</label><br>
                       </div>
                       <div>
                         <input type="checkbox"  [(ngModel)]="legitimatePurposeChecked" (change)="checkBoth()" id="legitimatePurposeCheckbox">
-                        <label for="legitimatePurposeCheckbox">I declare that the usage of this portal is for my own legitimate purpose</label>
+                        <label for="legitimatePurposeCheckbox" style="padding-left: 10px;">I declare that the usage of this portal is for my own legitimate purpose</label>
                       </div>
                       <div *ngIf="!isAuthorized && showError" class="error-message">
                         You must agree to the terms and conditions to proceed.
