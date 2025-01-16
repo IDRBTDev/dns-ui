@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 import { NameServerService } from './service/name-server.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-name-server-form',
@@ -22,11 +23,13 @@ export class NameServerFormComponent implements OnInit {
   nameServerForm: FormGroup;
 
   hasNSDetails: boolean = true;
+  
 
   constructor(
     private fb: FormBuilder,
     private nameServerService: NameServerService,
     private router: Router,
+    private toastr: ToastrService
   ) {
 
     if(this.organisationId < 1){
@@ -135,6 +138,8 @@ export class NameServerFormComponent implements OnInit {
           console.log(response);
           if(response != null){
             this.formSubmitted.emit();
+            this.toastr.success("Domain added successfully");
+            this.router.navigateByUrl("/rgnt-domains");
           }
         },
 

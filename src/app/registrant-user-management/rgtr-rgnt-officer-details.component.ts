@@ -376,10 +376,15 @@ export class RgtrRgntOfficerDetailsComponent {
         }
       });
       if(count === 3){
+        console.log(this.technicalOfficerDetails)
         this.technicalOfficerDetails.loginStatus = loginStatus;
         this.technicalOfficerDetails.isActive = true;
         await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
       }else{
+        console.log(this.technicalOfficerDetails)
+        this.technicalOfficerDetails.isActive = false;
+        this.technicalOfficerDetails.loginStatus=loginStatus
+        await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
         this.toastr.error('Document verification pending');
         return;
       }
@@ -402,6 +407,8 @@ export class RgtrRgntOfficerDetailsComponent {
         this.billingOfficerDetails.isActive = true;
       await this.updateBillingOfficerLoginStatus(this.billingOfficerDetails);
       }else{
+        this.billingOfficerDetails.isActive = false;
+        await this.updateBillingOfficerLoginStatus(this.billingOfficerDetails);
         this.toastr.error('Document verification pending');
         return;
       }
@@ -424,6 +431,7 @@ export class RgtrRgntOfficerDetailsComponent {
     this.user.active  = true;
     await lastValueFrom(this.userService.saveUser(this.user)).then(
       response => {
+        console.log(response)
         if(response.status === HttpStatusCode.Created){
           console.log(response);
           this.toastr.success('Login approved');

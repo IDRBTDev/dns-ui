@@ -68,7 +68,7 @@
               <ng-container matColumnDef="domainName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Domain Name</th>
                 <!-- <td mat-cell *matCellDef="let domain">{{domain.bankName}}{{domain.domainName}}</td> -->
-                  <td mat-cell *matCellDef="let domain">{{domain.domainName}}</td>
+                  <td mat-cell *matCellDef="let domain">{{domain.bankName}}{{domain.domainName}}</td>
               </ng-container>
 
               <ng-container matColumnDef="submissionDate">
@@ -103,7 +103,8 @@
               <ng-container matColumnDef="payment">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment</th>
                 <td mat-cell *matCellDef="let domain">
-                  <button [disabled]="domain.paymentStatus!='Ready for payment'" (click)='processPayment(domain)' class="btn btn-primary">
+                  <!--[disabled]="domain.paymentStatus!='Ready for payment'" (click)='processPayment(domain)'-->
+                  <button    data-toggle="modal" data-target="#payModal"  class="btn btn-primary">
                       Pay
                   </button>
                 </td>
@@ -213,5 +214,30 @@
          </div>
         </div>
         
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <!-- Modal Header -->
+            
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="imageContainer" style="width: 100%;">
+                  <img src="assets/Images/sbiPay.png" alt="noimgs">
+              </div>
+              
+           
+               
+              </div>
+              <div class="modal-footer" role="alert">
+              
+                <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+             </div>
+              <!-- Modal footer -->
+          
+          </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { lastValueFrom } from 'rxjs';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { HttpStatusCode } from '@angular/common/http';
 import { ReminderComponent } from '../reminder/reminder.component';
+import { DomainService } from '../rgnt-domain/service/domain.service';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -23,6 +24,7 @@ export class UserDomainDetailsComponent implements OnInit {
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
   submissionError: string;
   isSubmitting: boolean;
+  domainsList: any[];
 
   ngOnInit(): void {
       console.log(this.organisationId);
@@ -30,6 +32,11 @@ export class UserDomainDetailsComponent implements OnInit {
       //   zone: ['', Validators.required],
       //   label: ['', Validators.required]
       // });
+      if(this.organisationId > 0){
+        this.getAllDomainsListByOrgId(this.organisationId);
+      }else{
+        this.domainsList = [];
+      }
   }
   
   constructor(
@@ -37,6 +44,8 @@ export class UserDomainDetailsComponent implements OnInit {
     private fb: FormBuilder,
 
     private userDomainService: UserDomainService,  // Inject the service here
+    
+    private domainService: DomainService,
 
     public router:Router, private organisationService: OrganisationDetailsService
 
@@ -129,105 +138,144 @@ export class UserDomainDetailsComponent implements OnInit {
 
   // Handle form submission
 
-  // async onSubmit() {
+//   async onSubmit() {
 
-  //   if(this.organisationId > 0){
+//     if (this.userDomainForm.valid) {
+//       const domainData = {
+//         bankName: this.userDomainForm.get('label')?.value,
+//         domainName: this.userDomainForm.get('zone')?.value,
+//         numberOfYears: this.userDomainForm.get('numberOfYears')?.value,
+//         cost: this.userDomainForm.get('cost')?.value,
+//         organisationId: this.organisationId
+//       };
 
-  //     await this.getOrganisationDetailsById(this.organisationId);
+//       console.log('Submitting data:', domainData);
 
-  //   }
+//       // If domain is reserved, prevent submission
+//       if (this.isReserved) {
+//         alert('The combination of Bank Name and Domain is already reserved. Please choose a different one.');
+//         return;
+//       }
 
-  //   if (this.userDomainForm.valid) {
+//     if(this.organisationId > 0){
 
-  //     this.showResult = true;
+//       await this.getOrganisationDetailsById(this.organisationId);
 
-  //     const domainData = this.userDomainForm.value;
+//     }
 
-  //     console.log(this.userDomainForm.value);
+//     if (this.userDomainForm.valid) {
 
-  //     domainData.userMailId = this.userId;
-  //     domainData.organisationId = this.organisationId;
+//       this.showResult = true;
 
-  //     if(this.organisationDetails != null && this.organisationDetails != undefined){
+//       const domainData = this.userDomainForm.value;
 
-  //       domainData.organizationName = this.organisationDetails.institutionName;
+//       console.log(this.userDomainForm.value);
 
-  //     }else{
+//       domainData.userMailId = this.userId;
+//       domainData.organisationId = this.organisationId;
 
-  //       domainData.organizationName = 'Onboarding Pending';
+//       if(this.organisationDetails != null && this.organisationDetails != undefined){
 
-  //     }
+//         domainData.organizationName = this.organisationDetails.institutionName;
 
-  //     console.log(domainData)
+//       }else{
+
+//         domainData.organizationName = 'Onboarding Pending';
+
+//       }
+
+//       console.log(domainData)
 
       
 
-  //     this.userDomainService.sendDomainData(domainData).subscribe(
+//       this.userDomainService.sendDomainData(domainData).subscribe(
 
-  //       (response) => {
+//         (response) => {
 
-  //         console.log('Domain data submitted successfully', response);
+//           console.log('Domain data submitted successfully', response);
 
-  //         let navigationExtras: NavigationExtras = {
+//           let navigationExtras: NavigationExtras = {
 
-  //           state: {
+//             state: {
 
-  //             domainId: response.domainId,
+//               domainId: response.domainId,
 
-  //             applicationId: response.applicationId,
+//               applicationId: response.applicationId,
 
-  //             organisationId: this.organisationId
+//               organisationId: this.organisationId
 
-  //           }
+//             }
 
-  //         }
+//           }
 
-  //         console.log(navigationExtras);
+//           console.log(navigationExtras);
 
-  //         if(this.organisationId < 1){
+//           if(this.organisationId < 1){
 
-  //           this.router.navigate(['/onboarding-stepper'], navigationExtras);
+//             this.router.navigate(['/onboarding-stepper'], navigationExtras);
 
-  //         }else{
+//           }else{
 
-  //           this.router.navigateByUrl('/name-server',navigationExtras);
+//             this.router.navigateByUrl('/name-server',navigationExtras);
 
-  //         }
+//           }
 
          
 
-  //       },
+//         },
 
-  //       (error) => {
+//         (error) => {
 
-  //         console.error('Error submitting domain data', error);
+//           console.error('Error submitting domain data', error);
 
-  //       }
+//         }
 
-  //     );
+//       );
 
      
 
-  //   }
+//     }
 
-  //   else{
+//     else{
 
-  //       this.userDomainForm.markAllAsTouched();
+//         this.userDomainForm.markAllAsTouched();
 
-  //   }
+//     }
 
    
 
-  // }
-
-  onSubmit() {
+//   }
+// }
+  navigateToSessionTimeout() {
+    this.router.navigateByUrl('/session-timeout');
+  }
+  
+  async getAllDomainsListByOrgId(orgId: number) {
+    console.log(orgId)
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log(this.domainsList)
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
+  }
+  
+  async onSubmit() {
     if (this.userDomainForm.valid) {
       const domainData = {
         bankName: this.userDomainForm.get('label')?.value,
         domainName: this.userDomainForm.get('zone')?.value,
         numberOfYears: this.userDomainForm.get('numberOfYears')?.value,
         cost: this.userDomainForm.get('cost')?.value,
-        organisationId: this.organisationId
+        organisationId: this.organisationId,
+        organizationName: ''
       };
 
       console.log('Submitting data:', domainData);
@@ -236,6 +284,20 @@ export class UserDomainDetailsComponent implements OnInit {
       if (this.isReserved) {
         alert('The combination of Bank Name and Domain is already reserved. Please choose a different one.');
         return;
+      }
+      if(this.organisationId > 0){
+
+        await this.getOrganisationDetailsById(this.organisationId);
+  
+      }
+      if(this.organisationDetails != null && this.organisationDetails != undefined){
+
+        domainData.organizationName = this.organisationDetails.institutionName;
+
+      }else{
+
+        domainData.organizationName = 'Onboarding Pending';
+
       }
       this.userDomainService.sendDomainData(domainData).subscribe(
       
@@ -298,5 +360,4 @@ export class UserDomainDetailsComponent implements OnInit {
     this.router.navigateByUrl('domains');
 
   }
-
 }
