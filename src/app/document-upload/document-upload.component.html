@@ -43,10 +43,10 @@
       <input type="file" id="organisationFileInput" hidden (change)="handleOrganisationFileChange($event)"
           accept=".png,.jpg,.jpeg,.pdf" />
   </div>
-  <!-- <div *ngIf="organisationErrors.type === 'fileUpload'" 
+  <div *ngIf="organisationErrors.type === 'fileUpload'" 
   style="color: red; font-size: 0.875rem; margin-top: 4px;">
 {{ organisationErrors.message }}
-</div> -->
+</div>
   <!-- Uploaded Organisation Documents -->
   <div *ngIf="organisationUploadedDocs.length > 0" style="margin-top: 20px;">
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">

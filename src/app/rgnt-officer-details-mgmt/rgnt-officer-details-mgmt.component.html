@@ -208,6 +208,7 @@
         </ng-select>
         <div>
           <app-contact-details-form
+          
                 [choosenContactType]="selectedOfficerToAdd"
                 [organisationId] ="selectedOrganisationId"
                 (adminDocDetails)="SubmittedAdminDocs($event)"
@@ -224,10 +225,11 @@
         <div *ngIf="selectedOfficerToAdd === 'BillingOfficer'">
           <p>Billing Officer</p>
         </div> -->
+     
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
       </div>
     </div>
   </div>

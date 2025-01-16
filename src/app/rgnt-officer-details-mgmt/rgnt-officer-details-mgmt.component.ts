@@ -11,6 +11,8 @@ import { ContactDocumentUploadService } from '../contact-document-upload/service
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import * as bootstrap from 'bootstrap';
+import { ContactDetailsFormComponent } from '../contact-details-form/contact-details-form.component';
+import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 
 @Component({
   selector: 'app-rgnt-officer-details-mgmt',
@@ -107,6 +109,29 @@ export class RgntOfficerDetailsMgmtComponent {
       }
     }
    )
+  }
+
+  @ViewChild(ContactDetailsFormComponent) contactDetailsForm: ContactDetailsFormComponent;
+
+
+  private isViewInitialized: boolean = false;
+
+  ngAfterViewChecked() {
+    if (this.contactDetailsForm && !this.isViewInitialized) {
+      console.log('ContactDetailsFormComponent initialized');
+      this.isViewInitialized = true;
+    }
+   
+  }
+  
+
+  // Method to reset the form in both child components
+  resetForm() {
+    if (this.isViewInitialized && this.contactDetailsForm) {
+      this.contactDetailsForm.resetForm(); // Reset form in ContactDetailsFormComponent
+    }
+
+   
   }
 
   async ngOnInit(): Promise<void> {
@@ -330,20 +355,20 @@ export class RgntOfficerDetailsMgmtComponent {
 
   }
 
-  resetForm() {
-    this.orgNameInput = true;
-    this.personNameInput = true;
-    this.designationNameInput = true;
-    this.mobileNameInput = true;
-    this.emailNameInput = true;
+  // resetForm() {
+  //   this.orgNameInput = true;
+  //   this.personNameInput = true;
+  //   this.designationNameInput = true;
+  //   this.mobileNameInput = true;
+  //   this.emailNameInput = true;
   
-    // Clear all error messages
-    this.orgNameErrorMessage = '';
-    this.personNameErrorMessage = '';
-    this.designationNameErrorMessage = '';
-    this.mobileNameErrorMessage = '';
-    this.emailNameErrorMessage = '';
-  }
+   
+  //   this.orgNameErrorMessage = '';
+  //   this.personNameErrorMessage = '';
+  //   this.designationNameErrorMessage = '';
+  //   this.mobileNameErrorMessage = '';
+  //   this.emailNameErrorMessage = '';
+  // }
 
 
   
