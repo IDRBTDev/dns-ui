@@ -39,6 +39,7 @@ export class LoginComponent {
     this.getOtpForLoginUser();
     localStorage.setItem('rgntUser',JSON.stringify(this.user));
       console.log(this.user.email)
+      localStorage.setItem('previousUrl','/login');
     this.router.navigateByUrl('/rgnt-o-V');
     
   }

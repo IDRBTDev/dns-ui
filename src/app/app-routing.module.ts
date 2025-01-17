@@ -41,6 +41,7 @@ import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application
 import { RgtrLoginComponent } from './rgtr-login/rgtr-login.component';
 import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-verification.component';
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
+import { otpGuard } from './otp.guard';
 
 
 
@@ -83,8 +84,18 @@ const routes: Routes = [
   {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
   {path: 'rgtr-rgnt-ofd', component: RgtrRgntOfficerDetailsComponent},
   {path:'rgtr-login',component:RgtrLoginComponent},
-  {path:'rgtr-o-V',component:RgtrOtpVerificationComponent},
-  {path:'rgnt-o-V',component:RgntOtpVerificationComponent},
+  {
+    path: 'rgtr-o-V',
+    component: RgtrOtpVerificationComponent,
+    canActivate: [otpGuard],
+    data: { fallbackRoute: '/rgtr-login' } 
+  },
+  {
+    path: 'rgnt-o-V',
+    component: RgntOtpVerificationComponent,
+    canActivate: [otpGuard],
+    data: { fallbackRoute: '/login' } 
+  },
   {path:'rgnt-um', component: RgntUserManagementComponent},
   {path: 'rgtr-rgnt-um', component: RgtrRgntUserMgmtComponent},
   {path: 'rgtr-um', component: RgtrUsrMgmtComponent},

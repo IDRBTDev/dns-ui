@@ -18,6 +18,7 @@ export class RgntOtpVerificationComponent implements OnInit {
          
         }
   ngOnInit(): void {
+    localStorage.removeItem('previousUrl');
     this.resetTimer();
           this.startTimer();
   }
@@ -100,12 +101,15 @@ export class RgntOtpVerificationComponent implements OnInit {
         
         loginUserOtp: number = 0;
         async getOtpForLoginUser(){
+          this.user=JSON.parse(localStorage.getItem('rgntUser'));
           await lastValueFrom(this.loginService.getOtpForLoginUserByUserId(this.user.email)).then(
             response => {
               if(response.status === HttpStatusCode.Ok){
                 this.loginUserOtp = response.body;
                 console.log(this.loginUserOtp)
                 this.toastr.success('An OTP has been sent to you email.')
+                this.resetTimer();
+                this.startTimer();
               }
             },error => {
               if(error.status === HttpStatusCode.InternalServerError){

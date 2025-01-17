@@ -39,7 +39,8 @@
                       <div style='display: flex;justify-content: space-between;margin-top: 5px;'>
                         <div>  <p *ngIf="display !='00:00'" style="color: red;"><label style="color: black;">OTP expires in:</label> {{display}}</p> 
                           <p *ngIf="display ==='00:00'" style="color: red;padding-right: 40px;">OTP has expired </p> </div>
-                        <div (click)="getOtpForLoginUser()">Resend OTP</div>
+                          <div *ngIf="display==='00:00'" (click)="getOtpForLoginUser()" style="color:blue;cursor: pointer;text-decoration: underline;">Resend OTP</div>
+                          <div *ngIf="display!='00:00'"  style="color:#000;">Resend OTP</div>
                       </div>
                      
                       <div style='display: flex;justify-content: space-between;margin-top: 25px;'>

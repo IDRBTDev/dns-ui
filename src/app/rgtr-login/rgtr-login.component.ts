@@ -34,9 +34,11 @@ export class RgtrLoginComponent {
     isOtpValid: boolean = false;
     async login(){
       this.getOtpForLoginUser();
-      localStorage.setItem('user',JSON.stringify(this.user));
+      localStorage.setItem('rgtrUser',JSON.stringify(this.user));
         console.log(this.user.email)
-      this.router.navigateByUrl('/rgtr-o-V');
+        localStorage.setItem('previousUrl','/rgtr-login');
+        this.router.navigate(['/rgtr-o-V']);
+      // this.router.navigateByUrl('/rgtr-o-V');
     
       
       //check if OTP is valid

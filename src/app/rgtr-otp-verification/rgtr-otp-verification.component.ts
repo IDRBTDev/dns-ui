@@ -18,6 +18,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
        
       }
   ngOnInit(): void {
+    localStorage.removeItem('previousUrl')
    this.resetTimer();
    this.startTimer();
   }
@@ -41,7 +42,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
         if(this.otp === undefined || this.otp === null){
           this.otp = 0;
         }
-        this.user=JSON.parse(localStorage.getItem('user'));
+        this.user=JSON.parse(localStorage.getItem('rgtrUser'));
         console.log(this.user)
         await lastValueFrom(this.loginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
           response => {
@@ -100,12 +101,15 @@ export class RgtrOtpVerificationComponent implements OnInit {
       
       loginUserOtp: number = 0;
       async getOtpForLoginUser(){
+        this.user=JSON.parse(localStorage.getItem('rgtrUser'));
         await lastValueFrom(this.loginService.getOtpForRgtrLoginUserByUserId(this.user.email)).then(
           response => {
             if(response.status === HttpStatusCode.Ok){
               this.loginUserOtp = response.body;
               console.log(this.loginUserOtp)
-              this.toastr.success('An OTP has been sent to you email.')
+              this.toastr.success('An OTP has been sent to you email.');
+              this.resetTimer();
+              this.startTimer();
             }
           },error => {
             if(error.status === HttpStatusCode.InternalServerError){
