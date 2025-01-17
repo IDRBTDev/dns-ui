@@ -11,6 +11,9 @@ import { Domain } from '../model/domain.model';
 import { TransactionRequest } from '../model/TransactionRequest.model';
 import { DomainInvoiceService } from '../domain-invoices/service/domain-invoices.service';
 import { DomainApplicationService } from './service/domain-application.service';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { FormBuilder, FormGroup } from '@angular/forms';
+//import { AES256Bit } from './service/encryption.service';
 
 @Component({
   selector: 'app-domain-application',
@@ -19,6 +22,11 @@ import { DomainApplicationService } from './service/domain-application.service';
 })
 export class DomainApplicationComponent {
 
+  paymentForm: FormGroup;
+  // @ViewChild('paymentForm') paymentFormElement: any;
+
+  EncryptTrans: string = '';
+  merchIdVal: string = '1000605';
 
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
@@ -27,14 +35,13 @@ export class DomainApplicationComponent {
     //initialized in ngOninit based on the role
   ]; // Matches matColumnDef values
 
-  organisationId=parseInt(localStorage.getItem('organisationId'));
   domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
   transactionReqObj:TransactionRequest=new TransactionRequest();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService) {
+  constructor(private fb: FormBuilder, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
@@ -56,12 +63,13 @@ export class DomainApplicationComponent {
   //   else
   // //  this.getFilteredDomains();
   //   }
+
+  // this.submitPayment();
   console.log(this.role)
   console.log(this.userEmailId)
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
-    this.getAllDomainsListByOrgId(this.organisationId);
-    // this.getAllDomainsList(this.userEmailId);
+    this.getAllDomainsList(this.userEmailId);
     this.displayedColumns=[
        // 'checkbox',
     'domainId',
@@ -89,7 +97,7 @@ export class DomainApplicationComponent {
    // 'industry',
    'tenure'
    ]
-   this.getAllDomainsListByOrgId(0);
+    this.getAllDomainsList("");
   }
 
     // localStorage.setItem('isBoxVisible', 'false');
@@ -110,39 +118,15 @@ export class DomainApplicationComponent {
     // else
     // this.getFilteredDomains();
     // }
-    
-  
+    this.processPayment();
   }
  
 
   async getAllDomainsList(userId: string) {
-    console.log(userId)
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           this.domainsList = response.body;
-          console.log("domainList",this.domainsList)
-          this.domainsDataSource.data = this.domainsList;
-          this.domainsDataSource.paginator = this.paginator;
-          setTimeout(() => {
-            this.domainsDataSource.sort = this.sort;
-          }, 0);
-        }
-      },
-      (error) => {
-        if (error.status === HttpStatusCode.Unauthorized) {
-          this.navigateToSessionTimeout();
-        }
-      }
-    );
-  }
-  async getAllDomainsListByOrgId(orgId: number) {
-    console.log(orgId)
-    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
-      (response) => {
-        if (response.status === HttpStatusCode.Ok) {
-          this.domainsList = response.body;
-          console.log("domainList",this.domainsList)
           this.domainsDataSource.data = this.domainsList;
           this.domainsDataSource.paginator = this.paginator;
           setTimeout(() => {
@@ -277,38 +261,20 @@ export class DomainApplicationComponent {
    
   }
   }
-  processPayment(domain:Domain){
-    this.transactionReqObj={
-      "merchantId": "1000605",
-      "operatingMode": "DOM",
-      "merchantKey" : "pWhMnIEMc4q6hKdi2Fx50Ii8CKAoSIqv9ScSpwuMHM4=",
-      "merchantCountry": "IN",
-      "merchantCurrency": "INR",
-      "orderAmount": 100,
-      "successURL": "http:localhost:9018/payment/success",
-      "failURL": "http:localhost:9018/payment/fail",
-      "aggregatorId": "SBIEPAY",
-      "merchantOrderNo":"12345",
-      "merchantCustomerID": "12345",
-      "payMode" : "NB",
-      "actionUrl": "https://test.sbiepay.sbi/secure/AggregatorHostedListener",
-      "accessMedium": "ONLINE",
-      "transactionSource": "ONLINE"
-     
-  }
-  this.domainApplicationService.proccessPayment(this.transactionReqObj).subscribe({
-    next:(response)=>{
-      console.log(response)   
-      this.updatePaymentSatus(domain);
-    },error:(error)=>{
-      console.log(error)
+  processPayment(){
+  this.domainApplicationService.processPayment().subscribe(   
+    (response: string) => {    
+       console.log('Encrypted Response:', response);
+       this.paymentForm = this.fb.group({
+        encryptTrans: response,
+        merchIdVal: '1000605'
+      });
+       this.EncryptTrans = response; 
+       this.merchIdVal = '1000605';
+      },  (error) => {     
+        console.error('HTTP Error:', error); 
+      } );
     }
-  })
-  window.open('https://test.sbiepay.sbi/secure/AggregatorHostedListener', '_blank', 'noopener noreferrer');
-  // this.router.navigateByUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener")
-   
-     
-  }
   updatePaymentSatus(domain:Domain) {
    domain.paymentStatus='processing'
    this.domainService.updateDomainDetails(domain).subscribe({
@@ -319,4 +285,109 @@ export class DomainApplicationComponent {
     }
    })
   }
+
+  onSubmit1(): void {
+    if (this.paymentForm.valid) {
+      const formData =  {
+        encryptTrans: this.EncryptTrans,
+        merchIdVal: '1000605'
+    };
+      console.log(formData);
+      // Here you can send the form data to the server or perform other actions.
+      this.http.post('https://test.sbiepay.sbi/secure/AggregatorHostedListener', formData)
+        .subscribe(response => {
+          console.log('Payment submitted successfully', response);
+        }, error => {
+          console.error('Error submitting payment', error);
+        });
+    }
+  }
+
+  onSubmit2() {     // Code to manually submit the form
+    const ecomForm = document.forms['ecom'];     
+    if (ecomForm) {       
+      ecomForm.submit(); 
+    } 
+  }
+
+ async submitPayment() {
+    const paymentData = {
+      merchantId: "1000605",
+      operatingMode: "DOM",
+      // merchantKey : "pWhMnIEMc4q6hKdi2Fx50Ii8CKAoSIqv9ScSpwuMHM4=",
+      merchantCountry: "IN",
+      merchantCurrency: "INR",
+      orderAmount: 100,
+      otherDetails: "Other",
+      successURL: "http://localhost:4200",
+      failURL: "http://localhost:4200",
+      aggregatorId: "SBIEPAY",
+      merchantOrderNo:"12345",
+      merchantCustomerID: "12345",
+      payMode : "NB",
+      // actionUrl: "https://test.sbiepay.sbi/secure/AggregatorHostedListener",
+      accessMedium: "ONLINE",
+      transactionSource: "ONLINE"
+    };
+    // const encryptionKey = CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Base64);
+    // const dataString = JSON.stringify(paymentData);
+    const dataString = `${paymentData.merchantId}|${paymentData.operatingMode}|${paymentData.merchantCountry}|${paymentData.merchantCurrency}|${paymentData.orderAmount}|${paymentData.otherDetails}|${paymentData.successURL}|${paymentData.failURL}|${paymentData.aggregatorId}|${paymentData.merchantOrderNo}|${paymentData.merchantCustomerID}|${paymentData.payMode}|${paymentData.accessMedium}|${paymentData.transactionSource}`;
+    console.log(dataString);
+    const key_Array = "pWhMnIEMc4q6hKdi2Fx50Ii8CKAoSIqv9ScSpwuMHM4=";
+    const decodedKey = atob(key_Array);  // Decodes Base64 string to a string of bytes
+    const keyArray = new Uint8Array(decodedKey.length);
+    // const singleRequest = 'Some request data to encrypt';
+
+    // Encrypt the data
+    // const encryptedResponse = await this.encrypt(dataString, keyArray);
+    // console.log(dataString);
+    // console.log(encryptedResponse);
+
+    // const encryptedData = CryptoJS.AES.encrypt(dataString, encryptionKey).toString();
+    // console.log(encryptedData);
+    // this.EncryptTrans = encryptedResponse;
+    // Convert the payment data object to a JSON stringconst dataString = JSON.stringify(paymentData);
+  //   this.domainApplicationService.submitPayment({encryptedData}).subscribe(
+  //     (response) => {
+  //       console.log('Payment submitted successfully:', response);
+  //       // Handle response here, such as redirecting the user or showing a message
+  //       window.location.href = response.body;
+  //     },
+  //     (error) => {
+  //       console.error('Payment submission failed:', error);
+  //       // Handle error here, such as displaying an error message
+  //     }
+  //   );
+   }
+
+
+   formData = {
+    encryptTrance: '',
+    encryptValue: ''
+  };
+
+  
+
+  onSubmit() {
+    // Replace 'YOUR_API_URL' with your actual API endpoint
+    const apiUrl = 'https://test.sbiepay.sbi/secure/AggregatorHostedListener';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // 'Origin': 'http://localhost:4200',
+      // 'Referer': 'http://localhost:4200',
+    });
+    
+    this.http.post(apiUrl, this.formData, { headers })
+      .subscribe({
+        next: (response) => {
+          console.log('Form submitted successfully', response);
+          // Handle success response here
+        },
+        error: (error) => {
+          console.error('Error submitting form', error);
+          // Handle error here
+        }
+      });
+  }
+
 }
