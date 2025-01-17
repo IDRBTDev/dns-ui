@@ -1,11 +1,10 @@
 /* Custom modal positioning */
 .custom-modal-right .modal-dialog {
-    position: fixed;
-    right: 20px; /* Adjust horizontal positioning */
-    top: 20px; /* Adjust vertical positioning */
+   padding-top: 0px;
+    
     margin: 0;
     max-width: 300px; /* Adjust width as needed */
-    z-index: 1050; /* Ensure it's above other content */
+   
 }
 
 /* Ensure modal backdrop is not too dark */

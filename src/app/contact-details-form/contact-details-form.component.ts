@@ -14,6 +14,7 @@ import { interval, Subscription } from 'rxjs';
 
 
 export class ContactDetailsFormComponent implements OnInit, OnChanges {
+  
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
@@ -87,6 +88,17 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     this.back.emit();
   }
 
+  resetForm() {
+    // Reset form values and validation states
+    this.fullForm.reset();
+    Object.keys(this.fullForm.controls).forEach((field) => {
+      const control = this.fullForm.get(field);
+      if (control) {
+        control.markAsUntouched();
+        control.markAsPristine();
+      }
+    });
+  }
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes['organisationId']) {
       this.organisationId = changes['organisationId'].currentValue;

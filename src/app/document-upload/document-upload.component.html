@@ -43,10 +43,10 @@
       <input type="file" id="organisationFileInput" hidden (change)="handleOrganisationFileChange($event)"
           accept=".png,.jpg,.jpeg,.pdf" />
   </div>
-  <!-- <div *ngIf="organisationErrors.type === 'fileUpload'" 
+  <div *ngIf="organisationErrors.type === 'fileUpload'" 
   style="color: red; font-size: 0.875rem; margin-top: 4px;">
 {{ organisationErrors.message }}
-</div> -->
+</div>
   <!-- Uploaded Organisation Documents -->
   <div *ngIf="organisationUploadedDocs.length > 0" style="margin-top: 20px;">
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
@@ -96,6 +96,7 @@
               {{ adminErrors.message }}
           </div>
       </div>
+      
       <div *ngIf="adminSelectedDocType === 'Aadhaar' ||
                   adminSelectedDocType === 'PAN'" style="flex: 1;">
           <input  type="text" class="form-control" [(ngModel)]="adminInputValue"
@@ -218,7 +219,7 @@
     />
   </div>
   <div *ngIf="techErrors.type === 'fileUpload'" 
-     style="color: red; font-size: 0.875rem; margin-top: 4px;">
+     style="color: red; font-size: 0.875rem; margin-top: 4px; padding-left: 120px; ">
   {{ techErrors.message }}
 </div>
   <div *ngIf="techUploadedDocs.length > 0" style="margin-top: 20px">
@@ -331,7 +332,7 @@
     />
   </div>
   <div *ngIf="billingErrors.type === 'fileUpload'" 
-  style="color: red; font-size: 0.875rem; margin-top: 4px;">
+  style="color: red; font-size: 0.875rem; margin-top: 4px; padding-left: 120px; ">
 {{ billingErrors.message }}
 </div>
   <div *ngIf="billingUploadedDocs.length > 0" style="margin-top: 20px">
