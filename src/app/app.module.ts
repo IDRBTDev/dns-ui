@@ -74,6 +74,9 @@ import { Chart } from 'chart.js';
 import { DscVerificationComponent } from './dsc-verification/dsc-verification.component';
 import { RgntDomainApplicationDetailsComponent } from './rgnt-domain-application-details/rgnt-domain-application-details.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { RgtrLoginComponent } from './rgtr-login/rgtr-login.component';
+import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-verification.component';
+import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 
 
  
@@ -130,7 +133,10 @@ Chart.register(ChartDataLabels);
     RgtrUsrMgmtComponent,
     RgtrDomainComponent,
     DscVerificationComponent,
-    RgntDomainApplicationDetailsComponent
+    RgntDomainApplicationDetailsComponent,
+    RgtrLoginComponent,
+    RgtrOtpVerificationComponent,
+    RgntOtpVerificationComponent
   ],
   imports: [
     BrowserModule,

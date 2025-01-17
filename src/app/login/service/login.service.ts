@@ -10,7 +10,9 @@ export class LoginService{
     private drloginUrl = environment.apiURL+'/dr/users/login';
     private getOtpUrl = environment.apiURL+'/dr/user/get-otp';
     private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp';
-
+    private getRegistrarOtpUrl = environment.apiURL+'/dr/rgtrUser/get-otp';
+    private verifyRegistrarOtpUrl=environment.apiURL+'/dr/rgtrUser/verify-otp';
+    private rgtrDrloginUrl = environment.apiURL+'/dr/rgtrusers/login';
     constructor(private httpClient: HttpClient){
 
     }
@@ -40,6 +42,16 @@ export class LoginService{
      */
     verifyOtpForLoginUserByUserId(userId: string, otp: number){
         return this.httpClient.get<boolean>(this.verifyOtpUrl+"/"+userId+"/"+otp,{observe: 'response'});
+    }
+
+    getOtpForRgtrLoginUserByUserId(userId: string){
+        return this.httpClient.get<number>(this.getRegistrarOtpUrl+"/"+userId,{observe: 'response'});
+    }
+    verifyRegistrarOtpForLoginUserByUserId(userId: string, otp: number){
+        return this.httpClient.get<boolean>(this.verifyRegistrarOtpUrl+"/"+userId+"/"+otp,{observe: 'response'});
+    }
+    rgtruserLoginToDR(user: any){
+        return this.httpClient.post<void>(this.rgtrDrloginUrl,user,{observe: 'response'})
     }
 
 }
