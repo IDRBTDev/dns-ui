@@ -55,7 +55,7 @@ export class RgntOtpVerificationComponent implements OnInit {
           console.log(this.isOtpValid)
           //login to app
           if(this.isOtpValid){
-            await lastValueFrom(this.loginService.rgtruserLoginToDR(this.user)).then(
+            await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
               response => {
                 //console.log(response.body)
                 localStorage.setItem('email', response.headers.get('email'));
