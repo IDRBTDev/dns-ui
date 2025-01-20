@@ -53,7 +53,7 @@
                       </div>
                      
                   </div>
-                  <div style="margin-left:70px">
+                  <div style="margin-left:120px;margin-top: 20px;">
                       <div class="imageContainer" >
                           <img src="assets/Images/bankorfin.png" >
                       </div>
@@ -62,7 +62,7 @@
               
               
           </div>
-          <div class="col-6">
+          <div class="col-6" style="display: block;align-content: center;">
               <div style="margin-left:30px;margin-right: 30px;margin-top: 30px;display:flex;flex-direction: column;">
                   <div class="loginMsg">Login to your account</div>
                   <p class="loginMsg" style="font-weight: 400;font-size: 14px;padding-bottom: 20px;">Do not have an account? <a routerLink="/registration">Register</a></p>
@@ -71,7 +71,7 @@
                   <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px;">Email</div>
                   <div class="input-container" style="margin-bottom: 30px;">
                     <input type="text" id="email" [(ngModel)]="user.email" placeholder="Enter your email">
-                    <span class="get-otp" (click)="getOtpForLoginUser()">Get OTP</span>
+                    <!-- <span class="get-otp" (click)="getOtpForLoginUser()">Get OTP</span> -->
                   </div>
       
                     <div style="margin-bottom: 30px;">
@@ -80,19 +80,19 @@
                           <!-- <span class="toggle-password">Show</span> -->
                     </div>
 
-                    <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">OTP</div>
+                    <!-- <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">OTP</div>
                     <input type="text" [(ngModel)]="otp" placeholder="Enter OTP">
                     <div style='display: flex;justify-content: space-between;margin-top: 5px;'>
                       <div> <p>Enter the OTP sent to your registered email</p></div>
                       <div (click)="getOtpForLoginUser()">Resend OTP</div>
-                    </div>
+                    </div> -->
                    
-                    <div style='display: flex;justify-content: space-between;margin-top: 25px;'>
+                    <div style='display: flex;justify-content: space-between;margin-top: 15px;'>
                       <div class="loginMsg" style="font-size: 14px;font-weight: 500;cursor:pointer" routerLink="/forgot-password-otp-validation">
                         Forgot Password?
                       </div>
                       <div>
-                        <button class="btn btn-primary" (click)="login()" style="height: 100%;width:150px">Login</button>
+                        <button class="btn btn-primary" (click)="login()" style="height: 100%;width:150px">Next</button>
                       </div>
                     </div>
 
