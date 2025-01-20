@@ -147,7 +147,7 @@
         <p *ngIf="adminErrors.type === 'fileUpload'" style="color: red; font-size: 0.875rem; margin-top: 20px;">
         {{ adminErrors.message }}</p>
     </div>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
+   
 </div>
 <!-- Technical Section -->
 <div *ngIf="mode === 'tech'" style="flex: 1">
@@ -257,7 +257,7 @@
       Required documents selected
     </p>
   </div>
-  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
+ 
 </div>
 
 <!-- Billing Section -->
@@ -373,7 +373,7 @@
       Required documents selected
     </p>
   </div>
-  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
+  
 </div>
 
 <!-- Submission Errors -->

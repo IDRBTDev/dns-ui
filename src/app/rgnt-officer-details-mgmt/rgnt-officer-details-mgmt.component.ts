@@ -124,16 +124,14 @@ export class RgntOfficerDetailsMgmtComponent {
    
   }
   
-
-  // Method to reset the form in both child components
   resetForm() {
     if (this.isViewInitialized && this.contactDetailsForm) {
-      this.contactDetailsForm.resetForm(); // Reset form in ContactDetailsFormComponent
+      this.contactDetailsForm.resetForm(); // Reset form and error messages in ContactDetailsFormComponent
     }
     if (this.documentUploadedForm) {
-      this.documentUploadedForm.resetForm(); 
+      this.documentUploadedForm.resetForm(); // Reset form and error messages in DocumentUploadComponent
     }
-   
+    console.log('Form and error messages have been reset');
   }
 
   async ngOnInit(): Promise<void> {
