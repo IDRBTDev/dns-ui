@@ -544,6 +544,30 @@ export class DocumentUploadComponent implements OnInit {
     this.techErrors = { message: '', type: '' };
   }
 
+  resetForm() {
+    // Reset Admin Section Form Data and Errors
+    this.adminSelectedDocType = '';
+    this.billingInputValue='';
+    this.techInputValue='';
+    this.techSelectedDocType='';
+    this.billingSelectedDocType='';
+    this.adminInputValue = '';
+    this.adminErrors = { message: '', type: '' };
+    this.adminInputFieldErrors = { message: '', type: '' };
+    this.techErrors = { message: '', type: '' };
+    this.techInputFieldErrors={message:'',type:''};
+    this.billingErrors={message:'',type:''};
+    this.billingInputFieldErrors={message:'',type:''};
+    this.organisationRequiredDocs = [];
+    this.submissionAttempted = false;
+     this.contactSubmissionAttempted = false;  // Reset the submission flag
+      // Reset Organisation Section Form Data and Errors
+    this.organisationSelectedDocType = '';
+    this.organisationInputValue = '';
+    this.organisationErrors = { message: '', type: '' };
+    this.organisationInputFieldErrors = { message: '', type: '' };
+     console.log('Form has been reset');
+  }
   handleBillingDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.billingSelectedDocType = target.value;

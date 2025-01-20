@@ -112,7 +112,7 @@ export class RgntOfficerDetailsMgmtComponent {
   }
 
   @ViewChild(ContactDetailsFormComponent) contactDetailsForm: ContactDetailsFormComponent;
-
+@ViewChild(DocumentUploadComponent) documentUploadedForm :DocumentUploadComponent;
 
   private isViewInitialized: boolean = false;
 
@@ -130,7 +130,9 @@ export class RgntOfficerDetailsMgmtComponent {
     if (this.isViewInitialized && this.contactDetailsForm) {
       this.contactDetailsForm.resetForm(); // Reset form in ContactDetailsFormComponent
     }
-
+    if (this.documentUploadedForm) {
+      this.documentUploadedForm.resetForm(); 
+    }
    
   }
 

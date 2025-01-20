@@ -11,9 +11,8 @@
                   {{ doc }}
               </option>
           </select>
-          <div *ngIf="organisationErrors.type === 'docType'"
-              style="color: red; font-size: 0.875rem; margin-top: 4px;">
-              {{ organisationErrors.message }}
+          <div *ngIf="organisationErrors.type === 'docType'" style="color: red; font-size: 0.875rem; margin-top: 4px;">
+            {{ organisationErrors.message }}
           </div>
       </div>
 
@@ -26,9 +25,9 @@
               (ngModelChange)="handleOrganisationInputChange($event)"
               placeholder="Enter {{ organisationSelectedDocType }}"
               [attr.maxLength]="organisationSelectedDocType === 'Organisation GSTIN' ? 15 : organisationSelectedDocType === 'PAN' ? 10 : null" />
-          <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem;">
-              {{ organisationInputFieldErrors.message }}
-          </div>
+              <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem;">
+                {{ organisationInputFieldErrors.message }}
+              </div>
       </div>
 
       <!-- Upload Button -->
@@ -140,7 +139,7 @@
         </p>
     </div>
     <div class="d-flex justify-content-center mt-1">
-        <p *ngIf="contactSubmissionAttempted && missingAdminDocs.length === 0" class="text-success" style="margin-top: 20px;">
+        <p *ngIf="contactSubmissionAttempted && missingAdminDocs.length === 0 " class="text-success" style="margin-top: 20px;">
             Required documents selected
         </p>
     </div>
@@ -148,6 +147,7 @@
         <p *ngIf="adminErrors.type === 'fileUpload'" style="color: red; font-size: 0.875rem; margin-top: 20px;">
         {{ adminErrors.message }}</p>
     </div>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
 </div>
 <!-- Technical Section -->
 <div *ngIf="mode === 'tech'" style="flex: 1">
@@ -257,7 +257,7 @@
       Required documents selected
     </p>
   </div>
-  
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
 </div>
 
 <!-- Billing Section -->
@@ -373,7 +373,7 @@
       Required documents selected
     </p>
   </div>
-  
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Close</button>
 </div>
 
 <!-- Submission Errors -->

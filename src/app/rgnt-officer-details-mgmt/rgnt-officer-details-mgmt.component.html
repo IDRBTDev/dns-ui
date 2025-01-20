@@ -208,14 +208,17 @@
         </ng-select>
         <div>
           <app-contact-details-form
-          
+          #contactDetailsForm
                 [choosenContactType]="selectedOfficerToAdd"
                 [organisationId] ="selectedOrganisationId"
                 (adminDocDetails)="SubmittedAdminDocs($event)"
                 (techDocDetails)="submittedTechDocDetails($event)"
                 (billDocDetails)="submittedBillDocDetails($event)"
                 ></app-contact-details-form>
+                
+
         </div>
+        
         <!-- <div *ngIf="selectedOfficerToAdd === 'AdminOfficer'">
           <p>Admin Officer</p>
         </div>
