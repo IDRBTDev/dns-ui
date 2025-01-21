@@ -89,17 +89,30 @@ export class UserDomainDetailsComponent implements OnInit {
   onSearch() {
     const bankName = this.userDomainForm.get('label')?.value;
     const domainName = this.userDomainForm.get('zone')?.value;
-    const zone = this.userDomainForm.get('zone')?.value;  // This could be a select option like '.bank.in', '.fin.in', etc.
-    const label = this.userDomainForm.get('label')?.value;  // This is the bank name or identifier.
   
-    // Make the API call to check both combinations
+    // Check if both bank name and domain name are entered
+    if (!bankName || !domainName) {
+      // Mark form controls as touched to trigger validation errors
+      this.userDomainForm.get('label')?.markAsTouched();
+      this.userDomainForm.get('zone')?.markAsTouched();
+      return;
+    }
+  
+    const zone = this.userDomainForm.get('zone')?.value;
+    const label = this.userDomainForm.get('label')?.value;
+  
+    // Make the API call to check domain combination
     this.userDomainService.checkDomainCombination(bankName, domainName, zone, label).subscribe(
       (response: boolean) => {
         if (response) {
-          this.isReserved = false;  // Available
+          this.isReserved = false; // Available
           this.showResult = true;
+  
+          // Clear any existing validation errors after successful search
+          this.userDomainForm.get('label')?.setErrors(null);
+          this.userDomainForm.get('zone')?.setErrors(null);
         } else {
-          this.isReserved = true;   // Reserved
+          this.isReserved = true; // Reserved
           this.showResult = true;
         }
       },

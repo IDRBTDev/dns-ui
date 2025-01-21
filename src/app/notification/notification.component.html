@@ -1,11 +1,11 @@
 <div #notificationModal class="modal-dialog modal-dialog-end" [id]="modalId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-end">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-end" style="padding-top: 0px;">
+    <div class="modal-content" style="height:100vh; margin-top: 0px;">
       <div class="modal-header" style="background-color: #F6FBFD;">
         <h4 class="modal-title" id="notificationModalLabel">Notifications</h4>
         <button type="button" (click)="toggleVisibility()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
+      <div class="modal-body" style="max-height: 100vh; overflow-y: auto;">
         <!-- No Unread Notifications Message -->
         <div *ngIf="notificationCount === 0" class="text-center">
           <p>No Unread Notifications!</p>
