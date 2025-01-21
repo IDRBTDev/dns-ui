@@ -139,7 +139,7 @@ export class NameServerFormComponent implements OnInit {
           if(response != null){
             this.formSubmitted.emit();
             this.toastr.success("Domain added successfully");
-            this.router.navigateByUrl("/rgnt-domains");
+           // this.router.navigateByUrl("/rgnt-domains");
           }
         },
 
