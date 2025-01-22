@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { NotificationService } from '../notification/service/notification.service';
 import { interval, Subscription } from 'rxjs';
+import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 
 @Component({
   selector: 'app-contact-details-form',
@@ -97,8 +98,19 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         control.markAsUntouched();
         control.markAsPristine();
       }
+      this.resetErrorMessages(); 
     });
+    
   }
+  @ViewChild(DocumentUploadComponent) documentUploadedForm: DocumentUploadComponent;
+
+  // Method to reset the error messages in the DocumentUploadComponent
+  resetErrorMessages() {
+    if (this.documentUploadedForm) {
+      this.documentUploadedForm.closedForm();
+    }
+  }
+
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (changes['organisationId']) {
       this.organisationId = changes['organisationId'].currentValue;
