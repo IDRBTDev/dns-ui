@@ -280,10 +280,10 @@ if (!this.user.mobileNumber) {
 
 
   resetTimer(): void {
-    this.remainingTime = 60;  // Reset to 60 seconds
+    this.remainingTime = 120;  // Reset to 60 seconds
     this.timerActive = true;
     this.otpExpired = false;  // Mark OTP as not expired
-    this.timerDisplay = '01:00';  // Reset timer display
+    this.timerDisplay = '02:00';  // Reset timer display
     if (this.countdown) {
       clearInterval(this.countdown);  // Clear any existing timer
     }
@@ -335,7 +335,7 @@ if (!this.user.mobileNumber) {
           this.isEmailVerified = true;
         } else {
           // OTP verification failed
-          this.toastrService.error('Failed to verify OTP. Please try again.');
+          this.toastrService.error('OTP has expired. Please request a new one.');
           this.successMessage = '';
           this.errorMessage = 'Invalid OTP. Please try again.';
         }
