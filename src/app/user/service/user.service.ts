@@ -16,6 +16,7 @@ export class UserService{
     private deleteadminUrl = environment.apiURL+'/dr/administrativeContact/delete';
     private deletebillnUrl = environment.apiURL+'/dr/billingContact/delete';
     private deletetechUrl = environment.apiURL+'/dr/technicalContact/delete';
+    private rgtrRegUrl = environment.apiURL+'/dr/rgtrUser'
     constructor(private httpClient: HttpClient){
 
     }
@@ -29,7 +30,9 @@ export class UserService{
     saveUser(user: any){
         return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response'});
     }
-
+    saveRgtrUser(user: any){
+        return this.httpClient.post<void>(this.rgtrRegUrl+"/"+"save",user,{observe: 'response'});
+    }
     getUserById(id: number){
         return this.httpClient.get<any>(this.getUserUrl+"/"+id,{observe:'response'})
     }
@@ -53,6 +56,12 @@ export class UserService{
       
     getUserByEmailId(userId: string){
         return this.httpClient.get<any>(this.getUserByEmailUrl+"/"+userId, {observe: 'response'});
+    }
+    getRgtrUserByEmailId(userId: string){
+        return this.httpClient.get<any>(this.rgtrRegUrl+"/"+"getUser"+"/"+userId, {observe: 'response'});
+    }
+    getAllRgtrUsers(){
+        return this.httpClient.get<any>(this.rgtrRegUrl+"/"+"all", {observe: 'response'});
     }
     getAllActiveUsers(){
         const url = environment.apiURL+"/dr/user";

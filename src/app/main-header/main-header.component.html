@@ -170,7 +170,7 @@
 
                 <div class="text2">
                     <p>
-                    <p *ngIf="user">{{ user.role}}</p>
+                    <!-- <p *ngIf="user">{{ user.role}}</p> -->
                 </div>
 
                 <br>
@@ -185,15 +185,15 @@
 
                 <br>
 
-                <div class="text1" *ngIf="user.role!='IDRBTADMIN'">
+                <!-- <div class="text1" *ngIf="user.userRoles[0]!='IDRBTADMIN'"> -->
                     <p>Organization</p>
-                </div>
+                <!-- </div> -->
 
-                <div class="text2" *ngIf="user.role!='IDRBTADMIN'">
+                <!-- <div class="text2" *ngIf="user.role!='IDRBTADMIN'"> -->
                     <p *ngIf="user">{{user.organisationDetailsDto?.institutionName}}</p>
 
                 </div>
-                <br  *ngIf="user.role!='IDRBTADMIN'">
+                <!-- <br  *ngIf="user.role!='IDRBTADMIN'"> -->
                 <div>
                     <p><a href="/change-password"><span>Change Password</span></a></p>
                 </div>

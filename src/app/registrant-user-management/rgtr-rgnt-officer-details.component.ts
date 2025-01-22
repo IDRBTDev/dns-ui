@@ -10,6 +10,9 @@ import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { ContactDetailsFormService } from '../contact-details-form/service/contact-details-form.service';
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
+import { Roles } from '../model/roles.model';
+import { RolesService } from '../roles/services/roles.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-rgtr-rgnt-officer-details',
@@ -19,12 +22,12 @@ import { ContactDocumentUploadService } from '../contact-document-upload/service
 export class RgtrRgntOfficerDetailsComponent {
 
   selectedOrganisationId: number = 0;
-
+  // roles:Roles=new Roles();
   user = {
     id: 0,
     userName: '',
     userId: '',
-    role: '',
+    userRoles:[],
     active: false,
     encryptedPassword: '',
     mobileNumber: '',
@@ -56,7 +59,7 @@ export class RgtrRgntOfficerDetailsComponent {
 
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService,
-    private contactDetailsService: ContactDetailsFormService,
+    private contactDetailsService: ContactDetailsFormService,private roleService:RolesService,
     private contactDocumentsService: ContactDocumentUploadService,private route:ActivatedRoute
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
@@ -121,7 +124,7 @@ export class RgtrRgntOfficerDetailsComponent {
         'actions'
       ]; 
     //}
-
+    this.getAllRoles();
     await this.getOrganisations();
 
     this.getLoggedInUserDetails();
@@ -227,7 +230,7 @@ export class RgtrRgntOfficerDetailsComponent {
     this.user.id = 0;
     this.user.userName = '';
     this.user.userId = '';
-    this.user.role = '';
+    this.user.userRoles = null;
     this.user.encryptedPassword = '';
     this.user.mobileNumber = '';
     this.user.mobileNumber = '';
@@ -329,8 +332,18 @@ export class RgtrRgntOfficerDetailsComponent {
     )
     return this.documentsList;
   }
-
+  AllRoles:Roles[]
+  getAllRoles(){
+    this.roleService.getAllRoles().subscribe({
+      next:(response)=>{
+      this.AllRoles=response.body;
+      },error:(error)=>{
+        console.log(error)
+      }
+    })
+  }
   async enableOrDisableLoginStatus(loginStatus: string, contactOfficerDetails: any){
+    console.log(contactOfficerDetails.id)
     //first update the login status of contact officer and then create the user login for the contact officer
     if(contactOfficerDetails.contactRole === 'AdminOfficer'){
       await this.getAdminOfficerDetails(contactOfficerDetails.id);
@@ -363,6 +376,7 @@ export class RgtrRgntOfficerDetailsComponent {
       }
     }else if(contactOfficerDetails.contactRole === 'TechnicalOfficer'){
       await this.getTechnicalOfficerDetails(contactOfficerDetails.id);
+      console.log(this.technicalOfficerDetails.organisationId)
       await this.getContactOfficerDocuments("Technical",this.technicalOfficerDetails.organisationId);
       let count = 0;
       console.log('exe')
@@ -423,12 +437,27 @@ export class RgtrRgntOfficerDetailsComponent {
     }
     this.user.userName = contactOfficerDetails.personName;
     this.user.userId = contactOfficerDetails.emailId;
-    this.user.role = contactOfficerDetails.contactRole;
+    if(contactOfficerDetails.contactRole=='AdminOfficer'){
+      this.user.userRoles[0] = this.AllRoles.find(role => {
+        return role.roleName === "Administrative Officer";
+    });
+    }else if(contactOfficerDetails.contactRole=='BillingOfficer'){
+      this.user.userRoles[0] = this.AllRoles.find(role => {
+        return role.roleName === "Billing Officer";
+    });
+    }else if(contactOfficerDetails.contactRole=='TechnicalOfficer'){
+      this.user.userRoles[0] = this.AllRoles.find(role => {
+        return role.roleName === "Technical Officer";
+    });
+    }
+    // this.user.role = contactOfficerDetails.contactRole;
     this.user.mobileNumber = contactOfficerDetails.mobileNumber;
     this.user.createdByEmailId = this.userId;
     this.user.organisationId = contactOfficerDetails.organisationId;
     this.user.isOnboardingCompleted = true;
     this.user.active  = true;
+    console.log(this.user);
+    // return
     await lastValueFrom(this.userService.saveUser(this.user)).then(
       response => {
         console.log(response)

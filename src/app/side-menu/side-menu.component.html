@@ -82,7 +82,8 @@
       <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-um']">DR User Management</a>
       <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-rgnt-um']">Registrant User Management</a>
       <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-rgnt-ofd']">Registrant Officer Details</a>
-      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-role']">Roles</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgnt-role']">Registrant Roles</a>
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-role']">Registrar Roles</a>
       <!-- Registrant -->
       <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-um']">User Management</a>
       <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-ofd']">Officer Details Management</a>

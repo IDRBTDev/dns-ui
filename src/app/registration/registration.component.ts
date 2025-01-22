@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from './service/Registration.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
@@ -7,19 +7,24 @@ import { Router } from '@angular/router';
 import { LoginService } from '../login/service/login.service';
 import * as $ from 'jquery';
 import { Modal } from 'bootstrap';
+import { Roles } from '../model/roles.model';
+import { RolesService } from '../roles/services/roles.service';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
 
   constructor(private registrationService: RegistrationService,
     private toastrService: ToastrService,
-    private router: Router,
+    private router: Router,private roleService:RolesService,
     private loginService: LoginService
   ){}
+  ngOnInit(): void {
+   this.getAllRoles();
+  }
 
 showEmailButton: boolean = false;
   showNumberButton: boolean = false;
@@ -32,8 +37,23 @@ showEmailButton: boolean = false;
     encryptedPassword: '',
     mobileNumber: '',
     confirmPassword: '',
-    role:'',
+    userRoles:[],
     organisationId: 0
+  }
+  
+  getAllRoles(){
+    this.roleService.getAllRoles().subscribe({
+      next:(response)=>{
+        console.log(response.body)
+        let AllRoles=response.body;
+        this.user.userRoles[0] = AllRoles.find(role => {
+          return role.roleName === "Super Admin";
+      });
+
+      },error:(error)=>{
+        console.log(error);
+      }
+    })
   }
   
 otp:number;

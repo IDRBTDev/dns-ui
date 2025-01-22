@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
+import { RgtrRoleService } from '../rgtr-role/services/rgtr-role.service';
+import { Roles } from '../model/roles.model';
+import { RgtrRoles } from '../model/rgtrRole.model';
 
 @Component({
   selector: 'app-rgtr-usr-mgmt',
@@ -20,15 +23,18 @@ export class RgtrUsrMgmtComponent {
     id: 0,
     userName: '',
     userId: '',
-    role: '',
+    userRoles: [{
+      roleId:0,
+      roleName: '',
+      roleDescription: '',
+      roleStatus: ''
+    }],
     active: false,
     encryptedPassword: '',
     mobileNumber: '',
     confirmPassword: '',
     createdByEmailId:'',
-    organisationId:0,
-    organisationDetails: {},
-    isOnboardingCompleted: false
+    departmentId:1
   }
 
 
@@ -53,7 +59,7 @@ export class RgtrUsrMgmtComponent {
   organisationId = localStorage.getItem('organisationId');
 
   constructor(private userService: UserService, private router: Router,
-    private toastr: ToastrService, private organisationService: OrganisationDetailsService
+    private toastr: ToastrService, private organisationService: OrganisationDetailsService,private rgtrRoleService:RgtrRoleService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
@@ -62,7 +68,7 @@ export class RgtrUsrMgmtComponent {
 
   loggedInUser: any;
   async getLoggedInUserDetails(){
-   await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+   await lastValueFrom(this.userService.getRgtrUserByEmailId(this.userId)).then(
     response => {
       if(response.status === HttpStatusCode.Ok){
         this.loggedInUser = response.body;
@@ -93,12 +99,14 @@ export class RgtrUsrMgmtComponent {
     // }else{
       this.displayedColumns = [
         //'checkbox',
-        'id',
+        'Sl No',
         'userId',
         'userName',
-        'institutionName',
-        'role',
+        
+        'userRoles',
         'active',
+        'edit',
+        'delete'
        //'actions',
       ]; 
     //}
@@ -108,7 +116,8 @@ export class RgtrUsrMgmtComponent {
     // if(this.role === 'IDRBTADMIN'){
     //   await this.getUsersList(0);
     // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
-      await this.getUsersList(parseInt(this.organisationId));
+      await this.getUsersList(0);
+      this.getAllRoles();
     //}
     // this.usersList.forEach(user => {
     //   if(user.organisationId > 0){
@@ -123,13 +132,25 @@ export class RgtrUsrMgmtComponent {
 
   }
 
+  allRoles:RgtrRoles[]
+  getAllRoles(){
+    this.rgtrRoleService.getAllRoles().subscribe({
+      next:(response)=>{
+        console.log(response.body)
+        this.allRoles=response.body;
+      },error:(error)=>{
+        console.log(error)
+      }
+    })
+  }
+
   async getUsersList(organisationId: number) {
     console.log('Organisation ID:', organisationId);
     if (isNaN(organisationId) || organisationId <= 1) {
       console.error('Invalid organisationId:', organisationId);
       //return;
     }
-    await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
+    await lastValueFrom(this.userService.getAllRgtrUsers()).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
           console.log(response.body);
@@ -268,6 +289,10 @@ if (!this.user.mobileNumber) {
     }
   }
 
+  validateuserRole(){
+
+  }
+
   passwordErrorMessage: string = '';
   passwordNameInput: boolean = true;
   passwordChange() {
@@ -338,17 +363,26 @@ if (!this.user.mobileNumber) {
     }
   }
 
-
+selectedRole
+getTheRole(role){
+  this.selectedRole=role
+  console.log(this.selectedRole)
+}
   async saveUser(user: any) {
     var id =  localStorage.getItem('email');
-    console.log(id);
-    user.createdByEmailId = id;
-    user.organisationId = this.organisationId;
-    await lastValueFrom(this.userService.saveUser(user)).then(
+    console.log(id,this.selectedRole);
+    user.createdByEmailId = this.loggedInUser.userId;
+    this.user.userRoles[0].roleId=this.selectedRole.roleId;
+    this.user.userRoles[0].roleDescription=this.selectedRole.roleDescription;
+    this.user.userRoles[0].roleName=this.selectedRole.roleName;
+    this.user.userRoles[0].roleStatus=this.selectedRole.roleStatus;
+    user.userRoles[0]=this.user.userRoles[0];
+    // user.organisationId = this.organisationId;
+    await lastValueFrom(this.userService.saveRgtrUser(user)).then(
       response => {
       if (response.status === HttpStatusCode.Created) {
         this.toastr.success('User added successfully.')
-        this.getUsersList(parseInt(this.organisationId));
+        // this.getUsersList(parseInt(this.organisationId));
       }
     }, error => {
       if (error.status === HttpStatusCode.Unauthorized) {
@@ -359,27 +393,27 @@ if (!this.user.mobileNumber) {
   }
 
   organisationDetails: any;
-  async getOrganisationDetailsOfUser(organisationId: number){
-    await lastValueFrom(this.organisationService
-      .getOrganisationDetailsByOrganisationId(organisationId)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          this.user.organisationDetails = response.body;
-          console.log(this.user);
-        }
-      },error => {
-        if(error.status === HttpStatusCode.Unauthorized){
-          this.navigateToSessionTimeout();
-        }
-      }
-    )
-  }
+  // async getOrganisationDetailsOfUser(organisationId: number){
+  //   await lastValueFrom(this.organisationService
+  //     .getOrganisationDetailsByOrganisationId(organisationId)).then(
+  //     response => {
+  //       if(response.status === HttpStatusCode.Ok){
+  //         this.user.organisationDetails = response.body;
+  //         console.log(this.user);
+  //       }
+  //     },error => {
+  //       if(error.status === HttpStatusCode.Unauthorized){
+  //         this.navigateToSessionTimeout();
+  //       }
+  //     }
+  //   )
+  // }
 
   clearData(){
     this.user.id = 0;
     this.user.userName = '';
     this.user.userId = '';
-    this.user.role = '';
+    this.user.userRoles = [];
     this.user.encryptedPassword = '';
     this.user.mobileNumber = '';
     this.user.mobileNumber = '';

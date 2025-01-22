@@ -42,6 +42,7 @@ import { RgtrLoginComponent } from './rgtr-login/rgtr-login.component';
 import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-verification.component';
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 import { otpGuard } from './otp.guard';
+import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 
 
 
@@ -99,7 +100,8 @@ const routes: Routes = [
   {path:'rgnt-um', component: RgntUserManagementComponent},
   {path: 'rgtr-rgnt-um', component: RgtrRgntUserMgmtComponent},
   {path: 'rgtr-um', component: RgtrUsrMgmtComponent},
-  {path: 'rgtr-role', component:RolesComponent},
+  {path: 'rgnt-role', component:RolesComponent},
+  {path: 'rgtr-role', component:RgtrRoleComponent},
   {path:'rgnt-domains', component: RgntDomainComponent},
   {path:'rgtr-domains', component: RgtrDomainComponent},
   {path: 'dsc-verification', component: DscVerificationComponent},

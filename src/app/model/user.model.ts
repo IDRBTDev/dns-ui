@@ -1,4 +1,5 @@
 import { Organization } from "./organization.model";
+import { Roles } from "./roles.model";
 
 export class User{
     id : number;
@@ -9,7 +10,7 @@ export class User{
     previousPassword : string;
     previousPasswordOne : string;
     previousPasswordTwo : string;
-    role : string;
+    userRoles : Roles[];
     otp : number;
     profilePictureUrl: string;
     profilePicture : Blob;
