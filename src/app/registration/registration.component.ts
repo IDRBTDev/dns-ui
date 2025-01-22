@@ -229,6 +229,7 @@ if (!this.user.mobileNumber) {
         this.timerActive = false; 
         this.otpExpired = true;  
         clearInterval(this.countdown);
+        this.otp = null;
       }
     }, 1000);
   }
