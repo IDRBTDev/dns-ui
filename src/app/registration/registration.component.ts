@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from './service/Registration.service';
-import { lastValueFrom } from 'rxjs';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { lastValueFrom, timer } from 'rxjs';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginService } from '../login/service/login.service';
@@ -13,20 +13,23 @@ import { Modal } from 'bootstrap';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
 
   constructor(private registrationService: RegistrationService,
     private toastrService: ToastrService,
     private router: Router,
     private loginService: LoginService
   ){}
-
+  ngOnInit(): void {
+   this.startTimer();
+  }
 showEmailButton: boolean = false;
   showNumberButton: boolean = false;
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
 
   user = {
+    email:'',
     userName: '',
     userId: '',
     encryptedPassword: '',
@@ -211,64 +214,183 @@ if (!this.user.mobileNumber) {
       }
     )
   }
+  timerDisplay: string = '01:00';
+  timerActive: boolean = true;
+  private countdown: any;
+  private remainingTime: number = 60; 
+  otpExpired: boolean = false;
+
+  startTimer(): void {
+    this.countdown = setInterval(() => {
+      if (this.remainingTime > 0) {
+        this.remainingTime--;
+        this.updateTimerDisplay(); 
+      } else {
+        this.timerActive = false; 
+        this.otpExpired = true;  
+        clearInterval(this.countdown);
+      }
+    }, 1000);
+  }
+  updateTimerDisplay(): void {
+    const minutes = Math.floor(this.remainingTime / 60);
+    const seconds = this.remainingTime % 60;
+    this.timerDisplay = `${this.pad(minutes)}:${this.pad(seconds)}`;
+  }
+  // Add leading zeros to time values
+  pad(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
+  registrationUserId: string = ''; // The email or user ID for OTP
+  otpResentMessage: string = '';
+
+  resendOtp(): void {
+    if (!this.regUser.registrationUserId) {
+      this.toastrService.error('Please provide a valid email or registration ID.');
+      return;
+    }
+  
+    // Call the resend OTP service
+    this.registrationService.resendOtp(this.regUser.registrationUserId).subscribe({
+      next: (response) => {
+        // Check if OTP resend was successful
+        if (response.isRegistrationSuccess) {
+          this.toastrService.success('OTP has been resent successfully!');
+          this.otpResentMessage = 'OTP resent successfully.';
+          this.resetTimer();
+          this.startTimer();
+          
+          
+        } else {
+          this.toastrService.error('Failed to resend OTP. User not found.');
+        }
+      },
+      error: (err) => {
+        console.log('Error resending OTP:', err);
+        this.toastrService.error('Error occurred while resending OTP.');
+      }
+    });
+  }
+  
+  loginUserOtp: number = 0;
+  regUserId: string = '';
+ 
+  loading: boolean = false;
+  error: string | null = null;
+
+
+  resetTimer(): void {
+    this.remainingTime = 120;  // Reset to 60 seconds
+    this.timerActive = true;
+    this.otpExpired = false;  // Mark OTP as not expired
+    this.timerDisplay = '02:00';  // Reset timer display
+    if (this.countdown) {
+      clearInterval(this.countdown);  // Clear any existing timer
+    }
+  }
+
   errorMessage: string = '';
   successMessage: string = '';
+ 
 
   verifyOtp() {
     console.log('Starting OTP verification...');
     
-    if (!this.user.userId || !this.otp) {
-        console.log('Error: UserId or OTP is missing');
-        
-        this.errorMessage = 'Please enter OTP.';
-        this.successMessage = '';
-        return;
+    // Step 1: Check if OTP has expired
+    if (this.otpExpired) {
+      this.toastrService.error('OTP has expired. Please request a new one.');
+      return;
     }
-    console.log('Verifying OTP for User ID:', this.user.userId);
+  
+    // Step 2: Check if email or OTP is missing
+    if (!this.regUser.registrationUserId || !this.otp) {
+      console.log('Error: Email or OTP is missing');
+      this.toastrService.error('Please enter both email and OTP.');
+      this.errorMessage = 'Please enter both email and OTP.';
+      this.successMessage = '';
+      return;
+    }
+  
+    console.log('Verifying OTP for User ID:', this.regUser.registrationUserId);
     console.log('Entered OTP:', this.otp);
-
-    this.registrationService.verifyOtp(this.regUser).subscribe({
-        next: (response) => {
-            console.log('OTP verification successful:', response);
-            this.toastrService.success("OTP verification successful")
-            this.successMessage = 'OTP verified successfully!';
-            this.errorMessage = '';
-            document.getElementById('closeRegForm').click();
-        },
-        error: (error: HttpErrorResponse) => {
-            console.log('Error during OTP verification:', error);
-            
-            this.errorMessage = 'Failed to verify OTP. Please try again.';
-            this.successMessage = '';
+  
+    // Step 3: Call backend to verify OTP
+    this.registrationService.verifyOtp(this.regUser.registrationUserId, this.otp).subscribe({
+      next: (response) => {
+        console.log('OTP verification successful:', response);
+        
+        if (response) {
+          // OTP verification success
+          this.toastrService.success("OTP verification successful");
+          this.successMessage = 'OTP verified successfully!';
+          this.errorMessage = '';
+          
+          this.resetTimer();
+          this.otpExpired = true; // OTP is expired after verification
+  
+          // Close the registration form/modal
+          document.getElementById('closeRegForm')?.click();
+  
+          // Step 4: Set email verification status to true
+          this.isEmailVerified = true;
+        } else {
+          // OTP verification failed
+          this.toastrService.error('OTP has expired. Please request a new one.');
+          this.successMessage = '';
+          this.errorMessage = 'Invalid OTP. Please try again.';
         }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('Error during OTP verification:', error);
+        this.toastrService.error('Failed to verify OTP. Please try again.');
+        this.successMessage = '';
+        this.errorMessage = 'Error occurred while verifying OTP.';
+      }
     });
-}
+  }
+  
 
 regUser = {
   id: 0,
+
   registrationUserId: '',
   registrationOtp:0,
   isRegistrationSuccess: false
 }
-
+isEmailVerified = false;
 isReg : boolean = false;
-async saveRegUser(){
+async saveRegUser() {
+  // Check if email (user.userId) is provided
+  if (!this.user.userId || this.user.userId.trim() === "") {
+    console.log('Error: Email is missing');
+    this.toastrService.error('Please provide email ID.');  // Show error message to the user
+    return; // Exit early if email is missing
+  }
+
+  // Proceed with the registration process if the email is provided
   this.regUser.registrationUserId = this.user.userId;
-  await lastValueFrom(this.registrationService.saveRegUser(this.regUser)).then(
-    response => {
-      if(response.status === HttpStatusCode.Created){
-        this.isReg = response.body;
-        if(!this.isReg){
-          console.log('exe1')
-          this.toastrService.error('User already exists')
-        }else{
-          console.log('exe2')
-          this.openModal();
-        }
+
+  try {
+    const response = await lastValueFrom(this.registrationService.saveRegUser(this.regUser));
+
+    // Handle the response from the registration service
+    if (response.status === HttpStatusCode.Created) {
+      this.isReg = response.body;
+      if (!this.isReg) {
+        console.log('exe1');
+        this.toastrService.error('User already exists');
+      } else {
+        console.log('exe2');
+        this.isEmailVerified = true;
+        this.openModal();
       }
     }
-  )
+  } catch (error) {
+    console.log('Error during registration:', error);
+    this.toastrService.error('An error occurred while registering the user.');
+  }
 }
+
 
 openModal() {
   document.getElementById('showModal').click();

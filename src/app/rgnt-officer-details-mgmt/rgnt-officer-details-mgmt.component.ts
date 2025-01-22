@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +19,7 @@ import { DocumentUploadComponent } from '../document-upload/document-upload.comp
   templateUrl: './rgnt-officer-details-mgmt.component.html',
   styleUrls: ['./rgnt-officer-details-mgmt.component.css']
 })
-export class RgntOfficerDetailsMgmtComponent {
+export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
 
   selectedOrganisation: number = 0;
 
@@ -64,6 +64,9 @@ export class RgntOfficerDetailsMgmtComponent {
     private contactDocumentsService: ContactDocumentUploadService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
+  }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
     
   organisationsList: any[] = [];
@@ -112,26 +115,11 @@ export class RgntOfficerDetailsMgmtComponent {
   }
 
   @ViewChild(ContactDetailsFormComponent) contactDetailsForm: ContactDetailsFormComponent;
-
-
-  private isViewInitialized: boolean = false;
-
-  ngAfterViewChecked() {
-    if (this.contactDetailsForm && !this.isViewInitialized) {
-      console.log('ContactDetailsFormComponent initialized');
-      this.isViewInitialized = true;
-    }
+ resetForm() {
+    if ( this.contactDetailsForm) {
+      this.contactDetailsForm.resetForm();
    
-  }
-  
-
-  // Method to reset the form in both child components
-  resetForm() {
-    if (this.isViewInitialized && this.contactDetailsForm) {
-      this.contactDetailsForm.resetForm(); // Reset form in ContactDetailsFormComponent
     }
-
-   
   }
 
   async ngOnInit(): Promise<void> {

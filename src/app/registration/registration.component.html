@@ -102,7 +102,8 @@
                     <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px;">Email</div>
                     <div class="input-container" [ngStyle]="{'margin-bottom': emailInput ? '30px' : '0px'}">
                       <input type="text" id="email" (change)="toggleEmailButton()"  (input)="emailChange()"  [(ngModel)]="user.userId" placeholder="Enter your email">
-                      <span class="get-otp" (click)="saveRegUser()" >Verify</span>
+                      <span *ngIf="!isEmailVerified" class="get-otp" (click)="saveRegUser()" >Verify</span>
+                      <span *ngIf="isEmailVerified" class="get-otp">Verified</span>
                       
                     
                     </div>
@@ -110,7 +111,7 @@
                     <!-- <button *ngIf="showEmailButton" type="button" class="get-email-btn"  id="email-btn" (click)="saveRegUser()">Verify</button> -->
                     <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Mobile Number</div>
-                        <input type="text"maxlength="10" [(ngModel)]="user.mobileNumber" (ngModelChange)="numberChange()" (ngModelChange)="toggleNumberButton()" placeholder="Enter your mobile number">
+                        <input type="text"maxlength="10" [(ngModel)]="user.mobileNumber" (ngModelChange)="numberChange()" [disabled]="!isEmailVerified" (ngModelChange)="toggleNumberButton()" placeholder="Enter your mobile number">
                         <!-- <span class="toggle-password">Show</span> -->
                         <div *ngIf="!numberInput" class="error-message">{{ numbererrorMessage }}</div>
                     </div>
@@ -119,13 +120,13 @@
                     <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Full Name</div>
                         <input type="text" [(ngModel)]="user.userName" id="name"
-                        placeholder="Enter your full name" (ngModelChange)="nameChange()">
+                        placeholder="Enter your full name" (ngModelChange)="nameChange()" [disabled]="!isEmailVerified">
                         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
                     
                     </div>
                       <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Password</div>
-                            <input type="password" [(ngModel)]="user.encryptedPassword" (change)="passwordChange()"  placeholder="Enter the strong password">
+                            <input type="password" [(ngModel)]="user.encryptedPassword" (change)="passwordChange()" [disabled]="!isEmailVerified"  placeholder="Enter the strong password">
                             <div *ngIf="!passwordNameInput" class="error-message">{{ passwordErrorMessage }}</div>
                             <!-- <span class="toggle-password">Show</span> -->
                       </div>
@@ -133,16 +134,16 @@
                       <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Confirm Password<div>
                             <input type="password" placeholder="Re-enter the password"
-                            [(ngModel)]="user.confirmPassword" (change)="confirmPasswordChange()">
+                            [(ngModel)]="user.confirmPassword" (change)="confirmPasswordChange()" [disabled]="!isEmailVerified">
                             <div *ngIf="!confirmPasswordInput" class="error-message">{{ confirmPasswordErrorMessage }}</div>
                             <!-- <span class="toggle-password">Show</span> -->
                       </div>
                       <div style="margin-bottom: 10px;margin-top: 10px;">
-                        <input type="checkbox" [(ngModel)]="disclaimerChecked" (change)="checkBoth()" id="disclaimerCheckbox">
+                        <input type="checkbox" [(ngModel)]="disclaimerChecked" (change)="checkBoth()" id="disclaimerCheckbox" [disabled]="!isEmailVerified">
                         <label for="disclaimerCheckbox" style="padding-left: 10px;">I agree to the Disclaimer and the Privacy Policy laid down by RBI</label><br>
                       </div>
                       <div>
-                        <input type="checkbox"  [(ngModel)]="legitimatePurposeChecked" (change)="checkBoth()" id="legitimatePurposeCheckbox">
+                        <input type="checkbox"  [(ngModel)]="legitimatePurposeChecked" (change)="checkBoth()" id="legitimatePurposeCheckbox" [disabled]="!isEmailVerified">
                         <label for="legitimatePurposeCheckbox" style="padding-left: 10px;">I declare that the usage of this portal is for my own legitimate purpose</label>
                       </div>
                       <div *ngIf="!isAuthorized && showError" class="error-message">
@@ -152,7 +153,7 @@
                       <div style='display: flex;justify-self: flex-end;margin-top: 10px;margin-bottom:10px'>
                        
                         <div>
-                          <button class="btn btn-primary" style="width:150px" (click)="registerUser()">Register</button>
+                          <button class="btn btn-primary" style="width:150px" (click)="registerUser()" [disabled]="!isEmailVerified">Register</button>
                         </div>
                       </div>
   
@@ -173,7 +174,7 @@
     
     <button id="showModal" hidden="true" data-toggle="modal" data-target="#exampleModal"></button>  
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -192,7 +193,37 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Email Verification</h5>
+                <button type="button" class="close" data-dismiss="modal" id="closeRegForm" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Enter the OTP sent to your registered email and verify the email.</p>
+                <input type="text" placeholder="Enter your OTP" class="form-control" [(ngModel)]="otp" />
+                
+                <div *ngIf="timerActive">
+                    <p>{{ timerDisplay }}</p>
+                  </div>
+          
+                  <div *ngIf="!timerActive ">
+                    <button type="button" class="btn btn-secondary" (click)="resendOtp()">Resend OTP</button>
+                  </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="verifyOtp()">Verify</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
