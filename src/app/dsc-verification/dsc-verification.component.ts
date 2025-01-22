@@ -79,8 +79,8 @@ export class DscVerificationComponent {
     // else{
     //   this.openPasswordModal();
     // }
-   this.getDscResponse();
-  //  this.router.navigateByUrl("/rgnt-domains")
+   //this.getDscResponse();
+    this.router.navigateByUrl("/rgnt-domains")
   }
 
   openPasswordModal() {

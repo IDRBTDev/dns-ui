@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { DocumentUploadService } from './service/document-upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -84,10 +85,17 @@ export class DocumentUploadComponent implements OnInit {
   user = ''; // Replace with appropriate value
   userMailId = localStorage.getItem('email');
   
-  constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer) {}
-
+  constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer,private fb: FormBuilder) {
+    this.organisationErrors = { message: '', type: '' };
+    this.techInputFieldErrors = { message: '', type: '' };
+    this.techErrors = { message: '', type: '' };
+    this.organisationInputFieldErrors={ message: '', type: '' };
+   
+  }
+  documentUploadedForm: FormGroup;
  
   ngOnInit(): void {
+    this.techErrors = { message: '', type: '' };
     this.checkOrganisationValidation();
     this.checkAdminValidation();
     this.checkTechValidation();
@@ -406,16 +414,35 @@ export class DocumentUploadComponent implements OnInit {
 
   // Common method to handle file uploads
 
+  // get missingOrganisationDocs(): string[] {
+  //   return this.organisationRequiredDocs.filter(
+  //     (doc) => !this.isOrganisationDocUploaded(doc)
+  //   );
+  // }
+  uploadedDocs: string[] = [];
+
   get missingOrganisationDocs(): string[] {
-    return this.organisationRequiredDocs.filter(
-      (doc) => !this.isOrganisationDocUploaded(doc)
-    );
+    // This filters out the missing documents based on your existing logic
+    return this.organisationRequiredDocs.filter(doc => !this.isOrganisationDocUploaded(doc));
   }
-  get missingAdminDocs(): string[] {
-    return this.adminRequiredDocs.filter(
-      (doc) => !this.isAdminDocUploaded(doc)
-    );
+  
+  set missingOrganisationDocs(value: string[]) {
+    // If you need to reset or modify the missing docs from outside, you can set it like this
+    this.organisationRequiredDocs = value;  // Reset organisationRequiredDocs
   }
+
+  get missingAdminDocs():string[]{
+    return this.adminRequiredDocs.filter(doc => !this.isAdminDocUploaded(doc));
+  }
+set missingAdminDocs(value:string[]){
+  this.adminRequiredDocs=value;
+}
+
+  // get missingAdminDocs(): string[] {
+  //   return this.adminRequiredDocs.filter(
+  //     (doc) => !this.isAdminDocUploaded(doc)
+  //   );
+  // }
   get missingBillingDocs(): string[] {
     return this.billingRequiredDocs.filter(
       (doc) => !this.isBillingDocUploaded(doc)
@@ -543,34 +570,38 @@ export class DocumentUploadComponent implements OnInit {
     this.techInputValue = '';
     this.techErrors = { message: '', type: '' };
   }
-
-  resetForm() {
-    console.log('resetForm method called'); // Check if the method is triggered
-    
-    // Reset Admin Section Form Data and Errors
-    this.adminSelectedDocType = '';
-    this.billingInputValue = '';
-    this.techInputValue = '';
-    this.techSelectedDocType = '';
-    this.billingSelectedDocType = '';
-    this.adminInputValue = '';
-    this.adminErrors = { message: '', type: '' };
-    this.adminInputFieldErrors = { message: '', type: '' };
-    this.techErrors = { message: '', type: '' };
-    this.techInputFieldErrors = { message: '', type: '' };
-    this.billingErrors = { message: '', type: '' };
-    this.billingInputFieldErrors = { message: '', type: '' };
-    this.organisationRequiredDocs = [];
-    this.submissionAttempted = false;
-    this.contactSubmissionAttempted = false; // Reset the submission flag
-  
-    // Reset Organisation Section Form Data and Errors
+ 
+  closedForm() {
+    console.log('Resetting all fields and error messages...');
+    this.submissionAttempted = false; 
+  this.contactSubmissionAttempted=false;
+    // Organisation section reset
     this.organisationSelectedDocType = '';
     this.organisationInputValue = '';
     this.organisationErrors = { message: '', type: '' };
     this.organisationInputFieldErrors = { message: '', type: '' };
+    this.missingOrganisationDocs = [];
   
-    console.log('Form has been reset');
+
+    // Admin section reset
+    this.adminSelectedDocType = '';
+    this.adminInputValue = '';
+    this.adminErrors = { message: '', type: '' };
+    this.adminInputFieldErrors = { message: '', type: '' };
+
+    this.techErrors = { message: '', type: '' };
+    this.techInputFieldErrors = { message: '', type: '' };
+    this.techSelectedDocType = '';
+    this.techInputValue = '';
+
+
+    this.billingErrors = { message: '', type: '' };
+    this.billingInputFieldErrors = { message: '', type: '' };
+    this.billingSelectedDocType = '';
+    this.billingInputValue = '';
+
+
+    console.log('All fields and errors have been reset.');
   }
   
   handleBillingDocTypeChange(event: any): void {

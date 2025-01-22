@@ -15,6 +15,12 @@ body {
     z-index: -1;
     
 }
+.verification-success {
+    color: green;
+    font-size: 20px;
+   
+  }
+  
 
 #login {
     background-color: white;
