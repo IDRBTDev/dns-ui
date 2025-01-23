@@ -11,6 +11,8 @@ import { HttpStatusCode } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  emailError: string='';
+  passwordError: string='';
 
   //loggedInUserEmailId: string = localStorage.getItem('email');
 
@@ -36,6 +38,15 @@ export class LoginComponent {
   isOtpValid: boolean = false;
   async login(){
     //check if OTP is valid
+    if(this.user.email==''||this.user.password==''){
+      if(this.user.email==''){
+        this.emailError="error"
+      }
+      if(this.user.password==''){
+        this.passwordError="error"
+      }
+      return
+    }
     this.getOtpForLoginUser();
     localStorage.setItem('rgntUser',JSON.stringify(this.user));
       console.log(this.user.email)
@@ -47,7 +58,16 @@ export class LoginComponent {
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }
-
+  emailValidation(){
+    if(this.user.email!=''||this.user.email!=null){
+      this.emailError=''
+    }
+  }
+  passWordValidation(){
+    if(this.user.password!=''||this.user.password!=null){
+      this.passwordError=''
+    }
+  }
 
   
   loginUserOtp: number = 0;
