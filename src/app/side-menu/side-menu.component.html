@@ -87,7 +87,7 @@
       <!-- Registrant -->
       <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-um']">User Management</a>
       <a *ngIf="role !== 'IDRBTADMIN'" [routerLink]="['/rgnt-ofd']">Officer Details Management</a>
-      
+      <a *ngIf="role === 'IDRBTADMIN'" [routerLink]="['/rgtr-dpt']">Registrar Department</a>
     </div>
   </div>
 

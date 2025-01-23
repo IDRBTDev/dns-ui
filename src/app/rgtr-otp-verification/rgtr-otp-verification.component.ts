@@ -76,6 +76,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
               }
               if(role === 'IDRBTADMIN'){
                 this.router.navigateByUrl('/rgtr-dashboard');
+                localStorage.setItem('pageType','rgtrUser');
                 this.toastr.success('Login Success');
                }else{
                 this.router.navigateByUrl('/dsc-verification');

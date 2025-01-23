@@ -44,6 +44,9 @@ export class UserService{
     deleteUserById(id: number){
         return this.httpClient.delete<void>(this.deleteUserUrl+"/"+id, {observe: 'response'});
     }
+    deleteUserByUserId(email){
+        return this.httpClient.delete<void>(this.deleteUserUrl+"/"+email, {observe: 'response'});
+    }
     deleteBillById(id: number, contactRole: string) {
         return this.httpClient.delete<void>(`${this.deletebillnUrl}/${id}?contactRole=${contactRole}`, { observe: 'response' });
       }

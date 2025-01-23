@@ -65,7 +65,7 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
 
   loggedInUser: any;
   async getLoggedInUserDetails(){
-   await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+   await lastValueFrom(this.userService.getRgtrUserByEmailId(this.userId)).then(
     response => {
       if(response.status === HttpStatusCode.Ok){
         this.loggedInUser = response.body;
@@ -172,8 +172,8 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
   }
 
   //user: any = null;
-  async getUserById(id: number) {
-    await lastValueFrom(this.userService.getUserById(id)).then(
+  async getuserById(email) {
+    await lastValueFrom(this.userService.getUserByEmailId(email)).then(
       response => {
         if (response.status === HttpStatusCode.Ok) {
           this.user = response.body;
