@@ -30,9 +30,20 @@ export class RgtrLoginComponent {
       loginState:'',
       loginCountry: ''
     }
-  
+    passwordError:string='';
+    emailError:string='';
     isOtpValid: boolean = false;
     async login(){
+      if(this.user.email==''||this.user.password==''){
+        if(this.user.email==''){
+          this.emailError="error"
+        }
+        if(this.user.password==''){
+          this.passwordError="error"
+        }
+        return
+      }
+      
       this.getOtpForLoginUser();
       localStorage.setItem('rgtrUser',JSON.stringify(this.user));
         console.log(this.user.email)
@@ -92,6 +103,16 @@ export class RgtrLoginComponent {
       // else{
       //   this.toastr.error('Invalid OTP');
       // }
+    }
+    emailValidation(){
+      if(this.user.email!=''||this.user.email!=null){
+        this.emailError=''
+      }
+    }
+    passWordValidation(){
+      if(this.user.password!=''||this.user.password!=null){
+        this.passwordError=''
+      }
     }
   
     toggleShowPassword() {
