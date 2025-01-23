@@ -64,6 +64,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
               localStorage.setItem('organisationId', response.headers.get('organisationId'));
               let email = localStorage.getItem('email');
               let role = localStorage.getItem('userRole');
+              console.log(role)
               let active = localStorage.getItem('active');
               let organisationId = localStorage.getItem('organisationId');
               console.log(email);
@@ -120,7 +121,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
       }
     
       async verifyOtpOfLoggedInUser(){
-        await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
+        await lastValueFrom(this.loginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
           response => {
             if(response.status === HttpStatusCode.Ok){
               console.log(this.otp)

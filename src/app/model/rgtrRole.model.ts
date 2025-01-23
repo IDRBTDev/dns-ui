@@ -1,7 +1,4 @@
-
-
-
-export class Roles{
+export class RgtrRoles{
     roleId:number;
     roleName: string;
     roleDescription: string;
@@ -14,6 +11,4 @@ export class Roles{
     modifiedBy: string;
     createdByEmailId: string;
     modifiedByEmailId: string;
-   
-
-}
+} 

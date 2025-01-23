@@ -123,7 +123,7 @@ export class RgtrLoginComponent {
     }
   
     async verifyOtpOfLoggedInUser(){
-      await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
+      await lastValueFrom(this.loginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
         response => {
           if(response.status === HttpStatusCode.Ok){
             console.log(this.otp)

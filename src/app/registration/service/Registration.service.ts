@@ -12,7 +12,7 @@ export class RegistrationService{
     private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp'; 
     private userRegUrl = environment.apiURL+'/dr/registerDetail';
     private getRegUserUrl = environment.apiURL+'/dr/registerDetail/get';
-
+    private getRegUserUrl1 = environment.apiURL+'/dr/user';
   private getRegUserOtpUrl = environment.apiURL+'/dr/registerDetail';
     constructor(private httpClient: HttpClient){
 
@@ -32,5 +32,13 @@ export class RegistrationService{
     }
     resendOtp(registrationUserId: string): Observable<any> {
         return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/resend/${registrationUserId}`);
+      }
+
+      checkUserExists(userId: string): Observable<any> {
+        return this.httpClient.get<any>(`${this.getRegUserUrl1}/getCheck/${userId}`);
+      }
+      checkRegisterUserExists(registrationUserId: string): Observable<any> {
+        console.log(registrationUserId);
+        return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/get/${registrationUserId}`);
       }
 }

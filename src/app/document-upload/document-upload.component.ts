@@ -121,9 +121,13 @@ export class DocumentUploadComponent implements OnInit {
     if (!input.files || input.files.length === 0) {
       return;
     }
-    this.organisationSelectedDocType= localStorage.getItem('orgdoctype');
-    this.organisationInputValue= localStorage.getItem('orgInputValue')
-    // localStorage.setItem('orgInputValue',this.organisationInputValue);
+    
+    this.organisationSelectedDocType = localStorage.getItem('orgdoctype');
+    this.organisationInputValue = localStorage.getItem('orgInputValue');
+
+    // Clear any existing errors before setting new ones
+    this.organisationErrors = { type: '', message: '' };
+
     const docTypeExists = this.organisationUploadedDocs.some(
       (doc) => doc.type === this.organisationSelectedDocType
     );
@@ -136,18 +140,21 @@ export class DocumentUploadComponent implements OnInit {
       input.value = ''; // Reset file input
       return;
     }
+
     const file = input.files[0]; // Assuming single file upload
     const fileExists = this.organisationUploadedDocs.some(
       (doc) => doc.fileName === file.name && doc.fileSize === file.size
     );
+
     if (fileExists) {
       this.organisationErrors = {
         type: 'fileUpload',
-        message:
-          'This file is already uploaded. Please choose a different file.',
+        message: 'This file is already uploaded. Please choose a different file.',
       };
+      input.value = ''; // Reset the file input
       return;
     }
+
     const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
     if (!validFileTypes.includes(file.type)) {
       this.organisationErrors = {
@@ -162,7 +169,7 @@ export class DocumentUploadComponent implements OnInit {
     if (file.size > maxFileSize) {
       this.organisationErrors = {
         type: 'fileUpload',
-        message: `Select a file less than ${this.maxFileSizeInMB}MB `,
+        message: `Select a file less than ${this.maxFileSizeInMB}MB.`,
       };
       input.value = ''; // Reset file input
       return;
@@ -174,19 +181,19 @@ export class DocumentUploadComponent implements OnInit {
       fileSize: file.size, // Optional for extra checks
       value: this.organisationInputValue || null,
       organisationId: this.organisationId,
-      file:event.target.files[0],
+      file: event.target.files[0],
       contactType: 'Organisation'
     };
     
     this.organisationUploadedDocs.push(uploadedDoc);
 
+    // Clear any previous error messages
     this.organisationErrors = { message: '', type: '' };
     this.organisationInputFieldErrors = { message: '', type: '' };
-    //this.clearErrors();
-    input.value = ''; // Reset file input
 
-    //this.handleFileUpload(event, this.organisationDocs, this.organisationErrors, 'Organisation');
-  }
+    input.value = ''; // Reset file input
+}
+
 
   handleAdminFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -868,63 +875,99 @@ set missingAdminDocs(value:string[]){
   previewDocName:any;
   tempimageUrl:any;
   temppdfUrl:any;
-  clickedDocument(docName){
-    this.tempimageUrl=''
-    this.temppdfUrl=''
+  clickedDocument(docName) {
+    this.tempimageUrl = '';
+    this.temppdfUrl = '';
     console.log(docName);
     this.previewDocName = docName;
   
     const file = this.previewDocName.file;
   
+    // Validate file name format (pan/PAN_*********)
+    const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
+    if (!isValidFileName) {
+      //this.toastrService.error('Invalid file name format. Expected format: pan/PAN_*********');
+      return; // Stop further processing
+    }
+  
     // Read the file as ArrayBuffer
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        if(file.type=="application/pdf"){
-          console.log("entered")
+        if (file.type == "application/pdf") {
+          console.log("entered");
           this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-          this.imageUrl.emit(null)
-          this.pdfUrl.emit(this.temppdfUrl)
-        }else if(file.type=="image/png"||file.type=="image/jpeg"||file.type=="image/jpg"){
-          this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-          this.pdfUrl.emit(null)
-          this.imageUrl.emit(this.tempimageUrl)
+          this.imageUrl.emit(null);
+          this.pdfUrl.emit(this.temppdfUrl);
+        } else if (file.type == "image/png" || file.type == "image/jpeg" || file.type == "image/jpg") {
+          this.tempimageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.pdfUrl.emit(null);
+          this.imageUrl.emit(this.tempimageUrl);
         }
-      
       };
       reader.readAsDataURL(file);
     }
-
   }
-  clickedPreviewDoc(docName){
-    this.tempimageUrl=''
-    this.temppdfUrl=''
+  
+  clickedPreviewDoc(docName) {
+    this.tempimageUrl = '';
+    this.temppdfUrl = '';
     console.log(docName);
     this.previewDocName = docName;
   
     const file = this.previewDocName.file;
   
+    // Validate file name format (pan/PAN_*********)
+    const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
+    if (!isValidFileName) {
+    //  this..error('Invalid file name format. Expected format: pan/PAN_*********');
+      return; // Stop further processing
+    }
+  
     // Read the file as ArrayBuffer
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        if(file.type=="application/pdf"){
-          console.log("entered")
+        if (file.type == "application/pdf") {
+          console.log("entered");
           this.temppdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-          this.imagePreviewUrl.emit(null)
-          this.pdfPreviewUrl.emit(this.temppdfUrl)
-        }else if(file.type=="image/png"||file.type=="image/jpeg"||file.type=="image/jpg"){
-          this.tempimageUrl=this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
-          this.pdfPreviewUrl.emit(null)
-          this.imagePreviewUrl.emit(this.tempimageUrl)
+          this.imagePreviewUrl.emit(null);
+          this.pdfPreviewUrl.emit(this.temppdfUrl);
+        } else if (file.type == "image/png" || file.type == "image/jpeg" || file.type == "image/jpg") {
+          this.tempimageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(e.target?.result as string);
+          this.pdfPreviewUrl.emit(null);
+          this.imagePreviewUrl.emit(this.tempimageUrl);
         }
-      
       };
       reader.readAsDataURL(file);
     }
-
   }
+  
+  isValidFileName(fileName: string, docType: string): boolean {
+    // Remove the file extension (e.g., .pdf, .jpg) from the file name
+    if (docType === 'License No' || docType === 'Board Resolution') {
+      return true; // No validation needed for these types
+    }
+    const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+  
+    // Define regex for valid file name format for PAN, Aadhaar, and GSTIN
+    const panPattern = /^PAN_[A-Za-z0-9]{10}$/;
+    const aadhaarPattern = /^Aadhaar_\d{12}$/;
+    const gstinPattern = /^Organisation GSTIN_[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
+  
+    switch (docType) {
+      case 'PAN':
+        return panPattern.test(fileNameWithoutExtension);
+      case 'Aadhaar':
+        return aadhaarPattern.test(fileNameWithoutExtension);
+      case 'Organisation GSTIN':
+        return gstinPattern.test(fileNameWithoutExtension);
+      default:
+        return false; // For any other file type, return false
+    }
+  
+
 
 }
 
-
+}

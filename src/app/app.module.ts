@@ -77,6 +77,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RgtrLoginComponent } from './rgtr-login/rgtr-login.component';
 import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-verification.component';
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
+import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 
 
  
@@ -136,7 +137,8 @@ Chart.register(ChartDataLabels);
     RgntDomainApplicationDetailsComponent,
     RgtrLoginComponent,
     RgtrOtpVerificationComponent,
-    RgntOtpVerificationComponent
+    RgntOtpVerificationComponent,
+    RgtrRoleComponent
   ],
   imports: [
     BrowserModule,

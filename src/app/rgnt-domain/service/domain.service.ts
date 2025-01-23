@@ -9,6 +9,7 @@ import { environment } from "src/app/environments/environment";
 export class DomainService{
 
     private domainsUrl = environment.apiURL+'/dr/domain';
+    private priceDetailsUrl=environment.apiURL+'/dr/priceDetails';
 
     constructor(private httpClient: HttpClient){}
 
@@ -80,7 +81,9 @@ export class DomainService{
         // Perform the PUT request and expect JSON response
         return this.httpClient.put(`${this.domainsUrl}/updatePaymentReceipt/${domainId}`, formData);
     }
-    
+    getAllPriceDetails(){
+        return this.httpClient.get<any[]>(`${this.priceDetailsUrl}/getAll`,{observe: 'response'});
+    }
    
    
 }

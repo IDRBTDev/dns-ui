@@ -42,26 +42,64 @@
       <input type="file" id="organisationFileInput" hidden (change)="handleOrganisationFileChange($event)"
           accept=".png,.jpg,.jpeg,.pdf" />
   </div>
-  <div *ngIf="organisationErrors.type === 'fileUpload'" 
+  <!-- <div *ngIf="organisationErrors.type === 'fileUpload'" 
   style="color: red; font-size: 0.875rem; margin-top: 4px;">
 {{ organisationErrors.message }}
-</div>
+</div> -->
   <!-- Uploaded Organisation Documents -->
   <div *ngIf="organisationUploadedDocs.length > 0" style="margin-top: 20px;">
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
-          <div *ngFor="let doc of organisationUploadedDocs; let i = index"
-              style="display: flex; align-items: center; gap: 5px;" >
-              <i class="bi bi-check-circle text-success"></i>
-              <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-        <span *ngIf="preview!=''" data-toggle="modal"
-        data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-              <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
-                  <i class="bi bi-trash"></i>
-              </button>
-          </div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+      <div *ngFor="let doc of organisationUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+        
+        <i class="bi bi-check-circle text-success"></i>
+        
+        <!-- Validate File Name -->
+        <ng-container *ngIf="isValidFileName(doc.fileName,doc.type); else invalidFileName">
+          <!-- Valid file name, clickable for preview -->
+          <span *ngIf="preview === ''" data-toggle="modal" data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+          <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+        </ng-container>
+        
+        <!-- Invalid file name error -->
+        <ng-template #invalidFileName>
+          <span style="color: red;">
+           
+            
+            <!-- Custom error messages based on doc.type -->
+            <ng-container [ngSwitch]="doc.type">
+              <ng-template [ngSwitchCase]="'PAN'">
+                Please save file name with your PAN number in this format: PAN_*******91Z.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Aadhaar'">
+                Please save file name with your Aadhaar number in this format: Aadhaar_********1234.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Organisation GSTIN'">
+                Please save file name with your GSTIN in this format: Organisation GSTIN_***********F1Z2.
+              </ng-template>
+              <ng-template [ngSwitchDefault]>
+                Invalid document type. Please check the file name format.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'License No'">
+                This document can accept any file name. No specific format is required.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Board Resolution'">
+                This document can accept any file name. No specific format is required.
+              </ng-template>
+            </ng-container>
+          </span>
+        </ng-template>
+        
+        <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
+          <i class="bi bi-trash"></i>
+        </button>
       </div>
+    </div>
   </div>
+  
   <!-- Submission Errors -->
   <div class="d-flex justify-content-center mt-1">
       <p *ngIf="submissionAttempted && missingOrganisationDocs.length > 0" style="color: red; margin-top: 20px;">

@@ -65,18 +65,18 @@ export class ContactDetailsFormService {
 
   getAdminOfficerDetailsById(id: number){
     console.log(id);
-    const apiUrl = this.adminApiUrl+'/getDetails/'+id;
+    const apiUrl = this.adminApiUrl+'/getDetail/'+id;
     console.log(id);
     return this.http.get<any>(apiUrl, {observe: 'response'});
   }
 
   getTechnicalOfficerDetailsById(id: number){
-    const apiUrl = this.techApiUrl+'/getDetails/'+id;
+    const apiUrl = this.techApiUrl+'/getDetail/'+id;
     return this.http.get<any>(apiUrl, {observe: 'response'});
   }
 
   getBillingOfficerDetailsById(id: number){
-    const apiUrl = this.billApiUrl+'/getDetails/'+id;
+    const apiUrl = this.billApiUrl+'/getDetail/'+id;
     return this.http.get<any>(apiUrl, {observe: 'response'});
   }
 
