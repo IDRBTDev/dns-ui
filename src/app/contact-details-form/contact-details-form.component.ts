@@ -131,11 +131,11 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
   }
  
   setAddress(): void {
-    const addressDetails = JSON.parse(sessionStorage.getItem('addressDetails') || '{}');
+    this.addressDetails = JSON.parse(sessionStorage.getItem('addressDetails') || '{}');
 
-    if (addressDetails && addressDetails.address) {
+    if (this.addressDetails && this.addressDetails.address) {
       // Concatenate the full address into one string
-      this.fullAddress = `${addressDetails.address}, ${addressDetails.city}, ${addressDetails.state} - ${addressDetails.pincode}`;
+      this.fullAddress = `${this.addressDetails.address}, ${this.addressDetails.city}, ${this.addressDetails.state} - ${this.addressDetails.pincode}`;
       this.fullForm.patchValue({
         adminAddress: this.fullAddress,
         techAddress: this.fullAddress,
@@ -221,6 +221,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
           adminDesignation: this.fullForm.get('adminDesignation')?.value,
           adminAddress: this.fullForm.value.adminAddress,
+          addressLine1: this.addressDetails.address,
+          city: this.addressDetails.city,
+          state: this.addressDetails.state,
+          pincode: this.addressDetails.pincode,
           // documents: this.fullForm.get('adminDocuments')?.value,
 
           applicationId: this.applicationId,
@@ -249,6 +253,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           techPhone: this.fullForm.get('techPhone')?.value,
           techAltPhone: this.fullForm.get('techAltPhone')?.value,
           techDesignation: this.fullForm.get('techDesignation')?.value,
+          addressLine1: this.addressDetails.address,
+          city: this.addressDetails.city,
+          state: this.addressDetails.state,
+          pincode: this.addressDetails.pincode,
           // documents: this.fullForm.get('techDocuments')?.value,
           techAddress: this.fullForm.value.techAddress,
           applicationId: this.applicationId,
@@ -272,6 +280,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           billAltPhone: this.fullForm.get('billAltPhone')?.value,
           billDesignation: this.fullForm.get('billDesignation')?.value,
           billAddress: this.fullForm.value.billAddress,
+          addressLine1: this.addressDetails.address,
+          city: this.addressDetails.city,
+          state: this.addressDetails.state,
+          pincode: this.addressDetails.pincode,
           // documents: this.fullForm.get('billDocuments')?.value,
           applicationId: this.applicationId,
           organisationId: this.organisationId,
@@ -317,6 +329,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
         adminAddress: this.fullForm.value.adminAddress,
+        addressLine1: this.addressDetails.address,
+        city: this.addressDetails.city,
+        state: this.addressDetails.state,
+        pincode: this.addressDetails.pincode,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
         isActive : false
@@ -329,6 +345,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         techAltPhone: this.fullForm.get('techAltPhone')?.value,
         techDesignation: this.fullForm.get('techDesignation')?.value,
         techAddress: this.fullForm.value.techAddress,
+        addressLine1: this.addressDetails.address,
+        city: this.addressDetails.city,
+        state: this.addressDetails.state,
+        pincode: this.addressDetails.pincode,
         // documents: this.fullForm.get('techDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
@@ -342,6 +362,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         billAltPhone: this.fullForm.get('billAltPhone')?.value,
         billDesignation: this.fullForm.get('billDesignation')?.value,
         billAddress: this.fullForm.value.billAddress,
+        addressLine1: this.addressDetails.address,
+        city: this.addressDetails.city,
+        state: this.addressDetails.state,
+        pincode: this.addressDetails.pincode,
         // documents: this.fullForm.get('billDocuments')?.value,
         applicationId: this.applicationId,
         organisationId: this.organisationId,
