@@ -200,10 +200,10 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
     )
   }
 
-  async deleteUserById(id: number) {
+  async deleteUserById(email) {
     var confirmed = window.confirm('Are you sure, you really want to delete this user ?');
     if (confirmed) {
-      await lastValueFrom(this.userService.deleteUserById(id)).then(
+      await lastValueFrom(this.userService.deleteUserByUserId(email)).then(
         response => {
           if (response.status === HttpStatusCode.Ok) {
             this.getUsersList(parseInt(this.organisationId));

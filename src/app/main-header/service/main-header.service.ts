@@ -22,7 +22,7 @@ export class MainHeaderService{
     }
     getRgtrUserDetailsById(userId: string): Observable<User> {
       return this.httpClient.get<User>(`${this.rgtrUserDetailsUrl}/${userId}`);
-  }
+    }
 
     uploadProfilePicture(userId: string, formData: FormData): Observable<Blob> {
         return this.httpClient.post(`${this.uploadProfilePictureUrl}/${userId}`, formData, {
