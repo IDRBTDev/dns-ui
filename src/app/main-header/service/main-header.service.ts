@@ -10,6 +10,7 @@ import { User } from "src/app/model/user.model";
 
 export class MainHeaderService{
     private userDetailsUrl = environment.apiURL+'/dr/user/get';
+    private rgtrUserDetailsUrl = environment.apiURL+'/dr/rgtrUser/getUser';
     private uploadProfilePictureUrl = environment.apiURL+'/dr/user/upload-profile-picture';
     private resetUrl =  environment.apiURL+'/dr/user/reset-password';
     private oldUrl =  environment.apiURL+'/dr/user/check-oldpassword';
@@ -18,6 +19,9 @@ export class MainHeaderService{
 
     getUserDetailsById(userId: string): Observable<User> {
         return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
+    }
+    getRgtrUserDetailsById(userId: string): Observable<User> {
+      return this.httpClient.get<User>(`${this.rgtrUserDetailsUrl}/${userId}`);
     }
 
     uploadProfilePicture(userId: string, formData: FormData): Observable<Blob> {

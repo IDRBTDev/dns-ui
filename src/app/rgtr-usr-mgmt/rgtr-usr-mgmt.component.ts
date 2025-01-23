@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,13 +11,15 @@ import { HttpStatusCode } from '@angular/common/http';
 import { RgtrRoleService } from '../rgtr-role/services/rgtr-role.service';
 import { Roles } from '../model/roles.model';
 import { RgtrRoles } from '../model/rgtrRole.model';
+import { DepartmentService } from '../rgtr-department/service/department.service';
+import { RgtrDepartment } from '../model/rgtrDepartment.model';
 
 @Component({
   selector: 'app-rgtr-usr-mgmt',
   templateUrl: './rgtr-usr-mgmt.component.html',
   styleUrls: ['./rgtr-usr-mgmt.component.css']
 })
-export class RgtrUsrMgmtComponent {
+export class RgtrUsrMgmtComponent implements OnInit{
 
   user = {
     id: 0,
@@ -34,7 +36,7 @@ export class RgtrUsrMgmtComponent {
     mobileNumber: '',
     confirmPassword: '',
     createdByEmailId:'',
-    departmentId:1
+    departmentId:0
   }
 
 
@@ -59,7 +61,7 @@ export class RgtrUsrMgmtComponent {
   organisationId = localStorage.getItem('organisationId');
 
   constructor(private userService: UserService, private router: Router,
-    private toastr: ToastrService, private organisationService: OrganisationDetailsService,private rgtrRoleService:RgtrRoleService
+    private toastr: ToastrService, private organisationService: OrganisationDetailsService,private rgtrRoleService:RgtrRoleService,private departmentService:DepartmentService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
@@ -102,11 +104,12 @@ export class RgtrUsrMgmtComponent {
         'Sl No',
         'userId',
         'userName',
-        
+        'departmentId',
         'userRoles',
+        'access',
         'active',
-        'edit',
-        'delete'
+        // 'edit',
+        // 'delete'
        //'actions',
       ]; 
     //}
@@ -118,6 +121,7 @@ export class RgtrUsrMgmtComponent {
     // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
       await this.getUsersList(0);
       this.getAllRoles();
+      this.getAllDepartment();
     //}
     // this.usersList.forEach(user => {
     //   if(user.organisationId > 0){
@@ -140,6 +144,15 @@ export class RgtrUsrMgmtComponent {
         this.allRoles=response.body;
       },error:(error)=>{
         console.log(error)
+      }
+    })
+  }
+  allDepartment:RgtrDepartment[]
+  DepartmentErrorInfo
+  getAllDepartment(){
+    this.departmentService.getAllDepartments().subscribe({
+      next:(response)=>{
+        this.allDepartment=response.body;
       }
     })
   }
@@ -218,10 +231,10 @@ export class RgtrUsrMgmtComponent {
     )
   }
 
-  async deleteUserById(id: number) {
+  async deleteUserById(email) {
     var confirmed = window.confirm('Are you sure, you really want to delete this user ?');
     if (confirmed) {
-      await lastValueFrom(this.userService.deleteUserById(id)).then(
+      await lastValueFrom(this.userService.deleteUserByUserId(email)).then(
         response => {
           if (response.status === HttpStatusCode.Ok) {
             this.getUsersList(parseInt(this.organisationId));
@@ -357,6 +370,7 @@ if (!this.user.mobileNumber) {
   async saveOrUpdateUser(){
     console.log(this.user);
     if(this.user.id < 1){
+
       await this.saveUser(this.user);
     }else{
       await this.updateUser(this.user);
@@ -370,7 +384,7 @@ getTheRole(role){
 }
   async saveUser(user: any) {
     var id =  localStorage.getItem('email');
-    console.log(id,this.selectedRole);
+    console.log(id,this.selectedRole,this.user.departmentId);
     user.createdByEmailId = this.loggedInUser.userId;
     this.user.userRoles[0].roleId=this.selectedRole.roleId;
     this.user.userRoles[0].roleDescription=this.selectedRole.roleDescription;
@@ -432,6 +446,19 @@ getTheRole(role){
     }else{
       document.getElementById('addUser1').click();
     }
+  }
+  isEmployeeDepartmentValid:boolean=false
+  validateDepartment(){
+    if (this.user.departmentId < 1) {
+      this.DepartmentErrorInfo = "Department is required."
+      this.isEmployeeDepartmentValid = false;
+
+    }
+    else {
+      this.DepartmentErrorInfo = "";
+      this.isEmployeeDepartmentValid = true;
+    }
+    return this.isEmployeeDepartmentValid;
   }
 
 }

@@ -78,6 +78,7 @@ import { RgtrLoginComponent } from './rgtr-login/rgtr-login.component';
 import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-verification.component';
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
+import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
 
 
  
@@ -138,7 +139,8 @@ Chart.register(ChartDataLabels);
     RgtrLoginComponent,
     RgtrOtpVerificationComponent,
     RgntOtpVerificationComponent,
-    RgtrRoleComponent
+    RgtrRoleComponent,
+    RgtrDepartmentComponent
   ],
   imports: [
     BrowserModule,

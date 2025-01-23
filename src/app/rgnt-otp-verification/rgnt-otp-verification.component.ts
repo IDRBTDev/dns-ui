@@ -78,6 +78,7 @@ export class RgntOtpVerificationComponent implements OnInit {
                   this.toastr.success('Login Success');
                  }else{
                   this.router.navigateByUrl('/dsc-verification');
+                  localStorage.setItem('pageType','user');
                   this.toastr.success('Login Success');
                 }
               },error => {

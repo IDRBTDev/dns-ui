@@ -43,6 +43,7 @@ import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-v
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 import { otpGuard } from './otp.guard';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
+import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
 
 
 
@@ -98,6 +99,7 @@ const routes: Routes = [
     data: { fallbackRoute: '/login' } 
   },
   {path:'rgnt-um', component: RgntUserManagementComponent},
+  {path:'rgtr-dpt',component:RgtrDepartmentComponent},
   {path: 'rgtr-rgnt-um', component: RgtrRgntUserMgmtComponent},
   {path: 'rgtr-um', component: RgtrUsrMgmtComponent},
   {path: 'rgnt-role', component:RolesComponent},

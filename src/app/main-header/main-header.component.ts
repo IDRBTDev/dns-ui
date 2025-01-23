@@ -32,7 +32,10 @@ export class MainHeaderComponent implements OnInit{
   constructor(private router: Router, private mainHeaderService: MainHeaderService,private notificationService: NotificationService, 
     private cdr: ChangeDetectorRef){}
 
+  pageType:string
   ngOnInit(): void {
+    this.pageType=localStorage.getItem('pageType');
+    console.log(this.pageType)
      this.getUserDetails(); 
      this.setupNotificationPolling();
      this.notificationComponent.loadNotifications();
@@ -135,6 +138,22 @@ export class MainHeaderComponent implements OnInit{
   }  
 
   getUserDetails() {  
+    if(this.pageType=='rgtrUser'){
+      this.mainHeaderService.getRgtrUserDetailsById(localStorage.getItem('email')).subscribe(
+        response => {
+          console.log('User data received from API:', response);
+          this.user=response
+
+         
+          this.loading = false; 
+        },
+        (error) => {
+          this.error = 'Error fetching user details.';
+          this.loading = false; 
+          console.error('Error fetching user details:', error);
+        }
+      );
+    }else if(this.pageType=='user'){
       this.mainHeaderService.getUserDetailsById(localStorage.getItem('email')).subscribe(
         response => {
           console.log('User data received from API:', response);
@@ -149,6 +168,8 @@ export class MainHeaderComponent implements OnInit{
           console.error('Error fetching user details:', error);
         }
       );
+    }
+     
 
     }
 
