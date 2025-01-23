@@ -1,95 +1,112 @@
-
-
 <div class="container-fluid">
-<div *ngIf="domainsList?.length == 0">
-  <app-reminder></app-reminder>
-</div>
+  <div *ngIf="domainsList?.length == 0">
+    <app-reminder></app-reminder>
+  </div>
   <div class="row">
     <!-- Main Content Section -->
     <div class="col-md-9 offset-md-1 mt-5 pt-4">
-
-            <section class="m-4">
-                <h2 class="m-4">Domain Validation</h2>
-                <div class="shadow p-3 mb-4 bg-body rounded">
-                    <div class="card">
-                        <div class="card-body">
-                            <!-- Bind the form group to the form -->
-                            <form [formGroup]="userDomainForm">
-                                <div class="row mb-3 justify-content-center">
-                                    <!-- Label Field with Magnifying Glass Button -->
-                                    <div class="col-md-4 mb-3">
-                                      <label for="labelInput" class="form-label font-weight-bold">Bank Name</label>
-                                      <input 
-                                          type="text" 
-                                          class="form-control" 
-                                          id="labelInput" 
-                                          placeholder="Enter the Bank Name" 
-                                          formControlName="label">
-                                      <!-- Validation Error Message -->
-                                      <div *ngIf="userDomainForm.get('label')?.invalid && userDomainForm.get('label')?.touched" class="text-danger">
-                                          <small *ngIf="userDomainForm.get('label')?.hasError('required')">Bank Name is required.</small>
-                                          <small *ngIf="userDomainForm.get('label')?.hasError('minlength')">Bank Name must be at least 3 characters long.</small>
-                                      </div>
-                                  </div>
-
-                                    <div class="col-md-2">
-                                        <label for="zoneInput" class="form-label font-weight-bold">Domain</label>
-                                        <div class="d-flex">
-                                          
-                                            <select style="width: 150px;"
-                                            class="form-select" 
-                                            id="zoneInput" 
-                                            formControlName="zone">
-                                            <option value="" disabled selected>Select domain</option>
-                                            <option value=".bank.in">.bank.in</option>
-                                            <option value=".fin.in">.fin.in</option>
-                                            <!-- <option value="5g.in">5g.in</option> -->
-                                      </select>
-                                    
-                                      <div>
-                                        <button 
-                                        class="btn btn-outline-primary ms-4" 
-                                        type="button" (click)="onSearch()">
-                                        <i class="bi bi-search"></i>
-                                      </button>
-                                      </div>
-    
-                                </div>
-                                <small *ngIf="userDomainForm.get('zone')?.invalid && userDomainForm.get('zone')?.touched" class="text-danger">
-                                  Select a Domain.
-                                </small>
-                                </div></div>
-                            </form>
-                        </div>
+      <section class="m-4">
+        <h2 class="m-4">Domain Validation</h2>
+        <div class="shadow p-3 mb-4 bg-body rounded">
+          <div class="card">
+            <div class="card-body">
+              <!-- Bind the form group to the form -->
+              <form [formGroup]="userDomainForm">
+                <div class="row mb-3 justify-content-center">
+                  <!-- Label Field with Magnifying Glass Button -->
+                  <div class="col-md-4 mb-3">
+                    <label for="labelInput" class="form-label font-weight-bold">Bank Name</label>
+                    <input type="text" class="form-control" id="labelInput" placeholder="Enter the Bank Name"
+                      formControlName="label" (input)="reset()">
+                    <!-- Validation Error Message -->
+                    <div *ngIf="userDomainForm.get('label')?.invalid && userDomainForm.get('label')?.touched"
+                      class="text-danger">
+                      <small *ngIf="userDomainForm.get('label')?.hasError('required')">Bank Name is required.</small>
+                      <small *ngIf="userDomainForm.get('label')?.hasError('minlength')">Bank Name must be at least 3
+                        characters long.</small>
                     </div>
-                </div>
-            </section>
-    
-            <!-- Search Result Section (Display when 'showResult' is true) -->
-            <section *ngIf="showResult" class="m-4">
-                <div class="shadow p-3 bg-body rounded" style="height: 200px; max-width: 300px;">
-                    <div class="card">
-                        <div class="card-body p-3 d-flex flex-column justify-content-left align-items-left">
-                            <div class="card-title fs-4">
-                                {{ userDomainForm.get('label')?.value }}{{ userDomainForm.get('zone')?.value }}
-                            </div>
-                            <div *ngIf="isReserved" class="text-danger fs-5">
-                                <i class="bi bi-x-circle text-danger fs-3"></i> No domain found
-                            </div>
-                            <div *ngIf="!isReserved" class="text-success fs-5">
-                                <i class="bi bi-check-circle text-success fs-3"></i> Available
-                            </div>
-                            <div *ngIf="!isReserved" class="fs-6">
-                                Buy for 5 years at 1k/year
-                            </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <label for="zoneInput" class="form-label font-weight-bold">Domain</label>
+                    <div class="d-flex">
+
+                      <select style="width: 150px;" class="form-select" id="zoneInput" formControlName="zone"
+                        (change)="reset()">
+                        <option value="" disabled selected>Select domain</option>
+                        <option value=".bank.in">.bank.in</option>
+                        <option value=".fin.in">.fin.in</option>
+                        <!-- <option value="5g.in">5g.in</option> -->
+                      </select>
+
+                      <div>
+                        <button class="btn btn-outline-primary ms-4" type="button" (click)="onSearch()">
+                          <i class="bi bi-search"></i>
+                        </button>
+                        <!-- Loading Spinner -->
+                        <div *ngIf="isLoading" class="spinner-container">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                    <small *ngIf="userDomainForm.get('zone')?.invalid && userDomainForm.get('zone')?.touched"
+                      class="text-danger">
+                      Select a Domain.
+                    </small>
+                  </div>
                 </div>
-            </section>
+              </form>
+            </div>
+          </div>
         </div>
-    </div>
-    
-
+      </section>
+      <div class="d-flex justify-content-left m-4">
+        <!-- Search Result Section (Display when 'showResult' is true) -->
+        <section *ngIf="showResult" class="m-4">
+          <div class="shadow p-3 bg-body rounded" style="height: 200px; max-width: 300px;">
+            <div class="card">
+              <div class="card-body p-3 d-flex flex-column justify-content-left align-items-left">
+                <div class="card-title fs-4">
+                  {{ userDomainForm.get('label')?.value }}{{ userDomainForm.get('zone')?.value }}
+                </div>
+                <div *ngIf="isReserved" class="text-danger fs-5">
+                  <i class="bi bi-x-circle text-danger fs-3"></i> Domain not Available
+                </div>
+                <div *ngIf="!isReserved" class="text-success fs-5">
+                  <i class="bi bi-check-circle text-success fs-3"></i> Available
+                </div>
+                <br>
+                <div *ngIf="!isReserved" class="fs-6">
+                  Buy for 2 years at (&#8377;1600 + taxes)/year
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="showResult && !isReserved" class="m-4">
+          <div class="shadow p-3 bg-body rounded" style="height: 200px; max-width: 300px;">
+            <div class="card">
+              <div class="card-body p-3 d-flex flex-column justify-content-left align-items-left">
+                <div class="card-title fs-4">
+                  {{ userDomainForm.get('label')?.value }}{{ userDomainForm.get('zone')?.value }}
+                </div>
+                <div *ngIf="isReserved" class="text-danger fs-5">
+                  <i class="bi bi-x-circle text-danger fs-3"></i> Domain not Available
+                </div>
+                <div *ngIf="!isReserved" class="text-success fs-5">
+                  <i class="bi bi-check-circle text-success fs-3"></i> Available
+                </div>
+                <br>
+                <div *ngIf="!isReserved" class="fs-6">
+                  Buy for 5 years at (&#8377;4000 + taxes)/year
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
       <!-- Second Section with Guidelines -->
       <section class="m-4">
         <div class="shadow p-3 mb-5 bg-body rounded">
@@ -113,6 +130,9 @@
       <!-- Buttons (Back & Submit) -->
       <div class="d-flex justify-content-between m-4">
         <button class="btn btn-secondary" type="button" aria-label="Go Back" (click)="backButton()">Back</button>
-        <button class="btn btn-primary" (click)="onSubmit()" aria-label="Save and Move to Next Step">Save & Next</button>
+        <button class="btn btn-primary" (click)="onSubmit()" aria-label="Save and Move to Next Step">Save &
+          Next</button>
       </div>
     </div>
+  </div>
+</div>

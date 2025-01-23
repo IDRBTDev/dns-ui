@@ -51,13 +51,11 @@ export class UserDomainDetailsComponent implements OnInit {
 
   ) {
     this.userDomainForm = this.fb.group({
- 
+
       label: ['', [Validators.required, Validators.minLength(3)]],
- 
       zone: ['', Validators.required],
- 
       numberOfYears: [5],  // Default value for number of years
-    cost: [5900]   
+      cost: [5900]
  
     });
   }
@@ -66,6 +64,8 @@ export class UserDomainDetailsComponent implements OnInit {
   zone: string = '';
   label: string = '';
   isReserved: boolean | null = null;
+  isAvailable: boolean | null = null;
+  isLoading: boolean = false;
 
   // onSearch(): void {
   //   if (this.userDomainForm.valid) {
@@ -86,6 +86,14 @@ export class UserDomainDetailsComponent implements OnInit {
   //   }
   // }
 
+  reset(){
+    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkafgkfgkgkgkjgkgkjdagsfkjgsafkjgsadfkjg");
+    if(this.showResult){
+      this.showResult = false;
+    }
+  }
+    
+
   onSearch() {
     const bankName = this.userDomainForm.get('label')?.value;
     const domainName = this.userDomainForm.get('zone')?.value;
@@ -97,24 +105,38 @@ export class UserDomainDetailsComponent implements OnInit {
       this.userDomainForm.get('zone')?.markAsTouched();
       return;
     }
-  
+    this.isLoading = true;
     const zone = this.userDomainForm.get('zone')?.value;
     const label = this.userDomainForm.get('label')?.value;
-  
+
     // Make the API call to check domain combination
     this.userDomainService.checkDomainCombination(bankName, domainName, zone, label).subscribe(
-      (response: boolean) => {
-        if (response) {
-          this.isReserved = false; // Available
-          this.showResult = true;
-  
-          // Clear any existing validation errors after successful search
-          this.userDomainForm.get('label')?.setErrors(null);
-          this.userDomainForm.get('zone')?.setErrors(null);
+      (domainCombinationResponse: boolean) => {
+        if (domainCombinationResponse) {
+          this.userDomainService.checkDomainAvailability(bankName, domainName).subscribe(
+            (domainAvailabilityResponse: boolean) => {
+              //console.log(response);
+              if (domainAvailabilityResponse) {
+                this.isReserved = false;
+                this.isAvailable = true;   
+                // Clear any existing validation errors after successful search
+                this.userDomainForm.get('label')?.setErrors(null);
+                this.userDomainForm.get('zone')?.setErrors(null);
+              } else {
+                this.isReserved = true; // Reserved
+                this.isAvailable = false;
+              }
+            },
+            (error) => {
+              console.error('Error checking domain availability:', error);
+            }
+          );
         } else {
           this.isReserved = true; // Reserved
-          this.showResult = true;
+          this.isAvailable = false;
         }
+        this.isLoading = false;
+        this.showResult = true;
       },
       (error) => {
         console.error('Error checking domain combination:', error);
@@ -122,8 +144,6 @@ export class UserDomainDetailsComponent implements OnInit {
     );
   }
   
-
- 
 
   organisationDetails: any;
 
