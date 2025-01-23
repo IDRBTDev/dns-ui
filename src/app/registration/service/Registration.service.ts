@@ -35,7 +35,7 @@ export class RegistrationService{
       }
 
       checkUserExists(userId: string): Observable<any> {
-        return this.httpClient.get<any>(`${this.getRegUserUrl1}/get/${userId}`);
+        return this.httpClient.get<any>(`${this.getRegUserUrl1}/getCheck/${userId}`);
       }
       checkRegisterUserExists(registrationUserId: string): Observable<any> {
         console.log(registrationUserId);
