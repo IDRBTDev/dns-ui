@@ -345,7 +345,7 @@ export class RgtrRgntOfficerDetailsComponent {
   async enableOrDisableLoginStatus(loginStatus: string, contactOfficerDetails: any){
     console.log(contactOfficerDetails.id)
     //first update the login status of contact officer and then create the user login for the contact officer
-    if(contactOfficerDetails.contactRole === 'AdminOfficer'){
+    if(contactOfficerDetails.contactRole === 'Administrative Officer'){
       await this.getAdminOfficerDetails(contactOfficerDetails.id);
       //before updating status
       await this.getContactOfficerDocuments("Administrative",this.adminOfficerDetails.organisationId);
@@ -374,7 +374,7 @@ export class RgtrRgntOfficerDetailsComponent {
         this.toastr.error('Document verification pending');
         return;
       }
-    }else if(contactOfficerDetails.contactRole === 'TechnicalOfficer'){
+    }else if(contactOfficerDetails.contactRole === 'Technical Officer'){
       await this.getTechnicalOfficerDetails(contactOfficerDetails.id);
       console.log(this.technicalOfficerDetails.organisationId)
       await this.getContactOfficerDocuments("Technical",this.technicalOfficerDetails.organisationId);
@@ -437,15 +437,15 @@ export class RgtrRgntOfficerDetailsComponent {
     }
     this.user.userName = contactOfficerDetails.personName;
     this.user.userId = contactOfficerDetails.emailId;
-    if(contactOfficerDetails.contactRole=='AdminOfficer'){
+    if(contactOfficerDetails.contactRole=='Administrative Officer'){
       this.user.userRoles[0] = this.AllRoles.find(role => {
         return role.roleName === "Administrative Officer";
     });
-    }else if(contactOfficerDetails.contactRole=='BillingOfficer'){
+    }else if(contactOfficerDetails.contactRole=='Billing Officer'){
       this.user.userRoles[0] = this.AllRoles.find(role => {
         return role.roleName === "Billing Officer";
     });
-    }else if(contactOfficerDetails.contactRole=='TechnicalOfficer'){
+    }else if(contactOfficerDetails.contactRole=='Technical Officer'){
       this.user.userRoles[0] = this.AllRoles.find(role => {
         return role.roleName === "Technical Officer";
     });
@@ -486,9 +486,9 @@ export class RgtrRgntOfficerDetailsComponent {
    */
   navigateToVerifyDocuments(user: any){
     var contactUserType = '';
-    if(user.contactRole === 'AdminOfficer'){
+    if(user.contactRole === 'Administrative Officer'){
       contactUserType = 'Administrative';
-    }else if(user.contactRole === 'TechnicalOfficer'){
+    }else if(user.contactRole === 'Technical Officer'){
       contactUserType = 'Technical';
     }else{
       contactUserType = 'Billing';
@@ -551,9 +551,9 @@ export class RgtrRgntOfficerDetailsComponent {
    * @param id 
    */
   async getUserById(id: number, contactRole: string){
-    if(contactRole === 'AdminOfficer'){
+    if(contactRole === 'Administrative Officer'){
       this.getAdminOfficerDetails(id);
-    }else if(contactRole === 'TechnicalOfficer'){
+    }else if(contactRole === 'Technical Officer'){
       await this.getTechnicalOfficerDetails(id);
     }else{
       await this.getBillingOfficerDetails(id);

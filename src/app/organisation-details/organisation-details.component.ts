@@ -210,9 +210,12 @@ export class OrganisationDetailsComponent implements OnInit {
     //         (response: any) => {
     //             console.log('Form submitted successfully', response);
 
+
     //             this.updateOrganisationIdForUser(response.organisationDetailsId);
     //             localStorage.setItem('organisationId', response.organisationDetailsId);
     //             this.organisationId.emit(response.organisationDetailsId);
+
+
 
     //             const applicationId = response.applicationId; // Retrieve applicationId from the response
     //             console.log('Generated Application ID:', applicationId);
