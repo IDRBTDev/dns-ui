@@ -212,6 +212,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
                 this.updateOrganisationIdForUser(response.organisationDetailsId);
                 localStorage.setItem('organisationId', response.organisationDetailsId);
+                console.log(localStorage.getItem('organisationId'))
                 this.organisationId.emit(response.organisationDetailsId);
 
                 const applicationId = response.applicationId; // Retrieve applicationId from the response

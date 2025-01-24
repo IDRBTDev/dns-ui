@@ -44,6 +44,7 @@ export class DomainApplicationComponent {
   constructor(private fb: FormBuilder, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
+  organisationId=parseInt(localStorage.getItem('organisationId'));
 
   ngOnInit(): void {
   //   console.log(this.role)
@@ -69,7 +70,7 @@ export class DomainApplicationComponent {
   console.log(this.userEmailId)
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
-    this.getAllDomainsList(this.userEmailId);
+    this.getAllDomainsListByOrgId(this.organisationId);
     this.displayedColumns=[
        // 'checkbox',
     'domainId',
@@ -97,7 +98,7 @@ export class DomainApplicationComponent {
    // 'industry',
    'tenure'
    ]
-    this.getAllDomainsList("");
+   this.getAllDomainsListByOrgId(0)
   }
 
     // localStorage.setItem('isBoxVisible', 'false');
@@ -126,6 +127,7 @@ export class DomainApplicationComponent {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {
+          console.log(response)
           this.domainsList = response.body;
           this.domainsDataSource.data = this.domainsList;
           this.domainsDataSource.paginator = this.paginator;
@@ -388,6 +390,27 @@ export class DomainApplicationComponent {
           // Handle error here
         }
       });
+  }
+  async getAllDomainsListByOrgId(orgId: number) {
+    console.log(orgId)
+    await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(
+      (response) => {
+        if (response.status === HttpStatusCode.Ok) {
+          this.domainsList = response.body;
+          console.log("domainList",this.domainsList)
+          this.domainsDataSource.data = this.domainsList;
+          this.domainsDataSource.paginator = this.paginator;
+          setTimeout(() => {
+            this.domainsDataSource.sort = this.sort;
+          }, 0);
+        }
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
   }
 
 }

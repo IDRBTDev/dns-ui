@@ -51,7 +51,7 @@ const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'organisation-details', component: OrganisationDetailsComponent},
   {path:'contact-details-form', component: ContactDetailsFormComponent},
-  {path:'landing', component: LandingComponent},
+  // {path:'landing', component: LandingComponent},
   {path:'login', component: LoginComponent},
   {path:'registration', component: RegistrationComponent},
   {path:'header', component: HeaderComponent},
@@ -66,7 +66,7 @@ const routes: Routes = [
   {path:'invoices', component: DomainInvoicesComponent},
 
   {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
-  {path:'',redirectTo:'/landing', pathMatch: 'full'},
+  {path:'',redirectTo:'/login', pathMatch: 'full'},
   {path:'',component: LandingComponent},
   {path:'mainHeader',component:MainHeaderComponent},
   //{path:'domain-invoices',component:DomainInvoicesComponent},
