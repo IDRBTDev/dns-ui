@@ -145,92 +145,174 @@ export class OrganisationDetailsComponent implements OnInit {
         console.log('Uploaded documents updated:', this.organisationUploadedDocs);
     }
 
-    async handleSubmit(): Promise<void> {
+    // async handleSubmit(): Promise<void> {
         
-        const addressDetails = {
-            address: this.organisationForm.get('address')?.value,
-            city: this.organisationForm.get('city')?.value,
-            state: this.organisationForm.get('state')?.value,
-            pincode: this.organisationForm.get('pincode')?.value,
-          };
-        sessionStorage.setItem('addressDetails', JSON.stringify(addressDetails));
-        console.log(addressDetails)
+    //     const addressDetails = {
+    //         address: this.organisationForm.get('address')?.value,
+    //         city: this.organisationForm.get('city')?.value,
+    //         state: this.organisationForm.get('state')?.value,
+    //         pincode: this.organisationForm.get('pincode')?.value,
+    //       };
+    //     sessionStorage.setItem('addressDetails', JSON.stringify(addressDetails));
+    //     console.log(addressDetails)
 
 
-        // if (this.documentUploadComponent) {
-        //     this.documentUploadComponent.handleDocumentSubmit(); // Call child method
-        //     this.organisationForm.markAllAsTouched;
-        //     return;
-        // }else {
-        //     console.warn('DocumentUploadComponent not found!');
-        // }
-        this.submitted = true;
-        if (this.organisationForm.invalid ||  this.documentUploadComponent.organisationUploadedDocs.length < 4) {
-            this.organisationForm.markAllAsTouched();
-            this.documentUploadComponent.submissionAttempted=true;
-            // if (this.documentUploadComponent.uploadedDocs.length === 0) {
-            this.documentUploadComponent.organisationInputFieldErrors = { message: 'No documents uploaded!', type: '' };
-            // }
-            this.documentUploadComponent.checkOrganisationValidation();
-            console.error('Form validation failed. Details:');
+    //     // if (this.documentUploadComponent) {
+    //     //     this.documentUploadComponent.handleDocumentSubmit(); // Call child method
+    //     //     this.organisationForm.markAllAsTouched;
+    //     //     return;
+    //     // }else {
+    //     //     console.warn('DocumentUploadComponent not found!');
+    //     // }
+    //     this.submitted = true;
+    //     if (this.organisationForm.invalid ||  this.documentUploadComponent.organisationUploadedDocs.length < 4) {
+    //         this.organisationForm.markAllAsTouched();
+    //         this.documentUploadComponent.submissionAttempted=true;
+    //         // if (this.documentUploadComponent.uploadedDocs.length === 0) {
+    //         this.documentUploadComponent.organisationInputFieldErrors = { message: 'No documents uploaded!', type: '' };
+    //         // }
+    //         this.documentUploadComponent.checkOrganisationValidation();
+    //         console.error('Form validation failed. Details:');
 
-            Object.keys(this.organisationForm.controls).forEach((controlName) => {
-                const control = this.organisationForm.get(controlName);
-                if (control?.invalid) {
-                    console.error(
-                        `Field "${controlName}" is invalid. Errors:`,
-                        control.errors
-                    );
-                }
-            });
+    //         Object.keys(this.organisationForm.controls).forEach((controlName) => {
+    //             const control = this.organisationForm.get(controlName);
+    //             if (control?.invalid) {
+    //                 console.error(
+    //                     `Field "${controlName}" is invalid. Errors:`,
+    //                     control.errors
+    //                 );
+    //             }
+    //         });
 
-            this.validationMessage = 'Please fill all required fields correctly.';
-            return;
-        }
-        this.orgDocDetails.emit(this.organisationUploadedDocs);
-        this.formSubmitted.emit();
-        console.log('Form is valid and ready for submission.');
+    //         this.validationMessage = 'Please fill all required fields correctly.';
+    //         return;
+    //     }
+    //     this.orgDocDetails.emit(this.organisationUploadedDocs);
+    //     this.formSubmitted.emit();
+    //     console.log('Form is valid and ready for submission.');
 
-        const formData = {
-            ...this.organisationForm.value,
-        };
+    //     const formData = {
+    //         ...this.organisationForm.value,
+    //     };
        
-        // this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
-        //     (response) => {
+    //     // this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+    //     //     (response) => {
                 
-        //         console.log('Form submitted successfully', response);
-        //         this.router.navigate(['/contact-details-form']);
-        //     },
-        //     (error) => {
-        //         console.log(formData);
-        //         console.error('Error submitting form', error);
-        //     }
-        // );
-        this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
-            (response: any) => {
-                console.log('Form submitted successfully', response);
+    //     //         console.log('Form submitted successfully', response);
+    //     //         this.router.navigate(['/contact-details-form']);
+    //     //     },
+    //     //     (error) => {
+    //     //         console.log(formData);
+    //     //         console.error('Error submitting form', error);
+    //     //     }
+    //     // );
+    //     this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+    //         (response: any) => {
+    //             console.log('Form submitted successfully', response);
 
-                this.updateOrganisationIdForUser(response.organisationDetailsId);
-                localStorage.setItem('organisationId', response.organisationDetailsId);
-                this.organisationId.emit(response.organisationDetailsId);
 
-                const applicationId = response.applicationId; // Retrieve applicationId from the response
-                console.log('Generated Application ID:', applicationId);
+    //             this.updateOrganisationIdForUser(response.organisationDetailsId);
+    //             localStorage.setItem('organisationId', response.organisationDetailsId);
+    //             this.organisationId.emit(response.organisationDetailsId);
 
-                this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
+
+
+    //             const applicationId = response.applicationId; // Retrieve applicationId from the response
+    //             console.log('Generated Application ID:', applicationId);
+
+    //             this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
         
-                if (applicationId) {
-                    sessionStorage.setItem('applicationId', applicationId); // Save to sessionStorage
-                    //this.router.navigate(['/contact-details-form']); // Navigate to Contact Details
-                } else {
-                    console.error('Application ID is null or undefined!');
-                }
-            },
-            (error) => {
-                console.error('Error submitting form', error);
-            }
-        );
+    //             if (applicationId) {
+    //                 sessionStorage.setItem('applicationId', applicationId); // Save to sessionStorage
+    //                 //this.router.navigate(['/contact-details-form']); // Navigate to Contact Details
+    //             } else {
+    //                 console.error('Application ID is null or undefined!');
+    //             }
+    //         },
+    //         (error) => {
+    //             console.error('Error submitting form', error);
+    //         }
+    //     );
+    // }
+    // In the parent component (where handleSubmit() resides)
+//@ViewChild(DocumentUploadComponent) documentUploadComponent: DocumentUploadComponent;  // Assuming the document upload component is named DocumentUploadComponent
+
+documentValidationPassed = false;
+
+onDocumentValidationStatus(isValid: boolean) {
+    console.log('Validation status received from child:', isValid);
+    this.documentValidationPassed = isValid;
+  }
+
+// Handle form submission
+async handleSubmit(): Promise<void> {
+    const addressDetails = {
+        address: this.organisationForm.get('address')?.value,
+        city: this.organisationForm.get('city')?.value,
+        state: this.organisationForm.get('state')?.value,
+        pincode: this.organisationForm.get('pincode')?.value,
+    };
+    sessionStorage.setItem('addressDetails', JSON.stringify(addressDetails));
+    console.log(addressDetails);
+    this.documentUploadComponent.validateDocuments();
+    // First, validate the documents
+    if (!this.documentValidationPassed) {
+        this.validationMessage = 'One or more document file names are invalid!';
+        console.error('One or more file names are invalid!');
+        return;  // Prevent form submission if document validation fails
     }
+
+    this.submitted = true;
+    if (this.organisationForm.invalid || this.documentUploadComponent.organisationUploadedDocs.length < 4) {
+        this.organisationForm.markAllAsTouched();
+        this.documentUploadComponent.submissionAttempted = true;
+        this.documentUploadComponent.organisationInputFieldErrors = { message: 'No documents uploaded!', type: '' };
+        this.documentUploadComponent.checkOrganisationValidation();
+        console.error('Form validation failed. Details:');
+        
+        Object.keys(this.organisationForm.controls).forEach((controlName) => {
+            const control = this.organisationForm.get(controlName);
+            if (control?.invalid) {
+                console.error(`Field "${controlName}" is invalid. Errors:`, control.errors);
+            }
+        });
+        this.validationMessage = 'Please fill all required fields correctly.';
+        return;
+    }
+
+    // Proceed with the form submission logic here
+    this.orgDocDetails.emit(this.organisationUploadedDocs);
+    this.formSubmitted.emit();
+    console.log('Form is valid and ready for submission.');
+
+    const formData = {
+        ...this.organisationForm.value,
+    };
+
+    this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
+        (response: any) => {
+            console.log('Form submitted successfully', response);
+            this.updateOrganisationIdForUser(response.organisationDetailsId);
+            localStorage.setItem('organisationId', response.organisationDetailsId);
+            this.organisationId.emit(response.organisationDetailsId);
+
+            const applicationId = response.applicationId;
+            console.log('Generated Application ID:', applicationId);
+
+            this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
+
+            if (applicationId) {
+                sessionStorage.setItem('applicationId', applicationId);
+            } else {
+                console.error('Application ID is null or undefined!');
+            }
+        },
+        (error) => {
+            console.error('Error submitting form', error);
+        }
+    );
+}
+
     
         // Method to check form validity (to be used in parent)
         isFormValid(): boolean {

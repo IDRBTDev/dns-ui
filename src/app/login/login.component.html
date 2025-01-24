@@ -70,13 +70,15 @@
                 
                   <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px;">Email</div>
                   <div class="input-container" style="margin-bottom: 30px;">
-                    <input type="text" id="email" [(ngModel)]="user.email" placeholder="Enter your email">
+                    <input type="text" id="email" [(ngModel)]="user.email" (ngModelChange)="emailValidation()" placeholder="Enter your email">
+                    <div *ngIf="emailError!=''" style="color:red;font-size: 14px;">Enter email</div>
                     <!-- <span class="get-otp" (click)="getOtpForLoginUser()">Get OTP</span> -->
                   </div>
       
                     <div style="margin-bottom: 30px;">
                       <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">Password</div>
-                          <input type="password"  [(ngModel)]="user.password"  placeholder="Enter the strong password">
+                          <input type="password"  [(ngModel)]="user.password" (ngModelChange)="passWordValidation()"  placeholder="Enter the strong password">
+                          <div *ngIf="passwordError!=''" style="color:red;font-size: 14px;">Enter password</div>
                           <!-- <span class="toggle-password">Show</span> -->
                     </div>
 
