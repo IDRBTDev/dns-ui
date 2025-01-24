@@ -78,7 +78,7 @@
                 Please save file name with your Aadhaar number in this format: Aadhaar_********1234.
               </ng-template>
               <ng-template [ngSwitchCase]="'Organisation GSTIN'">
-                Please save file name with your GSTIN in this format: Organisation GSTIN_***********F1Z2.
+                Please save file name with your GSTIN in this format:GSTIN_***********F1Z2.
               </ng-template>
               <ng-template [ngSwitchDefault]>
                 Invalid document type. Please check the file name format.
@@ -118,7 +118,7 @@
 </div>
 
 <!-- Administrative Section -->
-<div *ngIf="mode === 'admin'" style="flex: 1;">
+ <div *ngIf="mode === 'admin'" style="flex: 1;">
 
   <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
       <div style="flex: 1;">
@@ -160,10 +160,40 @@
           <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;"
           >
               <i class="bi bi-check-circle text-success"></i>
-              <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-        <span *ngIf="preview!=''" data-toggle="modal"
-        data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+              <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidAdminFileName">
+        
+                <!-- Valid file name, clickable for preview -->
+                <span *ngIf="preview === ''" data-toggle="modal" data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
+                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+                </span>
+                
+                <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
+                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+                </span>
+                
+              </ng-container>
+              <ng-template #invalidAdminFileName>
+                <span style="color: red;">
+                  <!-- Custom error messages based on doc.type for Admin Documents -->
+                  <ng-container [ngSwitch]="doc.type">
+                    <ng-template [ngSwitchCase]="'PAN'">
+                      Please save file name with your PAN number in this format: PAN_*******91Z.
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'Aadhaar'">
+                      Please save file name with your Aadhaar number in this format: Aadhaar_********1234.
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'Organisation Id'">
+                      This document can accept any file name. No specific format is required.
+                    </ng-template>
+                    <ng-template [ngSwitchDefault]>
+                      Invalid document type. Please check the file name format.
+                    </ng-template>
+             
+                    
+                  </ng-container>
+                </span>
+              </ng-template>
+              
               <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
@@ -267,10 +297,42 @@
         style="display: flex; align-items: center; gap: 5px"
         >
         <i class="bi bi-check-circle text-success"></i>
-        <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-        <span *ngIf="preview!=''" data-toggle="modal"
-        data-target="#previewTechDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidTechFileName">
+        
+          <!-- Valid file name, clickable for preview -->
+          <span *ngIf="preview === ''" data-toggle="modal" data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+          
+          <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+          
+        </ng-container>
+        <ng-template #invalidTechFileName>
+          <span style="color: red;">
+            <!-- Custom error messages based on doc.type for Admin Documents -->
+            <ng-container [ngSwitch]="doc.type">
+              <ng-template [ngSwitchCase]="'PAN'">
+                Please save file name with your PAN number in this format: PAN_*******91Z.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Aadhaar'">
+                Please save file name with your Aadhaar number in this format: Aadhaar_********1234.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Organisation GSTIN'">
+                Please save file name with your GSTIN in this format: GSTIN_***********F1Z2.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Organisation Id'">
+                This document can accept any file name. No specific format is required.
+              </ng-template>
+              <ng-template [ngSwitchDefault]>
+                Invalid document type. Please check the file name format.
+              </ng-template>
+             
+             
+            </ng-container>
+          </span>
+        </ng-template>
         <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
           <i class="bi bi-trash"></i>
         </button>
@@ -380,10 +442,42 @@
         style="display: flex; align-items: center; gap: 5px"
         >
         <i class="bi bi-check-circle text-success"></i>
-        <span *ngIf="preview===''" data-toggle="modal"
-        data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
-        <span *ngIf="preview!=''" data-toggle="modal"
-        data-target="#previewBillDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">{{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}</span>
+        <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidBillFileName">
+        
+          <!-- Valid file name, clickable for preview -->
+          <span *ngIf="preview === ''" data-toggle="modal" data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+          
+          <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+          </span>
+          
+        </ng-container>
+        <ng-template #invalidBillFileName>
+          <span style="color: red;">
+            <!-- Custom error messages based on doc.type for Admin Documents -->
+            <ng-container [ngSwitch]="doc.type">
+              <ng-template [ngSwitchCase]="'PAN'">
+                Please save file name with your PAN number in this format: PAN_*******91Z.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Aadhaar'">
+                Please save file name with your Aadhaar number in this format: Aadhaar_********1234.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Organisation GSTIN'">
+                Please save file name with your GSTIN in this format: GSTIN_***********F1Z2.
+              </ng-template>
+              <ng-template [ngSwitchCase]="'Organisation Id'">
+                This document can accept any file name. No specific format is required.
+              </ng-template>
+              <ng-template [ngSwitchDefault]>
+                Invalid document type. Please check the file name format.
+              </ng-template>
+              
+            
+            </ng-container>
+          </span>
+        </ng-template>
         <button
           class="btn btn-sm btn-danger"
           (click)="handleRemoveBillingDoc(i)"

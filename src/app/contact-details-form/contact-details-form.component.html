@@ -155,7 +155,7 @@
                   (imageUrl)="onImageViewClick($event)"
                   (pdfUrl)="onPdfViewClick($event)"
                   (resetErrorMessages)="resetErrorMessages()"
-                ></app-document-upload>
+                  (ContactdocumentValidationStatus)="ContactdocumentValidationStatus($event)"></app-document-upload>
                   <!-- <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="adminDocuments" class="form-select" formControlName="adminDocuments">
                         <option selected>Select and upload</option>
@@ -313,7 +313,7 @@
                   (imageUrl)="onImageViewClick($event)"
                   (pdfUrl)="onPdfViewClick($event)" 
                   (resetErrorMessages)="resetErrorMessages()"
-                ></app-document-upload>
+                  (ContactdocumentValidationStatus)="ContactdocumentValidationStatus($event)"></app-document-upload>
                   <!-- <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="techDocuments" class="form-select" formControlName="techDocuments">
                         <option selected>Select and upload</option>
@@ -473,6 +473,7 @@
                     (imageUrl)="onImageViewClick($event)"
                     (pdfUrl)="onPdfViewClick($event)"
                     (resetErrorMessages)="resetErrorMessages()"
+                    (ContactdocumentValidationStatus)="ContactdocumentValidationStatus($event)">
                 ></app-document-upload>
                   <!-- <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="billDocuments" class="form-select" formControlName="billDocuments">
@@ -628,7 +629,12 @@
                   (setAdminUploadedDocs)="setAdminUploadedDocuments($event)"
                   (imageUrl)="onImageViewClick($event)"
                   (pdfUrl)="onPdfViewClick($event)"
-                  (resetErrorMessages)="resetErrorMessages()"></app-document-upload>
+                  (resetErrorMessages)="resetErrorMessages()"
+                 
+                  >
+                  
+                  
+                  ></app-document-upload>
                 
                   <!-- <label for="adminDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="adminDocuments" class="form-select" formControlName="adminDocuments">
@@ -772,7 +778,7 @@
                   (imageUrl)="onImageViewClick($event)"
                   (pdfUrl)="onPdfViewClick($event)"
                   (resetErrorMessages)="resetErrorMessages()"
-                ></app-document-upload>
+                  > </app-document-upload>
                   <!-- <label for="techDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="techDocuments" class="form-select" formControlName="techDocuments">
                         <option selected>Select and upload</option>
@@ -917,7 +923,7 @@
                     (imageUrl)="onImageViewClick($event)"
                     (pdfUrl)="onPdfViewClick($event)"
                     (resetErrorMessages)="resetErrorMessages()"
-                ></app-document-upload>
+                    ></app-document-upload>
                   <!-- <label for="billDocuments" class="form-label">Documents</label><span class="text-danger">*</span>
                       <select id="billDocuments" class="form-select" formControlName="billDocuments">
                         <option selected>Select and upload</option>

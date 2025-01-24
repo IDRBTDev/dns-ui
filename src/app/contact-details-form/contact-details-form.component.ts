@@ -211,7 +211,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     console.log('Uploaded documents updated:', this.billingUploadedDocs);
   }
 
-  onSubmitNewContact(choosenContactType: string){
+ async onSubmitNewContact(choosenContactType: string){
+  
     if(choosenContactType !== ''){
       if(choosenContactType === 'AdminOfficer'){
         const adminDetails = {
@@ -265,6 +266,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         };
         setTimeout(() => {
           this.techDocDetails.emit(this.techUploadedDocs);
+          console.log('Emitting tech docs:', this.techUploadedDocs);
         }, 0);
         // Save Technical details
       this.contactDetailsFormService.updateTechDetails(technicalDetails).subscribe(response => {
@@ -314,8 +316,27 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       })
     }
   }
+  @ViewChild(DocumentUploadComponent, { static: false }) documentUploadComponent?: DocumentUploadComponent;
+  documentValidationPassed = false;
+ validationMessage = '';
+ ContactdocumentValidationStatus(isValid: boolean) {
+      console.log('Validation status received from child:', isValid);
+      this.documentValidationPassed = isValid;
+    }
 
   async onSubmit(): Promise<void> {
+    this.documentUploadComponent.validateDocuments1();
+    console.log('Starting document validation...');
+    const isValid = await this.documentUploadComponent?.validateDocuments1();
+    console.log('Document Validation Result:', isValid);
+  
+    if (!isValid) {
+      this.validationMessage = 'One or more document file names are invalid!';
+      console.error('One or more file names are invalid!');
+      return;  // Prevent form submission if document validation fails
+    }
+  
+
     this.onSubmitNewContact(this.choosenContactType)
     //if(this.adminUploadedDocs.length < )
   //  this.formSubmitted.emit();
