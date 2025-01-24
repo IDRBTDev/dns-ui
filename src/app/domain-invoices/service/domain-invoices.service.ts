@@ -15,7 +15,7 @@ export class DomainInvoiceService{
     constructor(private httpClient: HttpClient){}
 
    // Method to get all billing histories using GET
-   getAllBillingHistories(userId: string): Observable<DomainInvoices[]> {
+getAllBillingHistories(userId: string): Observable<DomainInvoices[]> {
     return this.httpClient.get<DomainInvoices[]>(this.domainInvoiceUrl+"?userId="+userId).pipe(
         catchError(error => {
             console.error('Error fetching billing histories:', error);
@@ -23,6 +23,8 @@ export class DomainInvoiceService{
         })
     );
 }
+
+
 
    
 
