@@ -446,39 +446,54 @@ isReg : boolean = false;
       this.toastrService.error('User already exists.');
       return; // Exit if the user already exists
     }
-    let regUserExists = await this.registrationService.checkRegisterUserExists(this.user.userId).toPromise();
-console.log(regUserExists)
-if (regUserExists?.isRegistrationSuccess==true) {  // User already registered in the registration table
-  // If the user exists, directly mark the user as verified
-  console.log('User already registered, marked as verified.');
- // this.isRegistrationSuccess=true;
-  this.isEmailVerified = true;
-  
-  this.toastrService.success('User already verified.');
-  return; // Exit as the user is already verified
-}else if(regUserExists==null){
-  this.regUser.registrationUserId = this.user.userId;
 
-  const response = await lastValueFrom(this.registrationService.saveRegUser(this.regUser));
+    /*
+      if its there - return "User Already Exists" - STOP
+	  	else
+			i need to check in the User Registration table
+			if there update otp and send email
+			if not there insert user record and send otp
 
-  // Step 4: Handle the response from the registration service
-  if (response.status === HttpStatusCode.Created) {
-    this.isReg = response.body;
-    if (!this.isReg) {
-      console.log('exe1: Registration failed');
-      this.toastrService.error('Failed to register user.');
-    } else {
-      console.log('exe2: User registered successfully');
-     // this.isEmailVerified = true;
-      this.openModal(); // Open the OTP verification modal
-    }
-  } else {
-    this.toastrService.error('Failed to register user.');
-  }
+    */
 
-}else if(regUserExists.isRegistrationSuccess==false){
-  this.openModal(); 
-}
+    let regUserExists = await this.registrationService.checkRgntUserExistsDuringRegistration(this.user.userId).toPromise();
+
+    console.log(regUserExists)
+    this.openModal(); 
+    
+    // if (regUserExists?.isRegistrationSuccess==true) {  // User already registered in the registration table
+    //   //Update the OTP??
+
+    //   // If the user exists, directly mark the user as verified
+    //   console.log('User already registered, marked as verified.');
+    // // this.isRegistrationSuccess=true;
+    //   this.isEmailVerified = true;
+      
+    //   this.toastrService.success('User already verified.');
+    //   return; // Exit as the user is already verified
+    // }else if(regUserExists==null){
+    //   this.regUser.registrationUserId = this.user.userId;
+
+    //   const response = await lastValueFrom(this.registrationService.saveRegUser(this.regUser));
+
+    //   // Step 4: Handle the response from the registration service
+    //   if (response.status === HttpStatusCode.Created) {
+    //     this.isReg = response.body;
+    //     if (!this.isReg) {
+    //       console.log('exe1: Registration failed');
+    //       this.toastrService.error('Failed to register user.');
+    //     } else {
+    //       console.log('exe2: User registered successfully');
+    //     // this.isEmailVerified = true;
+    //       this.openModal(); // Open the OTP verification modal
+    //     }
+    //   } else {
+    //     this.toastrService.error('Failed to register user.');
+    //   }
+
+    // }else if(regUserExists.isRegistrationSuccess==false){
+    //   this.openModal(); 
+    // }
     // Step 3: Proceed with the registration process if the email is provided and user doesn't exist
    
 

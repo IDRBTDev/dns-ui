@@ -12,8 +12,11 @@ export class RegistrationService{
     private verifyOtpUrl = environment.apiURL+'/dr/user/verify-otp'; 
     private userRegUrl = environment.apiURL+'/dr/registerDetail';
     private getRegUserUrl = environment.apiURL+'/dr/registerDetail/get';
-    private getRegUserUrl1 = environment.apiURL+'/dr/user';
-  private getRegUserOtpUrl = environment.apiURL+'/dr/registerDetail';
+
+
+    private checkUserExistsinRgntUserUrl = environment.apiURL+'/dr/user';
+  
+    private getRgntUserFromUsrRegstRUrl = environment.apiURL+'/dr/registerDetail';
     constructor(private httpClient: HttpClient){
 
     }
@@ -22,7 +25,7 @@ export class RegistrationService{
         return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response'})
     }
     verifyOtp(registrationUserId: string, otp: number): Observable<any> {
-        return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/get/${registrationUserId}/${otp}`);
+        return this.httpClient.get<any>(`${this.getRgntUserFromUsrRegstRUrl}/get/${registrationUserId}/${otp}`);
       }
       
 
@@ -31,14 +34,20 @@ export class RegistrationService{
         return this.httpClient.post<boolean>(this.userRegUrl+"?regFrom="+regFrom, regUser, {observe: 'response'});
     }
     resendOtp(registrationUserId: string): Observable<any> {
-        return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/resend/${registrationUserId}`);
+        return this.httpClient.get<any>(`${this.getRgntUserFromUsrRegstRUrl}/resend/${registrationUserId}`);
       }
 
       checkUserExists(userId: string): Observable<any> {
-        return this.httpClient.get<any>(`${this.getRegUserUrl1}/getCheck/${userId}`);
+        return this.httpClient.get<any>(`${this.checkUserExistsinRgntUserUrl}/getCheck/${userId}`);
       }
-      checkRegisterUserExists(registrationUserId: string): Observable<any> {
+
+      checkRgntUserExistsDuringRegistration(registrationUserId: string): Observable<any> {
         console.log(registrationUserId);
-        return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/get/${registrationUserId}`);
+        return this.httpClient.get<any>(`${this.getRgntUserFromUsrRegstRUrl}/getOTPForExistingOrNewUser/${registrationUserId}`);
       }
+
+      // checkRegisterUserExists(registrationUserId: string): Observable<any> {
+      //   console.log(registrationUserId);
+      //   return this.httpClient.get<any>(`${this.getRegUserOtpUrl}/get/${registrationUserId}`);
+      // }
 }

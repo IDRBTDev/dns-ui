@@ -101,9 +101,9 @@
                     
                     <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px;">Email</div>
                     <div class="input-container" [ngStyle]="{'margin-bottom': emailInput ? '30px' : '0px'}">
-                      <input type="text" id="email" (change)="toggleEmailButton()"  (input)="emailChange()"  [(ngModel)]="user.userId" placeholder="Enter your email">
-                      <span *ngIf="!isEmailVerified" class="get-otp" (click)="saveRegUser()" >Verify</span>
-                      <span *ngIf="isEmailVerified" class="get-otp">Verified</span>
+                      <input type="text" id="email" (change)="toggleEmailButton()"  (input)="emailChange()"  [(ngModel)]="user.userId" placeholder="Enter your official email to receive an OTP">
+                      <span *ngIf="!isEmailVerified" class="get-otp" (click)="saveRegUser()" >Send OTP</span>
+                      <span *ngIf="isEmailVerified" class="get-otp">Email Verified</span>
                       
                     
                     </div>
