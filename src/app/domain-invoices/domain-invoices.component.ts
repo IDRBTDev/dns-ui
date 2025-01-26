@@ -9,6 +9,9 @@ import { DomainInvoiceService } from './service/domain-invoices.service';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import * as FileSaver from 'file-saver';
+import { lastValueFrom } from 'rxjs';
+import { error } from 'jquery';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-domain-invoices',
@@ -19,33 +22,32 @@ export class DomainInvoicesComponent implements OnInit {
   
   displayedColumns: string[] = [
     'checkbox',
-    'billingId',
-    'organizationName',
-    'invoiceNumber',
-    'invoiceDate',
-    'amount',
-    'duedate',
-    'status',
+    'id',
+    'organizationId',
+    'finalAmount',
+    'taxAmount',
+    'invoice'
   ]; 
 
   userId: string = localStorage.getItem('email');
   role: string = localStorage.getItem('userRole');
 
   domainsinvoicesList: DomainInvoices[] = [];
-  domainsDataSource: MatTableDataSource<DomainInvoices>;
+  domainsDataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText:String=''
   constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService) {
-    this.domainsDataSource = new MatTableDataSource<DomainInvoices>(this.domainsinvoicesList);
+    this.domainsDataSource = new MatTableDataSource<any>();
   }
   
   ngOnInit(): void {
-    if(this.role === 'IDRBTADMIN'){
-      this.loadBillingHistories("");
-    }else{
-      this.loadBillingHistories(this.userId);
-    }
+    // if(this.role === 'IDRBTADMIN'){
+    //   this.loadBillingHistories("");
+    // }else{
+    //   this.loadBillingHistories(this.userId);
+    // }
+    this.getAllInvoicesData();
 
     localStorage.setItem('isBoxVisible', 'false');
     
@@ -113,5 +115,25 @@ export class DomainInvoicesComponent implements OnInit {
         throw new Error(`Failed to fetch template: ${response.statusText}`);
     }
     return response.arrayBuffer();
+  }
+  invoiceDetailsList : any[] =[]
+  async getAllInvoicesData(){
+    await lastValueFrom(this.domainInvoiceService.getAllInvoiceDetails()).then(
+     (response) => {
+       if(response.status === HttpStatusCode.Ok){
+        this.invoiceDetailsList = response.body;
+        console.log(this.invoiceDetailsList)
+        this.domainsDataSource.data = this.invoiceDetailsList; 
+        console.log(this.domainsDataSource.data)
+        this.domainsDataSource.paginator = this.paginator; 
+        this.domainsDataSource.sort = this.sort; 
+
+       }
+
+     }, (error) =>{
+
+     }
+
+    );
   }
 }
