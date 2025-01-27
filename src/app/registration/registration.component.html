@@ -207,14 +207,19 @@
             <div class="modal-body">
                 <p>Enter the OTP sent to your registered email and verify the email.</p>
                 <input type="text" placeholder="Enter your OTP" class="form-control" [(ngModel)]="otp" />
+                <div style="display:flex;justify-content: space-between;flex-direction: row;">
+                    <div *ngIf="timerActive">
+                        <p>{{ timerDisplay }}</p>
+                      </div>
+                      <div *ngIf="!timerActive" style="color:red">
+                        <p>{{ errorMessage }}</p>
+                      </div>
+              
+                      <div *ngIf="!timerActive ">
+                        <p style="color: blue;text-decoration: underline;" (click)="resendOtp()">Resend OTP</p>
+                      </div>
+                </div>
                 
-                <div *ngIf="timerActive">
-                    <p>{{ timerDisplay }}</p>
-                  </div>
-          
-                  <div *ngIf="!timerActive ">
-                    <button type="button" class="btn btn-secondary" (click)="resendOtp()">Resend OTP</button>
-                  </div>
                 
             </div>
             <div class="modal-footer">
