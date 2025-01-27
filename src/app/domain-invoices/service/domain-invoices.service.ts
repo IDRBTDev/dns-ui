@@ -11,6 +11,7 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 export class DomainInvoiceService{
     private domainInvoiceUrl = environment.apiURL+'/dr/billingHistory/all';
+    private invoiceDetailsURL = 'http://localhost:9018/invoice/all';
 
     constructor(private httpClient: HttpClient){}
 
@@ -24,7 +25,9 @@ getAllBillingHistories(userId: string): Observable<DomainInvoices[]> {
     );
 }
 
-
+getAllInvoiceDetails(){
+    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}`,{observe: 'response'})
+}
 
    
 

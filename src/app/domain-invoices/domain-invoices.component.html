@@ -11,9 +11,6 @@
                 <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
                 (ngModelChange)="applyFilter()" matInput #input>
             </div>
-            <div style="padding-left: 10px;">
-              <button (click)="getInvoiceDetailAndDisplay()" >invoice</button>
-            </div>
           <!-- <svg style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
           fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="0.5" y="0.5" width="128" height="41" rx="2.5" stroke="#999999" />
@@ -55,58 +52,65 @@
                   <input type="checkbox" id="mainCheckBox" />
                 </th>
                 <td mat-cell *matCellDef="let domain; let i = index">
-                  <input type="checkbox" id="subCheckBox{{i}}" class="subCheckBox" value="{{domain.domainId}}" />
+                  <input type="checkbox" id="subCheckBox{{i}}" class="subCheckBox" value="{{domain.id}}" />
                 </td>
               </ng-container>
-
               <!-- sl no Column -->
-              <ng-container matColumnDef="billingId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl.No</th>
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SNo</th>
                 <td mat-cell *matCellDef="let domain">
-                  <span 
+                  <!-- <span 
                     (click)="goToInvoiceDetails(domain.billingId)" 
                     style="color: blue; text-decoration: underline; cursor: pointer;">
-                    {{ domain.billingId }}
-                  </span>
+                    {{ domain.id }}
+                  </span> -->
+                  <span 
+                  style="color: blue; text-decoration: underline; cursor: pointer;">
+                  {{domain.id}}
+                </span>
                 </td>
               </ng-container>
-              
-
               <!-- organisationname Name Column -->
-              <ng-container matColumnDef="organizationName">
+              <ng-container matColumnDef="organizationId">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisations Name</th>
-                <td mat-cell *matCellDef="let domain">{{domain.domainDto.organizationName}}</td>
+                <td mat-cell *matCellDef="let domain">{{domain.organizationId}}</td>
               </ng-container>
 
               <!-- invoiceno Column -->
-              <ng-container matColumnDef="invoiceNumber">
+              <!-- <ng-container matColumnDef="taxAmount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice No</th>
                 <td mat-cell *matCellDef="let domain">{{domain.invoiceNumber}}</td>
-              </ng-container>
+              </ng-container> -->
 
               <!-- invoiceDate Column -->
-              <ng-container matColumnDef="invoiceDate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-                <td mat-cell *matCellDef="let domain">{{domain.invoiceDate | date: 'shortDate'}}</td>
+              <ng-container matColumnDef="finalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+                <td mat-cell *matCellDef="let domain">{{domain.finalAmount}}</td>
               </ng-container>
 
               <!-- amount Column -->
-              <ng-container matColumnDef="amount">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-                <td mat-cell *matCellDef="let domain">{{domain.amount | currency: 'INR'}}</td>
+              <ng-container matColumnDef="taxAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>TaxAmount</th>
+                <td mat-cell *matCellDef="let domain">{{domain.taxAmount}}</td>
               </ng-container>
 
               <!-- duedate Column -->
-              <ng-container matColumnDef="duedate">
+              <!-- <ng-container matColumnDef="duedate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
                 <td mat-cell *matCellDef="let domain">{{domain.duedate | date:'MMM d, y, h:mm a'}}</td>
-              </ng-container>
+              </ng-container> -->
 
               <!-- status Column -->
-              <ng-container matColumnDef="status">
+              <!-- <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                 <td mat-cell *matCellDef="let domain">{{domain.status}}</td>
+              </ng-container> -->
+
+              <ng-container matColumnDef="invoice">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice</th>
+                <td mat-cell *matCellDef="let domain" > <button (click)="getInvoiceDetailAndDisplay()" >invoice</button></td>
               </ng-container>
+
 
               <!-- Header Row -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
