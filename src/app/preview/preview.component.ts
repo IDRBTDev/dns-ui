@@ -81,6 +81,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   private modalInstance: bootstrap.Modal | null = null;
 
   ngOnInit(): void {
+    console.log("this is the org id from the onboarding stepper"+this.organisationId)
     this.fetchDataFromAPIs();
     this.loadNotifications();
   }
@@ -497,7 +498,9 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updateDomainDetails(){
+    console.log("orgid in previw page"+this.organisationId)
     console.log(this.cards[1].details.institutionName);
+    this.cards[0].details.organisationId=this.organisationId;
     this.cards[0].details.organizationName = this.cards[1].details.institutionName;
     await lastValueFrom(this.domainService.updateDomainDetails(this.cards[0].details)).then(
       response => {
