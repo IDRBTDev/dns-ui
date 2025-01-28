@@ -13,6 +13,8 @@ import { Roles } from '../model/roles.model';
 import { RgtrRoles } from '../model/rgtrRole.model';
 import { DepartmentService } from '../rgtr-department/service/department.service';
 import { RgtrDepartment } from '../model/rgtrDepartment.model';
+import { User } from '../model/user.model';
+import { RgtrUserService } from './service/rgtr-user.service';
 
 @Component({
   selector: 'app-rgtr-usr-mgmt',
@@ -60,14 +62,17 @@ export class RgtrUsrMgmtComponent implements OnInit{
   role = localStorage.getItem('userRole');
   organisationId = localStorage.getItem('organisationId');
 
-  constructor(private userService: UserService, private router: Router,
+  constructor(private userService: UserService, private router: Router,private rgtrUserService: RgtrUserService,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService,private rgtrRoleService:RgtrRoleService,private departmentService:DepartmentService
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
+    this.updatedUser=new User();
+    this.updatedUser.userRoles=[]
+    this.updatedUser.userRoles[0]=new Roles();
   }
     
      
-
+  updatedUser:User;
   loggedInUser: any;
   async getLoggedInUserDetails(){
    await lastValueFrom(this.userService.getRgtrUserByEmailId(this.userId)).then(
@@ -108,8 +113,8 @@ export class RgtrUsrMgmtComponent implements OnInit{
         'userRoles',
         'access',
         'active',
-        // 'edit',
-        // 'delete'
+        'edit',
+        'delete'
        //'actions',
       ]; 
     //}
@@ -202,12 +207,12 @@ export class RgtrUsrMgmtComponent implements OnInit{
     await this.updateUser(user);
   }
 
-  //user: any = null;
-  async getUserById(id: number) {
-    await lastValueFrom(this.userService.getUserById(id)).then(
+ 
+  async getUserByUserId(email) {
+    await lastValueFrom(this.userService.getRgtrUserByEmailId(email)).then(
       response => {
         if (response.status === HttpStatusCode.Ok) {
-          this.user = response.body;
+          this.updatedUser = response.body;
         }
       }, error => {
         if (error.status === HttpStatusCode.Unauthorized) {
@@ -218,10 +223,11 @@ export class RgtrUsrMgmtComponent implements OnInit{
   }
 
   async updateUser(user: any) {
-    await lastValueFrom(this.userService.updateUser(user)).then(response => {
+    await lastValueFrom(this.rgtrUserService.updateUser(user)).then(response => {
       if (response.status === HttpStatusCode.PartialContent) {
         this.toastr.success('User updated successfully.')
-        this.getUsersList(parseInt(this.organisationId));
+        document.getElementById("closeTheUpdateModal").click();
+        // this.getUsersList(parseInt(this.organisationId));
       }
     }, error => {
       if (error.status === HttpStatusCode.Unauthorized) {
@@ -234,10 +240,10 @@ export class RgtrUsrMgmtComponent implements OnInit{
   async deleteUserById(email) {
     var confirmed = window.confirm('Are you sure, you really want to delete this user ?');
     if (confirmed) {
-      await lastValueFrom(this.userService.deleteUserByUserId(email)).then(
+      await lastValueFrom(this.rgtrUserService.deleteUserByUserId(email)).then(
         response => {
           if (response.status === HttpStatusCode.Ok) {
-            this.getUsersList(parseInt(this.organisationId));
+            // this.getUsersList(parseInt(this.organisationId));
           }
         }, error => {
           if (error.status === HttpStatusCode.Unauthorized) {
@@ -269,6 +275,18 @@ export class RgtrUsrMgmtComponent implements OnInit{
       this.nameErrorMessage = '';
     }
   }
+  updateName() {
+    if (!this.updatedUser.userName) {
+      this.nameInput = false;
+      this.nameErrorMessage = 'Name should not be empty.';
+    } else if (this.updatedUser.userName.length > 25) {
+      this.nameInput = false;
+      this.nameErrorMessage = 'Name should not exceed 25 characters.';
+    } else {
+      this.nameInput = true;
+      this.nameErrorMessage = '';
+    }
+  }
 
   emailInput: boolean = true;
   emailerrorMessage: string = '';
@@ -278,6 +296,19 @@ export class RgtrUsrMgmtComponent implements OnInit{
       this.emailInput = false;
       this.emailerrorMessage = 'Email ID should not be empty';
     } else if (!emailPattern.test(this.user.userId)) {
+      this.emailInput = false;
+      this.emailerrorMessage = 'Please enter a valid email ID';
+    } else {
+      this.emailInput = true;
+      this.emailerrorMessage = '';
+    }
+  }
+  updateEmailChange() {
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    if (!this.updatedUser.userId) {
+      this.emailInput = false;
+      this.emailerrorMessage = 'Email ID should not be empty';
+    } else if (!emailPattern.test(this.updatedUser.userId)) {
       this.emailInput = false;
       this.emailerrorMessage = 'Please enter a valid email ID';
     } else {
@@ -368,13 +399,14 @@ if (!this.user.mobileNumber) {
   }
 
   async saveOrUpdateUser(){
-    console.log(this.user);
-    if(this.user.id < 1){
+   
 
       await this.saveUser(this.user);
-    }else{
-      await this.updateUser(this.user);
-    }
+   
+  }
+
+  async updateTheChanges(){
+    await this.updateUser(this.updatedUser);
   }
 
 selectedRole

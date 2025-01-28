@@ -67,7 +67,7 @@
   
                 <ng-container matColumnDef="departmentId">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
-                  <td mat-cell *matCellDef="let user">{{ user.departmentId }}</td>
+                  <td mat-cell *matCellDef="let user">{{ user.departmentName }}</td>
                 </ng-container>
   
                 <ng-container matColumnDef="active">
@@ -84,14 +84,49 @@
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="edit">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-                  <td mat-cell *matCellDef="let user">{{ user.active ? 'Active' : 'Inactive' }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="delete">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-                  <td mat-cell *matCellDef="let user">{{ user.active ? 'Active' : 'Inactive' }}</td>
-                </ng-container>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header >Edit</th>
+                  <td mat-cell *matCellDef="let user" > 
+                      <!-- (click)="getRoleById(role.roleId)" -->
+                      <button  id="editIcon" name="editIcon"  data-toggle="modal"
+                      data-target="#updateUserModel"  (click)="getUserByUserId(user.userId)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                      fill="#5590AA">
+                          <g id="edit" >
+                              <path id="Vector"
+                                  d="M2.5 14.3761V17.5007H5.62543L14.8475 8.28116L11.7221 5.15659L2.5 14.3761ZM17.2562 5.87316C17.5813 5.54821 17.5813 5.01911 17.2562 4.69416L15.3101 2.7486C14.9851 2.42364 14.4558 2.42364 14.1308 2.7486L12.6056 4.27339L15.731 7.39795L17.2562 5.87316Z"
+                                  />
+                          </g>
+                      </svg>
+                  </button>
+                  </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header >
+                              Delete
+                      </th>
+                      <td mat-cell *matCellDef="let user" > 
+                          <!--(click)="deleteRoleById(role.roleId)"-->
+                          <button  id="trashIcon" (click)="deleteUserById(user.userId)">
+                              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                  fill="#000000" version="1.1" id="Capa_1" width="15px" height="18px"
+                                  viewBox="0 0 482.428 482.429" xml:space="preserve">
+                                  <g>
+                                      <g fill="#EB5547" >
+                                          <path
+                                              d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098    c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117    h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828    C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879    C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096    c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266    c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979    V115.744z" />
+                                          <path
+                                              d="M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07    c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z" />
+                                          <path
+                                              d="M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07    c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z" />
+                                          <path
+                                              d="M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07    c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z" />
+                                      </g>
+                                  </g>
+                              </svg>
+                          </button>
+                      </td>
+                      </ng-container>
   
   
                 <!-- <ng-container matColumnDef="actions">
@@ -208,6 +243,84 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" style="margin-right: 10px;" (click)="saveOrUpdateUser()">Save
+            changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearData()">Close</button>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+
+  <div class="modal" id="updateUserModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style=" background: #EDECFC; color: #000000;">
+          <h5 class="modal-title" style="font-size: 16px;">User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" id="closeTheUpdateModal" (click)="clearData()">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         
+          <p>Name <span class="required">*</span></p>
+          <div class="name-container">
+            <input type="text" class="form-control" [(ngModel)]="updatedUser.userName" id="name"
+              placeholder="Enter your full name" (blur)="updateName()" (input)="updateName()" />
+          </div>
+          <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
+          <br />
+          <div id="email">
+            <p>Email ID <span class="required">*</span></p>
+            <div class="input-group">
+              <input type="email" placeholder="Enter your email id" class="form-control" [(ngModel)]="updatedUser.userId"
+                (blur)="updateEmailChange()" (input)="toggleEmailButton()" />
+  
+            </div>
+            <div *ngIf="!emailInput" class="error-message">{{ emailerrorMessage }}</div>
+          </div>
+          <br />
+          <div id="mobile-number">
+            <p>Mobile Number <span class="required">*</span></p>
+            <div class="input-group">
+              <input type="text" placeholder="+91 Enter your number" maxlength="10" class="form-control"
+                [(ngModel)]="updatedUser.mobileNumber" (blur)="numberChange()" (input)="toggleNumberButton()" />
+  
+            </div>
+            <div *ngIf="!numberInput" class="error-message">{{ numbererrorMessage }}</div>
+          </div>
+
+          <div id="role" style="padding-top:10px">
+            <p>Role<span class="required">*</span></p>
+            <ng-select style="width: 100%;"
+                [(ngModel)]="updatedUser.userRoles[0]" id="userRole" name="userRole" #userRole="ngModel" 
+                [class.invalid]="userRole.invalid && userRole.touched" 
+                (change)="getTheRole($event)"> 
+               
+                <ng-option [value]="role" *ngFor="let role of allRoles"> 
+                    {{role.roleName}} 
+                </ng-option>
+            </ng-select>
+            <div *ngIf="!numberInput" class="error-message">{{ numbererrorMessage }}</div>
+          </div>
+
+          <div id="department" style="padding-top:10px">
+            <p>Department<span class="required">*</span></p>
+            <ng-select id="userDept" style="width:100%" class="departmentselect" [(ngModel)]="updatedUser.departmentId" name="employeeDept"
+                #employeeDept="ngModel" (change)="validateDepartment()"
+                placeholder="Select Department">
+              <ng-option hidden [value]="0">Select</ng-option>
+                <ng-option *ngFor="let department of allDepartment" [value]="department.departmentId">
+                 {{ department.departmentName }}
+               </ng-option>
+              </ng-select>
+            <div  *ngIf="DepartmentErrorInfo != ''" class="error-message">{{ DepartmentErrorInfo }}</div>
+          </div>
+  
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" style="margin-right: 10px;" (click)="updateTheChanges()">Save
             changes</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearData()">Close</button>
         </div>

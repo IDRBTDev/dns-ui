@@ -21,6 +21,13 @@
     min-width: 90px;
     background-color: #f8f9fa; /* Example background color */
   }
+  #trashIcon, #editIcon {
+    cursor: pointer;
+    background: none;
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+  }
   
   .content-area {
     flex: 1; /* Fills the remaining space */
