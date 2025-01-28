@@ -203,7 +203,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
   }
 
   /**
-   * Reset the timer back to 2 minutes (02:00)
+   * Reset the timer back to 5 minutes (05:00)
    */
   resetTimer() {
     this.pauseTimer();
