@@ -44,14 +44,46 @@ export class RgtrOtpVerificationComponent implements OnInit {
         }
         this.user=JSON.parse(localStorage.getItem('rgtrUser'));
         console.log(this.user)
+        let otpExpired=false;
+     
         await lastValueFrom(this.loginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
           response => {
-            if(response.status === HttpStatusCode.Ok){
+            if (response.status === HttpStatusCode.Ok) {
               this.isOtpValid = response.body;
               this.otp = null;
+              // Handle successful login (navigate to dashboard, etc.)
+              console.log("Login successful! Navigating to dashboard...");
+              // (Your code for successful login navigation)
+            } else if (response.status === HttpStatusCode.Unauthorized) {
+              this.toastr.error("OTP expired. Please resend the OTP");
+              // Optionally, provide a way for the user to resend the OTP
+              console.log("OTP expired. Offering option to resend OTP...");
+              // (Your code for offering OTP resend functionality)
+            } else {
+              // Handle unexpected errors (log, display generic error message)
+              console.error("Unexpected error during OTP verification:", response);
+              this.toastr.error("An error occurred during login. Please try again.");
             }
           }
-        )
+        ).catch(error => {
+          // Handle potential errors during the asynchronous operation
+          if (error.status === HttpStatusCode.Unauthorized) {
+            this.toastr.error("OTP expired. Please resend the OTP");
+            otpExpired=true
+            return;
+            // Optionally, provide a way for the user to resend the OTP
+          
+            // (Your code for offering OTP resend functionality)
+          } else{
+            this.toastr.error("An error occurred during login. Please try again.");
+          }
+          
+        });
+        console.log(this.isOtpValid)
+        //login to app
+        if(otpExpired){
+          return
+        }
         console.log(this.isOtpValid)
         //login to app
         if(this.isOtpValid){
@@ -111,7 +143,11 @@ export class RgtrOtpVerificationComponent implements OnInit {
               console.log(this.loginUserOtp)
               this.toastr.success('An OTP has been sent to you email.');
               this.resetTimer();
-              this.startTimer();
+
+              setTimeout(() =>{
+                this.startTimer();
+              }, 0);
+             
             }
           },error => {
             if(error.status === HttpStatusCode.InternalServerError){
@@ -131,7 +167,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
         )
       }
 
-      time: number = 120; // 120 seconds = 2 minutes
+  time: number = 300; // 120 seconds = 2 minutes
   display: string;
   interval;
   startTimer() {
@@ -171,7 +207,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
    */
   resetTimer() {
     this.pauseTimer();
-    this.time = 120;
+    this.time = 300;
     this.display = this.transform(this.time);
   }
 }
