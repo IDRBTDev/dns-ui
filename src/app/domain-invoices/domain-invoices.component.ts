@@ -12,7 +12,7 @@ import * as FileSaver from 'file-saver';
 import { lastValueFrom } from 'rxjs';
 import { error } from 'jquery';
 import { HttpStatusCode } from '@angular/common/http';
-
+import { jsPDF } from "jspdf";
 @Component({
   selector: 'app-domain-invoices',
   templateUrl: './domain-invoices.component.html',
@@ -86,7 +86,7 @@ export class DomainInvoicesComponent implements OnInit {
         this.domainsDataSource.paginator.firstPage();
       }
   }
-  async getInvoiceDetailAndDisplay(){
+  async getInvoiceDetailAndDisplay(domain : any){
     try{
       console.log("the invoce Details");
       const templateData = await this.loadTemplate('/assets/Invoicetemplate.docx');
@@ -95,6 +95,9 @@ export class DomainInvoicesComponent implements OnInit {
     console.log("Method entered");  
     // Create a Docxtemplater instance
     const doc = new Docxtemplater(zip);
+    doc.setData({
+       amount : domain.finalAmount
+    })
      // Render the document
      doc.render();
 
@@ -135,5 +138,37 @@ export class DomainInvoicesComponent implements OnInit {
      }
 
     );
+  }
+  async getInvoiceDetailAndDisplayasPDF() {
+    try {
+      console.log("Fetching invoice details...");
+      
+      // Load the template as before
+      const templateData = await this.loadTemplateforPDF('/assets/Invoicetemplate.docx');
+      
+      const doc = new jsPDF();
+      
+      // Example: Add text or content from the loaded DOCX template (for the sake of demonstration)
+      doc.text('Invoice Template Content', 20, 30); // You can replace this with extracted content
+  
+      // Generate the PDF blob
+      const pdfBlob = doc.output('blob');
+  
+      // Save the PDF file
+      FileSaver.saveAs(pdfBlob, 'invoice.pdf');
+      
+      console.log("PDF document saved successfully");
+      
+    } catch (error) {
+      console.error("Error generating document:", error);
+    }
+  }
+  
+  async loadTemplateforPDF(url: string): Promise<ArrayBuffer> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch template: ${response.statusText}`);
+    }
+    return response.arrayBuffer();
   }
 }
