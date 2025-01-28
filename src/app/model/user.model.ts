@@ -1,4 +1,5 @@
 import { Organization } from "./organization.model";
+import { RgtrDepartment } from "./rgtrDepartment.model";
 import { Roles } from "./roles.model";
 
 export class User{
@@ -11,7 +12,7 @@ export class User{
     previousPasswordOne : string;
     previousPasswordTwo : string;
     userRoles : Roles[];
-    otp : number;
+    otp : string;
     profilePictureUrl: string;
     profilePicture : Blob;
     isActive : boolean;
@@ -26,8 +27,8 @@ export class User{
     createdByEmail : string;
     updatedByEmail : string;
     lastSuccessfulLoginDatetime : Date;
-
-
+    departmentName:string;
+    departmentId:number;
     organisationId : number; 
     organisationDetailsDto: Organization;
 }
