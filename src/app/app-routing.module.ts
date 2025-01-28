@@ -58,7 +58,7 @@ const routes: Routes = [
   {path:'applications', component: DomainApplicationComponent},
   {path:'domain-details', component: DomainDetailsComponent},
   {path: 'domain-application-details', component: DomainApplicationDetailsComponent},
-  {path: '',redirectTo:'/landing', pathMatch: 'full'},
+  // {path: '',redirectTo:'/login', pathMatch: 'full'},
   {path:'DomainEditPage',component:DomainDetailsEditComponent},
   {path: 'user-domain-details', component:UserDomainDetailsComponent},
   {path: 'onboarding-stepper', component:OnboardingStepperComponent},
@@ -67,7 +67,7 @@ const routes: Routes = [
 
   {path:'admin-invoice-details',component:DomainInvoiceDetailsComponent},
   {path:'',redirectTo:'/login', pathMatch: 'full'},
-  {path:'',component: LandingComponent},
+  // {path:'',component: LandingComponent},
   {path:'mainHeader',component:MainHeaderComponent},
   //{path:'domain-invoices',component:DomainInvoicesComponent},
   //{path:'full-header',component:FullHeaderComponent}

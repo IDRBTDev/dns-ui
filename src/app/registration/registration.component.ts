@@ -232,25 +232,30 @@ if (!this.user.mobileNumber) {
       }
     )
   }
-  timerDisplay: string = '02:00';
+  timerDisplay: string = '05:00';
   timerActive: boolean = true;
   private countdown: any;
-  private remainingTime: number = 120; 
+  private remainingTime: number = 300; 
   otpExpired: boolean = false;
-
+  initialTime = 300;
   startTimer(): void {
-    this.countdown = setInterval(() => {
-      if (this.remainingTime > 0) {
-        this.remainingTime--;
-        this.updateTimerDisplay(); 
-      } else {
-        this.timerActive = false; 
-        this.otpExpired = true;  
-        clearInterval(this.countdown);
-        this.otp = null;
-      }
-    }, 1000);
-  }
+    const startTime = Date.now(); 
+    const animationFrame = () => {
+        const elapsedTime = Date.now() - startTime;
+        this.remainingTime = Math.max(this.initialTime - Math.floor(elapsedTime / 1000), 0); 
+        this.updateTimerDisplay();
+
+        if (this.remainingTime > 0) {
+            requestAnimationFrame(animationFrame); 
+        } else {
+            this.timerActive = false;
+            this.errorMessage="OTP has expired. Please request a new OTP."
+            // this.otpExpired = true;
+            // this.otp = null; 
+        }
+    };
+    requestAnimationFrame(animationFrame);
+}
   updateTimerDisplay(): void {
     const minutes = Math.floor(this.remainingTime / 60);
     const seconds = this.remainingTime % 60;
@@ -264,20 +269,23 @@ if (!this.user.mobileNumber) {
   otpResentMessage: string = '';
 
   resendOtp(): void {
-    if (!this.regUser.registrationUserId) {
+    if (!this.user.userId) {
       this.toastrService.error('Please provide a valid email or registration ID.');
       return;
     }
   
     // Call the resend OTP service
-    this.registrationService.resendOtp(this.regUser.registrationUserId).subscribe({
+    this.registrationService.resendOtp(this.user.userId).subscribe({
       next: (response) => {
         // Check if OTP resend was successful
         if (response.isRegistrationSuccess) {
           this.toastrService.success('OTP has been resent successfully!');
           this.otpResentMessage = 'OTP resent successfully.';
           this.resetTimer();
-          this.startTimer();
+          setTimeout(() => {
+            this.startTimer();
+          }, 0);
+         
           
           
         } else {
@@ -299,10 +307,10 @@ if (!this.user.mobileNumber) {
 
 
   resetTimer(): void {
-    this.remainingTime = 120;  // Reset to 60 seconds
+    this.remainingTime = 300;  // Reset to 60 seconds
     this.timerActive = true;
     this.otpExpired = false;  // Mark OTP as not expired
-    this.timerDisplay = '02:00';  // Reset timer display
+    this.timerDisplay = '05:00';  // Reset timer display
     if (this.countdown) {
       clearInterval(this.countdown);  // Clear any existing timer
     }
@@ -330,11 +338,11 @@ if (!this.user.mobileNumber) {
       return;
     }
   
-    console.log('Verifying OTP for User ID:', this.regUser.registrationUserId);
+    console.log('Verifying OTP for User ID:', this.user.userId);
     console.log('Entered OTP:', this.otp);
   
     // Step 3: Call backend to verify OTP
-    this.registrationService.verifyOtp(this.regUser.registrationUserId, this.otp).subscribe({
+    this.registrationService.verifyOtp(this.user.userId, this.otp).subscribe({
       next: (response) => {
         console.log('OTP verification response:', response);
   
@@ -346,7 +354,7 @@ if (!this.user.mobileNumber) {
           this.errorMessage = '';
           
           this.resetTimer();
-          this.startTimer();
+          // this.startTimer();
           this.otpExpired = true; // OTP is expired after verification
   
           // Close the registration form/modal
@@ -365,7 +373,8 @@ if (!this.user.mobileNumber) {
       error: (error: HttpErrorResponse) => {
         console.log('Error during OTP verification:', error);
   
-        if (error.status === 400 && error.error.message === 'OTP expired') {
+        if (error.status === 401) {
+          console.log("otp expired")
           // If the OTP is expired
           this.toastrService.error('OTP has expired. Please request a new one.');
           this.successMessage = '';
@@ -506,6 +515,7 @@ isReg : boolean = false;
 
 openModal() {
   document.getElementById('showModal').click();
+  this.startTimer();
 }
 
 async getRegUser(){

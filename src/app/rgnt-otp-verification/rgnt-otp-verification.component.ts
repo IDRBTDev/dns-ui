@@ -43,17 +43,48 @@ export class RgntOtpVerificationComponent implements OnInit {
             this.otp = 0;
           }
           this.user=JSON.parse(localStorage.getItem('rgntUser'));
-          console.log(this.user)
+          console.log(this.user,this.otp)
+          let otpExpired=false;
           await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
             response => {
-              if(response.status === HttpStatusCode.Ok){
+              console.log(response);
+          
+              if (response.status === HttpStatusCode.Ok) {
                 this.isOtpValid = response.body;
                 this.otp = null;
+                // Handle successful login (navigate to dashboard, etc.)
+                console.log("Login successful! Navigating to dashboard...");
+                // (Your code for successful login navigation)
+              } else if (response.status === HttpStatusCode.Unauthorized) {
+                this.toastr.error("OTP expired. Please resend the OTP");
+                // Optionally, provide a way for the user to resend the OTP
+                console.log("OTP expired. Offering option to resend OTP...");
+                // (Your code for offering OTP resend functionality)
+              } else {
+                // Handle unexpected errors (log, display generic error message)
+                console.error("Unexpected error during OTP verification:", response);
+                this.toastr.error("An error occurred during login. Please try again.");
               }
             }
-          )
+          ).catch(error => {
+            // Handle potential errors during the asynchronous operation
+            if (error.status === HttpStatusCode.Unauthorized) {
+              this.toastr.error("OTP expired. Please resend the OTP");
+              otpExpired=true
+              return;
+              // Optionally, provide a way for the user to resend the OTP
+            
+              // (Your code for offering OTP resend functionality)
+            } else{
+              this.toastr.error("An error occurred during login. Please try again.");
+            }
+            
+          });
           console.log(this.isOtpValid)
           //login to app
+          if(otpExpired){
+            return
+          }
           if(this.isOtpValid){
             await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
               response => {
@@ -134,7 +165,7 @@ export class RgntOtpVerificationComponent implements OnInit {
   /**
    * Start the countdown timer
    */
-  time: number = 120; // 120 seconds = 2 minutes
+  time: number = 300; // 120 seconds = 2 minutes
   display: string;
   interval;
   startTimer() {
@@ -170,11 +201,11 @@ export class RgntOtpVerificationComponent implements OnInit {
   }
 
   /**
-   * Reset the timer back to 2 minutes (02:00)
+   * Reset the timer back to 2 minutes (05:00)
    */
   resetTimer() {
     this.pauseTimer();
-    this.time = 120;
+    this.time = 300;
     this.display = this.transform(this.time);
   }
 }
