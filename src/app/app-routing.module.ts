@@ -44,6 +44,7 @@ import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-v
 import { otpGuard } from './otp.guard';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
+import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
 
 
 
@@ -109,6 +110,7 @@ const routes: Routes = [
   {path: 'dsc-verification', component: DscVerificationComponent},
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
   {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent},
+  {path :'invoice',component :InvoiceGenerationComponent},
  {path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
 
 

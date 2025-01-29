@@ -79,6 +79,7 @@ import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-v
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
+import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
 
 
  
@@ -140,7 +141,8 @@ Chart.register(ChartDataLabels);
     RgtrOtpVerificationComponent,
     RgntOtpVerificationComponent,
     RgtrRoleComponent,
-    RgtrDepartmentComponent
+    RgtrDepartmentComponent,
+    InvoiceGenerationComponent
   ],
   imports: [
     BrowserModule,
