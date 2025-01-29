@@ -14,7 +14,7 @@ export class ForgotPasswordEmailVerificationComponent implements OnInit{
   user: User = new User();
   otp: number | null = null;
   isOtpSent: boolean = false;
-
+display:string;
 
   constructor(private forgotPasswordEmailVerificationService: ForgotPasswordEmailVerificationService, private router: Router,
     private toastr: ToastrService, private route: ActivatedRoute,) {}

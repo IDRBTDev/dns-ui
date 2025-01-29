@@ -68,7 +68,7 @@ export class ForgotPasswordOtpValidationComponent implements OnInit{
       }
     );
   }
-
+  display: string;
 
 
 }
