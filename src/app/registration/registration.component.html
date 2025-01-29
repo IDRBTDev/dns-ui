@@ -206,7 +206,7 @@
             </div>
             <div class="modal-body">
                 <p>Enter the OTP sent to your registered email and verify the email.</p>
-                <input type="text" placeholder="Enter your OTP" class="form-control" [(ngModel)]="otp" />
+                <input type="number" placeholder="Enter your OTP" (keydown)="otpValidation($event)" class="form-control" [(ngModel)]="otp" />
                 <div style="display:flex;justify-content: space-between;flex-direction: row;">
                     <div *ngIf="timerActive">
                         <p>{{ timerDisplay }}</p>

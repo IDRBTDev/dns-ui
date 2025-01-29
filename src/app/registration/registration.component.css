@@ -217,6 +217,12 @@ color:rgba(53, 49, 103, 1)
     padding: 0;
     box-sizing: border-box;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 
 
 @media (max-width: 768px) {

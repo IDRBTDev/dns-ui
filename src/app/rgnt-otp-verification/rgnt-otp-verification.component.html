@@ -35,7 +35,7 @@
             
 
               <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">OTP</div>
-              <input type="text" [(ngModel)]="otp" placeholder="Enter OTP">
+              <input type="number" [(ngModel)]="otp"  (keydown)="otpValidation($event)"  placeholder="Enter OTP">
               <div style='display: flex;justify-content: space-between;margin-top: 5px;'>
                 <div>
                     <p *ngIf="display !='00:00'" style="color: red;"><label style="color: black;">OTP expires in:</label> {{display}}</p> 
