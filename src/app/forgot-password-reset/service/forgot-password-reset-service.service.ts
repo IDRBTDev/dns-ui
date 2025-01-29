@@ -9,7 +9,7 @@ import { environment } from 'src/app/environments/environment';
   providedIn: 'root'
 })
 export class ForgotPasswordResetService {
-  private resetPasswordUrl = environment.apiURL+'/dr/user/update';  
+  private resetPasswordUrl = environment.apiURL+'/dr/user/update/pwd';  
 
   constructor(private http: HttpClient) {}
 
