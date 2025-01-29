@@ -325,16 +325,16 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     }
 
   async onSubmit(): Promise<void> {
-    this.documentUploadComponent.validateDocuments1();
-    console.log('Starting document validation...');
-    const isValid = await this.documentUploadComponent?.validateDocuments1();
-    console.log('Document Validation Result:', isValid);
+    // this.documentUploadComponent.validateDocuments1();
+    // console.log('Starting document validation...');
+    // const isValid = await this.documentUploadComponent?.validateDocuments1();
+    // console.log('Document Validation Result:', isValid);
   
-    if (!isValid) {
-      this.validationMessage = 'One or more document file names are invalid!';
-      console.error('One or more file names are invalid!');
-      return;  // Prevent form submission if document validation fails
-    }
+    // if (!isValid) {
+    //   this.validationMessage = 'One or more document file names are invalid!';
+    //   console.error('One or more file names are invalid!');
+    //   return;  // Prevent form submission if document validation fails
+    // }
   
 
     this.onSubmitNewContact(this.choosenContactType)

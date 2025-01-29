@@ -254,13 +254,13 @@ async handleSubmit(): Promise<void> {
     };
     sessionStorage.setItem('addressDetails', JSON.stringify(addressDetails));
     console.log(addressDetails);
-    this.documentUploadComponent.validateDocuments();
-    // First, validate the documents
-    if (!this.documentValidationPassed) {
-        this.validationMessage = 'One or more document file names are invalid!';
-        console.error('One or more file names are invalid!');
-        return;  // Prevent form submission if document validation fails
-    }
+    // this.documentUploadComponent.validateDocuments();
+    // // First, validate the documents
+    // if (!this.documentValidationPassed) {
+    //     this.validationMessage = 'One or more document file names are invalid!';
+    //     console.error('One or more file names are invalid!');
+    //     return;  // Prevent form submission if document validation fails
+    // }
 
     this.submitted = true;
     if (this.organisationForm.invalid || this.documentUploadComponent.organisationUploadedDocs.length < 4) {

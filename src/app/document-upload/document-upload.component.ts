@@ -884,11 +884,11 @@ set missingAdminDocs(value:string[]){
     const file = this.previewDocName.file;
   
     // Validate file name format (pan/PAN_*********)
-    const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
-    if (!isValidFileName) {
-      //this.toastrService.error('Invalid file name format. Expected format: pan/PAN_*********');
-      return; // Stop further processing
-    }
+    // const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
+    // if (!isValidFileName) {
+    //   //this.toastrService.error('Invalid file name format. Expected format: pan/PAN_*********');
+    //   return; // Stop further processing
+    // }
   
     // Read the file as ArrayBuffer
     if (file) {
@@ -918,11 +918,11 @@ set missingAdminDocs(value:string[]){
     const file = this.previewDocName.file;
   
     // Validate file name format (pan/PAN_*********)
-    const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
-    if (!isValidFileName) {
-    //  this..error('Invalid file name format. Expected format: pan/PAN_*********');
-      return; // Stop further processing
-    }
+    // const isValidFileName = this.isValidFileName(docName.fileName,docName.type);
+    // if (!isValidFileName) {
+    // //  this..error('Invalid file name format. Expected format: pan/PAN_*********');
+    //   return; // Stop further processing
+    // }
   
     // Read the file as ArrayBuffer
     if (file) {
@@ -943,65 +943,65 @@ set missingAdminDocs(value:string[]){
     }
   }
   
-  isValidFileName(fileName: string, docType: string): boolean {
-    // Remove the file extension (e.g., .pdf, .jpg) from the file name
-    if (docType === 'License No' || docType === 'Board Resolution' || docType==='Organisation Id') {
-      return true; // No validation needed for these types
-    }
-    const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+//   isValidFileName(fileName: string, docType: string): boolean {
+//     // Remove the file extension (e.g., .pdf, .jpg) from the file name
+//     if (docType === 'License No' || docType === 'Board Resolution' || docType==='Organisation Id') {
+//       return true; // No validation needed for these types
+//     }
+//     const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
   
-    // Define regex for valid file name format for PAN, Aadhaar, and GSTIN
-    const panPattern = /^PAN_[A-Za-z0-9]{10}$/;
-    const aadhaarPattern = /^Aadhaar_\d{12}$/;
-    const gstinPattern = /^GSTIN_[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
+//     // Define regex for valid file name format for PAN, Aadhaar, and GSTIN
+//     const panPattern = /^PAN_[A-Za-z0-9]{10}$/;
+//     const aadhaarPattern = /^Aadhaar_\d{12}$/;
+//     const gstinPattern = /^GSTIN_[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
   
-    switch (docType) {
-      case 'PAN':
-        return panPattern.test(fileNameWithoutExtension);
-      case 'Aadhaar':
-        return aadhaarPattern.test(fileNameWithoutExtension);
-      case 'Organisation GSTIN':
-        return gstinPattern.test(fileNameWithoutExtension);
-      default:
-        return false; // For any other file type, return false
-    }
+//     switch (docType) {
+//       case 'PAN':
+//         return panPattern.test(fileNameWithoutExtension);
+//       case 'Aadhaar':
+//         return aadhaarPattern.test(fileNameWithoutExtension);
+//       case 'Organisation GSTIN':
+//         return gstinPattern.test(fileNameWithoutExtension);
+//       default:
+//         return false; // For any other file type, return false
+//     }
   
 
 
-}
+// }
 @Output() documentValidationStatus = new EventEmitter<boolean>();
 @Output() ContactdocumentValidationStatus = new EventEmitter<boolean>();
-validateDocuments(): boolean {
-  const isValid = this.organisationUploadedDocs.every(doc => this.isValidFileName(doc.fileName, doc.type));
-  console.log('Document validation result:', isValid);
-  this.documentValidationStatus.emit(isValid);
-  return isValid;
-}
+// validateDocuments(): boolean {
+//   const isValid = this.organisationUploadedDocs.every(doc => this.isValidFileName(doc.fileName, doc.type));
+//   console.log('Document validation result:', isValid);
+//   this.documentValidationStatus.emit(isValid);
+//   return isValid;
+// }
 
-validateDocuments1(): boolean {
-  // Combine all documents from admin, tech, and billing sections
-  const allDocs = [
-    ...this.adminUploadedDocs,
-    ...this.techUploadedDocs,
-    ...this.billingUploadedDocs,
-  ];
+// validateDocuments1(): boolean {
+//   // Combine all documents from admin, tech, and billing sections
+//   const allDocs = [
+//     ...this.adminUploadedDocs,
+//     ...this.techUploadedDocs,
+//     ...this.billingUploadedDocs,
+//   ];
 
-  console.log('All docs combined:', allDocs);
+//   console.log('All docs combined:', allDocs);
 
-  // Validate each document and log its validation
-  const isValid = allDocs.every(doc => {
-    console.log('Validating document:', doc);
-    const result = this.isValidFileName(doc.fileName, doc.type);
-    console.log(`Document ${doc.fileName} is ${result ? 'valid' : 'invalid'}`);
-    return result;
-  });
+//   // Validate each document and log its validation
+//   const isValid = allDocs.every(doc => {
+//     console.log('Validating document:', doc);
+//     const result = this.isValidFileName(doc.fileName, doc.type);
+//     console.log(`Document ${doc.fileName} is ${result ? 'valid' : 'invalid'}`);
+//     return result;
+//   });
 
-  console.log('Document validation result:', isValid);
+//   console.log('Document validation result:', isValid);
 
-  this.ContactdocumentValidationStatus.emit(isValid);
+//   this.ContactdocumentValidationStatus.emit(isValid);
 
-  return isValid;
-}
+//   return isValid;
+// }
 
 
 

@@ -14,7 +14,7 @@ export class ForgotPasswordEmailVerificationComponent implements OnInit{
   user: User = new User();
   otp: number | null = null;
   isOtpSent: boolean = false;
-
+display:string;
 
   constructor(private forgotPasswordEmailVerificationService: ForgotPasswordEmailVerificationService, private router: Router,
     private toastr: ToastrService, private route: ActivatedRoute,) {}
@@ -54,7 +54,7 @@ export class ForgotPasswordEmailVerificationComponent implements OnInit{
         this.isOtpSent = true;
         console.log(otp);
         this.toastr.success('OTP sent successfully to your email ID.');
-        this.router.navigate(['/forgot-password-otp-validation'], {
+        this.router.navigate(['/f-p-o-v'], {
           queryParams: { email: this.user.userId, otp: this.otp }
         });
       },

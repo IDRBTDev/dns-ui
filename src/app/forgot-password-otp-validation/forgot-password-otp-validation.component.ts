@@ -29,13 +29,16 @@ export class ForgotPasswordOtpValidationComponent implements OnInit{
     // Retrieve email (userId) 
     this.route.queryParams.subscribe(params => {
       this.user.userId = params['email'];  
+      console.log(this.user.userId);
     });
+    this.resetTimer();
+    this.startTimer();
   }
 
   verifyOtp() {
     if (!this.otp) {
       this.toastr.error('Please enter a valid OTP.');
-      this.resendOtp();
+    //  this.resendOtp();
       return;
     }
 
@@ -43,7 +46,7 @@ export class ForgotPasswordOtpValidationComponent implements OnInit{
       (isVerified) => {
         if (isVerified) {
           this.toastr.success('OTP verified successfully!');
-          this.router.navigate(['/forgot-password-reset'], { queryParams: { email: this.user.userId } });
+          this.router.navigate(['/f-p-r'], { queryParams: { email: this.user.userId } });
         } else {
           this.toastr.error('Invalid OTP. Please try again.');
         }
@@ -61,6 +64,8 @@ export class ForgotPasswordOtpValidationComponent implements OnInit{
         console.log(otp);
         this.toastr.success('OTP resent successfully to your email ID.');
         this.otp = otp; 
+        this.resetTimer();
+        this.startTimer();
       },
       (error) => {
         console.error('Error resending OTP:', error);
@@ -68,7 +73,44 @@ export class ForgotPasswordOtpValidationComponent implements OnInit{
       }
     );
   }
+  display: string;
+  resetTimer() {
+    this.pauseTimer();
+    this.time =300;
+    this.display = this.transform(this.time);
+  }
+  time: number = 300; // 120 seconds = 2 minutes
+ 
+  interval;
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.time > 0) {
+        this.time--;
+        this.display = this.transform(this.time);
+      } else {
+        clearInterval(this.interval);
+      }
+    }, 1000);
+    this.display = this.transform(this.time);
+  }
 
+  /**
+   * Transform the seconds into a formatted time string (mm:ss)
+   * @param value - Time in seconds
+   * @returns Formatted time string (mm:ss)
+   */
+  transform(value: number): string {
+    const minutes: number = Math.floor(value / 60);
+    const seconds: number = value - minutes * 60;
+    const formattedMinutes: string = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const formattedSeconds: string = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return formattedMinutes + ':' + formattedSeconds;
+  }
 
-
+  /**
+   * Pause the timer
+   */
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
 }

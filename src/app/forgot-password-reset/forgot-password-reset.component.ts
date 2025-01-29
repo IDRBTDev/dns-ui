@@ -87,7 +87,21 @@ export class ForgotPasswordResetComponent {
       }
     );
   }
-
+  passwordErrorMessage: string = '';
+  passwordNameInput: boolean = true;
+  passwordChange() {
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
+    if (!this.newPassword) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password should not be empty';
+    } else if (!pattern.test(this.newPassword)) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one digit, and one special character';
+    } else {
+      this.passwordNameInput = true;
+      this.passwordErrorMessage = '';
+    }
+  }
 
   
 
