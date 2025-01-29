@@ -54,7 +54,7 @@
         <i class="bi bi-check-circle text-success"></i>
         
         <!-- Validate File Name -->
-        <ng-container *ngIf="isValidFileName(doc.fileName,doc.type); else invalidFileName">
+        <!-- <ng-container *ngIf="isValidFileName(doc.fileName,doc.type); else invalidFileName"> -->
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
@@ -62,14 +62,12 @@
           <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
           </span>
-        </ng-container>
+        <!-- </ng-container>
         
-        <!-- Invalid file name error -->
+ 
         <ng-template #invalidFileName>
           <span style="color: red;">
            
-            
-            <!-- Custom error messages based on doc.type -->
             <ng-container [ngSwitch]="doc.type">
               <ng-template [ngSwitchCase]="'PAN'">
                 Please save file name with your PAN number in this format: PAN_*******91Z.
@@ -91,7 +89,7 @@
               </ng-template>
             </ng-container>
           </span>
-        </ng-template>
+        </ng-template> -->
         
         <button class="btn btn-sm btn-danger" (click)="handleRemoveOrganisationDoc(i)">
           <i class="bi bi-trash"></i>
@@ -154,14 +152,18 @@
      style="color: red; font-size: 0.875rem; margin-top: 4px;">
   {{ adminInputFieldErrors.message }}
 </div>
-  <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
+  <!-- <div *ngIf="adminUploadedDocs.length > 0" style="margin-top: 20px;">
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
           <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;"
           >
               <i class="bi bi-check-circle text-success"></i>
-              <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidAdminFileName">
-        
+              <ng-container *ngIf="isValidFileName(doc.fileName, doc.type)"> -->
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.85rem;">
+                  <div *ngFor="let doc of adminUploadedDocs; let i = index" style="display: flex; align-items: center; gap: 5px;">
+                    <i class="bi bi-check-circle text-success"></i>
+                  
+                
                 <!-- Valid file name, clickable for preview -->
                 <span *ngIf="preview === ''" data-toggle="modal" data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
                   {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
@@ -171,10 +173,9 @@
                   {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
                 </span>
                 
-              </ng-container>
-              <ng-template #invalidAdminFileName>
+              <!-- <ng-template #invalidAdminFileName>
                 <span style="color: red;">
-                  <!-- Custom error messages based on doc.type for Admin Documents -->
+              
                   <ng-container [ngSwitch]="doc.type">
                     <ng-template [ngSwitchCase]="'PAN'">
                       Please save file name with your PAN number in this format: PAN_*******91Z.
@@ -192,14 +193,14 @@
                     
                   </ng-container>
                 </span>
-              </ng-template>
+              </ng-template> -->
               
               <button class="btn btn-sm btn-danger" (click)="handleRemoveAdminDoc(i)">
                   <i class="bi bi-trash"></i>
               </button>
           </div>
-      </div>
-  </div>
+   
+  
       <!-- Submission Errors -->
       <div class="d-flex justify-content-center mt-1">
         <p *ngIf="contactSubmissionAttempted && missingAdminDocs.length > 0" style="color: red; margin-top: 20px;">
@@ -215,8 +216,8 @@
         <p *ngIf="adminErrors.type === 'fileUpload'" style="color: red; font-size: 0.875rem; margin-top: 20px;">
         {{ adminErrors.message }}</p>
     </div>
-   
-</div>
+   </div></div>
+
 <!-- Technical Section -->
 <div *ngIf="mode === 'tech'" style="flex: 1">
   <div
@@ -296,8 +297,9 @@
         *ngFor="let doc of techUploadedDocs; let i = index"
         style="display: flex; align-items: center; gap: 5px"
         >
-        <i class="bi bi-check-circle text-success"></i>
-        <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidTechFileName">
+        
+         <i class="bi bi-check-circle text-success"></i>
+       <!-- <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidTechFileName"> -->
         
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
@@ -308,10 +310,10 @@
             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
           </span>
           
-        </ng-container>
-        <ng-template #invalidTechFileName>
+        <!-- </ng-container> -->
+         <!-- <ng-template #invalidTechFileName>
           <span style="color: red;">
-            <!-- Custom error messages based on doc.type for Admin Documents -->
+         
             <ng-container [ngSwitch]="doc.type">
               <ng-template [ngSwitchCase]="'PAN'">
                 Please save file name with your PAN number in this format: PAN_*******91Z.
@@ -332,7 +334,7 @@
              
             </ng-container>
           </span>
-        </ng-template>
+        </ng-template> --> 
         <button class="btn btn-sm btn-danger" (click)="handleRemoveTechDoc(i)">
           <i class="bi bi-trash"></i>
         </button>
@@ -442,7 +444,7 @@
         style="display: flex; align-items: center; gap: 5px"
         >
         <i class="bi bi-check-circle text-success"></i>
-        <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidBillFileName">
+        <!-- <ng-container *ngIf="isValidFileName(doc.fileName, doc.type); else invalidBillFileName"> -->
         
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
@@ -453,10 +455,10 @@
             {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
           </span>
           
-        </ng-container>
+        <!-- </ng-container>
         <ng-template #invalidBillFileName>
           <span style="color: red;">
-            <!-- Custom error messages based on doc.type for Admin Documents -->
+       
             <ng-container [ngSwitch]="doc.type">
               <ng-template [ngSwitchCase]="'PAN'">
                 Please save file name with your PAN number in this format: PAN_*******91Z.
@@ -477,7 +479,7 @@
             
             </ng-container>
           </span>
-        </ng-template>
+        </ng-template> -->
         <button
           class="btn btn-sm btn-danger"
           (click)="handleRemoveBillingDoc(i)"

@@ -17,3 +17,7 @@ label{
     align-items: center;
     z-index: 9999;
   }
+  .danger{
+    color:#dc3545;
+   
+  }
