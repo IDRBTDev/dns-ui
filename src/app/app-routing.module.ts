@@ -77,9 +77,9 @@ const routes: Routes = [
   {path: 'name-server', component: NameServerComponent},
   {path: 'verify-documents', component: VerifyDocumentsComponent},
   {path: 'reg-success', component: RegistrationSuccessComponent},
-  {path:'forgot-password-reset', component:ForgotPasswordResetComponent},
-  {path:'forgot-password-email-verification', component:ForgotPasswordEmailVerificationComponent},
-  {path:'forgot-password-otp-validation', component:ForgotPasswordOtpValidationComponent},
+  {path:'f-p-r', component:ForgotPasswordResetComponent},
+  {path:'f-p-e-v', component:ForgotPasswordEmailVerificationComponent},
+  {path:'f-p-o-v', component:ForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
   {path:'change-password',component:ChangePasswordComponent},
   // settings menu paths

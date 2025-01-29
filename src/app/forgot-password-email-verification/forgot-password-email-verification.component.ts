@@ -54,7 +54,7 @@ display:string;
         this.isOtpSent = true;
         console.log(otp);
         this.toastr.success('OTP sent successfully to your email ID.');
-        this.router.navigate(['/forgot-password-otp-validation'], {
+        this.router.navigate(['/f-p-o-v'], {
           queryParams: { email: this.user.userId, otp: this.otp }
         });
       },

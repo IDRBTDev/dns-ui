@@ -68,7 +68,7 @@
                   <p class="loginMsg" style="font-weight: 400;font-size: 14px;padding-bottom: 20px;">Do not have an account? <a routerLink="/registration">Register</a></p>
                 
                 
-                  <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px;">Email</div>
+                  <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px;">Email ID</div>
                   <div class="input-container" style="margin-bottom: 30px;">
                     <input type="text" id="email" [(ngModel)]="user.email" (ngModelChange)="emailValidation()" placeholder="Enter your email">
                     <div *ngIf="emailError!=''" style="color:red;font-size: 14px;">Enter email</div>
@@ -90,7 +90,7 @@
                     </div> -->
                    
                     <div style='display: flex;justify-content: space-between;margin-top: 15px;'>
-                      <div class="loginMsg" style="font-size: 14px;font-weight: 500;cursor:pointer" routerLink="/forgot-password-email-verification">
+                      <div class="loginMsg" style="font-size: 14px;font-weight: 500;cursor:pointer" routerLink="/f-p-e-v">
                         Forgot Password?
                       </div>
                       <div>
