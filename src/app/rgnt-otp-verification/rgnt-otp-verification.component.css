@@ -256,12 +256,15 @@ text-decoration-skip-ink: none;
     position: relative; /* To position the "Get OTP" span */
   }
   
-  input[type="text"],input[type="password"] {
+  input[type="text"],input[type="password"],input[type="number"] {
     border: none; /* Remove default border */
     border-bottom: 1px solid rgba(47, 121, 202, 1); /* Add bottom border */
     padding: 5px 10px;
     width: 100%; /* Make input field fill available space */
     height:36px
+  }
+  input:focus {
+    outline: none;
   }
   
   .get-otp {
