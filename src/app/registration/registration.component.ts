@@ -521,6 +521,16 @@ openModal() {
 async getRegUser(){
 
 }
+otpValidation(event:KeyboardEvent){
+  // this.OtpResponseMessage=''
+  const invalidChars =['+','-','.','e'];
+  const inputElement= event.target as HTMLInputElement;
+  if(invalidChars.includes(event.key)|| (inputElement.value.length==6 && event.key!='Backspace')||event.keyCode===40||event.keyCode===38)
+  {
+      // this.verifyButtonDisabled=false;
+      event.preventDefault();
+  }
+}
 
 }
 

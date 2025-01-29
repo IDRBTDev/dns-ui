@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { NameServerFormComponent } from '../name-server-form/name-server-form.component';
 import { OrganisationDetailsComponent } from '../organisation-details/organisation-details.component';
@@ -36,6 +36,11 @@ export class OnboardingStepperComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     console.log(this.organisationId);
+  }
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    console.log("entered")
+    $event.returnValue = 'Are you sure you want to leave? All unsaved changes will be lost.';
   }
 
   onStepChange(event: any) {
