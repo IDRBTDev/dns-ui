@@ -88,15 +88,17 @@ export class RgntOtpVerificationComponent implements OnInit {
           if(this.isOtpValid){
             await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
               response => {
-                //console.log(response.body)
+                console.log(response.headers)
                 localStorage.setItem('email', response.headers.get('email'));
                 localStorage.setItem('userRole',response.headers.get('userRole'));
                 localStorage.setItem('active',response.headers.get('active'));
+                localStorage.setItem('jwtToken',response.headers.get('token'));
                 localStorage.setItem('organisationId', response.headers.get('organisationId'));
                 let email = localStorage.getItem('email');
                 let role = localStorage.getItem('userRole');
                 let active = localStorage.getItem('active');
                 let organisationId = localStorage.getItem('organisationId');
+                console.log(email);
                 console.log(email);
                 console.log(role);
                 console.log(organisationId)
