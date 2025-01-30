@@ -78,7 +78,7 @@
         
                       <div style="margin-bottom: 30px;">
                         <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">Password</div>
-                            <input type="password"  [(ngModel)]="user.password"(ngModelChange)="passWordValidation()"   placeholder="Enter the strong password">
+                            <input type="password" maxlength="16"  [(ngModel)]="user.password"(ngModelChange)="passWordValidation()"   placeholder="Enter the strong password">
                             <div  *ngIf="passwordError!=''" style="color:red;font-size: 14px">Enter password</div>
                             <!-- <span class="toggle-password">Show</span> -->
                       </div>
@@ -90,8 +90,8 @@
                         <div (click)="getOtpForLoginUser()">Resend OTP</div>
                       </div> -->
                      
-                      <div style='display: flex;justify-content: space-between;margin-top: 25px;'>
-                        <div class="loginMsg" style="font-size: 14px;font-weight: 500;cursor:pointer" routerLink="/forgot-password-otp-validation">
+                      <div style='display: flex;justify-content: space-between;margin-top: 15px;'>
+                        <div class="loginMsg" style="font-size: 14px;font-weight: 500;cursor:pointer" routerLink="/r-f-p-e-v">
                           Forgot Password?
                         </div>
                         <div>
@@ -107,7 +107,7 @@
                       </div>
                   </div>
                   </div>
-                
+                </div>
                
                   
   

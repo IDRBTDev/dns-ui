@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
-import { LoginService } from '../login/service/login.service';
+import { RgtrLoginService } from './service/rgtr-login.service';
 
 @Component({
   selector: 'app-rgtr-login',
@@ -12,7 +12,7 @@ import { LoginService } from '../login/service/login.service';
 })
 export class RgtrLoginComponent {
 
-   constructor(private loginService: LoginService,
+   constructor(private rgtrLoginService :RgtrLoginService,
       private toastr: ToastrService, private router: Router
     ){
   
@@ -43,67 +43,54 @@ export class RgtrLoginComponent {
         }
         return
       }
-      
-      this.getOtpForLoginUser();
-      localStorage.setItem('rgtrUser',JSON.stringify(this.user));
-        console.log(this.user.email)
-        localStorage.setItem('previousUrl','/rgtr-login');
-        this.router.navigate(['/rgtr-o-V']);
-      // this.router.navigateByUrl('/rgtr-o-V');
+      if (!this.user.email || !this.isValidEmail(this.user.email)) {
+        this.toastr.error('Please enter a valid email address.');
+        return;
+      }
+       await this.checkUserExist(this.user.email);
     
-      
-      //check if OTP is valid
-      // if(this.otp === undefined || this.otp === null){
-      //   this.otp = 0;
-      // }
-      // await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
-      //   response => {
-      //     if(response.status === HttpStatusCode.Ok){
-      //       this.isOtpValid = response.body;
-      //       this.otp = null;
-      //     }
-      //   }
-      // )
-      // console.log(this.isOtpValid)
-      // //login to app
-      // if(this.isOtpValid){
-      //   await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
-      //     response => {
-      //       //console.log(response.body)
-      //       localStorage.setItem('email', response.headers.get('email'));
-      //       localStorage.setItem('userRole',response.headers.get('userRole'));
-      //       localStorage.setItem('active',response.headers.get('active'));
-      //       localStorage.setItem('organisationId', response.headers.get('organisationId'));
-      //       let email = localStorage.getItem('email');
-      //       let role = localStorage.getItem('userRole');
-      //       let active = localStorage.getItem('active');
-      //       let organisationId = localStorage.getItem('organisationId');
-      //       console.log(email);
-      //       console.log(role);
-      //       console.log(organisationId)
-      //       if(active === 'false'){
-      //         this.toastr.error('User Inactive');
-      //         return;
-      //       }
-      //       if(role === 'IDRBTADMIN'){
-      //         this.router.navigateByUrl('/rgtr-dashboard');
-      //         this.toastr.success('Login Success');
-      //        }else{
-      //         this.router.navigateByUrl('/dsc-verification');
-      //         this.toastr.success('Login Success');
-      //       }
-      //     },error => {
-      //       if(error.status === HttpStatusCode.Unauthorized){
-      //         console.log('sdsd')
-      //         this.toastr.error('Incorrect EmailId or password');
-      //       }
-      //     }
-      //   )
-      // }
-      // else{
-      //   this.toastr.error('Invalid OTP');
-      // }
     }
+    async checkUserExist(email){
+      this.rgtrLoginService.verifyUserEmail(email).subscribe({
+       next:(response) => {
+         if(response){
+           // this.validatePassword();
+           this.verifyEmailAndPassword();
+           
+           
+         }else{
+           this.toastr.error("User does not exist");
+         }
+       },
+       error:(error) => {
+         console.error('Verification failed', error);
+         if (error.status === 404) {
+           this.toastr.error('User not found.');
+         } else {
+           this.toastr.error('An error occurred while verifying the email.');
+         }
+       }
+      });
+       
+   }
+   async verifyEmailAndPassword(){
+    await lastValueFrom(this.rgtrLoginService.rgtruserLoginToDR(this.user)).then(
+      response => {
+        this.getOtpForLoginUser();
+       
+       
+      },error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          console.log('sdsd')
+          this.toastr.error('Invalid Credentials');
+        }
+      }
+    )
+  }
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
+  }
     emailValidation(){
       if(this.user.email!=''||this.user.email!=null){
         this.emailError=''
@@ -124,7 +111,7 @@ export class RgtrLoginComponent {
     loginUserOtp: number = 0;
     navigate:boolean=false;
     async getOtpForLoginUser(){
-      await lastValueFrom(this.loginService.getOtpForRgtrLoginUserByUserId(this.user.email)).then(
+      await lastValueFrom(this.rgtrLoginService.getOtpForRgtrLoginUserByUserId(this.user.email)).then(
         response => {
           if(response.status === HttpStatusCode.Ok){
             this.loginUserOtp = response.body;
@@ -133,7 +120,11 @@ export class RgtrLoginComponent {
             setTimeout(() => {
               this.navigate=true;
             }, 100);
-           
+            
+            localStorage.setItem('rgtrUser',JSON.stringify(this.user));
+              console.log(this.user.email)
+              localStorage.setItem('previousUrl','/rgtr-login');
+              this.router.navigate(['/rgtr-o-V']);
           }
         },error => {
           if(error.status === HttpStatusCode.InternalServerError){
@@ -144,7 +135,7 @@ export class RgtrLoginComponent {
     }
   
     async verifyOtpOfLoggedInUser(){
-      await lastValueFrom(this.loginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
+      await lastValueFrom(this.rgtrLoginService.verifyRegistrarOtpForLoginUserByUserId(this.user.email, this.otp)).then(
         response => {
           if(response.status === HttpStatusCode.Ok){
             console.log(this.otp)

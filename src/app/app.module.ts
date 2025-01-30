@@ -79,6 +79,10 @@ import { RgtrOtpVerificationComponent } from './rgtr-otp-verification/rgtr-otp-v
 import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-verification.component';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
+import { RgtrForgotPasswordResetComponent } from './rgtr-forgot-password-reset/rgtr-forgot-password-reset.component';
+import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-password-email-verification/rgtr-forgot-password-email-verification.component';
+import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
+import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 
 
  
@@ -140,7 +144,11 @@ Chart.register(ChartDataLabels);
     RgtrOtpVerificationComponent,
     RgntOtpVerificationComponent,
     RgtrRoleComponent,
-    RgtrDepartmentComponent
+    RgtrDepartmentComponent,
+    RgtrForgotPasswordResetComponent,
+    RgtrForgotPasswordEmailVerificationComponent,
+    RgtrForgotPasswordOtpValidationComponent,
+    RgtrForgotPasswordSuccessComponent
   ],
   imports: [
     BrowserModule,
