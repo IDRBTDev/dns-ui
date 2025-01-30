@@ -44,10 +44,10 @@ import { RgntOtpVerificationComponent } from './rgnt-otp-verification/rgnt-otp-v
 import { otpGuard } from './otp.guard';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
-import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-password-email-verification/rgtr-forgot-password-email-verification.component';
-// import { RgtrForgotPasswordEmailVerificationService } from './rgtr-forgot-password-email-verification/service/rgtr-forgot-password-email-verification.service';
-import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
+import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
 import { RgtrForgotPasswordResetComponent } from './rgtr-forgot-password-reset/rgtr-forgot-password-reset.component';
+import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-password-email-verification/rgtr-forgot-password-email-verification.component';
+import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
 import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 
 
@@ -118,6 +118,7 @@ const routes: Routes = [
   {path: 'dsc-verification', component: DscVerificationComponent},
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
   {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent},
+  {path :'invoice',component :InvoiceGenerationComponent},
  {path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
 
 

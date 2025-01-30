@@ -108,7 +108,11 @@
 
               <ng-container matColumnDef="invoice">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice</th>
-                <td mat-cell *matCellDef="let domain" > <button (click)="getInvoiceDetailAndDisplay()" >invoice</button></td>
+                <td mat-cell *matCellDef="let domain" > 
+                  <span><a  (click)="getInvoiceDetailAndDisplayAsPDF(domain)">invoice</a>    
+                  </span>
+                 
+                </td>
               </ng-container>
 
 
