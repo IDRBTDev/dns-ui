@@ -505,6 +505,8 @@ export class UserDomainDetailsComponent implements OnInit {
   onSearch() {
     const bankName = this.userDomainForm.get('label')?.value;
     const domainName = this.userDomainForm.get('zone')?.value;
+    console.log(bankName);
+    console.log(domainName);
   
     // Check if both bank name and domain name are entered
     if (!bankName || !domainName) {
@@ -513,6 +515,7 @@ export class UserDomainDetailsComponent implements OnInit {
       this.userDomainForm.get('zone')?.markAsTouched();
       return;
     }
+  
     if (!this.userDomainForm.valid) {
       // Mark all controls as touched to show validation errors
       this.userDomainForm.markAllAsTouched();
@@ -527,29 +530,16 @@ export class UserDomainDetailsComponent implements OnInit {
     this.isLoading = true;
     const zone = this.userDomainForm.get('zone')?.value;
     const label = this.userDomainForm.get('label')?.value;
-
+  
     // Make the API call to check domain combination
     this.userDomainService.checkDomainCombination(bankName, domainName, zone, label).subscribe(
       (domainCombinationResponse: boolean) => {
         if (domainCombinationResponse) {
-          this.userDomainService.checkDomainAvailability(bankName, domainName).subscribe(
-            (domainAvailabilityResponse: boolean) => {
-              //console.log(response);
-              if (domainAvailabilityResponse) {
-                this.isReserved = false;
-                this.isAvailable = true;   
-                // Clear any existing validation errors after successful search
-                this.userDomainForm.get('label')?.setErrors(null);
-                this.userDomainForm.get('zone')?.setErrors(null);
-              } else {
-                this.isReserved = true; // Reserved
-                this.isAvailable = false;
-              }
-            },
-            (error) => {
-              console.error('Error checking domain availability:', error);
-            }
-          );
+          this.isReserved = false;
+          this.isAvailable = true;
+          // Clear any existing validation errors after successful search
+          this.userDomainForm.get('label')?.setErrors(null);
+          this.userDomainForm.get('zone')?.setErrors(null);
         } else {
           this.isReserved = true; // Reserved
           this.isAvailable = false;
@@ -562,6 +552,7 @@ export class UserDomainDetailsComponent implements OnInit {
       }
     );
   }
+  
   
 
   organisationDetails: any;

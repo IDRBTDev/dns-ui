@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { NameServerService } from './service/name-server.service';
 import { Router } from '@angular/router';
@@ -82,19 +82,62 @@ export class NameServerFormComponent implements OnInit {
       domainId: this.domainId,
       userMailId: localStorage.getItem('email'),
 
-      hostName: ['', Validators.required],
+         hostName: [
+        '',
+        [
+          Validators.required,
+          this.uniqueHostNameValidator.bind(this) // Apply the custom validator here
+        ]
+      ],
        ipAddress: [
         '',
         [
           Validators.required,
           Validators.pattern(
             /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$/
-          )
+          ),
+          this.uniqueIpAddressValidator.bind(this),
         ]
       ]
       
     });
   }
+  
+ // Updated Unique IP Address Validator
+uniqueIpAddressValidator(control: AbstractControl): ValidationErrors | null {
+  const ipAddress = control.value;
+
+  // Check if there's any IP address in the form that matches the current one
+  const duplicate = this.nameServers.controls.some((server: FormGroup) => {
+    // Skip the current form group to avoid comparing the IP address with itself
+    return server.get('ipAddress')?.value === ipAddress && server !== control.parent;
+  });
+
+  // Return error if duplicate is found
+  if (duplicate) {
+    return { duplicateIpAddress: true };
+  }
+
+  return null; // No duplicates found
+}
+
+uniqueHostNameValidator(control: AbstractControl): ValidationErrors | null {
+  const hostName = control.value;
+
+  // Check if there's any IP address in the form that matches the current one
+  const duplicate = this.nameServers.controls.some((server: FormGroup) => {
+    // Skip the current form group to avoid comparing the IP address with itself
+    return server.get('hostName')?.value === hostName && server !== control.parent;
+  });
+
+  // Return error if duplicate is found
+  if (duplicate) {
+    return { duplicateHostName: true };
+  }
+
+  return null; // No duplicates found
+}
+
 
   addNameServer(): void {
     this.nameServers.push(this.createNameServer());
@@ -115,7 +158,7 @@ export class NameServerFormComponent implements OnInit {
   goBack(): void {
     this.back.emit();
   }
-
+  errorMessage='';
   onSubmit(): void {
     if (this.nameServerForm.invalid) {
       this.nameServerForm.markAllAsTouched();
@@ -138,14 +181,14 @@ export class NameServerFormComponent implements OnInit {
           console.log(response);
           if(response != null){
             this.formSubmitted.emit();
-            this.toastr.success("Domain added successfully");
-           // this.router.navigateByUrl("/rgnt-domains");
+            this.toastr.success("Address is Valid");
+            this.router.navigateByUrl("/rgnt-domains");
           }
         },
 
         (error) => {
           //alert('Failed to submit form.');
-
+this.toastr.error("Address is Reserved")
           console.error('Error submitting form:', error);
         }
       );

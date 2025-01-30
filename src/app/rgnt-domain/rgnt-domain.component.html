@@ -13,11 +13,10 @@
                 <h3 class="d-flex align-items-center">
                   Domains
                   <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button>
-                  <span style="display: flex; align-items: center;">
-                    <span style="height: 20%; padding-left: 7px;">
-                        <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" (ngModelChange)="applyFilter()"  matInput #input>
-                    </span>
-                  </span>
+                  <div style="height: 20%; padding-left: 7px;">
+                    <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px;height:35px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
+                    (ngModelChange)="applyFilter()" matInput #input>
+                </div>
                 </h3>
               
                   <!-- <svg  style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
@@ -92,7 +91,7 @@
                     </ng-container>
       
                     <!-- Registration Date Column -->
-                    <ng-container matColumnDef="regDate">
+                    <ng-container matColumnDef="registrationDate">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration Date</th>
                       <td mat-cell *matCellDef="let domain">{{domain.registrationDate |date:'MMM d, y, h:mm a'}}</td>
                     </ng-container>

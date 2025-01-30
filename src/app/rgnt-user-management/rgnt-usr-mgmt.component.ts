@@ -399,5 +399,14 @@ if (!this.user.mobileNumber) {
       document.getElementById('addUser1').click();
     }
   }
+  searchText: string = '';
+ 
+  applyFilter() {
+    this.usersDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
+
+    if (this.usersDataSource.paginator) {
+      this.usersDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+    }
+  }
 
 }
