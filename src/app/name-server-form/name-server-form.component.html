@@ -43,14 +43,14 @@ class="form-card shadow-lg"
 
                         <div class="ns-input">
 
-                            <!-- <h5>Name Server {{ i + 1 }} Host Name</h5> -->
+                           
                             <label for="{{ i + 1 }}host" class="form-label">Name Server {{ i + 1 }} Host
                                 Name</label><span class="text-danger">*</span>
 
                             <input type="text" id="{{ i + 1 }}host" formControlName="hostName" class="custom-text-field"
                                 placeholder="Name Server {{ i + 1 }} - Host Name" required />
 
-                            <div *ngIf="
+                            <!-- <div *ngIf="
 
                   server.get('hostName')?.invalid &&
 
@@ -61,30 +61,30 @@ class="form-card shadow-lg"
                                 Host name is required
 
                             </div>
-
-                        </div>
-
+                            <div *ngIf="server.get('hostName')?.hasError('duplicateHostName') && server.get('hostName')?.value">This hostname is already.</div>
+                        </div> -->
+                        <div *ngIf="server.get('hostName')?.invalid && server.get('hostName')?.touched" class="error-message">
+                            <!-- IP address required error -->
+                            <div *ngIf="server.get('hostName')?.hasError('required')">
+                            Host Name is required.
+                            </div>
+                          
+                          
+                            <!-- Duplicate IP address error, only show if the IP address is not empty -->
+                            <div *ngIf="server.get('hostName')?.hasError('duplicateHostName') && server.get('hostName')?.value">
+                              This hostName is already in use. Please provide a unique hostName .
+                            </div>
+                          </div></div>
                         <!-- IP Address Field -->
 
-                        <div class="ns-input">
+                        <!-- <div class="ns-input">
 
-                            <!-- <h5>Name Server {{ i + 1 }} IP Address</h5><span class="text-danger">*</span> -->
+                        
                             <label for="{{ i + 1 }}ipAddress" class="form-label">Name Server {{ i + 1 }} IP Address</label><span class="text-danger">*</span>
 
                             <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress"
                                 class="custom-text-field" placeholder="Name Server {{ i + 1 }} - IP Address" required />
 
-                            <!-- <div *ngIf="
-
-                  server.get('ipAddress')?.invalid &&
-
-                  server.get('ipAddress')?.touched
-
-                " class="error-message">
-
-                                IP address is required
-
-                            </div> -->
 
                             <div *ngIf="server.get('ipAddress')?.invalid && server.get('ipAddress')?.touched" class="error-message">
                                 <div *ngIf="server.get('ipAddress')?.hasError('required')">IP address is required.</div>
@@ -94,7 +94,32 @@ class="form-card shadow-lg"
                                 
                               </div>
                               
-                        </div>
+                        </div> -->
+                        <div class="ns-input">
+                            <label for="{{ i + 1 }}ipAddress" class="form-label">Name Server {{ i + 1 }} IP Address</label><span class="text-danger">*</span>
+                          
+                            <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress" class="custom-text-field" placeholder="Name Server {{ i + 1 }} - IP Address" required />
+                          
+                            <div *ngIf="server.get('ipAddress')?.invalid && server.get('ipAddress')?.touched" class="error-message">
+                                <!-- IP address required error -->
+                                <div *ngIf="server.get('ipAddress')?.hasError('required')">
+                                  IP address is required.
+                                </div>
+                              
+                                <!-- Invalid IP format error -->
+                                <div *ngIf="server.get('ipAddress')?.hasError('pattern')">
+                                  Invalid IP address format. Please enter a valid IP address.
+                                </div>
+                              
+                                <!-- Duplicate IP address error, only show if the IP address is not empty -->
+                                <div *ngIf="server.get('ipAddress')?.hasError('duplicateIpAddress') && server.get('ipAddress')?.value">
+                                  This IP address is already in use. Please provide a unique IP address.
+                                </div>
+                              </div>
+                              
+                          
+                </div>
+            </div>
                     </div>
                 </div>
             </div>

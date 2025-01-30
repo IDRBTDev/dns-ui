@@ -505,7 +505,8 @@ export class UserDomainDetailsComponent implements OnInit {
   onSearch() {
     const bankName = this.userDomainForm.get('label')?.value;
     const domainName = this.userDomainForm.get('zone')?.value;
-  
+  console.log(bankName);
+  console.log(domainName);
     // Check if both bank name and domain name are entered
     if (!bankName || !domainName) {
       // Mark form controls as touched to trigger validation errors
