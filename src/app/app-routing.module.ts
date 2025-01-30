@@ -45,6 +45,10 @@ import { otpGuard } from './otp.guard';
 import { RgtrRoleComponent } from './rgtr-role/rgtr-role.component';
 import { RgtrDepartmentComponent } from './rgtr-department/rgtr-department.component';
 import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
+import { RgtrForgotPasswordResetComponent } from './rgtr-forgot-password-reset/rgtr-forgot-password-reset.component';
+import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-password-email-verification/rgtr-forgot-password-email-verification.component';
+import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
+import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 
 
 
@@ -81,7 +85,11 @@ const routes: Routes = [
   {path:'f-p-r', component:ForgotPasswordResetComponent},
   {path:'f-p-e-v', component:ForgotPasswordEmailVerificationComponent},
   {path:'f-p-o-v', component:ForgotPasswordOtpValidationComponent},
+  {path:'r-f-p-r', component:RgtrForgotPasswordResetComponent},
+  {path:'r-f-p-e-v', component:RgtrForgotPasswordEmailVerificationComponent},
+  {path:'r-f-p-o-v', component:RgtrForgotPasswordOtpValidationComponent},
   {path:'forgot-password-success', component:ForgotPasswordSuccessComponent},
+  {path:'r-f-p-s', component:RgtrForgotPasswordSuccessComponent},
   {path:'change-password',component:ChangePasswordComponent},
   // settings menu paths
   {path: 'rgnt-ofd', component: RgntOfficerDetailsMgmtComponent},
