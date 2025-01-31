@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { filter, Observable } from "rxjs";
 import { environment } from "src/app/environments/environment";
@@ -14,12 +14,18 @@ export class DomainService{
     constructor(private httpClient: HttpClient){}
 
     getAllDomains(userId: string){
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/all?userId=${userId}`,{observe: 'response'});
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/all?userId=${userId}`,{observe: 'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
     getAllDomainsByOrgId(orgId: number){
         console.log(orgId)
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/get/all?organisationId=${orgId}`,{observe: 'response'});
+        console.log("jwtToken",localStorage.getItem('jwtToken'))
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/get/all?organisationId=${orgId}`,{observe: 'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        }
+        )});
     }
 
     getFilteredData(filters: any) {
@@ -47,7 +53,9 @@ export class DomainService{
         }
         
         // Make the GET request with the query parameters
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/all/filter`, { params: params, observe: 'response' });
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/all/filter`, { params: params, observe: 'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        }) });
     }
     
     // Helper method to format dates in ISO 8601 format
@@ -60,18 +68,26 @@ export class DomainService{
     
 
     getDomainByDomainId(domainId: number){
-        return this.httpClient.get<any>(`${this.domainsUrl}/getDetails/${domainId}`, {observe:'response'})
+        return this.httpClient.get<any>(`${this.domainsUrl}/getDetails/${domainId}`, {observe:'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })})
     }
 
     updateDomainDetails(domain: any){
-        return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domain.domainId}`,domain,{observe: 'response'});
+        return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domain.domainId}`,domain,{observe: 'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
     getAllApplicationInQueue(){
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/applicationInQueue`,{observe: 'response'});
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/applicationInQueue`,{observe: 'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     uploadPaymentReceipt(formData: FormData): Observable<any> {
-        return this.httpClient.post(`${this.domainsUrl}/uploadPaymentReceipt`, formData,{ responseType: 'text'});
+        return this.httpClient.post(`${this.domainsUrl}/uploadPaymentReceipt`, formData,{ responseType: 'text',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
       }
       updatePaymentReceipt(domainId: number, file: File): Observable<any> {
         const formData = new FormData();
@@ -79,10 +95,14 @@ export class DomainService{
         formData.append('domainId', domainId.toString());
     
         // Perform the PUT request and expect JSON response
-        return this.httpClient.put(`${this.domainsUrl}/updatePaymentReceipt/${domainId}`, formData);
+        return this.httpClient.put(`${this.domainsUrl}/updatePaymentReceipt/${domainId}`, formData,{headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     getAllPriceDetails(){
-        return this.httpClient.get<any[]>(`${this.priceDetailsUrl}/getAll`,{observe: 'response'});
+        return this.httpClient.get<any[]>(`${this.priceDetailsUrl}/getAll`,{observe: 'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
    
    
