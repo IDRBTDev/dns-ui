@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class SessionTimeoutComponent implements OnInit {
 
   ngOnInit(): void {
-    // localStorage.clear();
-    // window.localStorage.clear();
+    localStorage.clear();
+    window.localStorage.clear();
+    sessionStorage.clear();
   }
 }

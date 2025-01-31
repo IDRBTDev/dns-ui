@@ -167,6 +167,9 @@ export class DomainApplicationComponent {
       (error) => {
         console.error('Error fetching filtered domains:', error);
         this.noDataFound = true; // In case of error, show "No results" message
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
       }
     );
   }

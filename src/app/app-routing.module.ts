@@ -120,7 +120,7 @@ const routes: Routes = [
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
   {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent},
   {path :'invoice',component :InvoiceGenerationComponent},
-  {path :'session-timeouts', component:SessionTimeoutComponent},
+  {path :'session-timeout', component:SessionTimeoutComponent},
  {path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
 
 

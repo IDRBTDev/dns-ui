@@ -573,9 +573,16 @@ export class UserDomainDetailsComponent implements OnInit {
 
       }
 
-    )
-
-  }
+    ).catch(error => {
+      console.error("Error fetching organization details:", error); // Log the full error for debugging
+  
+      if (error.status === HttpStatusCode.Unauthorized) {  // Or 401
+        // Navigate to the session timeout URL
+        this.router.navigate(['/session-timeout']); // Assuming you're using Angular's Router
+        // Or: window.location.href = '/session-timeout'; // If not using Angular Router
+      }   
+  })
+}
 
  
 
@@ -779,21 +786,17 @@ export class UserDomainDetailsComponent implements OnInit {
         },
 
         (error) => {
-
           console.error('Error submitting domain data', error);
-
+          if (error.status === HttpStatusCode.Unauthorized) {  // Or 401
+              this.router.navigate(['/session-timeout']);
+            }
         }
 
       );
-
-     
-
     }
 
     else{
-
         this.userDomainForm.markAllAsTouched();
-
     }
   
   }
