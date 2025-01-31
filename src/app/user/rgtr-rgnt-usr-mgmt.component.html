@@ -22,8 +22,12 @@
                 fill="white" />
             </svg>
           </div> -->
+          <div style="height: 20%; padding-left: 1300px;">
+            <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px;height:35px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
+            (ngModelChange)="applyFilter()" matInput #input>
+        </div>
 
-          <section class="example-container" style="margin-top: 10px;">
+          <section class="example-container" style="margin-top: 0px;">
             <table id="table1" mat-table [dataSource]="usersDataSource" matSort class="mat-elevation-z8">
 
               <ng-container matColumnDef="checkbox">

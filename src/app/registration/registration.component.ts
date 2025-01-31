@@ -168,20 +168,36 @@ otp:number;
 
   numberInput: boolean = true;
   numbererrorMessage: string = '';
-  numberChange() {
-    const numberPattern = /^\d{10}$/;
-if (!this.user.mobileNumber) {
-      this.numberInput = false;
-      this.numbererrorMessage = 'Mobile number should not be empty';
-    } else if (!numberPattern.test(this.user.mobileNumber)) {
-      this.numberInput = false;
-      this.numbererrorMessage = 'Please enter a valid mobile number starting with +91 and 10 digits';
-    } else {
-      this.numberInput = true;
-      this.numbererrorMessage = ''; 
-    }
-  }
+  addCountryCode() {
+        if (!this.user.mobileNumber || this.user.mobileNumber === '') {
+          this.user.mobileNumber = ''; // Just clear the input
+        }
+      }
+      countryCode: string = '+91';
 
+    numberChange() {
+        const numberPattern = /^[0-9]{10}$/; // Correct regex
+        if (!this.user.mobileNumber) {
+            this.numberInput = false;
+            this.numbererrorMessage = 'Mobile number should not be empty';
+        } else if (!numberPattern.test(this.user.mobileNumber)) {
+            this.numberInput = false;
+            this.numbererrorMessage = 'Please enter a valid 10-digit mobile number'; // Corrected message
+        } else {
+            this.numberInput = true;
+            this.numbererrorMessage = '';
+        }
+        this.saveData();
+    }
+    fullMobileNumber: string | null = null;
+    saveData() {
+      if (this.fullMobileNumber) {
+        // Your save logic here (using this.fullMobileNumber)
+        console.log("Saving:", this.fullMobileNumber); // Placeholder
+  
+        // ... your API call or other save logic
+      }
+  }
   passwordErrorMessage: string = '';
   passwordNameInput: boolean = true;
   passwordChange() {

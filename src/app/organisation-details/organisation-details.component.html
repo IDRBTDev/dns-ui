@@ -157,19 +157,18 @@
           </div>
 
           <div class="col-md-6 mb-3">
-            <label for="mobileNumber" class="form-label">Mobile Number</label
-            ><span style="color: red">*</span>
-
-            <input
-              type="text"
-              id="mobileNumber"
-              class="form-control"
-              placeholder="Enter mobile number"
-              formControlName="mobileNumber"
-              (input)="sanitizeInput($event, 'mobileNumber')"
-              maxlength="10"
-              required
-            />
+            <label for="mobileNumber" class="form-label">Mobile Number</label><span style="color: red">*</span>
+            <div class="input-group">  <span class="input-group-text">+91</span> <input
+                type="text"
+                id="mobileNumber"
+                class="form-control"
+                placeholder="Enter mobile number"
+                formControlName="mobileNumber"
+                (input)="sanitizeInput($event, 'mobileNumber')"
+                maxlength="10"
+                required
+              />
+            </div>
             <div
               *ngIf="
                 organisationForm.get('mobileNumber')?.invalid &&
