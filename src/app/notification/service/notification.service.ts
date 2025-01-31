@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/app/environments/environment";
 import { Notification } from "src/app/model/Notification.model";
@@ -41,15 +41,25 @@ export class NotificationService{
      */
     findNotificationCount(email: string){
         return this.http.get<number>(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/count/${email}`,
-        {observe:'response'});
+        {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     getNotifications(email: string) {
         return this.http.get<any[]>(
-          `${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/all/${email}`
+          `${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/all/${email}`,{ headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })}
         );
       }
 
       markAllAsRead(emailId: string) {
-        return this.http.put(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/mark-all-as-read/${emailId}`,  {observe:'response'});
-      }
+        console.log(localStorage.getItem('jwtToken'));
+        return this.http.put(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/mark-all-as-read/${emailId}`, {}, { // Added empty object {} as body
+            observe: 'response',
+            headers: new HttpHeaders({
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            })
+        });
+    }
 }

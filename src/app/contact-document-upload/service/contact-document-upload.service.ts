@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/app/environments/environment';
@@ -45,7 +45,9 @@ console.log("conytactservice called")
 
     // Make the HTTP POST request
     return this.http
-      .post(this.apiUrl, formData, { responseType: 'text' }) // Specify response type as text
+      .post(this.apiUrl, formData, { responseType: 'text' , headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })}) // Specify response type as text
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // Handle errors
@@ -59,7 +61,9 @@ console.log("conytactservice called")
 
   getContactOfficerDocuments(contactType: string, organisationId: number){
     const apiUrl  = environment.apiURL+'/dr/contactDocuments/contactOfficerDocuments/'+contactType+'/'+organisationId;
-    return this.http.get<any[]>(apiUrl,{observe: 'response'});
+    return this.http.get<any[]>(apiUrl,{observe: 'response', headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+  })});
   }
 
   updateDocumentStatus(
@@ -79,7 +83,9 @@ console.log("conytactservice called")
   
     return this.http.get(
       environment.apiURL+`/dr/contactDocuments/updateDocumentStatus/${approvalStatus}`,
-      { params: params, observe: 'response' }
+      { params: params, observe: 'response', headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    }) }
     );
   }
   
@@ -88,7 +94,9 @@ console.log("conytactservice called")
   ): Observable<any> {
     return this.http.get(
       environment.apiURL+`/dr/contactDocuments/documentStatus/${organisationId}`,
-      {observe: 'response' }
+      {observe: 'response', headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    }) }
     );
   }
   updateContactDocument(docId, file: File, docType: string) {
@@ -99,8 +107,11 @@ console.log("conytactservice called")
   
     const apiUrl = environment.apiURL + '/dr/contactDocuments/updateContactDocumentUpload';
   
-    // Use Http.post instead of Http.get for sending form data
-    return this.http.post<any>(apiUrl, formData);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
+
+    return this.http.post<any>(apiUrl, formData, { headers });
   }
 
 }

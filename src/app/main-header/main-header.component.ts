@@ -29,7 +29,7 @@ export class MainHeaderComponent implements OnInit{
 
   @ViewChild('fileInput') fileInput: any;
   
-  // @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
+  @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
   constructor(private router: Router, private mainHeaderService: MainHeaderService,private notificationService: NotificationService, 
     private cdr: ChangeDetectorRef, private toastr : ToastrService){}
 
@@ -38,15 +38,15 @@ export class MainHeaderComponent implements OnInit{
     this.pageType=localStorage.getItem('pageType');
     console.log(this.pageType)
      this.getUserDetails(); 
-    //  this.setupNotificationPolling();
-    //  this.notificationComponent.loadNotifications();
+     this.setupNotificationPolling();
+     this.notificationComponent.loadNotifications();
     const storedProfilePictureUrl = localStorage.getItem('profilePictureUrl');
     if (storedProfilePictureUrl) {
         if (this.user) {
             this.user.profilePictureUrl = storedProfilePictureUrl;
         }
     }
-    // this.loadNotifications();
+    this.loadNotifications();
    }
    ngOnDestroy(): void {
     if (this.notificationSubscription) {

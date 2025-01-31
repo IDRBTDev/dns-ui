@@ -23,7 +23,11 @@ export class DomainApplicationDetailsService{
     }
 
     getOrganizationByDomainId(organisationId: number){
+<<<<<<< HEAD
         return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetailsById/${organisationId}`, {observe:'response',headers: new HttpHeaders({
+=======
+        return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetailsById/${organisationId}`, {observe:'response', headers: new HttpHeaders({
+>>>>>>> a9aa367898457cb9978b09d3c2b1f62d0e10c014
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         })})
 
@@ -33,7 +37,11 @@ updateDomain(domainId: number, domain: Domain) {
     console.log(domain)
     return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domainId}`, domain, {
         
+<<<<<<< HEAD
         observe: 'response',headers: new HttpHeaders({
+=======
+        observe: 'response', headers: new HttpHeaders({
+>>>>>>> a9aa367898457cb9978b09d3c2b1f62d0e10c014
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         })
     });

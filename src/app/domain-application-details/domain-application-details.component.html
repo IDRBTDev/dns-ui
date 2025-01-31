@@ -24,7 +24,7 @@
                             </div>
                             <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Domain Name</p>
-                                <div class="box-content">{{domainsList.bankName}}{{domainsList.domainName}}</div>
+                                <div class="box-content">{{domainsList?.bankName}}{{domainsList?.domainName}}</div>
                             </div>
                             <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Submission Date</p>
@@ -49,7 +49,7 @@
                                         <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
                                         <div class="input-group">
                                             <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
-                                                [(ngModel)]="organizationsList.institutionName" />
+                                                />
                                             <div *ngFor="let organization of organizationsList">
                                                 <p>{{ organization?.institutionName }}</p>
                                             </div>
