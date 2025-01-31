@@ -15,6 +15,7 @@ export class RgtrForgotPasswordEmailVerificationService {
   constructor(private http: HttpClient) {}
 
   verifyUserEmail(userId: string): Observable<string[]> {
+    console.log("entered")
     return this.http.get<any>(`${this.verifyemailUrl}/${userId}`);
   }
 

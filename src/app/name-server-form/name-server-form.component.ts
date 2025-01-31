@@ -181,7 +181,7 @@ uniqueHostNameValidator(control: AbstractControl): ValidationErrors | null {
           console.log(response);
           if(response != null){
             this.formSubmitted.emit();
-            this.toastr.success("Domain added successfully");
+            this.toastr.success("Address is Valid");
             this.router.navigateByUrl("/rgnt-domains");
           }
         },

@@ -181,14 +181,56 @@ export class DomainApplicationComponent {
   navigateToSessionTimeout() {
     this.router.navigateByUrl('/session-timeout');
   }
-  applyFilter() {
-    this.domainsDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
+  // applyFilter() {
+  //   this.domainsDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
 
+  //   if (this.domainsDataSource.paginator) {
+  //     this.domainsDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+  //   }
+  // }
+  applyFilter() {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Get the filter text
+  
+    this.domainsDataSource.filterPredicate = (data: any, filter: string) => {
+   
+      const displayedColumnsValues = this.displayedColumns.map(column => {
+        if (column === 'submissionDate') {
+          // For date columns, format the date to 'MMM d, y, h:mm a' format
+          const dateValue = data[column];
+          return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
+        } else {
+          // For non-date columns, return the column value
+          return data[column];
+        }
+      });
+  
+      // Perform a case-insensitive search across the columns
+      return displayedColumnsValues.some(value =>
+        value?.toString().toLowerCase().includes(filter)
+      );
+    };
+  
+    // Apply the filter value to the data source
+    this.domainsDataSource.filter = filterValue;
+  
+    // Reset paginator to the first page after filtering
     if (this.domainsDataSource.paginator) {
-      this.domainsDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+      this.domainsDataSource.paginator.firstPage();
     }
   }
-
+  
+  formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'short',  // 'Jan', 'Feb', etc.
+      day: 'numeric',  // '30', '1', etc.
+      year: 'numeric', // '2025', '2026', etc.
+      hour: 'numeric', // '3', '12', etc.
+      minute: 'numeric', // '46', '30', etc.
+      hour12: true, // AM/PM format
+    };
+  
+    return date.toLocaleString('en-US', options); // Format as 'Jan 30, 2025, 3:46 PM'
+  }
   filters = {
     applicationId:'',
     userId: this.userEmailId,
