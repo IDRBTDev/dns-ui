@@ -86,7 +86,7 @@
                     </div>
                     <div style="margin-left:120px;margin-top: 20px;">
                         <div class="imageContainer" >
-                            <img src="assets/Images/registerPageImg.png" >
+                            <img src="assets/Images/bankorfin.png" >
                         </div>
                     </div>
                 </div>
@@ -110,9 +110,17 @@
                     <div *ngIf="!emailInput"style='margin-bottom:5px' class="error-message">{{ emailerrorMessage }}</div>
                     <!-- <button *ngIf="showEmailButton" type="button" class="get-email-btn"  id="email-btn" (click)="saveRegUser()">Verify</button> -->
                     <div style="margin-bottom: 15px;">
-                        <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Mobile Number</div>
-                        <input type="text"maxlength="10" [(ngModel)]="user.mobileNumber" (ngModelChange)="numberChange()" [disabled]="!isEmailVerified" (ngModelChange)="toggleNumberButton()" placeholder="Enter your mobile number">
-                        <!-- <span class="toggle-password">Show</span> -->
+                        <div style="font-weight: 500; font-size: 14px; margin-bottom: 5px;">Mobile Number</div>
+                        <div style="display: flex; align-items: center;"> 
+                            <span class="mobile-number-container" style="color:rgb(84, 84, 84)">+91</span>
+                            <input type="text" 
+                                   maxlength="10" 
+                                   [(ngModel)]="user.mobileNumber" 
+                                   (focus)="addCountryCode()" 
+                                   (ngModelChange)="numberChange()" 
+                                   [disabled]="!isEmailVerified" 
+                                   placeholder="Enter 10-digit mobile number" />
+                        </div>
                         <div *ngIf="!numberInput" class="error-message">{{ numbererrorMessage }}</div>
                     </div>
                    

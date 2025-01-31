@@ -5,15 +5,28 @@
       <div class="container-fluid">
         <div class="row" style="padding-top: 100px;">
           <div class="col-sm-12">
-            <div class="button-svg-container">
-            <ng-select style="width: 200px;" placeholder="Select item" appendTo="body" 
-                [(ngModel)]="selectedOrganisationId" (change)="getContactUsers()">
-                <ng-option [value]="0">Select</ng-option>
-                <ng-option *ngFor="let org of organisationsList" 
-                [value]="org.organisationDetailsId">{{org.institutionName}}</ng-option>
-            </ng-select>
-            <button class="btn btn-primary" data-target="#addContact" data-toggle="modal" (click)="validateAddUser()">Add User</button>
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Select item and Add User button in one line -->
+              <div class="d-flex align-items-center">
+                <ng-select style="width: 200px;" placeholder="Select item" appendTo="body" 
+                  [(ngModel)]="selectedOrganisationId" (change)="getContactUsers()">
+                  <ng-option [value]="0">Select</ng-option>
+                  <ng-option *ngFor="let org of organisationsList" [value]="org.organisationDetailsId">
+                    {{org.institutionName}}
+                  </ng-option>
+                </ng-select>
+                <button class="btn btn-primary ml-3" data-target="#addContact" data-toggle="modal" (click)="validateAddUser()">Add User</button>
+              </div>
+          
+              <!-- Search bar on the right -->
+              <div>
+                <input type="text" placeholder="Search" style="padding:8px 12px;height:35px;" [(ngModel)]="searchText" 
+                  (ngModelChange)="applyFilter()" matInput #input>
+              </div>
             </div>
+          </div>
+          
+       
             <section class="example-container" style="margin-top: 10px;">
               <table id="table1" mat-table [dataSource]="usersDataSource"
                matSort class="mat-elevation-z8">
@@ -145,7 +158,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 
   <!-- Add Contact User modal -->
   <div *ngIf="selectedOrganisationId != 0" class="modal" id="addContact" tabindex="-1" role="dialog">

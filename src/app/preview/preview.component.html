@@ -33,7 +33,7 @@
                             <p><strong>STD Telephone:</strong>
                                 {{ card.details.stdTelephone }}</p>
                             <p><strong>Mobile No:</strong>
-                                {{ card.details.mobileNumber}}</p>
+                               +91 {{ card.details.mobileNumber}}</p>
                             <p><strong>Organisation Email:</strong>
                                 {{ card.details.organisationEmail }}</p>
                             <div *ngIf="orgDocDetails?.length > 0" style="margin-top: 20px;">
@@ -53,9 +53,9 @@
                             <p><strong>Email:</strong>
                                 {{ card.details.adminEmail }}</p>
                             <p><strong>Phone:</strong>
-                                {{ card.details.adminPhone }}</p>
+                               +91 {{ card.details.adminPhone }}</p>
                             <p><strong>Alternative Phone:</strong>
-                                {{ card.details.adminAltPhone }}</p>
+                               +91 {{ card.details.adminAltPhone }}</p>
                             <p><strong>Designation:</strong>
                                 {{ card.details.adminDesignation }}</p>
                             <p><strong>Address:</strong>
@@ -79,9 +79,9 @@
                             <p><strong>Email:</strong>
                                 {{ card.details.techEmail }}</p>
                             <p><strong>Phone:</strong>
-                                {{ card.details.techPhone }}</p>
+                              +91 {{ card.details.techPhone }}</p>
                             <p><strong>Alternative Phone:</strong>
-                                {{ card.details.techAltPhone }}</p>
+                               +91 {{ card.details.techAltPhone }}</p>
                             <p><strong>Designation:</strong>
                                 {{ card.details.techDesignation }}</p>
                              <p><strong>Address:</strong>
@@ -105,9 +105,9 @@
                             <p><strong>Email:</strong>
                                 {{ card.details.billEmail }}</p>
                             <p><strong>Phone:</strong>
-                                {{ card.details.billPhone }}</p>
+                              +91  {{ card.details.billPhone }}</p>
                             <p><strong>Alternative Phone:</strong>
-                                {{ card.details.billAltPhone }}</p>
+                               +91 {{ card.details.billAltPhone }}</p>
                             <p><strong>Designation:</strong>
                                 {{ card.details.billDesignation }}</p>
                             <p><strong>Address:</strong>
@@ -189,9 +189,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="mobileNo">Mobile No:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="mobileNo"
                                     [(ngModel)]="card.details.mobileNumber">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="email">Organisation Email:</label>
                                 <input type="email" class="form-control" id="email"
@@ -223,14 +224,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="adminPhone">Admin Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="adminPhone"
                                     [(ngModel)]="card.details.adminPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="adminAltPhone">Admin Alt Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="adminAltPhone"
                                     [(ngModel)]="card.details.adminAltPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="adminDesignation">Admin Designation:</label>
                                 <input type="text" class="form-control" id="adminDesignation"
@@ -262,14 +265,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="techPhone">Tech Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="techPhone"
                                     [(ngModel)]="card.details.techPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="techAltPhone">Tech Alt Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="techAltPhone"
                                     [(ngModel)]="card.details.techAltPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="techDesignation">Tech Designation:</label>
                                 <input type="text" class="form-control" id="techDesignation"
@@ -299,14 +304,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="billPhone">Bill Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="billPhone"
                                     [(ngModel)]="card.details.billPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="billAltPhone">Bill Alt Phone:</label>
+                                <div class="input-group">  <span class="input-group-text">+91</span>
                                 <input type="text" class="form-control" id="billAltPhone"
                                     [(ngModel)]="card.details.billAltPhone">
-                            </div>
+                            </div></div>
                             <div class="form-group">
                                 <label for="billDocuments">Bill Documents:</label>
                             </div>

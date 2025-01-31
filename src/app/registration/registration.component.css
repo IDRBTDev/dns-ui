@@ -240,5 +240,39 @@ input::-webkit-inner-spin-button {
     margin-top: 45px;
   }
 
+  .mobile-number-container {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    /* Remove all borders, then add the bottom one */
+    border: none;  /* <--- Add this line */
+    border-bottom:1px solid rgba(47, 121, 202, 1);
   
+    padding: 0 15px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(239, 239, 239, 0.3);
+    color: rgb(84, 84, 84);
+  }
+  
+  
+  .mobile-number-container input {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    flex-grow: 1;
+    outline: none;
+    height: 100%; /* Make input fill container height */
+    box-sizing: border-box; /* Ensure padding is included in the input's size */
+  
+  }
+  .mobile-number-container input:not([disabled]) { /* <--- Key change */
+    background-color: #ffffff; /* White background when enabled */
+}
+
+  .mobile-number-container input::placeholder {
+    color: #aaa;
+  }
  

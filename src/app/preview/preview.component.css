@@ -38,3 +38,6 @@ button {
   align-items: center;
   z-index: 9999;
 }
+.input-group-text{
+  height:38px;
+}

@@ -41,6 +41,7 @@
                   <label for="adminEmail" class="form-label"
                     >Organization Email</label
                   ><span class="text-danger">*</span>
+                 
                   <input
                     type="email"
                     id="adminEmail"
@@ -62,6 +63,7 @@
                   <label for="adminPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="adminPhone"
@@ -70,7 +72,7 @@
                     (input)="sanitizeInput($event, 'adminPhone')"
                     maxlength="10"
                     placeholder="Enter phone number"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('adminPhone')?.invalid &&
@@ -85,6 +87,7 @@
                   <label for="adminAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="adminAltPhone"
@@ -93,7 +96,7 @@
                     (input)="sanitizeInput($event, 'adminAltPhone')"
                     maxlength="10"
                     placeholder="Enter alternative phone"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('adminAltPhone')?.invalid &&
@@ -219,6 +222,7 @@
                   <label for="techPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="techPhone"
@@ -227,7 +231,7 @@
                     maxlength="10"
                     (input)="sanitizeInput($event, 'techPhone')"
                     placeholder="Enter phone number"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('techPhone')?.invalid &&
@@ -242,6 +246,7 @@
                   <label for="techAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="techAltPhone"
@@ -250,7 +255,7 @@
                     (input)="sanitizeInput($event, 'techAltPhone')"
                     maxlength="10"
                     placeholder="Enter alternative phone"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('techAltPhone')?.invalid &&
@@ -377,6 +382,7 @@
                   <label for="billPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="billPhone"
@@ -385,7 +391,7 @@
                     maxlength="10"
                     (input)="sanitizeInput($event, 'billPhone')"
                     placeholder="Enter phone number"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('billPhone')?.invalid &&
@@ -400,6 +406,7 @@
                   <label for="billAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  <span class="input-group-text">+91</span> 
                   <input
                     type="text"
                     id="billAltPhone"
@@ -408,7 +415,7 @@
                     maxlength="10"
                     (input)="sanitizeInput($event, 'billAltPhone')"
                     placeholder="Enter alternative phone"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('billAltPhone')?.invalid &&
