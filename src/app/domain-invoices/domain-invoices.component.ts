@@ -158,17 +158,18 @@ export class DomainInvoicesComponent implements OnInit {
       console.log("Template converted to HTML");
   
       // Replace placeholders in HTML with dynamic data
-      const populatedHtml = this.replacePlaceholders(html, domain);
+     const rupees =  await this.numberToWords(domain.finalAmount)
+      const populatedHtml = this.replacePlaceholders(html, domain, rupees);
   
      // Add padding to the HTML content
      const contentWithPadding = this.addPaddingToHTML(populatedHtml);
-    // const cleanedHtml = this.cleanUpHTML(populatedHtml);
+    const cleanedHtml = this.cleanUpHTML(contentWithPadding);
    
     //    // Ensure the table is styled properly
-   //  const contentWithTableStyles = this.addTableStyles(contentWithPadding);
+    const contentWithTableStyles = this.addTableStyles(cleanedHtml);
 
       // Generate PDF from the populated HTML
-      this.generatePDF(contentWithPadding);
+      this.generatePDF(contentWithTableStyles);
   
     } catch (error) {
       console.error("Error generating document:", error);
@@ -196,46 +197,43 @@ addPaddingToHTML(html: string): string {
   // You can either add a specific CSS class or inline styles
   const style = `
     <style>
-      body {
-        padding-left: 50px; /* Set the left padding here */
+      .pdf-content {
+        padding-left: 25px; /* Set the left padding here */
+        padding-top: 20px;
+        padding-right :10px;
       }
-      /* Optional: Add other custom styles */
     </style>
   `;
-
-  // Inject the styles into the HTML content
-  return style + '<div style="padding-left: 30px; padding-top:30px;">' + html + '</div>';
+   // Wrap the HTML content inside a container with the class
+   return style + `<div class="pdf-content">${html}</div>`;
 }
 
 
 addTableStyles(html: string): string {
   const tableStyles = `
-    <style>
-      body {
-        padding-left: 30px; /* Add left padding */
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse; /* Ensures table borders collapse properly */
-      }
-      table, th, td {
-        border: 1px solid black;
-      }
-      th, td {
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2; /* Light gray background for table header */
-      }
-         p, div {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  `;
+  <style>
+    .pdf-content table {
+      width: 100%;
+      border-collapse: collapse; /* Ensures table borders collapse properly */
+    }
+    .pdf-content table, .pdf-content th, .pdf-content td {
+      border: 1px solid black;
+    }
+    .pdf-content th, .pdf-content td {
+      padding: 8px;
+      text-align: left;
+    }
+    .pdf-content th {
+      background-color: #f2f2f2; /* Light gray background for table header */
+    }
+    .pdf-content p, .pdf-content div {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+`;
     
-  return tableStyles + html;
+return tableStyles + `<div class="pdf-content">${html}</div>`;
 }
 
 // Clean up unwanted HTML elements and styles
@@ -250,10 +248,12 @@ cleanUpHTML(html: string): string {
   return html;
 }
   
+rupee : string =""
   // Replace placeholders in HTML with dynamic data
-  replacePlaceholders(html: string, domain: any): string {
+ replacePlaceholders(html: string, domain: any, rupee : string): string {
     let populatedHtml = html.replace(/{amount}/g, domain.finalAmount);
-    populatedHtml = populatedHtml.replace(/{invoiceNumber}/g, domain.invoiceNumber);
+    populatedHtml = populatedHtml.replace(/{rupee}/g, rupee);
+    populatedHtml = populatedHtml.replace(/{id}/g, domain.id);
     // Add more replacements if needed
   
     return populatedHtml;
@@ -263,35 +263,66 @@ cleanUpHTML(html: string): string {
   generatePDF(htmlContent: string) {
     // Create a div container to hold the HTML content
     const pdfContainer = document.createElement('div');
+    pdfContainer.classList.add('pdf-content');
     pdfContainer.innerHTML = htmlContent;
     document.body.appendChild(pdfContainer);
   
-    // Use html2pdf to convert the content to a PDF
-    // html2pdf()
-    //   .from(pdfContainer)
-    //   .save('invoice.pdf')
-    //   .then(() => {
-    //     console.log("PDF generated successfully");
-    //     document.body.removeChild(pdfContainer); // Clean up
-    //   });
+    //Use html2pdf to convert the content to a PDF
+    html2pdf()
+      .from(pdfContainer)
+      .save('invoice.pdf')
+      .then(() => {
+        console.log("PDF generated successfully");
+        document.body.removeChild(pdfContainer); // Clean up
+      });
 
-      html2pdf()
-  .from(pdfContainer)
-  .set({
-    margin: [10, 10, 10, 10], // Adjust margins
-    filename: 'invoice.pdf',
-    html2canvas: {
-      scale: 3, // Improve rendering quality
-      letterRendering: true, // Improve text rendering
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  })
-  .save();
+  //     html2pdf()
+  // .from(pdfContainer)
+  // .set({
+  //   margin: [10, 10, 10, 10], // Adjust margins
+  //   filename: 'invoice.pdf',
+  //   html2canvas: {
+  //     scale: 3, // Improve rendering quality
+  //     letterRendering: true, // Improve text rendering
+  //   },
+  //   jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  // })
+  // .save();
   }
   getDomainObjectandPasstoComponent(domain : any){
     this.domainObject.setDomain(domain);
 
   }
+  numberToWords(num: number): string {
+    if (num === 0) return "zero";
+
+    const ones: string[] = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+    const tens: string[] = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+    const thousands: string[] = ["", "thousand", "million", "billion", "trillion"];
+
+    let words = "";
+
+    function helper(n: number): string {
+        if (n === 0) return "";
+        if (n < 20) return ones[n];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? " " + ones[n % 10] : "");
+        if (n < 1000) return ones[Math.floor(n / 100)] + " hundred" + (n % 100 !== 0 ? " " + helper(n % 100) : "");
+        return "";
+    }
+
+    let chunkIndex = 0;
+    while (num > 0) {
+        if (num % 1000 !== 0) {
+            words = helper(num % 1000) + (thousands[chunkIndex] ? " " + thousands[chunkIndex] : "") + " " + words;
+        }
+        num = Math.floor(num / 1000);
+        chunkIndex++;
+    }
+
+    return words.trim();
+}
+
+
 
 
 }

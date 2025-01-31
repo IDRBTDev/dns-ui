@@ -46,15 +46,7 @@ export class LoginService{
         return this.httpClient.get<boolean>(this.verifyOtpUrl+"/"+userId+"/"+otp,{observe: 'response'});
     }
 
-    getOtpForRgtrLoginUserByUserId(userId: string){
-        return this.httpClient.get<number>(this.getRegistrarOtpUrl+"/"+userId,{observe: 'response'});
-    }
-    verifyRegistrarOtpForLoginUserByUserId(userId: string, otp: number){
-        return this.httpClient.get<boolean>(this.verifyRegistrarOtpUrl+"/"+userId+"/"+otp,{observe: 'response'});
-    }
-    rgtruserLoginToDR(user: any){
-        return this.httpClient.post<void>(this.rgtrDrloginUrl,user,{observe: 'response'})
-    }
+
 
      verifyUserEmail(userId: string): Observable<string[]> {
         return this.httpClient.get<any>(`${this.verifyemailUrl}/${userId}`);

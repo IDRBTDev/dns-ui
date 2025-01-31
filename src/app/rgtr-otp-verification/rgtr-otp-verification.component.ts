@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { LoginService } from '../login/service/login.service';
+import { RgtrLoginService } from '../rgtr-login/service/rgtr-login.service';
 
 @Component({
   selector: 'app-rgtr-otp-verification',
@@ -12,7 +13,7 @@ import { LoginService } from '../login/service/login.service';
 })
 export class RgtrOtpVerificationComponent implements OnInit {
 
-   constructor(private loginService: LoginService,
+   constructor(private loginService: RgtrLoginService,
         private toastr: ToastrService, private router: Router
       ){
        
