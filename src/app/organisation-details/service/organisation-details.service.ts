@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
@@ -32,7 +32,9 @@ export class OrganisationDetailsService {
 
     getAllOrganisations(){
         const apiUrl = environment.apiURL+'/dr/organisationDetails/all';
-        return this.http.get<any[]>(apiUrl, {observe:'response'});
+        return this.http.get<any[]>(apiUrl, {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
 }
