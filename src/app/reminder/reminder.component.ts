@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var bootstrap: any;  // Bootstrap JS library
 
@@ -11,14 +12,21 @@ export class ReminderComponent implements OnInit {
 
   private modal: bootstrap.Modal | null = null;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
-    const modalElement = document.getElementById('reminderModal');
-    if (modalElement) {
-      this.modal = new bootstrap.Modal(modalElement,{backdrop: "static", Keyboard: "false"})
+    if(localStorage.getItem("jwtToken")==null){
+      this.router.navigateByUrl("/login")
     }
-    this.openModal()
+    if(localStorage.getItem("jwtToken")!=null){
+      const modalElement = document.getElementById('reminderModal');
+      if (modalElement) {
+        this.modal = new bootstrap.Modal(modalElement,{backdrop: "static", Keyboard: "false"})
+      }
+      this.openModal();
+    }
+
+    
   }
 
   // Open the modal
