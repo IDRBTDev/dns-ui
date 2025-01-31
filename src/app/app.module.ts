@@ -84,6 +84,7 @@ import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-pass
 import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
 import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
+import { SessionTimeoutComponent } from './session-timeout/session-timeout.component';
 
 
  
@@ -150,7 +151,8 @@ Chart.register(ChartDataLabels);
     RgtrForgotPasswordEmailVerificationComponent,
     RgtrForgotPasswordOtpValidationComponent,
     RgtrForgotPasswordSuccessComponent,
-    InvoiceGenerationComponent
+    InvoiceGenerationComponent,
+    SessionTimeoutComponent
   ],
   imports: [
     BrowserModule,

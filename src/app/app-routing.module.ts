@@ -49,6 +49,7 @@ import { RgtrForgotPasswordResetComponent } from './rgtr-forgot-password-reset/r
 import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-password-email-verification/rgtr-forgot-password-email-verification.component';
 import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
 import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
+import { SessionTimeoutComponent } from './session-timeout/session-timeout.component';
 
 
 
@@ -119,6 +120,7 @@ const routes: Routes = [
   {path: 'rgtr-dashboard', component: RegistrarsDashboardComponent},
   {path: 'rngt-app-details', component: RgntDomainApplicationDetailsComponent},
   {path :'invoice',component :InvoiceGenerationComponent},
+  {path :'session-timeouts', component:SessionTimeoutComponent},
  {path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
 
 

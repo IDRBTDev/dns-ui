@@ -1,0 +1,29 @@
+.container-fluid{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: white;
+    
+    
+}
+.container-body{
+    background-color: white;
+    width: 920px;
+    height: 480px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 23px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+ul
+a:hover{
+    cursor: pointer;
+}
+
+
