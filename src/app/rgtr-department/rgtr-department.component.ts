@@ -355,5 +355,48 @@ export class RgtrDepartmentComponent implements OnInit{
       // this.toastr.warning('Department '+departmentId+' not deleted.')
       }
      }
+     searchText='';
+     applyFilter() {
+      const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Get the filter text
     
+      this.departmentDataSource.filterPredicate = (data: any, filter: string) => {
+     
+        const displayedColumnsValues = this.displayedDepartmentColumn.map(column => {
+          if (column === 'createdDateTime' || column === 'modifiedDateTime') {
+            // For date columns, format the date to 'MMM d, y, h:mm a' format
+            const dateValue = data[column];
+            return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
+          } else {
+            // For non-date columns, return the column value
+            return data[column];
+          }
+        });
+    
+        // Perform a case-insensitive search across the columns
+        return displayedColumnsValues.some(value =>
+          value?.toString().toLowerCase().includes(filter)
+        );
+      };
+    
+      // Apply the filter value to the data source
+      this.departmentDataSource.filter = filterValue;
+    
+      // Reset paginator to the first page after filtering
+      if (this.departmentDataSource.paginator) {
+        this.departmentDataSource.paginator.firstPage();
+      }
+    }
+    
+    formatDate(date: Date): string {
+      const options: Intl.DateTimeFormatOptions = {
+        month: 'short',  // 'Jan', 'Feb', etc.
+        day: 'numeric',  // '30', '1', etc.
+        year: 'numeric', // '2025', '2026', etc.
+        hour: 'numeric', // '3', '12', etc.
+        minute: 'numeric', // '46', '30', etc.
+        hour12: true, // AM/PM format
+      };
+    
+      return date.toLocaleString('en-US', options); // Format as 'Jan 30, 2025, 3:46 PM'
+    }
 }

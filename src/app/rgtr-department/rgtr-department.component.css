@@ -124,3 +124,12 @@
   th{
     background-color: #ecf4fc;
   }
+  #required{
+    color:red;
+  }
+  #errorMessage{
+    color:red;
+  }
+  .modal-title{
+    font-size: 15px;
+  }
