@@ -24,9 +24,7 @@ export class ReminderComponent implements OnInit {
         this.modal = new bootstrap.Modal(modalElement,{backdrop: "static", Keyboard: "false"})
       }
       this.openModal();
-    }
-
-    
+    } 
   }
 
   // Open the modal
