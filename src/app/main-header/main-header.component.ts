@@ -6,6 +6,7 @@ import { NotificationComponent } from '../notification/notification.component';
 import { NotificationService } from '../notification/service/notification.service';
 import { interval, Subscription } from 'rxjs';
 import { environment } from '../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-main-header',
@@ -30,7 +31,7 @@ export class MainHeaderComponent implements OnInit{
   
   @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
   constructor(private router: Router, private mainHeaderService: MainHeaderService,private notificationService: NotificationService, 
-    private cdr: ChangeDetectorRef){}
+    private cdr: ChangeDetectorRef, private toastr : ToastrService){}
 
   pageType:string
   ngOnInit(): void {
@@ -122,7 +123,8 @@ export class MainHeaderComponent implements OnInit{
   logout(){
     localStorage.clear();
     this.router.navigateByUrl('/login').then(() => {
-      
+      this.toastr.success('Hope you had a great experience', 'Logged out successfully')
+      window.localStorage.clear();
       window.location.reload();
     });
   }
