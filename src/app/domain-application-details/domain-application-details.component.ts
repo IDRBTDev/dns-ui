@@ -74,6 +74,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
     this.oreganizationService.getOrganizationByDomainId(organisationId).subscribe({
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
+          console.log(res.body)
           this.organizationsList = res.body;
           this.getOrgDocuments(organisationId);
 

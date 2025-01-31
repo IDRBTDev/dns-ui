@@ -17,11 +17,15 @@ export class DomainApplicationDetailsService{
 
     getDomainApplicationDetailsById(domainId:number){
         console.log("application details in service",domainId)
-        return this.httpClient.get<any[]>(`${this.domainsUrl}/getDetails/${domainId}`,{observe: 'response'});
+        return this.httpClient.get<any[]>(`${this.domainsUrl}/getDetails/${domainId}`,{observe: 'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
     getOrganizationByDomainId(organisationId: number){
-        return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetailsById/${organisationId}`, {observe:'response'})
+        return this.httpClient.get<any>(`${this.domainOrgUrl}/getDetailsById/${organisationId}`, {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })})
 
 }
 updateDomain(domainId: number, domain: Domain) {
@@ -29,7 +33,9 @@ updateDomain(domainId: number, domain: Domain) {
     console.log(domain)
     return this.httpClient.put<any>(`${this.domainsUrl}/updateDomain/${domainId}`, domain, {
         
-        observe: 'response'
+        observe: 'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })
     });
 }
 

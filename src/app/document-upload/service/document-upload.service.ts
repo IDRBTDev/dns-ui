@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/app/environments/environment';
@@ -83,7 +83,9 @@ export class DocumentUploadService {
     console.log(formData.getAll("files"))
     // Make the HTTP POST request
     return this.http
-      .post(this.apiUrl, formData, { responseType: 'text' }) // Specify response type as text
+      .post(this.apiUrl, formData, { responseType: 'text' , headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })}) // Specify response type as text
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // Handle errors
@@ -99,12 +101,18 @@ export class DocumentUploadService {
    
     return this.http.get<any>(`${this.fetchDocUrl}/${OrgId}`, {
         
-        observe: 'response'
+        observe: 'response', headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+      })
     });
 }
 
 approveOrRejectOrgDocs(docType,status,orgId): Observable<any> {
    console.log(status)
-  return this.http.post<any>(`${this.updateDocStatusUrl}/${orgId}/${docType}`,status);
+   return this.http.post<any>(`${this.updateDocStatusUrl}/${orgId}/${docType}`, status, { // Add the options object here
+    headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+})
 }
 }
