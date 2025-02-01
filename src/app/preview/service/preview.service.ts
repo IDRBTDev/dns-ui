@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'; 
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 import { Observable } from 'rxjs'; 
 
 @Injectable({
@@ -23,8 +23,11 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getOrganisationDetails(organisationDetailsId: string): Observable<any> {
+     const headers = new HttpHeaders({
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+              });
     const url = `${this.endpoints.organisationDetails}/get/${organisationDetailsId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{headers});
   }
 
   /**
@@ -32,8 +35,11 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getAdministrativeContact(organisationDetailsId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
     const url = `${this.endpoints.administrativeContact}/get/${organisationDetailsId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{headers});
   }
 
   /**
@@ -41,8 +47,11 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getTechnicalContact(organisationDetailsId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
     const url = `${this.endpoints.technicalContact}/get/${organisationDetailsId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{headers});
   }
 
   /**
@@ -50,8 +59,11 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getBillingContact(organisationDetailsId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
     const url = `${this.endpoints.billingContact}/get/${organisationDetailsId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{headers});
   }
 
   /**
@@ -59,7 +71,10 @@ export class PreviewService {
    * @param organisationDetailsId The unique identifier for the organisation details.
    */
   getNameServerDetails(organisationDetailsId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
     const url = `${this.endpoints.nameServer}/get/${organisationDetailsId}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{headers});
   }
 }
