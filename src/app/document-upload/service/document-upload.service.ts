@@ -47,7 +47,9 @@ export class DocumentUploadService {
     console.log(formData.getAll("files"))
     // Make the HTTP POST request
     return this.http
-      .post(this.apiUrl, formData, { responseType: 'text' }) // Specify response type as text
+      .post(this.apiUrl, formData, { responseType: 'text' , headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })}) // Specify response type as text
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // Handle errors

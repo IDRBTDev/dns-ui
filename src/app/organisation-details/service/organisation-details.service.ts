@@ -16,18 +16,25 @@ export class OrganisationDetailsService {
     // Method to submit form data to the backend API
     saveOrganisationDetails(formData: any): Observable<any> {
         console.log('Sending form data:', formData);
+        const headers = new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+          });
         const apiUrl =  environment.apiURL+'/dr/organisationDetails';
-        return this.http.post(apiUrl, formData);
+        return this.http.post(apiUrl, formData,{headers});
     }
 
     updateOrganisationDetails(organisationdetails: any){
         const apiUrl = environment.apiURL+'/dr/organisationDetails/update';
-        return this.http.put(apiUrl,organisationdetails,{observe: 'response'});
+        return this.http.put(apiUrl,organisationdetails,{observe: 'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
     getOrganisationDetailsByOrganisationId(organisationId: number){
         const apiUrl = environment.apiURL+'/dr/organisationDetails/getDetailsById/'+organisationId;
-        return this.http.get(apiUrl, {observe:'response'});
+        return this.http.get(apiUrl, {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
 
     getAllOrganisations(){

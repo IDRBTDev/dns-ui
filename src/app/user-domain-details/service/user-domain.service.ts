@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';  // Import HttpClient to make HTTP requests
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';  // Import HttpClient to make HTTP requests
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 
@@ -14,11 +14,16 @@ export class UserDomainService {
 
   // Method to send domain data to the backend
   sendDomainData(domainData: any): Observable<any> {
-    return this.http.post(this.apiUrl, domainData);  // Replace with actual API URL
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
+    return this.http.post(this.apiUrl, domainData,{headers});  // Replace with actual API URL
   }
   validateReservedDomain(zone: string, label: string): Observable<boolean> {
     const params = new HttpParams().set('zone', zone).set('label', label);
-    return this.http.get<boolean>(this.domainurl, { params });
+    return this.http.get<boolean>(this.domainurl, { params , headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+  })});
   }
 
   checkDomainCombination(bankName: string, domainName: string, zone: string, label: string): Observable<boolean> {
@@ -28,7 +33,9 @@ export class UserDomainService {
       .set('zone', zone)
       .set('label', label);
 
-    return this.http.get<boolean>(`${this.apiUrl}/check-combination`, { params });
+    return this.http.get<boolean>(`${this.apiUrl}/check-combination`, { params , headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })});
   }
 
   // checkDomainAvailability(bankName: string, domainName: string): Observable<boolean> {
