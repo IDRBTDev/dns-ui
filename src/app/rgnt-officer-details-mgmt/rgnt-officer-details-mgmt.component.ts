@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +19,7 @@ import { DocumentUploadComponent } from '../document-upload/document-upload.comp
   templateUrl: './rgnt-officer-details-mgmt.component.html',
   styleUrls: ['./rgnt-officer-details-mgmt.component.css']
 })
-export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
+export class RgntOfficerDetailsMgmtComponent implements OnInit{
 
   selectedOrganisation: number = 0;
 
@@ -55,7 +55,8 @@ export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
 
   userId = localStorage.getItem('email');
   role = localStorage.getItem('userRole');
-  organisationId = localStorage.getItem('organisationId');
+  // organisationId = localStorage.getItem('organisationId');
+  organisationId:any=0;
   myForm: any;
 
   constructor(private userService: UserService, private router: Router,
@@ -65,9 +66,9 @@ export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
   ) {
     this.usersDataSource = new MatTableDataSource<any>();
   }
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  // ngAfterViewInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
     
   organisationsList: any[] = [];
   async getOrganisations(){
@@ -104,7 +105,9 @@ export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
     response => {
       if(response.status === HttpStatusCode.Ok){
         this.loggedInUser = response.body;
-        console.log(this.loggedInUser)
+        this.organisationId=this.loggedInUser.organisationId;
+        this.selectedOrganisationId =this.organisationId;
+        this.getContactOfficersDetails(parseInt(this.organisationId));
       }
     },error => {
       if(error.status === HttpStatusCode.Unauthorized){
@@ -123,7 +126,7 @@ export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
   }
 
   async ngOnInit(): Promise<void> {
-    this.selectedOrganisationId =parseInt(localStorage.getItem('organisationId'));
+    // this.selectedOrganisationId =parseInt(localStorage.getItem('organisationId'));
     //set table comumns based on role
     //if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
@@ -149,7 +152,7 @@ export class RgntOfficerDetailsMgmtComponent implements AfterViewInit{
     // if(this.role === 'IDRBTADMIN'){
     //   await this.getContactOfficersDetails(0);
     // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
-      await this.getContactOfficersDetails(parseInt(this.organisationId));
+      // await this.getContactOfficersDetails(parseInt(this.organisationId));
     //}
 
   }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { lastValueFrom } from 'rxjs';
 import { NameServerService } from '../name-server-form/service/name-server.service';
@@ -82,6 +82,7 @@ export class PreviewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log("this is the org id from the onboarding stepper"+this.organisationId)
+    console.log("this is the org id from the onboarding stepper"+this.domainId)
     this.fetchDataFromAPIs();
     this.loadNotifications();
   }
@@ -281,7 +282,11 @@ export class PreviewComponent implements OnInit, OnChanges {
   nameDetails:any
 
   fetchDataFromAPIs() {
-    this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({
+    console.log(this.domainId);
+     const headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        });
+    this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId,{headers}).subscribe({
       next: response => {
         this.cards[0].details.bankName = response.bankName;
         this.cards[0].details.cost = response.cost;
@@ -309,7 +314,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.http
       .get<any>(
         'http://localhost:9002/dr/organisationDetails/getDetailsById/'+this.organisationId
-      )
+      ,{headers})
       .subscribe({
         next: (data) => {
           console.log(data)
@@ -339,7 +344,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Administrative Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId
+        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -367,7 +372,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Technical Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId
+        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -392,7 +397,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Billing Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/billingContact/get/'+this.organisationId
+        'http://localhost:9002/dr/billingContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -418,7 +423,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     //this.namServerService.getNameServersByDomainId(this.domainId)
     this.http
       .get<any>(
-        'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId
+        'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -576,6 +581,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       response => {
         if(response.status === HttpStatusCode.Ok){
           this.user = response.body;
+          this.updateOrganisationIdForUser(this.organisationId);
         }
       }, error => {
         if(error.status === HttpStatusCode.Unauthorized){
@@ -601,6 +607,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updatePreviewDetails(){
+   
     await this.getLoggedInUserDetails();
     await this.updateUserOnboradingStatus();
     this.updateDomainDetails();
@@ -609,12 +616,26 @@ export class PreviewComponent implements OnInit, OnChanges {
     this.updateTechnicalContactDetails();
     this.updateBillingContactDetails();
     this.updateNameServers();
+   
     this.toastr.success('Details updated successfully');
    // if(this.role === 'IDRBTADMIN'){
       this.router.navigateByUrl('/rgnt-domains');
     //}
   }
-
+  async updateOrganisationIdForUser(organisationId: number){
+    this.user.organisationId = organisationId;
+    await lastValueFrom(this.userService.updateUser(this.user)).then(
+        response => {
+            if(response.status === HttpStatusCode.PartialContent){
+                console.log('org id updated for the user');
+            }
+        }, error => {
+            if(error.status === HttpStatusCode.Unauthorized){
+                this.router.navigateByUrl('/session-timeout');
+            }
+        }
+    )
+ }
   submissionAttempted=false;
   orgUploadedDocs=localStorage.getItem('orgDoc')?JSON.parse(localStorage.getItem('orgDoc')):[];
   @Input()adminDocDetails=[]

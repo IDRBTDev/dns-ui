@@ -182,13 +182,13 @@ uniqueHostNameValidator(control: AbstractControl): ValidationErrors | null {
           if(response != null){
             this.formSubmitted.emit();
             this.toastr.success("Address is Valid");
-            this.router.navigateByUrl("/rgnt-domains");
+            // this.router.navigateByUrl("/rgnt-domains");
           }
         },
 
         (error) => {
           //alert('Failed to submit form.');
-this.toastr.error("Address is Reserved")
+        this.toastr.error("Address is Reserved")
           console.error('Error submitting form:', error);
         }
       );

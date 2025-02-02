@@ -32,11 +32,20 @@ export class OnboardingStepperComponent implements OnInit{
   constructor(private router: Router,private sanitizer: DomSanitizer){
     this.domainId = this.router.getCurrentNavigation().extras.state['domainId'];
     this.applicationId = this.router.getCurrentNavigation().extras.state['applicationId'];
+    this.stepStates = [
+      { completed: false, editable: true }, // Step 1
+      { completed: false, editable: false }, // Step 2
+      { completed: false, editable: false }, // Step 3
+      { completed: false, editable: false }, // Step 4
+      { completed: false, editable: false }  // Step 5
+    ];
   }
 
   async ngOnInit(): Promise<void> {
     console.log(this.organisationId);
   }
+  
+  stepStates: { completed: boolean, editable: boolean }[] = [];
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     console.log("entered")
@@ -60,8 +69,20 @@ export class OnboardingStepperComponent implements OnInit{
 
   onFormSubmitted(): void {
     // Move to the next step when the form is successfully submitted
-    this.completed=true;
+    const currentStepIndex = this.stepper.selectedIndex;
+
+    // Mark the current step as completed and non-editable
+    this.stepStates[currentStepIndex].completed = true;
+    this.stepStates[currentStepIndex].editable = false;
+
+    // Make the next step editable (if it exists)
+    if (currentStepIndex < this.stepStates.length - 1) {
+      this.stepStates[currentStepIndex + 1].editable = true;
+    }
     this.stepper.selected.completed = true;
+    console.log("called the next")
+
+    // Go to the next step (or you could leave it on the current step)
     this.stepper.next();  // Move to the next step in the stepper
   }
   SubmittedAdminDocs(adminDocs) {

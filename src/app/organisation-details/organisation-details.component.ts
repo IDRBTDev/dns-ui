@@ -292,8 +292,8 @@ async handleSubmit(): Promise<void> {
     this.organisationDetailsService.saveOrganisationDetails(formData).subscribe(
         (response: any) => {
             console.log('Form submitted successfully', response);
-            this.updateOrganisationIdForUser(response.organisationDetailsId);
-            localStorage.setItem('organisationId', response.organisationDetailsId);
+            // this.updateOrganisationIdForUser(response.organisationDetailsId);
+            // localStorage.setItem('organisationId', response.organisationDetailsId);
             this.organisationId.emit(response.organisationDetailsId);
 
             const applicationId = response.applicationId;
