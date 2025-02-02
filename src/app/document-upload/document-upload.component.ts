@@ -109,11 +109,11 @@ export class DocumentUploadComponent implements OnInit {
   }
 
 
-  clearErrorsIfLicenseNo() {
-    if (this.organisationSelectedDocType === 'License No') {
-      this.organisationInputFieldErrors = { message: '', type: '' };
-    }
-  }
+  // clearErrorsIfLicenseNo() {
+  //   if (this.organisationSelectedDocType === 'License No') {
+  //     this.organisationInputFieldErrors = { message: '', type: '' };
+  //   }
+  // }
   
   handleOrganisationFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
@@ -155,11 +155,11 @@ export class DocumentUploadComponent implements OnInit {
       return;
     }
 
-    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+    const validFileTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
     if (!validFileTypes.includes(file.type)) {
       this.organisationErrors = {
         type: 'fileUpload',
-        message: 'Invalid file type. Only PDF, PNG, JPG, and JPEG are allowed.',
+        message: 'Invalid file type. Only PDF, JPG, and JPEG are allowed.',
       };
       input.value = ''; // Reset the file input field
       return;
@@ -630,7 +630,7 @@ set missingAdminDocs(value:string[]){
       } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
         this.organisationInputValue = event;
         if (this.organisationSelectedDocType === 'Organisation GSTIN') {
-          const isValidOrgGST = /^[0-9A-Z]{15}$/.test(event);
+          const isValidOrgGST = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]$/.test(event);
           this.organisationInputFieldErrors = isValidOrgGST
             ? { message: '', type: '' }
             : {
@@ -638,14 +638,37 @@ set missingAdminDocs(value:string[]){
                 type: 'organisationInputValue',
               };
         }
-      } else {
+      else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+        this.organisationInputValue = event;
+        if(this.organisationSelectedDocType === 'License No'){
+          const isValidLicenceNum = /^[LU]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$/.test(event);;
+          this.organisationInputFieldErrors = isValidLicenceNum
+          ? { message: '', type: '' }
+          : {
+              message: 'Invalid Licence Number format.',
+              type: 'organisationInputValue',
+            };
+        }
+      }
+     } else {
         this.organisationInputFieldErrors = { message: '', type: '' };
       }
     }
 
     //this.organisationInputFieldErrors.message = '';
   }
-
+  getMaxLength(): number | null {
+    switch (this.organisationSelectedDocType) {
+      case 'Organisation GSTIN':
+        return 15;
+      case 'PAN':
+        return 10;
+      case 'License No': // CIN
+        return 21;
+      default:
+        return null; // Or a default max length if needed
+    }
+  }
   handleAdminInputChange(event: any): void {
     if (/^[a-zA-Z0-9\s]*$/.test(event)) {
       // Directly update the adminInputValue from the event

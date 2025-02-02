@@ -54,22 +54,90 @@ table tr td{
     width: 100%;
   }
   
-  /* Optional: Center content of each step */
-  .mat-step-header {
+/* Target all step headers to remove default background and styles */
+.mat-horizontal-stepper-header {
+  background-color: transparent; /* Remove background color */
+  font-weight: normal; /* Reset font weight */
+  color: inherit; /* Inherit text color */
+  padding: 0; /* Remove default padding */
+}
+
+
+/* Style the header of the active step */
+.mat-horizontal-stepper-header.mat-stepper-active {
+  background-color: lightyellow; /* Highlight color for active step */
+  font-weight: bold; /* Make active label bold */
+}
+
+
+/* Style the step labels (text) */
+.mat-step-label {
+    color: black; /* Or your preferred text color */
+}
+
+/* Style the step icons */
+.mat-step-header .mat-step-icon {
+  background-color: #0d6efd; /* Blue background for icons */
+  height: 30px;
+  width: 30px;
+  font-size: 20px;
+  color: white; /* White icon color */
+  display: flex; /* Center icon content */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style the "edit" icon specifically (if needed) */
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: #28a745; /* Green background for edit icon */
+  color: white; /* White icon color */
+}
+
+/* Style the "done" icon specifically (if you are using it) */
+.mat-step-header .mat-stepper-icon-state-done {
+    background-color: green;  /* Or your preferred color */
+    color: white;
+}
+
+/* Optional: Style the labels of inactive steps */
+.mat-horizontal-stepper-header:not(.mat-stepper-active) .mat-step-label {
+  color: gray; /* Color for inactive labels */
+}
+
+/* Optional: Style the step content area */
+.mat-horizontal-stepper-content {
+  padding: 20px; /* Add padding to the content area */
+  border: 1px solid #ccc; /* Add a border (optional) */
+}
+
+/* Optional: Hide the horizontal line (progress indicator) */
+.mat-stepper-horizontal-line,
+.mat-stepper-horizontal-stepper-track,
+.mat-stepper-horizontal-stepper-track-background {
+  display: none !important;
+}
+
+
+/* Optional: Remove the 'done' icon if you don't want it */
+.mat-stepper-icon-state-done {
+  display: none; /* or visibility: hidden; */
+}
+
+/* Optional: Center the step header content (icon and label) */
+.mat-step-header {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  ::ng-deep .mat-step-header .mat-step-icon {
-    background-color: #0d6efd;
-    height: 30px;
-    width: 30px;
-    font-size: 20px;
-  }
-  ::ng-deep .mat-step-header .mat-step-icon-state-edit{
-    background-color: #28a745;
-  }
+    align-items: center; /* Vertically center */
+    /* justify-content: center;  Horizontally center (if desired) */
+}
+
+/* Optional: Add some spacing between icon and label */
+.mat-step-header .mat-step-icon {
+    margin-right: 10px; /* Adjust as needed */
+}
+
+.mat-horizontal-stepper-content{
+    padding: 0px;
+}
   /* ::ng-deep .mat-step-header .mat-step-icon-selected{
 
   } */

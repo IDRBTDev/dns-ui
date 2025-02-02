@@ -83,7 +83,7 @@ export class MainHeaderComponent implements OnInit{
     setTimeout(() => {
       
     }, 200);
-    window.location.reload();
+    // window.location.reload();
   }
   
   toggleNotification(): void {
@@ -133,7 +133,10 @@ export class MainHeaderComponent implements OnInit{
   //     this.notificationComponent.showModal();
   //   }
   // }
-
+  navigateToChangepassword(){
+    document.getElementById("closeProfilePannel").click();
+    this.router.navigateByUrl("/change-password")
+  }
 
   onImageLoad() {
     console.log("Profile image successfully loaded into the DOM.");

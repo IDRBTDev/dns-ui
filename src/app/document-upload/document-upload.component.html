@@ -21,10 +21,10 @@
                   organisationSelectedDocType === 'Organisation GSTIN' ||
                   organisationSelectedDocType === 'PAN'" style="flex: 1;">
           <input type="text" class="form-control" [(ngModel)]="organisationInputValue"
-              (keyup)="clearErrorsIfLicenseNo()"
+           
               (ngModelChange)="handleOrganisationInputChange($event)"
               placeholder="Enter {{ organisationSelectedDocType }}"
-              [attr.maxLength]="organisationSelectedDocType === 'Organisation GSTIN' ? 15 : organisationSelectedDocType === 'PAN' ? 10 : null" />
+              [attr.maxLength]="getMaxLength()" />
               <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem;">
                 {{ organisationInputFieldErrors.message }}
               </div>
