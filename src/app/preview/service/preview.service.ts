@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 import { Observable } from 'rxjs'; 
+import { environment } from 'src/app/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,12 +9,13 @@ import { Observable } from 'rxjs';
 
 
 export class PreviewService {
+  private apiEnvironmentUrl= environment.apiURL;
   private endpoints = {
-    organisationDetails: 'http://localhost:9010/dr/organisationDetails',
-    administrativeContact: 'http://localhost:9005/dr/administrativeContact',
-    technicalContact: 'http://localhost:9005/dr/technicalContact',
-    billingContact: 'http://localhost:9005/dr/billingContact',
-    nameServer: 'http://localhost:9009/dr/nameServer',
+    organisationDetails: this.apiEnvironmentUrl+'/dr/organisationDetails',
+    administrativeContact: this.apiEnvironmentUrl+'/dr/administrativeContact',
+    technicalContact: this.apiEnvironmentUrl+'/dr/technicalContact',
+    billingContact: this.apiEnvironmentUrl+'/dr/billingContact',
+    nameServer: this.apiEnvironmentUrl+'/dr/nameServer',
   };
 
   constructor(private http: HttpClient) {}
