@@ -50,7 +50,7 @@ export class RgntUserManagementComponent {
 
   userId = localStorage.getItem('email');
   role = localStorage.getItem('userRole');
-  organisationId = localStorage.getItem('organisationId');
+  organisationId:any =0;
 
   constructor(private userService: UserService, private router: Router,
     private toastr: ToastrService, private organisationService: OrganisationDetailsService
@@ -66,6 +66,11 @@ export class RgntUserManagementComponent {
     response => {
       if(response.status === HttpStatusCode.Ok){
         this.loggedInUser = response.body;
+        this.organisationId=this.loggedInUser.organisationId;
+        if(this.organisationId!=0){
+          this.getUsersList(parseInt(this.organisationId));
+        }
+       
         console.log(this.loggedInUser)
       }
     },error => {
@@ -108,7 +113,7 @@ export class RgntUserManagementComponent {
     // if(this.role === 'IDRBTADMIN'){
     //   await this.getUsersList(0);
     // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
-      await this.getUsersList(parseInt(this.organisationId));
+    
     //}
     // this.usersList.forEach(user => {
     //   if(user.organisationId > 0){

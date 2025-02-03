@@ -19,11 +19,15 @@ export class NotificationService{
      */
     getTopTenNotificationsByUserId(emailId: string){
         return this.http.get<Notification[]>(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/all/${emailId}`,
-        {observe:'response'});
+        {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     createNotification(notification : Notification){
         return this.http.post<Notification>(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/create`,notification,
-        {observe:'response'});
+        {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     /**
      *
@@ -32,7 +36,9 @@ export class NotificationService{
      */
     updateNotification(notification : Notification){
         return this.http.put<Notification>(`${this.apiGatewayUrl}/${this.notificationMicroservicePathUrl}/update`,notification,
-        {observe:'response'});
+        {observe:'response', headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
     }
     /**
      *

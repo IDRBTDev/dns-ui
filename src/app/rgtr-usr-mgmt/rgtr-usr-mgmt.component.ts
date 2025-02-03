@@ -15,6 +15,7 @@ import { DepartmentService } from '../rgtr-department/service/department.service
 import { RgtrDepartment } from '../model/rgtrDepartment.model';
 import { User } from '../model/user.model';
 import { RgtrUserService } from './service/rgtr-user.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-rgtr-usr-mgmt',
@@ -158,6 +159,10 @@ export class RgtrUsrMgmtComponent implements OnInit{
     this.departmentService.getAllDepartments().subscribe({
       next:(response)=>{
         this.allDepartment=response.body;
+      },error:(error)=>{
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
       }
     })
   }

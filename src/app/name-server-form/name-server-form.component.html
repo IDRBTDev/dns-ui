@@ -125,12 +125,20 @@ class="form-card shadow-lg"
             </div>
             <!-- Add/Remove name server buttons -->
             <div class="button-group">
-                <button class="btn btn-primary" (click)="addNameServer()">
-                    Add More NS
-                </button>
-                <button class="btn btn-primary" (click)="removeLastNameServer()">
-                    Cancel
-                </button>
+                <div>
+                    <button class="btn btn-primary" (click)="addNameServer()">
+                        Add More NS
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-primary" (click)="removeLastNameServer()">
+                        Cancel
+                    </button>
+                </div>
+              
+                <div *ngIf="nameServers.length>4" style="color: rgba(0, 124, 248, 1);font-weight: 500;">
+                    <span style="color:red">*</span> The Price has been updated to {{price}} ₹
+
+                </div>
             </div>
 
             <div class="navigation-buttons">

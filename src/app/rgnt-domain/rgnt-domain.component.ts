@@ -6,6 +6,7 @@ import { DomainService } from './service/domain.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../user/service/user.service';
 
 @Component({
   selector: 'app-rgnt-domain',
@@ -25,13 +26,14 @@ export class RgntDomainComponent implements OnInit {
 
   domainsList: any[];
   domainsDataSource: MatTableDataSource<any>;
-  organisationId: number =  parseInt(localStorage.getItem('organisationId'));
+  // organisationId=  parseInt(localStorage.getItem('organisationId'));
+  organisationId: number=0 ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
   searchText:String='';
-  constructor(private domainService: DomainService, private router: Router) {
+  constructor(private domainService: DomainService, private router: Router,private userService:UserService,) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
 
@@ -45,18 +47,36 @@ export class RgntDomainComponent implements OnInit {
     console.log(this.userEmailId)
     console.log(this.organisationId);
     // if(this.role !== 'IDRBTADMIN'){
+    
     //   console.log('exe')
-    if(this.organisationId > 0){
-      this.getAllDomainsListByOrgId(this.organisationId);
-    }else{
-      this.domainsList = [];
-    }
+    this.fetchOrgIdAndDomainsOfit();
     // }else{
       //console.log('exe 1')
       //this.getAllDomainsList(this.userEmailId);
     //}
   }
-
+  async fetchOrgIdAndDomainsOfit(){
+    await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
+       (response) => {
+       
+           console.log(response)
+           this.organisationId=response.body.organisationId;
+        
+           if(this.organisationId > 0){
+            this.getAllDomainsListByOrgId(this.organisationId);
+          }else{
+            this.domainsList = [];
+          }
+          
+         
+       },
+       (error) => {
+         if (error.status === HttpStatusCode.Unauthorized) {
+           this.navigateToSessionTimeout();
+         }
+       }
+     );
+   }
   async getAllDomainsListByOrgId(orgId: number) {
     console.log(orgId)
     await lastValueFrom(this.domainService.getAllDomainsByOrgId(orgId)).then(

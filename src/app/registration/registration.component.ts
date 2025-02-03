@@ -326,7 +326,8 @@ otp:number;
     this.remainingTime = 300;  // Reset to 60 seconds
     this.timerActive = true;
     this.otpExpired = false;  // Mark OTP as not expired
-    this.timerDisplay = '05:00';  // Reset timer display
+    this.timerDisplay = '05:00';
+    this.errorMessage=''  // Reset timer display
     if (this.countdown) {
       clearInterval(this.countdown);  // Clear any existing timer
     }

@@ -73,7 +73,7 @@
             <div class="modal-header" style="background-color: #F6FBFD;">
 
                 <h1 style="font-size: 18px;">Profile</h1>
-                <button type="button" style="color: #FD5454" (click)="cancelButton()" class="close" data-dismiss="modal"
+                <button type="button" style="color: #FD5454" (click)="cancelButton()" class="close" id="closeProfilePannel" data-dismiss="modal"
                     aria-label="Close">
 
                     <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -195,7 +195,7 @@
                 </div>
                 <br  *ngIf="user?.userRoles[0]?.roleName!='IDRBTADMIN'">
                 <div>
-                    <p><a href="/change-password"><span>Change Password</span></a></p>
+                    <p><a (click)="navigateToChangepassword()"><span>Change Password</span></a></p>
                 </div>
                 
                 <div style="color: #FD5454; padding-left: 20px; cursor: pointer; margin-top: 10px;"

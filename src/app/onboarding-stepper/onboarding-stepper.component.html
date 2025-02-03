@@ -17,7 +17,7 @@
                       <mat-icon>done</mat-icon>
                   </ng-template>
 
-                <mat-step completed=false label="Organisation Details">
+                <mat-step [completed]="stepStates[0].completed" [editable]="stepStates[0].editable" label="Organisation Details">
                   
                   <app-organisation-details (formSubmitted)="onFormSubmitted()"
                   (orgDocDetails)="SubmittedOrgDocs($event)" 
@@ -28,7 +28,7 @@
                 </mat-step>
   
                 <!-- Step 2: Contact Details -->
-                <mat-step completed=false label="Contact Details">
+                <mat-step [completed]="stepStates[1].completed" [editable]="stepStates[1].editable" label="Contact Details">
                   <app-contact-details-form 
                   [organisationId] ="organisationId" 
                   (adminDocDetails)="SubmittedAdminDocs($event)" 
@@ -42,7 +42,7 @@
                 </mat-step>
   
                 <!-- Step 3: Name Server Details -->
-                <mat-step completed=false label="Name Server Details">
+                <mat-step [completed]="stepStates[2].completed" [editable]="stepStates[2].editable" label="Name Server Details">
                   <app-name-server-form [domainId]="domainId"
                   [applicationId]="applicationId" 
                   (formSubmitted)="onFormSubmitted()" 
@@ -53,7 +53,7 @@
                 </mat-step>
   
                 <!-- Step 4: Review -->
-                <mat-step completed=false label="Preview">
+                <mat-step [completed]="stepStates[3].completed" [editable]="stepStates[3].editable" label="Preview">
                   <app-preview 
                   [orgDocDetails]="orgDocDetails"
                   [adminDocDetails]="adminDocDetails"
@@ -68,7 +68,7 @@
                 </mat-step>
   
                 <!-- Step 5: Submit -->
-                <mat-step completed=false label="Submit">
+                <mat-step [completed]="stepStates[4].completed" [editable]="stepStates[4].editable" label="Submit">
                   <p>Submit the form.</p>
                   <div>
                     <button mat-button matStepperPrevious>Back</button>

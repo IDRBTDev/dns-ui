@@ -5,6 +5,10 @@ import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl, Validat
 import { NameServerService } from './service/name-server.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DomainService } from '../rgnt-domain/service/domain.service';
+import { Domain } from '../model/domain.model';
+import { error } from 'jquery';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-name-server-form',
@@ -29,7 +33,8 @@ export class NameServerFormComponent implements OnInit {
     private fb: FormBuilder,
     private nameServerService: NameServerService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private domainService:DomainService
   ) {
 
     if(this.organisationId < 1){
@@ -56,6 +61,8 @@ export class NameServerFormComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.domainId);
     console.log(this.applicationId);
+    this.fetchThePriceDetails();
+    this.getDomainDetails();
     this.nameServerForm.get('hasNSDetails')?.valueChanges.subscribe((value) => {
       this.hasNSDetails = value === 'yes';
 
@@ -70,7 +77,21 @@ export class NameServerFormComponent implements OnInit {
   async getOrganisationDetails(){
 
   }
-
+  domain:Domain= new Domain();
+  getDomainDetails(){
+    this.domainService.getDomainByDomainId(this.domainId).subscribe({
+      next:(response)=>{
+        this.domain=response.body;
+      },error:(error)=>{
+        if(error.status===HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeOut();
+        }
+      }
+    })
+  }
+  navigateToSessionTimeOut(){
+    this.router.navigateByUrl("/session-timeout")
+  }
   get nameServers(): FormArray {
     return this.nameServerForm.get('nameServers') as FormArray;
   }
@@ -139,9 +160,18 @@ uniqueHostNameValidator(control: AbstractControl): ValidationErrors | null {
 }
 
 
-  addNameServer(): void {
-    this.nameServers.push(this.createNameServer());
+price:number
+addNameServer(): void {
+  
+  this.nameServers.push(this.createNameServer());
+  console.log(this.nameServers.length)
+  if(this.nameServers.length>4){
+    //  this.fetchThePriceDetails();
+    this.price=this.getPriceByNsRecordCount(this.nameServers.length);
+   
+    console.log(this.price,this.domainId);
   }
+}
 
   removeLastNameServer(): void {
     if (this.nameServers.length > 2) {
@@ -182,16 +212,60 @@ uniqueHostNameValidator(control: AbstractControl): ValidationErrors | null {
           if(response != null){
             this.formSubmitted.emit();
             this.toastr.success("Address is Valid");
-            this.router.navigateByUrl("/rgnt-domains");
+            this.domain.cost=this.price;
+            this.updatePriceForDomain(this.domain);
+            // this.router.navigateByUrl("/rgnt-domains");
           }
         },
 
         (error) => {
           //alert('Failed to submit form.');
-this.toastr.error("Address is Reserved")
+        this.toastr.error("Address is Reserved")
           console.error('Error submitting form:', error);
         }
       );
     }
+  }
+  updatePriceForDomain(domain){
+    this.domainService.updateDomainDetails(domain).subscribe({
+      next:(response)=>{
+        console.log("price updated successfully")
+      },error:(error)=>{
+        if(error.status===HttpStatusCode.Unauthorized){
+          this.router.navigateByUrl("/session-timeout")
+        }
+      }
+    })
+  }
+
+  getPriceByNsRecordCount(nsRecordCount: number): number | null {
+    const sortedData = [...this.priceDetails].sort((a, b) => a.nsRecordCount - b.nsRecordCount);
+
+    // Find the closest matching or the highest nsRecordCount
+    let closestMatch = null;
+    for (const item of sortedData) {
+      if (item.nsRecordCount >= nsRecordCount) {
+        closestMatch = item;
+        break; // Stop iterating once a match or higher value is found
+      }
+    }
+
+    // If no match or higher value is found, use the highest available nsRecordCount
+    if (!closestMatch) {
+      closestMatch = sortedData[sortedData.length - 1]; 
+    }
+
+    return closestMatch ? closestMatch.price : null;
+  }
+  priceDetails
+  fetchThePriceDetails(){
+    this.domainService.getAllPriceDetails().subscribe({
+      next:(response)=>{
+        console.log(response.body)
+        this.priceDetails=response.body;
+      },error:(error)=>{
+        // console.log(error)
+      }
+    })
   }
 }

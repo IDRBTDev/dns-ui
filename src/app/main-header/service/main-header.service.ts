@@ -18,10 +18,16 @@ export class MainHeaderService{
     constructor(private httpClient: HttpClient){}
 
     getUserDetailsById(userId: string): Observable<User> {
-        return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`);
+      const headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+      });
+        return this.httpClient.get<User>(`${this.userDetailsUrl}/${userId}`,{headers});
     }
     getRgtrUserDetailsById(userId: string): Observable<User> {
-      return this.httpClient.get<User>(`${this.rgtrUserDetailsUrl}/${userId}`);
+      const headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+      });
+      return this.httpClient.get<User>(`${this.rgtrUserDetailsUrl}/${userId}`,{headers});
     }
 
     uploadProfilePicture(userId: string, formData: FormData): Observable<Blob> {
@@ -58,6 +64,9 @@ export class MainHeaderService{
     });
   }
   deleteProfilePicture(userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.deleteProfilePictureUrl}/${userId}`);
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
+    return this.httpClient.delete<void>(`${this.deleteProfilePictureUrl}/${userId},`,{headers});
 }
 }

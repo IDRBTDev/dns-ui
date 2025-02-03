@@ -13,6 +13,7 @@ import { DomainInvoiceService } from '../domain-invoices/service/domain-invoices
 import { DomainApplicationService } from './service/domain-application.service';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from '../user/service/user.service';
 //import { AES256Bit } from './service/encryption.service';
 
 @Component({
@@ -41,10 +42,10 @@ export class DomainApplicationComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private fb: FormBuilder, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
+  constructor(private fb: FormBuilder,private userService:UserService, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
-  organisationId=parseInt(localStorage.getItem('organisationId'));
+  organisationId=0;
 
   ngOnInit(): void {
   //   console.log(this.role)
@@ -64,13 +65,15 @@ export class DomainApplicationComponent {
   //   else
   // //  this.getFilteredDomains();
   //   }
-
+  // this.organisationId=this.getUserOrgId();
+ 
   // this.submitPayment();
+
   console.log(this.role)
   console.log(this.userEmailId)
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
-    this.getAllDomainsListByOrgId(this.organisationId);
+    this.fetchOrgIdAndDomainsOfit();
     this.displayedColumns=[
        // 'checkbox',
     'domainId',
@@ -101,6 +104,9 @@ export class DomainApplicationComponent {
    this.getAllDomainsListByOrgId(0)
   }
 
+ 
+  
+
     // localStorage.setItem('isBoxVisible', 'false');
     // console.log(this.role)
     // console.log(this.userEmailId)
@@ -121,7 +127,39 @@ export class DomainApplicationComponent {
     // }
     this.processPayment();
   }
+  async fetchOrgIdAndDomainsOfit(){
+   await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
+      (response) => {
+      
+          console.log(response)
+          this.organisationId=response.body.organisationId;
+          if(this.organisationId!=0){
+            console.log(this.organisationId)
+            this.getAllDomainsListByOrgId(this.organisationId);
+          }
+         
+        
+      },
+      (error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          this.navigateToSessionTimeout();
+        }
+      }
+    );
+  }
  
+   getUserOrgId():any{
+    this.userService.getUserByEmailId(this.userEmailId).subscribe({
+      next:(response)=>{
+        return response.body.organisationId;
+         
+      },error:(error)=>{
+        if(error.status===HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    })
+  }
 
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
@@ -167,6 +205,9 @@ export class DomainApplicationComponent {
       (error) => {
         console.error('Error fetching filtered domains:', error);
         this.noDataFound = true; // In case of error, show "No results" message
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
       }
     );
   }
