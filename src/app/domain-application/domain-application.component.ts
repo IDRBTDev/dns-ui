@@ -27,7 +27,8 @@ export class DomainApplicationComponent {
   // @ViewChild('paymentForm') paymentFormElement: any;
 
   EncryptTrans: string = '';
-  merchIdVal: string = '1000605';
+  MultiAccountInstructionDtls: string = '';
+  merchIdVal: string = '1000356';
 
   role: string = localStorage.getItem('userRole');
   userEmailId = localStorage.getItem('email');
@@ -42,10 +43,10 @@ export class DomainApplicationComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   searchText: string = '';
-  constructor(private fb: FormBuilder,private userService:UserService, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private userService:UserService, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
-  organisationId=0;
+  organisationId=parseInt(localStorage.getItem('organisationId'));
 
   ngOnInit(): void {
   //   console.log(this.role)
@@ -65,15 +66,14 @@ export class DomainApplicationComponent {
   //   else
   // //  this.getFilteredDomains();
   //   }
-  // this.organisationId=this.getUserOrgId();
- 
+
   // this.submitPayment();
 
   console.log(this.role)
   console.log(this.userEmailId)
   if(this.role !== 'IDRBTADMIN'){
     console.log('exe')
-    this.fetchOrgIdAndDomainsOfit();
+    this.getAllDomainsListByOrgId(this.organisationId);
     this.displayedColumns=[
        // 'checkbox',
     'domainId',
@@ -104,9 +104,6 @@ export class DomainApplicationComponent {
    this.getAllDomainsListByOrgId(0)
   }
 
- 
-  
-
     // localStorage.setItem('isBoxVisible', 'false');
     // console.log(this.role)
     // console.log(this.userEmailId)
@@ -128,25 +125,25 @@ export class DomainApplicationComponent {
     this.processPayment();
   }
   async fetchOrgIdAndDomainsOfit(){
-   await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
-      (response) => {
-      
-          console.log(response)
-          this.organisationId=response.body.organisationId;
-          if(this.organisationId!=0){
-            console.log(this.organisationId)
-            this.getAllDomainsListByOrgId(this.organisationId);
-          }
+    await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
+       (response) => {
+       
+           console.log(response)
+           this.organisationId=response.body.organisationId;
+           if(this.organisationId!=0){
+             console.log(this.organisationId)
+             this.getAllDomainsListByOrgId(this.organisationId);
+           }
+          
          
-        
-      },
-      (error) => {
-        if (error.status === HttpStatusCode.Unauthorized) {
-          this.navigateToSessionTimeout();
-        }
-      }
-    );
-  }
+       },
+       (error) => {
+         if (error.status === HttpStatusCode.Unauthorized) {
+           this.navigateToSessionTimeout();
+         }
+       }
+     );
+   }
  
    getUserOrgId():any{
     this.userService.getUserByEmailId(this.userEmailId).subscribe({
@@ -160,7 +157,6 @@ export class DomainApplicationComponent {
       }
     })
   }
-
   async getAllDomainsList(userId: string) {
     await lastValueFrom(this.domainService.getAllDomains(userId)).then(
       (response) => {
@@ -181,6 +177,8 @@ export class DomainApplicationComponent {
       }
     );
   }
+ 
+
   getFilteredDomains(): void {
     const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
    console.log("filterd data is:",filters);
@@ -348,14 +346,15 @@ export class DomainApplicationComponent {
   }
   processPayment(){
   this.domainApplicationService.processPayment().subscribe(   
-    (response: string) => {    
+    (response: string[]) => {    
        console.log('Encrypted Response:', response);
-       this.paymentForm = this.fb.group({
-        encryptTrans: response,
-        merchIdVal: '1000605'
-      });
-       this.EncryptTrans = response; 
-       this.merchIdVal = '1000605';
+      //  this.paymentForm = this.fb.group({
+      //   encryptTrans: response[0],
+      //   merchIdVal: '1000356'
+      // });
+       this.EncryptTrans = response[0];
+       this.MultiAccountInstructionDtls = response[1];
+       this.merchIdVal = '1000356';
       },  (error) => {     
         console.error('HTTP Error:', error); 
       } );
@@ -375,7 +374,8 @@ export class DomainApplicationComponent {
     if (this.paymentForm.valid) {
       const formData =  {
         encryptTrans: this.EncryptTrans,
-        merchIdVal: '1000605'
+        multiAccountInstructionDtls: this.MultiAccountInstructionDtls,
+        merchIdVal: '1000356'
     };
       console.log(formData);
       // Here you can send the form data to the server or perform other actions.
