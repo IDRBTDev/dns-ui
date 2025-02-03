@@ -122,30 +122,12 @@ font-weight: 550;
 
 
 .button-group {
-
-
-
-    display:
-        flex;
-
-
-
-    gap:
-        10px;
-
-
-
-    margin-top:
-        20px;
-
-
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:20px;
+    flex-direction: row;
 }
-
-
-
-
-
 
 
 .navigation-buttons {
