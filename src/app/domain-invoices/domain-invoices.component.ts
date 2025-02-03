@@ -139,6 +139,9 @@ export class DomainInvoicesComponent implements OnInit {
        }
 
      }, (error) =>{
+        if(error.status == HttpStatusCode.Unauthorized){
+           this.router.navigateByUrl("/session-timeout")
+        }
 
      }
 

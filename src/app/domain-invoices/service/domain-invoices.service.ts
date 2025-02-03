@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable } from 'rxjs';
 import { environment } from "src/app/environments/environment";
@@ -11,7 +11,7 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 export class DomainInvoiceService{
     private domainInvoiceUrl = environment.apiURL+'/dr/billingHistory/all';
-    private invoiceDetailsURL = 'http://localhost:9018/invoice/all';
+    private invoiceDetailsURL = environment.apiURL+'/invoice/all';
 
     constructor(private httpClient: HttpClient){}
 
@@ -26,7 +26,9 @@ getAllBillingHistories(userId: string): Observable<DomainInvoices[]> {
 }
 
 getAllInvoiceDetails(){
-    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}`,{observe: 'response'})
+    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}`,{observe: 'response',headers: new HttpHeaders({
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            }) })
 }
 
    
