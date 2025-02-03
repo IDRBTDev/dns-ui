@@ -14,6 +14,7 @@ import { NotificationService } from '../notification/service/notification.servic
 import { ChangeDetectorRef } from '@angular/core';
 import { DscVerificationComponent } from '../dsc-verification/dsc-verification.component';
 import * as bootstrap from 'bootstrap';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-preview',
@@ -35,7 +36,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
-
+  private environmentApiUrl = environment.apiURL;
   formData = {
     name: '',
     organisationName: '',
@@ -61,7 +62,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   selectedCertificate: any = null;
   selectedDataType: string = '';
   embridgeUrl = 'https://localhost.emudhra.com:26769';
-  dscApi = 'http://localhost:9002';
+  dscApi = '';
   enable: boolean = true;
 
 
@@ -286,7 +287,7 @@ export class PreviewComponent implements OnInit, OnChanges {
      const headers = new HttpHeaders({
           'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         });
-    this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId,{headers}).subscribe({
+    this.http.get<any>(this.environmentApiUrl+'/dr/domain/getDetails/'+this.domainId,{headers}).subscribe({
       next: response => {
         this.cards[0].details.bankName = response.bankName;
         this.cards[0].details.cost = response.cost;
@@ -313,7 +314,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Organisation Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/organisationDetails/getDetailsById/'+this.organisationId
+        this.environmentApiUrl+'/dr/organisationDetails/getDetailsById/'+this.organisationId
       ,{headers})
       .subscribe({
         next: (data) => {
@@ -344,7 +345,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Administrative Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId,{headers}
+        this.environmentApiUrl+'/dr/administrativeContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -372,7 +373,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Technical Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId,{headers}
+        this.environmentApiUrl+'/dr/technicalContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -397,7 +398,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Billing Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/billingContact/get/'+this.organisationId,{headers}
+        this.environmentApiUrl+'/dr/billingContact/get/'+this.organisationId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -423,7 +424,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     //this.namServerService.getNameServersByDomainId(this.domainId)
     this.http
       .get<any>(
-        'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId,{headers}
+        this.environmentApiUrl+'/dr/nameServer/getDetails/'+this.domainId,{headers}
       )
       .subscribe({
         next: (data) => {
@@ -719,7 +720,7 @@ toggleModal(): void {
     this.getDscResponse();
     const modalElement = document.getElementById('passwordModal');
     console.log(modalElement)
-    console.log("kauyrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    // console.log("kauyrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     if (modalElement) {
       this.modalInstance = new bootstrap.Modal(modalElement,{
         backdrop: 'static',  // This ensures that the backdrop is static (clicking outside won't close the modal)

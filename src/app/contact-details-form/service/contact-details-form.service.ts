@@ -15,6 +15,7 @@ export class ContactDetailsFormService {
 
   private adminApiUrl = environment.apiURL+'/dr/administrativeContact';
 
+  private apiEnvUrl = environment.apiURL
 
 
   private techApiUrl = environment.apiURL+'/dr/technicalContact';
@@ -74,7 +75,7 @@ export class ContactDetailsFormService {
   }
 
   getContactOfficersDetails(organisationId: number){
-    const apiUrl = 'http://localhost:9002/dr/administrativeContact/contactDetails?organisationId='+organisationId;
+    const apiUrl = this.apiEnvUrl + '/dr/administrativeContact/contactDetails?organisationId='+organisationId;
     return this.http.get<any[]>(apiUrl,{observe:'response', headers: new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
   })});
