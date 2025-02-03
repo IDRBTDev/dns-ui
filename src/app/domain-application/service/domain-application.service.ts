@@ -10,9 +10,12 @@ import { environment } from 'src/app/environments/environment';
 export class DomainApplicationService {
     constructor(private http: HttpClient) {}
    // private apiUrl = environment.apiURL+'/payment/documentUpload';
-    private apiUrl1 = 'http://localhost:9018'+'/payment'
+    private apiUrl1 = 'http://localhost:9002'+'/payment'
     processPayment(): Observable<string> {   
-      return this.http.post(`${this.apiUrl1}`, {}, { responseType: 'text' }); 
+
+      return this.http.post(`${this.apiUrl1}`, {}, { responseType: 'text',headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    }) }); 
     }
     private url = 'https://test.sbiepay.sbi/secure/AggregatorHostedListener';
   submitPayment(data: any): Observable<any> {
