@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-dsc-verification',
@@ -20,6 +21,8 @@ export class DscVerificationComponent {
   };
   ageError: boolean = false;
   
+  private apiEnvUrl = environment.apiURL
+
   tokenPassword = '';
   validationError : string = '';
   passwordErrorMessage = '';

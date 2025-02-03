@@ -14,6 +14,7 @@ import { NotificationService } from '../notification/service/notification.servic
 import { ChangeDetectorRef } from '@angular/core';
 import { DscVerificationComponent } from '../dsc-verification/dsc-verification.component';
 import * as bootstrap from 'bootstrap';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-preview',
@@ -35,6 +36,8 @@ export class PreviewComponent implements OnInit, OnChanges {
   notificationList: any[] = [];
   notificationCount = 0;
   notificationError: string | null = null; // Holds error messages if any
+
+  private apiEnvUrl = environment.apiURL
 
   formData = {
     name: '',
@@ -281,7 +284,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   nameDetails:any
 
   fetchDataFromAPIs() {
-    this.http.get<any>('http://localhost:9002/dr/domain/getDetails/'+this.domainId).subscribe({
+    this.http.get<any>(this.apiEnvUrl + '/dr/domain/getDetails/'+this.domainId).subscribe({
       next: response => {
         this.cards[0].details.bankName = response.bankName;
         this.cards[0].details.cost = response.cost;
@@ -308,7 +311,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Organisation Details using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/organisationDetails/getDetailsById/'+this.organisationId
+        this.apiEnvUrl + '/dr/organisationDetails/getDetailsById/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
@@ -339,7 +342,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Administrative Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/administrativeContact/get/'+this.organisationId
+        this.apiEnvUrl + '/dr/administrativeContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
@@ -367,7 +370,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Technical Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/technicalContact/get/'+this.organisationId
+        this.apiEnvUrl + '/dr/technicalContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
@@ -392,7 +395,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     // Fetch Billing Contact using getDetailsById
     this.http
       .get<any>(
-        'http://localhost:9002/dr/billingContact/get/'+this.organisationId
+        this.apiEnvUrl + '/dr/billingContact/get/'+this.organisationId
       )
       .subscribe({
         next: (data) => {
@@ -418,7 +421,7 @@ export class PreviewComponent implements OnInit, OnChanges {
     //this.namServerService.getNameServersByDomainId(this.domainId)
     this.http
       .get<any>(
-        'http://localhost:9002/dr/nameServer/getDetails/'+this.domainId
+        this.apiEnvUrl + '/dr/nameServer/getDetails/'+this.domainId
       )
       .subscribe({
         next: (data) => {
