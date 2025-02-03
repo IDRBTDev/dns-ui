@@ -45,7 +45,7 @@ export class DomainApplicationComponent {
   constructor(private fb: FormBuilder,private userService:UserService, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
-  organisationId=parseInt(localStorage.getItem('organisationId'));
+  organisationId=0;
 
   ngOnInit(): void {
   //   console.log(this.role)
@@ -87,7 +87,6 @@ export class DomainApplicationComponent {
     'tenure',
     'payment'
     ]
-    this
   }else{
     console.log('exe 1')
     this.displayedColumns=[
