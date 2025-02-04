@@ -79,19 +79,59 @@ export class LoginComponent {
      });
       
   }
-  async verifyEmailAndPassword(){
-    await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
-      response => {
-        this.getOtpForLoginUser();
+  // async verifyEmailAndPassword(){
+  //   await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
+  //     response => {
+  //       this.getOtpForLoginUser();
        
        
-      },error => {
-        if(error.status === HttpStatusCode.Unauthorized){
-          console.log('sdsd')
-          this.toastr.error('Invalid Credentials');
+  //     },error => {
+  //       if(error.status === HttpStatusCode.Unauthorized){
+  //         console.log('sdsd')
+  //         this.toastr.error('Invalid Credentials');
+  //       }
+  //     }
+  //   )
+  // }
+  async verifyEmailAndPassword() {
+    const MAX_LOGIN_ATTEMPTS = 3; 
+  
+    try {
+    
+      const response = await lastValueFrom(this.loginService.userLoginToDR(this.user));
+  
+      this.getOtpForLoginUser();
+    } catch (error) {
+      
+      console.log('Error response:', error);
+  
+      if (error.status === HttpStatusCode.Unauthorized) {
+        console.log('Invalid credentials provided!');
+        
+        const remainingAttempts = error.headers.get('loginAttempts');
+        console.log('Remaining Attempts:', remainingAttempts); 
+  
+       
+        if (remainingAttempts !== null) {
+          const attemptsLeft = parseInt(remainingAttempts, 10);
+  
+          if (attemptsLeft <= 0) {
+            this.toastr.error('Your account is locked due to multiple failed login attempts');
+          } else {
+            
+            this.toastr.error(`Invalid credentials. You have ${attemptsLeft} attempt(s) left.`, 'Login Failed');
+          }
+        } else {
+        
+          this.toastr.error('Your account is locked due to multiple  login attempts');
         }
+      } else if (error.status === HttpStatusCode.Forbidden) {
+     
+        this.toastr.error('Your account is locked due to multiple failed login attempts');
+      } else {
+        this.toastr.error('An unexpected error occurred. Please try again later.', 'Error');
       }
-    )
+    }
   }
 
   toggleShowPassword() {
