@@ -11,13 +11,14 @@ export class DomainApplicationService {
     constructor(private http: HttpClient) {}
    // private apiUrl = environment.apiURL+'/payment/documentUpload';
     private apiUrl1 = 'http://localhost:9002'+'/payment'
+    private url = 'https://test.sbiepay.sbi/secure/AggregatorHostedListener';
     processPayment(): Observable<string> {   
-
       return this.http.post(`${this.apiUrl1}`, {}, { responseType: 'text',headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
     }) }); 
-    }
-    private url = 'https://test.sbiepay.sbi/secure/AggregatorHostedListener';
+  }
+
+   
   submitPayment(data: any): Observable<any> {
     // custom headers
     const headers = new HttpHeaders({
