@@ -19,6 +19,14 @@
                         </div>
                         <div class="details-container">
                             <div class="detail-item">
+                                <p style="font-family: Roboto; font-size: 20px;">Application No</p>
+                                <div class="box-content">{{domainsList?.applicationId}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <p style="font-family: Roboto; font-size: 20px;">Application Status</p>
+                                <div class="box-content">{{domainsList?.status}}</div>
+                            </div>
+                            <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Organization Name</p>
                                 <div class="box-content">{{domainsList?.organizationName}}</div>
                             </div>
@@ -31,14 +39,7 @@
 
                                 <div class="box-content">{{domainsList?.submissionDate|date:'MMM d, y, h:mm a'}}</div>
                             </div>
-                            <div class="detail-item">
-                                <p style="font-family: Roboto; font-size: 20px;">Application No</p>
-                                <div class="box-content">{{domainsList?.applicationId}}</div>
-                            </div>
-                            <div class="detail-item">
-                                <p style="font-family: Roboto; font-size: 20px;">Status</p>
-                                <div class="box-content">{{domainsList?.status}}</div>
-                            </div>
+                           
                         </div>
 
                         <div style="margin-left: 80px;" class="row">
@@ -51,7 +52,7 @@
                                             <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
                                                 />
                                             <div *ngFor="let organization of organizationsList">
-                                                <p>{{ organization?.institutionName }}</p>
+                                                <p>{{ organization?.organizationName }}</p>
                                             </div>
                                         </div>
                                         <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
@@ -96,7 +97,7 @@
                                                         <option value="Paid">Paid</option>
                                                         <option value="Unpaid">Unpaid</option>
                                                         <option value="Initiated">Initiated</option>
-                                                        <option value="Ready for payment">Ready for payment</option>
+                                                        <option value="Ready for payment">Approved for payment</option>
                                                     </select>
                                                 </div>
                                                

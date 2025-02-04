@@ -41,10 +41,11 @@ export class DomainApplicationDetailsComponent implements OnInit{
     })
     console.log(this.domainId)
     await this.getDomainApplicationDetails(this.domainId);
-    // await this.getOrganizationDetails(this.domain.organisationId);
+   
     console.log('executed')
     console.log('executed2')
     this.setNsStatusOptions();
+    this.getOrganizationDetails(this.domain.organisationId);
   }
   domainsList: Domain;
   async getDomainApplicationDetails(domainId:number) {
@@ -73,9 +74,11 @@ export class DomainApplicationDetailsComponent implements OnInit{
     console.log("Datal",organisationId)
     this.oreganizationService.getOrganizationByDomainId(organisationId).subscribe({
       next: (res) => {
+        console.log(res)
         if (res.status === HttpStatusCode.Ok) {
           console.log(res.body)
           this.organizationsList = res.body;
+          console.log(this.organizationsList,organisationId)
           this.getOrgDocuments(organisationId);
 
          

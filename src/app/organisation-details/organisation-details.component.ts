@@ -299,10 +299,11 @@ async handleSubmit(): Promise<void> {
             const applicationId = response.applicationId;
             console.log('Generated Application ID:', applicationId);
 
-            this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
+           
 
             if (applicationId) {
                 sessionStorage.setItem('applicationId', applicationId);
+                this.documentUploadComponent.handleDocumentSubmit(response.organisationDetailsId);
             } else {
                 console.error('Application ID is null or undefined!');
             }

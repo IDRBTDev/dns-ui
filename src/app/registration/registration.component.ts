@@ -8,6 +8,7 @@ import { LoginService } from '../login/service/login.service';
 import * as $ from 'jquery';
 import { Modal } from 'bootstrap';
 import { RolesService } from '../roles/services/roles.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-registration',
@@ -248,12 +249,12 @@ otp:number;
       }
     )
   }
-  timerDisplay: string = '05:00';
+  timerDisplay: string = environment.otpExpiryTimeDisplay;
   timerActive: boolean = true;
   private countdown: any;
-  private remainingTime: number = 300; 
+  private remainingTime: number = environment.otpExpiryTime; 
   otpExpired: boolean = false;
-  initialTime = 300;
+  initialTime = environment.otpExpiryTime;
   startTimer(): void {
     const startTime = Date.now(); 
     const animationFrame = () => {

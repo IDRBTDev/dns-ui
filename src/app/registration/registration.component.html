@@ -223,8 +223,9 @@
                         <p>{{ errorMessage }}</p>
                       </div>
               
-                      <div *ngIf="!timerActive ">
-                        <p style="color: blue;text-decoration: underline;" (click)="resendOtp()">Resend OTP</p>
+                      <div>
+                        <p  *ngIf="!timerActive " style="color: blue;text-decoration: underline;cursor: pointer;" (click)="resendOtp()">Resend OTP</p>
+                        <p  *ngIf="timerActive" style="color: black;">Resend OTP</p>
                       </div>
                 </div>
                 

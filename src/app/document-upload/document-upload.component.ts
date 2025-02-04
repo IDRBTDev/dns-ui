@@ -3,6 +3,9 @@ import { DocumentUploadService } from './service/document-upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from '../user/service/user.service';
+import { HttpStatusCode } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -85,7 +88,9 @@ export class DocumentUploadComponent implements OnInit {
   user = ''; // Replace with appropriate value
   userMailId = localStorage.getItem('email');
   
-  constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer,private fb: FormBuilder) {
+  constructor(private documentUploadService: DocumentUploadService,private sanitizer: DomSanitizer,private fb: FormBuilder,private userService:UserService
+    ,private router :Router
+  ) {
     this.organisationErrors = { message: '', type: '' };
     this.techInputFieldErrors = { message: '', type: '' };
     this.techErrors = { message: '', type: '' };
@@ -100,6 +105,7 @@ export class DocumentUploadComponent implements OnInit {
     this.checkAdminValidation();
     this.checkTechValidation();
     this.checkBillingValidation();
+    this.getloggedInUser();
   }
   ngOnChanges(): void {
     this.checkOrganisationValidation();
@@ -114,7 +120,22 @@ export class DocumentUploadComponent implements OnInit {
   //     this.organisationInputFieldErrors = { message: '', type: '' };
   //   }
   // }
-  
+  getloggedInUser():any{
+      this.userService.getUserByEmailId(this.userMailId).subscribe({
+        next:(response)=>{
+          console.log(response)
+          this.user= response.body.userName;
+           
+        },error:(error)=>{
+          if(error.status===HttpStatusCode.Unauthorized){
+            this.navigateToSessionTimeout();
+          }
+        }
+      })
+    }
+    navigateToSessionTimeout(){
+      this.router.navigateByUrl("session-timeout");
+    }
   handleOrganisationFileChange(event: any): void {
     const input = event.target as HTMLInputElement;
 
@@ -530,6 +551,7 @@ set missingAdminDocs(value:string[]){
       this.organisationErrors.message = 'No documents uploaded!';
       return;
     }
+    this.applicationId=sessionStorage.getItem('applicationId');
   console.log(allDocs, this.applicationId, this.user, this.userMailId)
     this.documentUploadService
       .uploadDocuments(allDocs, this.applicationId, this.user, this.userMailId, organisationId)
