@@ -12,8 +12,8 @@ export class DomainApplicationService {
    // private apiUrl = environment.apiURL+'/payment/documentUpload';
     private apiUrl1 = 'http://localhost:9002'+'/payment'
     private url = 'https://test.sbiepay.sbi/secure/AggregatorHostedListener';
-    processPayment(): Observable<string> {   
-      return this.http.post(`${this.apiUrl1}`, {}, { responseType: 'text',headers: new HttpHeaders({
+    processPayment(): Observable<string[]> {   
+      return this.http.post<string[]>(`${this.apiUrl1}`, { headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
     }) }); 
   }
