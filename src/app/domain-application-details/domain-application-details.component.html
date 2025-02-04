@@ -47,13 +47,19 @@
                                     <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
                                     <div class="first">
                                         <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
-                                        <div class="input-group">
+                                        <!-- <div class="input-group">
                                             <input type="text" disabled="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" class="form-control"
                                                 />
                                             <div *ngFor="let organization of organizationsList">
                                                 <p>{{ organization?.institutionName }}</p>
                                             </div>
-                                        </div>
+                                        </div> -->
+                                        <div class="input-group">
+                                            <input type="text" [value]="organizationsList?.institutionName" 
+                                                   [disabled]="role === 'IDRBTADMIN'" placeholder="Enter your Institute Name" 
+                                                   class="form-control" />
+                                          </div>
+                                          
                                         <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
                                         <div class="pin-page">
                                             <input type="text" class="form-control" placeholder="Enter a pin code"

@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/app/environments/environment";
@@ -52,4 +52,5 @@ export class LoginService{
         return this.httpClient.get<any>(`${this.verifyemailUrl}/${userId}`);
       }
 
+      
 }
