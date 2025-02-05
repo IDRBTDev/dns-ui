@@ -19,6 +19,14 @@
                         </div>
                         <div class="details-container">
                             <div class="detail-item">
+                                <p style="font-family: Roboto; font-size: 20px;">Application No</p>
+                                <div class="box-content">{{domainsList?.applicationId}}</div>
+                            </div>
+                            <div class="detail-item">
+                                <p style="font-family: Roboto; font-size: 20px;">Application Status</p>
+                                <div class="box-content">{{domainsList?.status}}</div>
+                            </div>
+                            <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Organization Name</p>
                                 <div class="box-content">{{domainsList?.organizationName}}</div>
                             </div>
@@ -31,135 +39,284 @@
 
                                 <div class="box-content">{{domainsList?.submissionDate|date:'MMM d, y, h:mm a'}}</div>
                             </div>
-                            <div class="detail-item">
-                                <p style="font-family: Roboto; font-size: 20px;">Application No</p>
-                                <div class="box-content">{{domainsList?.applicationId}}</div>
-                            </div>
-                            <div class="detail-item">
-                                <p style="font-family: Roboto; font-size: 20px;">Status</p>
-                                <div class="box-content">{{domainsList?.status}}</div>
-                            </div>
-                        </div>
-                         <div class=" main col-8">
-                            <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
-                            <div class="first">
-                                <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
-                                <div class="input-group">
-                                    <input type="text" disabled="role === 'IDRBTADMIN'"
-                                        placeholder="Enter your Institute Name" class="form-control"
-                                        [(ngModel)]="organizationsList.institutionName" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization?.institutionName }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
-                                <div class="pin-page">
-                                    <input type="text" class="form-control" placeholder="Enter a pin code"
-                                        [(ngModel)]="organizationsList.pincode" />
-                                    <input type="text" class="form-control" placeholder="Enter a City"
-                                        [(ngModel)]="organizationsList.city" />
-                                    <input type="text" class="form-control" placeholder="Enter a state"
-                                        [(ngModel)]="organizationsList.state" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.pincode }}</p>
-                                        <p>{{ organization.city }}</p>
-                                        <p>{{ organization.state }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Address</h5>
-                                <div class="input-group">
-                                    <input type="text" placeholder="Enter your Address 1" class="form-control"
-                                        [(ngModel)]="organizationsList.address" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.address }}</p>
-                                    </div>
-                                </div>
-                                <h5 style="font-size: 16px; color:#000000">Email ID</h5>
-                                <div>
-                                    <input type="email" placeholder="Enter your Email id" class="form-control"
-                                        [(ngModel)]="organizationsList.userMailId" />
-                                    <div *ngFor="let organization of organizationsList">
-                                        <p>{{ organization.userMailId }}</p>
-                                    </div>
-                                </div>
-                              
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h5 style="font-size: 16px; color:#000000">Payment Receipt</h5>
-                                        <div style="position: relative;">
-                                
-                                            <!-- Input box bound to the fileName variable -->
-                                            <input type="text" class="form-control" [value]="fileName" 
-                                                placeholder="Upload your payment document" 
-                                                style="padding-right: 30px; padding-left: 10px;" readonly />
-                                
-                                            <!-- Modal trigger button to upload file -->
-                                            <span [ngClass]="domainsList.paymentStatus!='Paid'?'disableUploadPayment':''" class="input-group-text" data-toggle="modal" 
-                                                data-target="#exampleModalCenter" 
-                                                style="background-color: transparent; color:black; border: none; cursor: pointer; position: absolute; right: 10px; top: 55%; transform: translateY(-50%);">
-                                                <i class="bi bi-upload"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                
-                                    <!-- File input hidden inside the modal (to handle file upload) -->
-                                    <input type="file" id="fileInput" style="display: none;" 
-                                        (change)="onFileSelected($event)" />
-                               
-                               
-                                    <div class="col-6">
-                                        <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
-                                        <div>
-                                            <select class="form-control" [(ngModel)]="domainsList.paymentStatus"
-                                                disabled="true" (ngModelChange)="onPaymentStatusChange()">
-                                                <option value="" disabled selected>Select Status</option>
-                                                <option value="Paid">Paid</option>
-                                                <option value="Unpaid">Unpaid</option>
-                                                <option value="Initiated">Initiated</option>
-                                                <option value="Ready for payment">Ready For Payment</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <h5 style="font-size: 16px; color:#000000">NS Status</h5>
-                                        <select class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
-                                            disabled="true">
-                                            <option value="" disabled selected>Select Status</option>
-                                            <option value="OnHold">OnHold</option>
-                                            <option value="Inprogress">Inprogress</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Rejected">Rejected</option>
-                                        </select>
-                                    </div>
-
-                                        <div class="col-6">
-                                            <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
-                                            <div>
-                                                <select class="form-control" [(ngModel)]="domainsList.status"
-                                                    disabled="true">
-                                                    <option value="" disabled selected>Select Status</option>
-                                                    <option *ngFor="let status of status" [value]="status">{{ status }}
-                                                    </option>
-                                                    <option value="Active">Active</option>
-                                                    <option value="InActive">InActive</option>
-                                                </select>
+                           
+                        </div> 
+                        <div style="margin-left: 80px;margin-bottom: 20px;" class="row">
+                            <div class="main col-6 pe-3">
+                                <div class="card card-equal-height">
+                                    <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Details</h4>
+                                    <div class="first">
+                                        <h5 style="font-size: 16px; color:#000000">Institution Name </h5>
+                                        <div class="input-group">
+                                            <input type="text" disabled="role === 'IDRBTADMIN'"
+                                                placeholder="Enter your Institute Name" class="form-control"
+                                                [(ngModel)]="organizationsList.institutionName" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization?.institutionName }}</p>
                                             </div>
                                         </div>
-
-
-
-
-                                    </div>
-
-
-                                    <div class="button-group">
-                                        <button type="button" (click)="updateDomain()">Submit</button>
-                                        <button type="button" (click)="cancelDomain()">Cancel</button>
+                                        <h5 style="font-size: 16px; color:#000000">Pin Code</h5>
+                                        <div class="pin-page">
+                                            <input type="text" class="form-control" placeholder="Enter a pin code"
+                                                [(ngModel)]="organizationsList.pincode" />
+                                            <input type="text" class="form-control" placeholder="Enter a City"
+                                                [(ngModel)]="organizationsList.city" />
+                                            <input type="text" class="form-control" placeholder="Enter a state"
+                                                [(ngModel)]="organizationsList.state" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.pincode }}</p>
+                                                <p>{{ organization.city }}</p>
+                                                <p>{{ organization.state }}</p>
+                                            </div>
+                                        </div>
+                                        <h5 style="font-size: 16px; color:#000000">Address</h5>
+                                        <div class="input-group">
+                                            <input type="text" placeholder="Enter your Address 1" class="form-control"
+                                                [(ngModel)]="organizationsList.address" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.address }}</p>
+                                            </div>
+                                        </div>
+                                        <h5 style="font-size: 16px; color:#000000">Email ID</h5>
+                                        <div>
+                                            <input type="email" placeholder="Enter your Email id" class="form-control"
+                                                [(ngModel)]="organizationsList.userMailId" />
+                                            <div *ngFor="let organization of organizationsList">
+                                                <p>{{ organization.userMailId }}</p>
+                                            </div>
+                                        </div>
+                                      
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h5 style="font-size: 16px; color:#000000">Payment Receipt</h5>
+                                                <div style="position: relative;">
+                                        
+                                                    <!-- Input box bound to the fileName variable -->
+                                                    <input type="text" class="form-control" [value]="fileName" 
+                                                        placeholder="Upload your payment document" 
+                                                        style="padding-right: 30px; padding-left: 10px;" readonly />
+                                        
+                                                    <!-- Modal trigger button to upload file -->
+                                                    <span [ngClass]="domainsList.paymentStatus!='Paid'?'disableUploadPayment':''" class="input-group-text" data-toggle="modal" 
+                                                        data-target="#exampleModalCenter" 
+                                                        style="background-color: transparent; color:black; border: none; cursor: pointer; position: absolute; right: 10px; top: 55%; transform: translateY(-50%);">
+                                                        <i class="bi bi-upload"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        
+                                            <!-- File input hidden inside the modal (to handle file upload) -->
+                                            <input type="file" id="fileInput" style="display: none;" 
+                                                (change)="onFileSelected($event)" />
+                                       
+                                       
+                                            <div class="col-6">
+                                                <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
+                                                <div>
+                                                    <select class="form-control" [(ngModel)]="domainsList.paymentStatus"
+                                                        disabled="true" (ngModelChange)="onPaymentStatusChange()">
+                                                        <option value="" disabled selected>Select Status</option>
+                                                        <option value="Paid">Paid</option>
+                                                        <option value="Unpaid">Unpaid</option>
+                                                        <option value="Initiated">Initiated</option>
+                                                        <option value="Ready for payment">Ready For Payment</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+        
+                                            <div class="col-6">
+                                                <h5 style="font-size: 16px; color:#000000">NS Status</h5>
+                                                <select  class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
+                                                    disabled="true">
+                                                    <option value="" disabled selected>Select Status</option>
+                                                    <option value="OnHold">OnHold</option>
+                                                    <option value="Inprogress">Inprogress</option>
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="Rejected">Rejected</option>
+                                                </select>
+                                            </div>
+        
+                                                <div class="col-6">
+                                                    <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
+                                                    <div>
+                                                        <select class="form-control" [(ngModel)]="domainsList.status"
+                                                            disabled="true">
+                                                            <option value="" disabled selected>Select Status</option>
+                                                            <option *ngFor="let status of status" [value]="status">{{ status }}
+                                                            </option>
+                                                            <option value="Active">Active</option>
+                                                            <option value="InActive">InActive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+        
+        
+        
+        
+                                            </div>
+        
+        
+                                            <div class="button-group">
+                                                <button type="button" (click)="updateDomain()">Submit</button>
+                                                <button type="button" (click)="cancelDomain()">Cancel</button>
+                                            </div>
+                                        </div>
+                                </div>
+                                </div>
+                                    <div class="main col-6 pe-3">
+                                        <div class="card card-equal-height">
+                                            <div class="card">
+                                                <h4 style="font-family: Roboto; font-size: 20px; color:#000000"> Organization Documents</h4>
+            
+                                            GSTIN
+                                                <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                                    <div style="display:flex;justify-content: space-between;">
+                                                        <div style="text-align: center;">
+                                                            <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                            </svg>
+                                                            <div *ngIf="orgGstStatus === 'Rejected'" (click)="reuploadOrgDocs('GST')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">GSTIN
+                                                                <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
+                                                              </div>
+                                                           <span *ngIf="orgGstStatus != 'Rejected'"  class="ClickDisplayDoc" >GSTIN</span>
+                                                        </div>
+                                                        <div class="status" [ngClass]="{
+                                                            'rejected': orgGstStatus === 'Rejected',
+                                                            'approved': orgGstStatus === 'Approved',
+                                                            'notReviewed': orgGstStatus === 'Not Reviewed'||orgGstStatus === null
+                                                          }">
+                                                          {{orgGstStatus?orgGstStatus:'Not Reviewed'}}
+                                                        </div>
+                                                       
+                                                    </div>
+                                                   
+                                                        
+                                                </div>
+                                            PAN
+                                                <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                                    <div style="display:flex;justify-content: space-between;">
+                                                        <div>
+                                                            <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                            </svg>
+                                                            <div *ngIf="orgPanStatus === 'Rejected'" (click)="reuploadOrgDocs('PAN')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">PAN
+                                                                <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
+                                                              </div>
+                                                           <span *ngIf="orgPanStatus != 'Rejected'"  class="ClickDisplayDoc" >PAN</span>
+                                                        </div>
+                                                         <div class="status" [ngClass]="{
+                                                            'rejected': orgPanStatus === 'Rejected',
+                                                            'approved': orgPanStatus === 'Approved',
+                                                            'notReviewed': orgPanStatus === 'Not Reviewed'||orgPanStatus === null
+                                                          }">
+                                                           {{orgPanStatus?orgPanStatus:'Not Reviewed'}}
+                                                        </div>
+                                                       
+                                                    </div>
+                                                   
+                                                        
+                                                </div>
+                                                Licence Number
+                                                <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                                    <div style="display:flex;justify-content: space-between;">
+                                                        <div>
+                                                            <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                            </svg>
+                                                            <div *ngIf="orgLicenceStatus === 'Rejected'" (click)="reuploadOrgDocs('LICENCE')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">Licence Number
+                                                                <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
+                                                              </div>
+                                                           <span *ngIf="orgLicenceStatus != 'Rejected'"  class="ClickDisplayDoc" >Licence Number</span>
+                                                        
+                                                        </div>
+                                                        <div class="status" [ngClass]="{
+                                                            'rejected': orgLicenceStatus === 'Rejected',
+                                                            'approved': orgLicenceStatus === 'Approved',
+                                                            'notReviewed': orgLicenceStatus === 'Not Reviewed'||orgLicenceStatus===null
+                                                          }">
+                                                           {{orgLicenceStatus?orgLicenceStatus:'Not Reviewed'}}
+                                                        </div>
+                                                       
+                                                    </div>
+                                                   
+                                                        
+                                                </div>
+                                                Board Resolution
+                                                <div class="card" style="margin-bottom: 10px;padding: 10px;">
+                                                    <div style="display:flex;justify-content: space-between;">
+                                                        <div>
+                                                            <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
+                                                            </svg>
+                                                            <div *ngIf="orgBoardStatus === 'Rejected'" (click)="reuploadOrgDocs('BOARD')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">Board Resolution
+                                                                <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
+                                                              </div>
+                                                           <span *ngIf="orgBoardStatus != 'Rejected'"  class="ClickDisplayDoc" >Board Resolution</span>
+                                                    
+                                                        </div>
+                                                        <div class="status" [ngClass]="{
+                                                            'rejected': orgBoardStatus === 'Rejected',
+                                                            'approved': orgBoardStatus === 'Approved',
+                                                            'notReviewed': orgBoardStatus === 'Not Reviewed'||orgBoardStatus === null
+                                                          }">
+                                                          {{orgBoardStatus?orgBoardStatus:'Not Reviewed'}}
+                                                        </div>
+                                                       
+                                                    </div>
+                                                   
+                                                        
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 20px;">
+                                                <table>
+                                                    <thead>
+                                                      <tr>
+                                                        <th>Officers</th>
+                                                        <th>Status</th>
+                                                        <!-- <th>Links</th> -->
+                                                      </tr>
+                                                    </thead>
+                                                    <tr>
+                                                      <td colspan="2">
+                                                        <hr>
+                                                      </td>
+                                                    </tr>
+                                                    <tbody id="officerTbody">
+                                                      <tr style="padding-bottom: 20px;">
+                                                        <td style="padding-bottom: 15px;">Administrative Officer</td>
+                                                        <td   class="status" [ngClass]="{
+                                                            'rejected': adminStatus === 'Rejected',
+                                                            'approved': adminStatus === 'Approved',
+                                                            'notReviewed': adminStatus === 'Not Reviewed'
+                                                          }">{{adminStatus}}</td>
+                                                        <!-- <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td> -->
+                                                      </tr>
+                                                      <tr>
+                                                        <td style="padding-bottom: 15px">Technical Officer</td>
+                                                        <td   class="status" [ngClass]="{
+                                                            'rejected': technicalOfficerStatus === 'Rejected',
+                                                            'approved': technicalOfficerStatus === 'Approved',
+                                                            'notReviewed': technicalOfficerStatus === 'Not Reviewed'
+                                                          }">{{technicalOfficerStatus}}</td>
+                                                        <!-- <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td> -->
+                                                      </tr>
+                                                      <tr>
+                                                        <td style="padding-bottom: 15px">Billing Officer</td>
+                                                        <td   class="status" [ngClass]="{
+                                                            'rejected': billingOfficerStatus === 'Rejected',
+                                                            'approved': billingOfficerStatus === 'Approved',
+                                                            'notReviewed': billingOfficerStatus === 'Not Reviewed'
+                                                          }">{{billingOfficerStatus}}</td>
+                                                        <!-- <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td> -->
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
-
-                            </div>
+                         
                         </div>
                     </div>
 
@@ -342,5 +499,52 @@
                
             </div>
         </div>
+    </div>
+  </div>
+<div hidden data-toggle="modal" class="modal fade" id="reuploadModel" data-target="#reuploadModal"></div>
+  <div class="modal" id="reuploadModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: rgba(237, 236, 252, 1);padding-bottom:0px">
+          <h5 class="modal-title">{{docName}} Document</h5>
+          <!-- <button type="button" > -->
+            <span aria-hidden="true" class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+          <!-- </button> -->
+        </div>
+        <div class="modal-body">
+            <div >
+                <div style="margin-bottom: 20px;">
+                   
+                    <p> <span style="color:red;padding-right:3px">*</span>Your document was rejected due to blurriness or an incorrect ID number. Please upload a clearer copy with the correct ID.</p>
+                </div>
+                <div class="modalcontainer">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <input style="width: 100%;" *ngIf="docName!='BOARD'"(input)="handleOrganisationInputChange($event)" type="text" id="gst-input" [(ngModel)]="organisationInputValue" placeholder="Enter {{docName}} Number">
+                            <span style="color:red">{{organisationInputFieldErrors}}</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <button style="width: 100%;" [disabled]="buttonDisabled" (click)="triggerFileInput()">Upload Document</button>
+                            <input type="file" #filesInput id="file-upload" accept=".pdf, .jpg, .png" (change)="handleFileInput($event)">
+                        </div>
+
+                    </div>
+                   
+                    
+                </div>
+                <div style="margin-top: 20px;">
+                    <p *ngIf="docName==='PAN'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">PAN</p>
+                    <p *ngIf="docName==='BOARD'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">Board Resolution</p>
+                    <p *ngIf="docName==='GST'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">GSTIN</p>
+                    <p *ngIf="docName==='LICENCE'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">LICENCE NUMBER</p>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="reUploadDocument(UploadedDocuments)" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" (click)="clearTheinpuErrors()" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>

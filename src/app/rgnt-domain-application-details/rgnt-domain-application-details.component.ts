@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { DomainApplicationDetailsService } from '../domain-application-details/service/domain-application-details.service';
@@ -9,6 +9,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import { DocumentUploadService } from '../document-upload/service/document-upload.service';
+import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 
 @Component({
   selector: 'app-rgnt-domain-application-details',
@@ -29,6 +31,8 @@ export class RgntDomainApplicationDetailsComponent implements OnInit {
      private oreganizationService:DomainApplicationDetailsService,
      private toastrService: ToastrService,
     private router: Router,private sanitizer: DomSanitizer,
+    private documentService:DocumentUploadService,
+    private contactDocumentsService:ContactDocumentUploadService,
   private dialog: MatDialog) {
     const savedFileName = localStorage.getItem('uploadedFileName');
     if (savedFileName) {
@@ -81,6 +85,7 @@ export class RgntDomainApplicationDetailsComponent implements OnInit {
       next: (res) => {
         if (res.status === HttpStatusCode.Ok) {
           this.organizationsList = res.body;
+          this.getOrgDocuments(organisationId);
          console.log("organization data received:",res);
         } else {
           console.log("Unexpected status code:", res.status);
@@ -90,6 +95,55 @@ export class RgntDomainApplicationDetailsComponent implements OnInit {
         console.error("Error fetching organization data:", error);
       }
     });
+  }
+  gstDoc:any
+  panDoc:any
+  licenseDoc:any
+  boardResolutionDoc:any;
+  entireOrgDocsObj:any;
+  panDocPdf:any
+  gstDocPdf:any
+  licenceDocPdf:any
+  boardResolutionDocPdf:any
+  orgGstStatus;
+  orgPanStatus;
+  orgLicenceStatus;
+  orgBoardStatus;
+  async getOrgDocuments(orgId){
+    this.documentService.getOrgDoucumentsById(orgId).subscribe({
+      next: (response) => {
+        console.log("hello")
+        this.entireOrgDocsObj=response.body;
+       console.log(this.entireOrgDocsObj)
+        this.entireOrgDocsObj.forEach(doc => {
+          if (doc.organisationGstinNumber && doc.organisationGstinNumber.trim() !== '') { 
+            this.orgGstStatus = doc.documentStatus; 
+          }
+          if (doc.panNumber && doc.panNumber.trim() !== '') { 
+            this.orgPanStatus = doc.documentStatus; 
+          }
+          if (doc.licenseNumber && doc.licenseNumber.trim() !== '') { 
+            this.orgLicenceStatus = doc.documentStatus; 
+          }
+          if(doc.boardResolutionDocument){
+            this.orgBoardStatus=doc.documentStatus
+          }
+          // ... similar checks for other document types
+        });
+        this.getContactOfficerDocuments(orgId);
+      
+      },error:(error)=>{
+        if(error.status===HttpStatusCode.Unauthorized){
+          this.router.navigateByUrl("session-timeout");
+        }
+      }
+  })
+  }
+  showTooltip(){
+    document.getElementById("myTooltip").style.display = "block";
+  }
+  hideTooltip(){
+    document.getElementById("myTooltip").style.display = "none";
   }
 
   domain : Domain = new Domain()
@@ -404,6 +458,135 @@ previewDocName:any;
       }
     );
 }
+docName:string=''
+docDisplayName:string='';
+reuploadOrgDocs(documentType){
+  this.docName=documentType
+  document.getElementById("reuploadModel").click();
+}
+@ViewChild('filesInput') fileInput!: ElementRef;
+
+  triggerFileInput() {
+    this.fileInput.nativeElement.click();
+  }
+  organisationDocErrors:string=''
+  organisationInputValue:any='';
+  UploadedDocuments:any
+  handleFileInput(event: any) {
+    const selectedFile = event.target.files[0];
+    const maxFileSize = this.maxFileSizeInMB * 1024 * 1024;  // Convert MB to bytes
+    if (selectedFile.size > maxFileSize) {
+      this.organisationDocErrors =`Select a file less than ${this.maxFileSizeInMB}MB.`;
+      return;
+    }
+    const validFileTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
+    if (!validFileTypes.includes(selectedFile.type)) {
+      this.organisationDocErrors = 'Invalid file type. Only PDF, JPG, and JPEG are allowed'
+      // input.value = ''; // Reset the file input field
+      return;
+    }
+    const uploadedDoc = {
+      type: selectedFile,
+      fileName: selectedFile.name,
+      fileSize: selectedFile.size, // Optional for extra checks
+      value: this.organisationInputValue || null,
+      organisationId: this.domainsList.organisationId,
+      file: event.target.files[0],
+      contactType: 'Organisation'
+    };
+    this.UploadedDocuments=uploadedDoc;
+   
+  }
+
+  uploadFile(file,docName){
+    this.documentService.updateOrgDocs(file,docName).subscribe({
+      next:(response)=>{
+        this.toastrService.success("Reuploaded document")
+      },error:(error)=>{
+        this.toastrService.error("Something happened retry after some time")
+      }
+    })
+  }
+  reUploadDocument(file){
+    if(file!=null){
+      this.uploadFile(file,this.docName);
+    }
+    this.UploadedDocuments=null;
+    this.organisationInputValue='';
+
+  }
+  organisationInputFieldErrors
+  handleOrganisationInputChange(event: any): void {
+    const inputValue = event.target.value; // Get the actual input value
+  
+    if (/^[a-zA-Z0-9\s]*$/.test(inputValue)) { // Test against allowed characters *first*
+      this.organisationInputValue = inputValue;
+      this.organisationInputFieldErrors = ''; // Clear any previous errors
+  
+      switch (this.docName) {  // Use a switch for cleaner logic
+        case 'PAN':
+          if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(inputValue)) {
+            this.organisationInputFieldErrors = 'Invalid PAN format.';
+            this.buttonDisabled=true
+          }else{
+            this.buttonDisabled=false
+          }
+          break;
+        case 'GST':
+          if (!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9A-Z]$/.test(inputValue)) {
+            this.organisationInputFieldErrors = 'Invalid Organization GSTIN format.';
+            this.buttonDisabled=true
+          }else{
+            this.buttonDisabled=false
+          }
+          break;
+        case 'LICENCE':
+          if (!/^[LU]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$/.test(inputValue)) {
+            this.organisationInputFieldErrors = 'Invalid Licence Number format.';
+             this.buttonDisabled=true
+          }else{
+            this.buttonDisabled=false
+          }
+          break;
+        default: // Handle the default case (no specific validation) if needed
+          break;
+      }
+    } else {
+      this.organisationInputFieldErrors = 'Invalid characters entered.'; // More general error message
+      // Optionally, you could prevent the invalid character from being entered:
+      // event.target.value = inputValue.slice(0, -1); // Remove the last character
+      // this.organisationInputValue = event.target.value; // Update the value
+    }
+  }
+
+  buttonDisabled=false;
+  adminStatus;
+  technicalOfficerStatus;
+  billingOfficerStatus;
+  clearTheinpuErrors(){
+    this.organisationInputFieldErrors=''
+    this.buttonDisabled=false;
+
+  }
+  getContactOfficerDocuments(organisationId: number): void {
+    this.contactDocumentsService.getDocStatusOfOfficers(organisationId)
+      .subscribe({
+        next: (response) => {
+          if (response.status === HttpStatusCode.Ok) {
+          const allStatus= response.body[0].split(",")
+           this.adminStatus=allStatus[0];
+           this.technicalOfficerStatus=allStatus[1];
+           this.billingOfficerStatus=allStatus[2];
+          //  this.changeStatusOfpayment();
+          }
+        },
+        error: (error) => {
+          if (error.status === HttpStatusCode.Unauthorized) {
+            // Your logic for Unauthorized error here
+          }
+        }
+      });
+  }
 
 
 

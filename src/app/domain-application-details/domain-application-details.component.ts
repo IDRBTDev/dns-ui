@@ -21,8 +21,7 @@ import { ContactDocumentUploadService } from '../contact-document-upload/service
 })
 export class DomainApplicationDetailsComponent implements OnInit{
 
-  role: string = localStorage.getItem('userRole');
-
+  role: string = localStorage.getItem('userRole')
   constructor(private route: ActivatedRoute,
     private domainService: DomainService,
      private oreganizationService:DomainApplicationDetailsService,
@@ -45,7 +44,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
     console.log('executed')
     console.log('executed2')
     this.setNsStatusOptions();
-    this.getOrganizationDetails(this.domain.organisationId);
+    
   }
   domainsList: Domain;
   async getDomainApplicationDetails(domainId:number) {
