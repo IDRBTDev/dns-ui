@@ -345,3 +345,7 @@ app-side-menu {
       #file-upload {
         display: none; /* Initially hidden */
       }
+.ClickDisplayDoc{
+  color: #007CF8;
+  text-decoration: underline;
+}

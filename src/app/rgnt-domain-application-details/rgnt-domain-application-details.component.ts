@@ -582,12 +582,120 @@ reuploadOrgDocs(documentType){
         },
         error: (error) => {
           if (error.status === HttpStatusCode.Unauthorized) {
-            // Your logic for Unauthorized error here
+            this.router.navigateByUrl("session-timeout");
           }
         }
       });
   }
 
+BoardDocImage:boolean;
+OrgGstDocImage:boolean;
+OrgLicenceImage:boolean;
+OrgPanImage:boolean;
+  viewDocuments(docType){
+    if(docType=='GSTIN'){
+      this.gstDoc = this.extractDocument(this.entireOrgDocsObj, 'organisationGstinDocument');
+      if (this.gstDoc?.size > 0 && this.gstDoc.get('fileName').endsWith('.pdf')) {
+        this.displayPdf(this.gstDoc.get('document'), "organisationGstinDocument"); 
+        this.OrgGstDocImage=false
+        document.getElementById("gstModal")?.click();
+      } else if (this.gstDoc.size > 0) { 
+        this.OrgGstDocImage=false
+        this.gstDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'organisationGstinDocument'); 
+        document.getElementById("gstModal")?.click();
+      }
+     
+    }else if(docType=='PAN'){
+      this.panDoc = this.extractDocument(this.entireOrgDocsObj, 'panDocument');
+       
+      if (this.panDoc?.size > 0 && this.panDoc?.get('fileName').endsWith('.pdf')) {
+        this.displayPdf(this.panDoc.get('document'), "panDocument"); // Corrected documentField
+        this.OrgPanImage=false;
+        document.getElementById("panModal")?.click();
+      } else if (this.panDoc.size > 0) { 
+        this.panDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'panDocument');
+        this.OrgPanImage=true;
+        document.getElementById("panModal")?.click(); 
+      }
+    }else if(docType=='LICENCE'){
+      this.licenseDoc = this.extractDocument(this.entireOrgDocsObj, 'licenseDocument');
+      if (this.licenseDoc?.size > 0 && this.licenseDoc.get('fileName').endsWith('.pdf')) {
+        this.displayPdf(this.licenseDoc.get("document"), "licenseDocument"); // Corrected documentField
+        this.OrgLicenceImage=false;
+        document.getElementById("licenceModal")?.click(); 
+      } else if (this.licenseDoc.size > 0) { 
+        this.licenseDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'licenseDocument'); 
+        this.OrgLicenceImage=true;
+        document.getElementById("licenceModal")?.click(); 
+      }
+    }else{
+      this.boardResolutionDoc = this.extractDocument(this.entireOrgDocsObj, 'boardResolutionDocument');
+      if (this.boardResolutionDoc?.size > 0 && this.boardResolutionDoc.get('fileName').endsWith('.pdf')) {
+        this.displayPdf(this.boardResolutionDoc.get("document"), "boardResolutionDocument"); // Corrected documentField
+        this.BoardDocImage=false;
+        document.getElementById("boardModal")?.click(); 
+      } else if (this.boardResolutionDoc.size > 0) { 
+        console.log("entered the else")
+        this.BoardDocImage=true;
+        this.boardResolutionDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'boardResolutionDocument'); 
+        document.getElementById("boardModal")?.click(); 
+      }
+    }
+  }
 
+  private extractDocument(orgDocs: any, documentField: string): Map<string, any> {
+    console.log(documentField)
+    const foundDoc = orgDocs.find(doc => !!doc[documentField]);
+  
+    if (foundDoc) {
+      return new Map([
+        ['fileName', foundDoc.fileName], 
+        ['document', foundDoc[documentField]]
+      ]);
+    } else {
+      return new Map(); 
+    }
+  }
+  private extractDocumentImage(orgDocs: any, documentField: string): any {
+    const foundDoc = orgDocs.find(doc => !!doc[documentField]);
+  
+    if (foundDoc) {
+      return foundDoc[documentField]; 
+    } else {
+      return null; 
+    }
+  }
+  displayPdf(binaryData,docName) {
+    if (typeof binaryData === 'string') { 
+      // If data is a Base64 string
+      const binaryString = atob(binaryData); 
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      
+      // const arrayBuffer = new Uint8Array(binaryData);
+    
+      if(docName=="organisationGstinDocument"){
+       // const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+       const pdfUrl = URL.createObjectURL(blob);
+        this.gstDocPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+      }
+      if(docName=="panDocument"){
+        const pdfUrl = URL.createObjectURL(blob);
+        this.panDocPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+      }
+      if(docName=="licenseDocument"){
+        const pdfUrl = URL.createObjectURL(blob);
+        this.licenceDocPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+      }
+      if(docName=="boardResolutionDocument"){
+        const pdfUrl = URL.createObjectURL(blob);
+        this.boardResolutionDocPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+      }
+  } 
+  }
 
 }

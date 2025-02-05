@@ -178,7 +178,7 @@
                                                             <div *ngIf="orgGstStatus === 'Rejected'" (click)="reuploadOrgDocs('GST')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">GSTIN
                                                                 <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
                                                               </div>
-                                                           <span *ngIf="orgGstStatus != 'Rejected'"  class="ClickDisplayDoc" >GSTIN</span>
+                                                           <span *ngIf="orgGstStatus != 'Rejected'" (click)="viewDocuments('GSTIN')"  class="ClickDisplayDoc" >GSTIN</span>
                                                         </div>
                                                         <div class="status" [ngClass]="{
                                                             'rejected': orgGstStatus === 'Rejected',
@@ -202,7 +202,7 @@
                                                             <div *ngIf="orgPanStatus === 'Rejected'" (click)="reuploadOrgDocs('PAN')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">PAN
                                                                 <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
                                                               </div>
-                                                           <span *ngIf="orgPanStatus != 'Rejected'"  class="ClickDisplayDoc" >PAN</span>
+                                                           <span *ngIf="orgPanStatus != 'Rejected'" (click)="viewDocuments('PAN')" class="ClickDisplayDoc" >PAN</span>
                                                         </div>
                                                          <div class="status" [ngClass]="{
                                                             'rejected': orgPanStatus === 'Rejected',
@@ -226,7 +226,7 @@
                                                             <div *ngIf="orgLicenceStatus === 'Rejected'" (click)="reuploadOrgDocs('LICENCE')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">Licence Number
                                                                 <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
                                                               </div>
-                                                           <span *ngIf="orgLicenceStatus != 'Rejected'"  class="ClickDisplayDoc" >Licence Number</span>
+                                                           <span *ngIf="orgLicenceStatus != 'Rejected'" (click)="viewDocuments('LICENCE')"  class="ClickDisplayDoc" >Licence Number</span>
                                                         
                                                         </div>
                                                         <div class="status" [ngClass]="{
@@ -248,10 +248,10 @@
                                                             <svg width="16" height="16" viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M20.3749 5.58929C20.6249 5.83929 20.8392 6.17857 21.0178 6.60714C21.1964 7.03571 21.2857 7.42857 21.2857 7.78571V23.2143C21.2857 23.5714 21.1607 23.875 20.9107 24.125C20.6607 24.375 20.3571 24.5 19.9999 24.5H1.99995C1.6428 24.5 1.33923 24.375 1.08923 24.125C0.839233 23.875 0.714233 23.5714 0.714233 23.2143V1.78571C0.714233 1.42857 0.839233 1.125 1.08923 0.875C1.33923 0.625 1.6428 0.5 1.99995 0.5H13.9999C14.3571 0.5 14.7499 0.589286 15.1785 0.767857C15.6071 0.946429 15.9464 1.16071 16.1964 1.41071L20.3749 5.58929ZM14.4285 2.32143V7.35714H19.4642C19.3749 7.09821 19.2767 6.91518 19.1696 6.80804L14.9776 2.61607C14.8705 2.50893 14.6874 2.41071 14.4285 2.32143ZM19.5714 22.7857V9.07143H13.9999C13.6428 9.07143 13.3392 8.94643 13.0892 8.69643C12.8392 8.44643 12.7142 8.14286 12.7142 7.78571V2.21429H2.42852V22.7857H19.5714Z" fill="#747474"/>
                                                             </svg>
-                                                            <div *ngIf="orgBoardStatus === 'Rejected'" (click)="reuploadOrgDocs('BOARD')" class="tooltip-container" style="cursor: pointer;color: #007CF8;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">Board Resolution
+                                                            <div *ngIf="orgBoardStatus === 'Rejected'" (click)="reuploadOrgDocs('BOARD')" class="tooltip-container" style="cursor: pointer;color: red;text-decoration: underline;" onmouseover="showTooltip()" onmouseout="hideTooltip()">Board Resolution
                                                                 <div class="tooltip" id="myTooltip" >Click to reupload the document</div>
                                                               </div>
-                                                           <span *ngIf="orgBoardStatus != 'Rejected'"  class="ClickDisplayDoc" >Board Resolution</span>
+                                                           <span *ngIf="orgBoardStatus != 'Rejected'"(click)="viewDocuments('BOARD')"  class="ClickDisplayDoc" >Board Resolution</span>
                                                     
                                                         </div>
                                                         <div class="status" [ngClass]="{
@@ -532,12 +532,12 @@
                    
                     
                 </div>
-                <div style="margin-top: 20px;">
+                <!-- <div style="margin-top: 20px;">
                     <p *ngIf="docName==='PAN'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">PAN</p>
                     <p *ngIf="docName==='BOARD'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">Board Resolution</p>
                     <p *ngIf="docName==='GST'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">GSTIN</p>
                     <p *ngIf="docName==='LICENCE'" style="color: rgba(0, 124, 248, 1);text-decoration: underline;">LICENCE NUMBER</p>
-                </div>
+                </div> -->
                 
             </div>
         </div>
@@ -546,5 +546,146 @@
           <button type="button" class="btn btn-secondary" (click)="clearTheinpuErrors()" data-dismiss="modal">Cancel</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="gstModal" hidden  data-toggle="modal"
+  data-target="#viewTheOrgGstDocs"></div>
+  <div id="panModal" hidden  data-toggle="modal"
+  data-target="#viewTheOrgPanDocs"></div>
+  <div id="licenceModal" hidden  data-toggle="modal"
+  data-target="#viewTheOrgLicenceDocs"></div>
+  <div id="boardModal" hidden  data-toggle="modal"
+  data-target="#viewTheBoardDocs"></div>
+  <div class="modal fade" id="viewTheOrgGstDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                <button  class="close"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        >&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+             
+              
+              <div *ngIf="OrgGstDocImage==false">
+                <iframe [src]="gstDocPdf" width="100%" height="500px"></iframe>
+              </div>
+              
+                <div *ngIf="OrgGstDocImage==true" class="image-Container">
+                    <img [src]="'data:image/png/jpg/jpeg;base64,'+gstDoc"  width="100%" height="100%">
+                </div>
+             
+             
+            </div>
+            <!-- Modal footer -->
+            <!-- <div class="modal-footer" role="alert">
+               <button class="btn btn-primary" (click)="approveOrgDocs('GST')">Approve</button>
+               <button class="btn btn-danger"(click)="rejectOrgDocs('GST')">Reject</button>
+            </div> -->
+        </div>
+    </div>
+  </div>
+  <div class="modal fade" id="viewTheOrgLicenceDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                <button  class="close"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        >&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+             
+              
+              <div *ngIf="OrgLicenceImage==false">
+                <iframe [src]="licenceDocPdf" width="100%" height="500px"></iframe>
+              </div>
+            
+                <div *ngIf="OrgLicenceImage==true" class="image-Container">
+                    <img [src]="'data:image/png/jpg/jpeg;base64,'+licenseDoc"  width="100%" height="100%">
+                </div>
+          
+             
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer" role="alert">
+               <!-- <button class="btn btn-primary" (click)="approveOrgDocs('LICENCE')">Approve</button>
+               <button class="btn btn-danger"(click)="rejectOrgDocs('LICENCE')">Reject</button> -->
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="viewTheBoardDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                <button  class="close"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        >&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+             
+              
+              <div *ngIf="BoardDocImage==false">
+                <iframe [src]="boardResolutionDocPdf" width="100%" height="500px"></iframe>
+              </div>
+          
+                <div  *ngIf="BoardDocImage==true" class="image-Container">
+                    <img [src]="'data:image/png/jpg/jpeg;base64,'+boardResolutionDoc"  width="100%" height="100%">
+                </div>
+          
+             
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer" role="alert">
+               <!-- <button class="btn btn-primary" (click)="approveOrgDocs('BOARD')">Approve</button>
+               <button class="btn btn-danger"(click)="rejectOrgDocs('BOARD')">Reject</button> -->
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="modal fade" id="viewTheOrgPanDocs" tabindex="-1" role="dialog" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
+                <button  class="close"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        >&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+             
+              
+              <div *ngIf="OrgPanImage==false">
+                <iframe [src]="panDocPdf" width="100%" height="500px"></iframe>
+              </div>
+             
+                <div *ngIf="OrgPanImage==true" class="image-Container">
+                    <img [src]="'data:image/png/jpg/jpeg;base64,'+panDoc"  width="100%" height="100%">
+                </div>
+             
+             
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer" role="alert">
+               <!-- <button class="btn btn-primary" (click)="approveOrgDocs('PAN')">Approve</button>
+               <button class="btn btn-danger"(click)="rejectOrgDocs('PAN')">Reject</button> -->
+            </div>
+        </div>
     </div>
   </div>
