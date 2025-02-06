@@ -79,7 +79,7 @@
                                         </div>
                                         <h5 style="font-size: 16px; color:#000000">Email ID</h5>
                                         <div>
-                                            <input type="email" placeholder="Enter your Email id" class="form-control"
+                                            <input disabled type="email" placeholder="Enter your Email id" class="form-control"
                                                 [(ngModel)]="organizationsList.userMailId" />
                                             <div *ngFor="let organization of organizationsList">
                                                 <p>{{ organization.userMailId }}</p>
@@ -87,7 +87,7 @@
                                         </div>
                                       
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-12">
                                                 <h5 style="font-size: 16px; color:#000000">Payment Receipt</h5>
                                                 <div style="position: relative;">
                                         
@@ -110,7 +110,7 @@
                                                 (change)="onFileSelected($event)" />
                                        
                                        
-                                            <div class="col-6">
+                                            <!-- <div class="col-6">
                                                 <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                                 <div>
                                                     <select class="form-control" [(ngModel)]="domainsList.paymentStatus"
@@ -122,7 +122,7 @@
                                                         <option value="Ready for payment">Ready For Payment</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> -->
         
                                             <div class="col-6">
                                                 <h5 style="font-size: 16px; color:#000000">NS Status</h5>
