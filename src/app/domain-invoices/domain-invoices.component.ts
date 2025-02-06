@@ -26,7 +26,8 @@ export class DomainInvoicesComponent implements OnInit {
   displayedColumns: string[] = [
     'checkbox',
     'id',
-    'organizationId',
+    'organisationName',
+    'domainName',
     'finalAmount',
     'taxAmount',
     'invoice'
