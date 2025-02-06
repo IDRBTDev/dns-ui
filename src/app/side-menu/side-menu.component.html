@@ -21,7 +21,7 @@
           </li>
 
           <!-- Domains -->
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <li *ngIf="role!='Billing Officer'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a [routerLink]="domainRoute">
               <mat-icon>public</mat-icon>
               <span>Domains</span>
@@ -29,7 +29,7 @@
           </li>
 
           <!-- Invoices -->
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <li *ngIf="role!='Technical Officer'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a routerLink="/invoices">
               <mat-icon>description</mat-icon>
               <span>Invoices</span>
@@ -45,7 +45,7 @@
           </li>
 
           <!-- Settings -->
-          <li (mouseenter)="toggleBox()">
+          <li *ngIf="role==='Super Admin'||role==='IDRBTADMIN'" (mouseenter)="toggleBox()">
             <a>
               <mat-icon>settings</mat-icon>
               <span>Settings</span>
