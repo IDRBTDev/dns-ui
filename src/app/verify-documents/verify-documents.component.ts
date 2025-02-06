@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { param } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-verify-documents',
@@ -32,7 +33,8 @@ export class VerifyDocumentsComponent implements OnInit {
   constructor(private contactDocumentsService: ContactDocumentUploadService,
     private router: Router, private activatedRouter: ActivatedRoute,
     private toastr: ToastrService,
-    private location: Location
+    private location: Location,
+    private sanitizer:DomSanitizer
   ){
     this.documentsListDataSource = new MatTableDataSource<any>();
     this.activatedRouter.queryParams.subscribe(param => {
@@ -99,13 +101,47 @@ export class VerifyDocumentsComponent implements OnInit {
   binaryData: any;
   documentNumber: any = '';
   currentDocumentId: number = 0;
-  viewCurrentData(binaryData: any, documentNumber: any ){
+  showImage:boolean;
+  async viewCurrentData(binaryData: any, documentNumber: any,fileName:any ){
     //this.binaryData = null
-    this.binaryData = binaryData;
-    this.documentNumber = documentNumber;
-    console.log(binaryData)
-    console.log(this.documentNumber)
+    console.log(fileName)
+    if (binaryData!=null && fileName.endsWith('.pdf')) {
+           await this.displayPdf(binaryData); 
+            this.showImage=false
+            // console.log(document.getElementById("viewTheRgntDocs"))
+            document.getElementById("viewTheRgntDocs")?.click();
+          } else if (binaryData!=null) { 
+            this.showImage=true;
+            this.binaryData = binaryData;
+            document.getElementById("viewTheRgntDocs")?.click();
+          }
+          
+   
+      this.documentNumber = documentNumber;
+    // console.log(binaryData)
+    // console.log(this.documentNumber)
 
+  }
+  viewTheDocsPdf:any
+  async displayPdf(binaryData) {
+    console.log(typeof binaryData === 'string')
+    if (typeof binaryData === 'string') { 
+      // If data is a Base64 string
+      const binaryString = atob(binaryData); 
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      
+      // const arrayBuffer = new Uint8Array(binaryData);
+    
+      
+       const pdfUrl = URL.createObjectURL(blob);
+      this.viewTheDocsPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+    
+  } 
   }
 
   /**
@@ -170,5 +206,58 @@ export class VerifyDocumentsComponent implements OnInit {
    
    
   }
+
+  // viewDocuments(docType){
+  //   if(docType=='GSTIN'){
+  //     this.gstDoc = this.extractDocument(this.entireOrgDocsObj, 'organisationGstinDocument');
+  //     if (this.gstDoc?.size > 0 && this.gstDoc.get('fileName').endsWith('.pdf')) {
+  //       this.displayPdf(this.gstDoc.get('document'), "organisationGstinDocument"); 
+  //       this.OrgGstDocImage=false
+  //       document.getElementById("gstModal")?.click();
+  //     } else if (this.gstDoc.size > 0) { 
+  //       this.OrgGstDocImage=false
+  //       this.gstDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'organisationGstinDocument'); 
+  //       document.getElementById("gstModal")?.click();
+  //     }
+     
+  //   }else if(docType=='PAN'){
+  //     this.panDoc = this.extractDocument(this.entireOrgDocsObj, 'panDocument');
+       
+  //     if (this.panDoc?.size > 0 && this.panDoc?.get('fileName').endsWith('.pdf')) {
+  //       this.displayPdf(this.panDoc.get('document'), "panDocument"); // Corrected documentField
+  //       this.OrgPanImage=false;
+  //       document.getElementById("panModal")?.click();
+  //     } else if (this.panDoc.size > 0) { 
+  //       this.panDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'panDocument');
+  //       this.OrgPanImage=true;
+  //       document.getElementById("panModal")?.click(); 
+  //     }
+  //   }else if(docType=='LICENCE'){
+  //     this.licenseDoc = this.extractDocument(this.entireOrgDocsObj, 'licenseDocument');
+  //     if (this.licenseDoc?.size > 0 && this.licenseDoc.get('fileName').endsWith('.pdf')) {
+  //       this.displayPdf(this.licenseDoc.get("document"), "licenseDocument"); // Corrected documentField
+  //       this.OrgLicenceImage=false;
+  //       document.getElementById("licenceModal")?.click(); 
+  //     } else if (this.licenseDoc.size > 0) { 
+  //       this.licenseDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'licenseDocument'); 
+  //       this.OrgLicenceImage=true;
+  //       document.getElementById("licenceModal")?.click(); 
+  //     }
+  //   }else{
+  //     this.boardResolutionDoc = this.extractDocument(this.entireOrgDocsObj, 'boardResolutionDocument');
+  //     if (this.boardResolutionDoc?.size > 0 && this.boardResolutionDoc.get('fileName').endsWith('.pdf')) {
+  //       this.displayPdf(this.boardResolutionDoc.get("document"), "boardResolutionDocument"); // Corrected documentField
+  //       this.BoardDocImage=false;
+  //       document.getElementById("boardModal")?.click(); 
+  //     } else if (this.boardResolutionDoc.size > 0) { 
+  //       console.log("entered the else")
+  //       this.BoardDocImage=true;
+  //       this.boardResolutionDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'boardResolutionDocument'); 
+  //       document.getElementById("boardModal")?.click(); 
+  //     }
+  //   }
+  // }
+
+ 
 
 }

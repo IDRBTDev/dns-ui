@@ -32,7 +32,8 @@
                       document.organisationIdDocument, 
                       document.documentType === 'Aadhaar' ? document.aadharNumber : 
                       document.documentType === 'PAN' ? document.panNumber : 
-                      document.organisationIdNumber)" data-target="#documentView" data-toggle="modal"
+                      document.organisationIdNumber,
+                    document.fileName )" 
                   style="cursor: pointer;text-decoration: underline;color: blue;" mat-cell *matCellDef="let document">
                   {{document.fileName}}</td>
               </ng-container>
@@ -156,7 +157,7 @@
     </div>
   </div>
 </div>
-
+<div data-target="#documentView" hidden id="viewTheRgntDocs" data-toggle="modal" ></div>
 <div class="modal" id="documentView" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -174,8 +175,11 @@
             <h3>Details</h3>
             <p>Number : {{documentNumber}}</p>
           </div>
-          <div>
+          <div *ngIf="showImage===true">
             <img [src]="'data:image/png/jpg/jpeg;base64,'+binaryData" width="370px" height="320px" alt="document" />
+          </div>
+          <div *ngIf="showImage===false">
+            <iframe [src]="viewTheDocsPdf" width="100%" height="500px"></iframe>
           </div>
         </div>
       </div>
