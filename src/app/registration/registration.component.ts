@@ -144,9 +144,9 @@ otp:number;
     if (!this.user.userName) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not be empty.';
-    } else if (this.user.userName.length > 25) {
+    } else if (this.user.userName.length > 50) {
       this.nameInput = false;
-      this.nameErrorMessage = 'Name should not exceed 25 characters.';
+      this.nameErrorMessage = 'Name should not exceed 50 characters.';
     } else if (!this.namePattern.test(this.user.userName)) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should only contain alphabets and spaces.';
