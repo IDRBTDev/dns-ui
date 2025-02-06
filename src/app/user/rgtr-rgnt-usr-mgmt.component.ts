@@ -83,7 +83,7 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
     //set table comumns based on role
     if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
-        'checkbox',
+        // 'checkbox',
         'id',
         'userId',
         'userName',

@@ -7,7 +7,7 @@
           <div class="col-sm-12">
             <div class="button-svg-container">
               <h3> <button id="addUser" class="btn btn-primary" data-toggle="modal" data-target="#userModal" >Add User</button></h3>
-              <button hidden="true" id="addUser1" data-toggle="modal" data-target="#userModal"></button>
+              <button hidden id="addUser1" data-toggle="modal" data-target="#userModal"></button>
               <!-- <svg width="102" height="35" viewBox="0 0 102 35" fill="red" xmlns="http://www.w3.org/2000/svg">
                 <rect width="102" height="35" rx="3" fill="background: #EF3333;
                     " />
@@ -22,7 +22,7 @@
                   fill="white" />
               </svg> -->
             
-            <div style="height: 20%; padding-left: 1100px;">
+            <div >
               <input  type="text" placeholder="Search" style="margin-right: 10px; padding:8px 12px;height:35px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
               (ngModelChange)="applyFilter()" matInput #input>
           </div>

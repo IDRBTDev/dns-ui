@@ -141,7 +141,7 @@ export class RgntOfficerDetailsMgmtComponent implements OnInit{
         'documents',
         //'approveOrReject',
         'loginStatus',
-        'actions'
+        // 'actions'
       ]; 
     //}
 

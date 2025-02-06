@@ -169,10 +169,10 @@ export class RgtrUsrMgmtComponent implements OnInit{
 
   async getUsersList(organisationId: number) {
     console.log('Organisation ID:', organisationId);
-    if (isNaN(organisationId) || organisationId <= 1) {
-      console.error('Invalid organisationId:', organisationId);
-      //return;
-    }
+    // if (isNaN(organisationId) || organisationId <= 1) {
+    //   console.error('Invalid organisationId:', organisationId);
+    //   //return;
+    // }
     await lastValueFrom(this.userService.getAllRgtrUsers()).then(
       (response) => {
         if (response.status === HttpStatusCode.Ok) {

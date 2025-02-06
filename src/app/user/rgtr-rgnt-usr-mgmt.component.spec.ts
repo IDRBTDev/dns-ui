@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserComponent } from './rgtr-rgnt-usr-mgmt.component';
+import { RgtrRgntUserMgmtComponent } from './rgtr-rgnt-usr-mgmt.component';
 
 describe('UserComponent', () => {
-  let component: UserComponent;
-  let fixture: ComponentFixture<UserComponent>;
+  let component: RgtrRgntUserMgmtComponent;
+  let fixture: ComponentFixture<RgtrRgntUserMgmtComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserComponent]
+      declarations: [RgtrRgntUserMgmtComponent]
     });
-    fixture = TestBed.createComponent(UserComponent);
+    fixture = TestBed.createComponent(RgtrRgntUserMgmtComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
