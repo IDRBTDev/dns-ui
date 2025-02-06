@@ -132,20 +132,52 @@
                         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
                     
                     </div>
-                      <div style="margin-bottom: 15px;">
+                      <!-- <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Password</div>
                             <input type="password" [(ngModel)]="user.encryptedPassword" (change)="passwordChange()" [disabled]="!isEmailVerified"  placeholder="Enter the strong password">
                             <div *ngIf="!passwordNameInput" class="error-message">{{ passwordErrorMessage }}</div>
-                            <!-- <span class="toggle-password">Show</span> -->
-                      </div>
-
+                            <span class="toggle-password">Show</span>
+                      </div> -->
                       <div style="margin-bottom: 15px;">
-                        <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Confirm Password<div>
-                            <input type="password" placeholder="Re-enter the password"
-                            [(ngModel)]="user.confirmPassword" (change)="confirmPasswordChange()" [disabled]="!isEmailVerified">
-                            <div *ngIf="!confirmPasswordInput" class="error-message">{{ confirmPasswordErrorMessage }}</div>
-                            <!-- <span class="toggle-password">Show</span> -->
-                      </div>
+                        <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Password</div>
+                        <div style="position: relative;">
+                            <input
+                                type="{{ isPasswordVisible ? 'text' : 'password' }}"
+                                [(ngModel)]="user.encryptedPassword"
+                                (change)="passwordChange()"
+                                [disabled]="!isEmailVerified"  
+                                placeholder="Enter the strong password"
+                            />
+                            <span
+                                class="toggle-password"
+                                (click)="togglePasswordVisibility()"
+                                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+                            >
+                                <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="!passwordNameInput" class="error-message">{{ passwordErrorMessage }}</div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Confirm Password</div>
+                        <div style="position: relative;">
+                            <input
+                                type="{{ isConfirmPasswordVisible ? 'text' : 'password' }}"
+                                [(ngModel)]="user.confirmPassword"
+                                (change)="confirmPasswordChange()"
+                                [disabled]="!isEmailVerified"
+                                placeholder="Re-enter the password"
+                            />
+                            <span
+                                class="toggle-password"
+                                (click)="toggleConfirmPasswordVisibility()"
+                                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+                            >
+                                <i *ngIf="isEmailVerified" class="fa" [ngClass]="isConfirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="!confirmPasswordInput" class="error-message">{{ confirmPasswordErrorMessage }}</div>
+                    </div>
                       <div style="margin-bottom: 10px;margin-top: 10px;">
                         <input type="checkbox" [(ngModel)]="disclaimerChecked" (change)="checkBoth()" id="disclaimerCheckbox" [disabled]="!isEmailVerified">
                         <label for="disclaimerCheckbox" style="padding-left: 10px;">I agree to the Disclaimer and the Privacy Policy laid down by RBI</label><br>

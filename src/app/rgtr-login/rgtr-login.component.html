@@ -76,13 +76,25 @@
                     </div>
                    
         
-                      <div style="margin-bottom: 30px;">
-                        <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">Password</div>
-                            <input type="password" maxlength="16"  [(ngModel)]="user.password"(ngModelChange)="passWordValidation()"   placeholder="Enter the strong password">
-                            <div  *ngIf="passwordError!=''" style="color:red;font-size: 14px">Enter password</div>
-                            <!-- <span class="toggle-password">Show</span> -->
+                    <div style="margin-bottom: 30px;">
+                      <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">Password</div>
+                      <div style="position: relative;">
+                          <input
+                              type="{{ isPasswordVisible ? 'text' : 'password' }}"
+                              maxlength="16"  
+                              [(ngModel)]="user.password"
+                              (ngModelChange)="passWordValidation()"  
+                              placeholder="Enter the strong password"
+                          />
+                          <span
+                              class="toggle-password"
+                              (click)="togglePasswordVisibility()"
+                              style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                              <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                          </span>
                       </div>
-  
+                      <div *ngIf="passwordError !== ''" style="color:red;font-size: 14px;">Enter password</div>
+                  </div>
                       <!-- <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px">OTP</div>
                       <input type="text" [(ngModel)]="otp" placeholder="Enter OTP">
                       <div style='display: flex;justify-content: space-between;margin-top: 5px;'>

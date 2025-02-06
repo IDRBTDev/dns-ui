@@ -143,4 +143,9 @@ export class RgtrLoginComponent {
         }
       )
     }
+    isPasswordVisible =false;
+
+    togglePasswordVisibility(){
+      this.isPasswordVisible=!this.isPasswordVisible;
+    }
 }

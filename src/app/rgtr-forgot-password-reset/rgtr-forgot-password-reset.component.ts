@@ -104,5 +104,28 @@ export class RgtrForgotPasswordResetComponent {
       }
     }
   
+    isPasswordVisible = false; // Set the initial state to hidden
+  isconformPasswordVisible=false;
+  togglePasswordVisibility() {
+      this.isPasswordVisible = !this.isPasswordVisible;
+  }
+  toggleconformPasswordVisibility() {
+    this.isconformPasswordVisible = !this.isconformPasswordVisible;
+}
+  conformpasswordErrorMessage: string = '';
+  conformpasswordNameInput: boolean = true;
+  conformpasswordChange() {
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
+    if (!this.confirmPassword) {
+      this.conformpasswordNameInput = false;
+      this.conformpasswordErrorMessage = 'Password should not be empty';
+    } else if (!pattern.test(this.confirmPassword)) {
+      this.conformpasswordNameInput = false;
+      this.conformpasswordErrorMessage = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one digit, and one special character';
+    } else {
+      this.conformpasswordNameInput = true;
+      this.conformpasswordErrorMessage = '';
+    }
+  }
     
 }

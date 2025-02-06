@@ -183,5 +183,10 @@ export class LoginComponent {
       }
     )
   }
+  isPasswordVisible =false;
+
+  togglePasswordVisibility(){
+    this.isPasswordVisible=!this.isPasswordVisible;
+  }
 
 }
