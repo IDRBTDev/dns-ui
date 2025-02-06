@@ -127,7 +127,7 @@
                     
                     <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Full Name</div>
-                        <input type="text" [(ngModel)]="user.userName" id="name"
+                        <input type="text" [(ngModel)]="user.userName" id="name" maxlength="51"
                         placeholder="Enter your full name" (ngModelChange)="nameChange()" [disabled]="!isEmailVerified">
                         <div *ngIf="!nameInput" class="error-message">{{ nameErrorMessage }}</div>
                     
