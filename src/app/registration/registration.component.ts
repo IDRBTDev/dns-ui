@@ -138,13 +138,18 @@ otp:number;
 
   nameErrorMessage: string = '';
   nameInput: boolean = true;
+   namePattern = /^[A-Za-z\s]+$/;
   nameChange() {
+   
     if (!this.user.userName) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not be empty.';
     } else if (this.user.userName.length > 25) {
       this.nameInput = false;
       this.nameErrorMessage = 'Name should not exceed 25 characters.';
+    } else if (!this.namePattern.test(this.user.userName)) {
+      this.nameInput = false;
+      this.nameErrorMessage = 'Name should only contain alphabets and spaces.';
     } else {
       this.nameInput = true;
       this.nameErrorMessage = '';
@@ -458,10 +463,15 @@ isReg : boolean = false;
  async saveRegUser() {
   try {
     // Step 1: Check if email (user.userId) is provided
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
     if (!this.user.userId || this.user.userId.trim() === "") {
       console.log('Error: Email is missing');
       this.toastrService.error('Please provide email ID.');  // Show error message to the user
       return; // Exit early if email is missing
+    }
+    else if(!emailPattern.test(this.user.userId)){
+      this.toastrService.error('Please provide valid email ID.'); 
+      return;
     }
 
     console.log('Checking if user exists with email:', this.user.userId);

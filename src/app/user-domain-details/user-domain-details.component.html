@@ -168,7 +168,7 @@
                         <small *ngIf="userDomainForm.get('label')?.hasError('maxlength')">Domain name must be less than 63 characters long.</small>
                       
                         <small *ngIf="userDomainForm.get('label')?.hasError('pattern')">
-                          Domain name cannot start or end with a hyphen, and cannot start with a number and  cannot contain any other special characters.
+                          Domain name cannot start or end with a hyphen,cannot be capital letters and cannot start with a number and  cannot contain any other special characters.
                         </small>
                       </div>
 </div>
@@ -230,7 +230,7 @@
             </div>
           </div>
         </section> -->
-        <section *ngIf="showResult && !isReserved" class="m-4">
+        <section *ngIf="showResult" class="m-4">
           <div class="shadow p-3 bg-body rounded" style="height: 200px; max-width: 300px;">
             <div class="card">
               <div class="card-body p-3 d-flex flex-column justify-content-left align-items-left">
@@ -256,7 +256,7 @@
       <section class="m-4">
         <div class="shadow p-3 mb-5 bg-body rounded">
           <div class="card">
-            <h5 class="m-3 mb-1">Keep these Handy</h5>
+            <h5 class="m-3 mb-1">Keep These Handy</h5>
             <div class="card-body text-muted">
               <ul>
                 <li>Submit an authorized letter from your organization, confirming delegation to book the domain.</li>

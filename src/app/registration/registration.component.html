@@ -173,7 +173,7 @@
                                 (click)="toggleConfirmPasswordVisibility()"
                                 style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
                             >
-                                <i *ngIf="isEmailVerified" class="fa" [ngClass]="isConfirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                                <i  class="fa" [ngClass]="isConfirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                             </span>
                         </div>
                         <div *ngIf="!confirmPasswordInput" class="error-message">{{ confirmPasswordErrorMessage }}</div>
@@ -188,7 +188,7 @@
                       </div>
                       <div *ngIf="!isAuthorized && showError" class="error-message">
                         You must agree to the terms and conditions to proceed.
-                    </div>
+                    </div></div>
                      
                       <div style='display: flex;justify-self: flex-end;margin-top: 10px;margin-bottom:10px'>
                        

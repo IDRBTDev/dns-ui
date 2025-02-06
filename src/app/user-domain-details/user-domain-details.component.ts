@@ -457,7 +457,7 @@ export class UserDomainDetailsComponent implements OnInit {
           Validators.required,  
           Validators.minLength(3),  
           Validators.maxLength(63), 
-          Validators.pattern(/^[a-zA-Z]+([a-zA-Z0-9-]*[a-zA-Z0-9])?$/)
+          Validators.pattern(/^[a-z]+([a-z0-9-]*[a-z0-9])?$/)
 
 
         ]
@@ -495,7 +495,7 @@ export class UserDomainDetailsComponent implements OnInit {
   // }
 
   reset(){
-    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkafgkfgkgkgkjgkgkjdagsfkjgsafkjgsadfkjg");
+    // console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkafgkfgkgkgkjgkgkjdagsfkjgsafkjgsadfkjg");
     if(this.showResult){
       this.showResult = false;
     }
@@ -503,7 +503,7 @@ export class UserDomainDetailsComponent implements OnInit {
     
 
   onSearch() {
-    const bankName = this.userDomainForm.get('label')?.value;
+    const bankName = this.userDomainForm.get('label')?.value.toLowerCase();
     const domainName = this.userDomainForm.get('zone')?.value;
     console.log(bankName);
     console.log(domainName);
