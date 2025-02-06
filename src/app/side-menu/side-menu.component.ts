@@ -24,6 +24,7 @@ export class SideMenuComponent implements OnInit{
     // if (boxState === 'true') {
     //   this.isBoxVisible = true;
     // }
+    console.log("entered the side menu")
   }
 
   
