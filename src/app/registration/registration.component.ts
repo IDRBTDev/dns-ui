@@ -317,19 +317,13 @@ otp:number;
     this.registrationService.resendOtp(this.user.userId).subscribe({
       next: (response) => {
         // Check if OTP resend was successful
-        if (response.isRegistrationSuccess) {
+        // if (response.isRegistrationSuccess) {
           this.toastrService.success('OTP has been resent successfully!');
           this.otpResentMessage = 'OTP resent successfully.';
           this.resetTimer();
           setTimeout(() => {
             this.startTimer();
           }, 0);
-         
-          
-          
-        } else {
-          this.toastrService.error('Failed to resend OTP. User not found.');
-        }
       },
       error: (err) => {
         console.log('Error resending OTP:', err);
