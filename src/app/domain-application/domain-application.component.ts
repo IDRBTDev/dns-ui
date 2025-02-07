@@ -136,10 +136,11 @@ export class DomainApplicationComponent {
           console.log(response)
           this.domainsList = response.body;
           this.domainsDataSource.data = this.domainsList;
-          this.domainsDataSource.paginator = this.paginator;
+         
           setTimeout(() => {
             this.domainsDataSource.sort = this.sort;
           }, 0);
+          this.domainsDataSource.paginator = this.paginator;
         }
       },
       (error) => {
