@@ -212,8 +212,9 @@ panDoc:any
 licenseDoc:any
 boardResolutionDoc:any;
 entireOrgDocsObj:any;
-panDocPdf:any
-gstDocPdf:any
+panDocPdf:any;
+gstDocPdf:any;
+paymentRecieptPdf:any;
 licenceDocPdf:any
 boardResolutionDocPdf:any
 orgGstStatus;
@@ -393,6 +394,16 @@ changeDocStatus(DocType,Status,OrgId){
   this.documentService.approveOrRejectOrgDocs(DocType,Status,OrgId).subscribe({
     next:(response)=>{
       this.toastrService.success("Document "+Status)
+      if(DocType==='PAN'){
+        document.getElementById("panDocViewModalClose").click();
+      }else if(DocType==='LICENCE'){
+        document.getElementById("licenseDocViewModalClose").click();
+      }else if(DocType==='BOARD'){
+        document.getElementById("boardDocViewModalClose").click();
+      }else if(DocType ==='GST'){
+        document.getElementById("gstDocViewModalClose").click();
+      }
+     
     },error:(eror)=>{
 
     }
@@ -442,6 +453,33 @@ changeStatusOfpayment(){
   }
   
   
+}
+openReciptasPdf:boolean
+async viewThePaymentReceipt(paymentReciept,fileName){
+if(fileName.endsWith('.pdf')){
+  
+  await this.displayPaymentPdf(paymentReciept);
+  this.openReciptasPdf=true
+}else{
+  this.openReciptasPdf=false
+}
+  
+  
+  document.getElementById("viewThePaymentRecipt").click();
+}
+async displayPaymentPdf(binaryData) {
+  if (typeof binaryData === 'string') { 
+    // If data is a Base64 string
+    const binaryString = atob(binaryData); 
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const pdfUrl = URL.createObjectURL(blob);
+    this.paymentRecieptPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
+} 
 }
 
 }

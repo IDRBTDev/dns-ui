@@ -103,7 +103,7 @@
                                                         <option value="Paid">Paid</option>
                                                         <option value="Unpaid">Unpaid</option>
                                                         <option value="Initiated">Initiated</option>
-                                                        <option value="Ready for payment">Approved for payment</option>
+                                                        <option value="Approved for payment">Approved for payment</option>
                                                     </select>
                                                 </div>
                                                
@@ -137,7 +137,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card" *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Ready for payment'">
+                                        <div class="card" *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Approved for payment'">
                                             <div >
                                                 <div style="display:flex;flex-direction:row">
                                                     <div>
@@ -149,11 +149,11 @@
                                                     </div>
                                                     <div style="margin-left: 10px;">
                                                         <p style="text-decoration: underline;cursor: pointer;color:rgba(0, 124, 248, 1);font-size: 1rem;padding-top:5px"
-                                                            data-toggle="modal" data-target="#viewThePaymentReciept">
+                                                         (click)="viewThePaymentReceipt(domainsList.paymentReceipt,domainsList.paymentReceiptName)"  >
                                                             View Payment Receipt
                                                         </p>
                                                     </div>
-                                            
+                                            <div data-toggle="modal" id="viewThePaymentRecipt" hidden data-target="#viewThePaymentReciept"></div>
                                                 </div>
                                             
                                             </div>
@@ -200,12 +200,12 @@
                                                 </svg>
                                                <span class="ClickDisplayDoc" (click)="viewDocuments('PAN')">PAN</span>
                                             </div>
-                                             <div class="status" [ngClass]="{
+                                             <div class="status"  [ngClass]="{
                                                 'rejected': orgPanStatus === 'Rejected',
                                                 'approved': orgPanStatus === 'Approved',
-                                                'notReviewed': orgPanStatus === 'Not Reviewed'||orgPanStatus === 'null'
+                                                'notReviewed': orgPanStatus === 'Not Reviewed'||orgPanStatus === null
                                               }">
-                                               {{orgPanStatus?orgPanStatus:'Not Reviewed'}}
+                                              {{orgPanStatus?orgPanStatus:'Not Reviewed'}}
                                             </div>
                                            
                                         </div>
@@ -333,19 +333,26 @@
                     </div>
                     <!-- Modal body -->
                     <div class="modal-body">
-                      <div  class="image-Container">
+                        <div *ngIf="openReciptasPdf==true">
+                            <iframe [src]="paymentRecieptPdf" width="100%" height="500px"></iframe>
+                          </div>
+                         
+                            <div *ngIf="openReciptasPdf==false" class="image-Container">
+                                <img [src]="'data:image/png/jpg/jpeg;base64,'+domainsList.paymentReceipt "  width="100%" height="100%">
+                            </div>
+                      <!-- <div  class="image-Container">
                         <img [src]="'data:image/png/jpg/jpeg;base64,'+domainsList.paymentReceipt "width="100%" height="100%">
-                      </div>
+                      </div> -->
                       
                       <!-- <div >
                         <iframe width="100%" height="500px"></iframe>
                       </div> -->
                     </div>
                     <!-- Modal footer -->
-                    <div class="modal-footer" role="alert">
+                    <!-- <div class="modal-footer" role="alert">
                        <button class="btn btn-primary" (click)="approvePaymentStatus()">Approve</button>
                        <button class="btn btn-danger"(click)="rejectPaymentStatus()">Reject</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
           </div>
@@ -357,7 +364,7 @@
                     <div class="modal-header" id="modalHeader">
                         <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
                         <button  class="close"  data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                            <span aria-hidden="true" id="panDocViewModalClose"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
                                 >&times;</span>
                         </button>
                     </div>
@@ -397,8 +404,8 @@
                     <!-- Modal Header -->
                     <div class="modal-header" id="modalHeader">
                         <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
-                        <button  class="close"  data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        <button  class="close" id="gstDocViewModalClose"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"   style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
                                 >&times;</span>
                         </button>
                     </div>
@@ -430,7 +437,7 @@
                     <!-- Modal Header -->
                     <div class="modal-header" id="modalHeader">
                         <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
-                        <button  class="close"  data-dismiss="modal" aria-label="Close">
+                        <button  class="close" id="licenseDocViewModalClose"  data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
                                 >&times;</span>
                         </button>
@@ -464,8 +471,8 @@
                     <!-- Modal Header -->
                     <div class="modal-header" id="modalHeader">
                         <h5 class="modal-title" id="xlModalLabel" style="font-size: 20px;">View Document</h5>
-                        <button  class="close"  data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"  style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
+                        <button  class="close" id="boardDocViewModalClose"   data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"   style="background-color: none; color: black;font-size: 20px; padding: 5px; padding-top: 0px;"
                                 >&times;</span>
                         </button>
                     </div>

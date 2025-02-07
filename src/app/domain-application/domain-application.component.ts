@@ -68,7 +68,25 @@ export class DomainApplicationComponent {
   //   }
 
   // this.submitPayment();
-  this.getLoggedInUserDetails();
+  if(this.role!="IDRBTADMIN"){
+    this.getLoggedInUserDetails();
+  }else{
+    console.log('exe 1')
+    this.displayedColumns=[
+      // 'checkbox',
+   'domainId',
+   'organisationName',
+   'domainName',
+   'submissionDate',
+   'status',
+   'paymentStatus',
+   'nsRecordStatus',
+   // 'industry',
+   'tenure'
+   ]
+   this.getAllDomainsListByOrgId(0)
+  }
+  
  
 
   console.log(this.role)
@@ -137,6 +155,7 @@ export class DomainApplicationComponent {
          this.organisationId=response.body.organisationId;
          if(this.role !== 'IDRBTADMIN'){
           console.log('exe')
+          console.log(this.organisationId)
           this.getAllDomainsListByOrgId(this.organisationId);
           this.displayedColumns=[
              // 'checkbox',
@@ -151,21 +170,6 @@ export class DomainApplicationComponent {
           'tenure',
           'payment'
           ]
-        }else{
-          console.log('exe 1')
-          this.displayedColumns=[
-            // 'checkbox',
-         'domainId',
-         'organisationName',
-         'domainName',
-         'submissionDate',
-         'status',
-         'paymentStatus',
-         'nsRecordStatus',
-         // 'industry',
-         'tenure'
-         ]
-         this.getAllDomainsListByOrgId(0)
         }
         }
       }, error => {
