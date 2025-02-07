@@ -206,19 +206,19 @@ export class DscVerificationComponent {
                         console.log('Response from third API:', response);
                         if(response.certificates != null && response.certificates.length != 0){
                           // console.log(response.certificates.certificate.emailAddress);
-                          console.log(localStorage.getItem('email'));
-                          for (let certificate of response.certificates) {
-                            if(certificate.emailAddress == localStorage.getItem('email')){
-                              console.log(certificate.emailAddress);
+                          // console.log(localStorage.getItem('email'));
+                          // for (let certificate of response.certificates) {
+                          //   if(certificate.emailAddress == localStorage.getItem('email')){
+                          //     console.log(certificate.emailAddress);
                               this.certificates = response.certificates;
                               this.isLoading = false;
                               this.toastr.success("Fetched certificates successfully");
-                            }
-                            else{
-                              this.isLoading = false;
-                              this.toastr.error("Mail Id in the certificate and the mail id used for login doesn't match. Please use the certificate generated with same mail id");
-                            }
-                          }
+                          //   }
+                          //   else{
+                          //     this.isLoading = false;
+                          //     this.toastr.error("Mail Id in the certificate and the mail id used for login doesn't match. Please use the certificate generated with same mail id");
+                          //   }
+                          // }
                           
                         }
                         else{
