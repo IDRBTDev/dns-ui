@@ -183,6 +183,7 @@ otp:number;
 
     numberChange() {
         const numberPattern = /^[0-9]{10}$/; // Correct regex
+        this.user.mobileNumber = this.user.mobileNumber.replace(/[^0-9]/g, '');
         if (!this.user.mobileNumber) {
             this.numberInput = false;
             this.numbererrorMessage = 'Mobile number should not be empty';
@@ -195,6 +196,22 @@ otp:number;
         }
         this.saveData();
     }
+    onKeyPress(event: KeyboardEvent) {
+      const charCode = event.charCode;
+      if (charCode < 48 || charCode > 57) { // ASCII code for 0-9
+        event.preventDefault();
+      }
+    }
+    onPaste(event: ClipboardEvent) {
+      event.preventDefault();
+      let pastedData = event.clipboardData?.getData('text');
+      if (pastedData) {
+        // Remove non-numeric characters and set it to mobile number field
+        this.user.mobileNumber = pastedData.replace(/[^0-9]/g, '');
+        this.numberChange(); // Re-validate after pasting
+      }
+    }
+    
     fullMobileNumber: string | null = null;
     saveData() {
       if (this.fullMobileNumber) {
@@ -260,24 +277,24 @@ otp:number;
   private remainingTime: number = environment.otpExpiryTime; 
   otpExpired: boolean = false;
   initialTime = environment.otpExpiryTime;
-  startTimer(): void {
-    const startTime = Date.now(); 
-    const animationFrame = () => {
-        const elapsedTime = Date.now() - startTime;
-        this.remainingTime = Math.max(this.initialTime - Math.floor(elapsedTime / 1000), 0); 
-        this.updateTimerDisplay();
+//   startTimer(): void {
+//     const startTime = Date.now(); 
+//     const animationFrame = () => {
+//         const elapsedTime = Date.now() - startTime;
+//         this.remainingTime = Math.max(this.initialTime - Math.floor(elapsedTime / 1000), 0); 
+//         this.updateTimerDisplay();
 
-        if (this.remainingTime > 0) {
-            requestAnimationFrame(animationFrame); 
-        } else {
-            this.timerActive = false;
-            this.errorMessage="OTP has expired. Please request a new OTP."
-            // this.otpExpired = true;
-            // this.otp = null; 
-        }
-    };
-    requestAnimationFrame(animationFrame);
-}
+//         if (this.remainingTime > 0) {
+//             requestAnimationFrame(animationFrame); 
+//         } else {
+//             this.timerActive = false;
+//             this.errorMessage="OTP has expired. Please request a new OTP."
+//             // this.otpExpired = true;
+//             // this.otp = null; 
+//         }
+//     };
+//     requestAnimationFrame(animationFrame);
+// }
   updateTimerDisplay(): void {
     const minutes = Math.floor(this.remainingTime / 60);
     const seconds = this.remainingTime % 60;
@@ -320,6 +337,7 @@ otp:number;
       }
     });
   }
+
   
   loginUserOtp: number = 0;
   regUserId: string = '';
@@ -328,16 +346,16 @@ otp:number;
   error: string | null = null;
 
 
-  resetTimer(): void {
-    this.remainingTime = 300;  // Reset to 60 seconds
-    this.timerActive = true;
-    this.otpExpired = false;  // Mark OTP as not expired
-    this.timerDisplay = '05:00';
-    this.errorMessage=''  // Reset timer display
-    if (this.countdown) {
-      clearInterval(this.countdown);  // Clear any existing timer
-    }
-  }
+  // resetTimer(): void {
+  //   this.remainingTime = 300;  // Reset to 60 seconds
+  //   this.timerActive = true;
+  //   this.otpExpired = false;  // Mark OTP as not expired
+  //   this.timerDisplay = '05:00';
+  //   this.errorMessage=''  // Reset timer display
+  //   if (this.countdown) {
+  //     clearInterval(this.countdown);  // Clear any existing timer
+  //   }
+  // }
 
   errorMessage: string = '';
   successMessage: string = '';
@@ -355,8 +373,8 @@ otp:number;
     // Step 2: Check if email or OTP is missing
     if ( !this.otp) {
       console.log('Error: Email or OTP is missing');
-      this.toastrService.error('Please enter both email and OTP.');
-      this.errorMessage = 'Please enter both email and OTP.';
+      this.toastrService.error('Please enter OTP.');
+      this.errorMessage = 'Please enter  OTP.';
       this.successMessage = '';
       return;
     }
@@ -559,6 +577,39 @@ otpValidation(event:KeyboardEvent){
       event.preventDefault();
   }
 }
+display: string;
+resetTimer() {
+  this.pauseTimer();
+  this.time =300;
+  this.display = this.transform(this.time);
+}
+time: number = 300; // 120 seconds = 2 minutes
 
+interval;
+startTimer() {
+  this.interval = setInterval(() => {
+    if (this.time > 0) {
+      this.time--;
+      this.display = this.transform(this.time);
+    } else {
+      clearInterval(this.interval);
+    }
+  }, 1000);
+  this.display = this.transform(this.time);
+}
+transform(value: number): string {
+  const minutes: number = Math.floor(value / 60);
+  const seconds: number = value - minutes * 60;
+  const formattedMinutes: string = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  const formattedSeconds: string = seconds < 10 ? `0${seconds}` : `${seconds}`;
+  return formattedMinutes + ':' + formattedSeconds;
+}
+
+/**
+ * Pause the timer
+ */
+pauseTimer() {
+  clearInterval(this.interval);
+}
 }
 

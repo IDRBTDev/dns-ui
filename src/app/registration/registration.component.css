@@ -275,4 +275,17 @@ input::-webkit-inner-spin-button {
   .mobile-number-container input::placeholder {
     color: #aaa;
   }
- 
+/* Hide the default eye icon in Edge */
+input[type="password"]::-ms-reveal {
+  display: none;  /* Edge-specific */
+}
+
+/* Hide the default eye icon in WebKit browsers (including Chrome and Safari) */
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+}
+
+/* For Firefox, no default icon shows up, so no need for additional styling */
+
+
+

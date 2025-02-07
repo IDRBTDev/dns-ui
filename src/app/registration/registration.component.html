@@ -67,8 +67,8 @@
 </div> -->
 
         <div id="registerPage" class="row" >
-            <div class="col-6" style="padding-left: 0;overflow-y: hidden;" >
-                <div style="height:100vh;background-color: rgba(243, 247, 252, 1);margin-right:5px">
+            <div class="col-6" style="padding-left: 0;overflow-y: hidden;background-color: rgba(243, 247, 252, 1);" >
+                <div style="height:100vh;margin-right:5px">
                     <div style="display: flex;flex-direction: row;gap:60px;padding-top:35px;margin-left:70px">
                         <div class="imageContainer" style="width: 200px;">
                             <img src="assets/Images/rbilogo.png">
@@ -118,6 +118,8 @@
                                    [(ngModel)]="user.mobileNumber" 
                                    (focus)="addCountryCode()" 
                                    (ngModelChange)="numberChange()" 
+                                   (keypress)="onKeyPress($event)" 
+                                   (paste)="onPaste($event)" 
                                    [disabled]="!isEmailVerified" 
                                    placeholder="Enter 10-digit mobile number" />
                         </div>
@@ -139,38 +141,40 @@
                             <span class="toggle-password">Show</span>
                       </div> -->
                       <div style="margin-bottom: 15px;">
-                        <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Password</div>
+                        <div style="font-weight: 500; font-size: 14px; margin-bottom: 5px">Password</div>
                         <div style="position: relative;">
                             <input
                                 type="{{ isPasswordVisible ? 'text' : 'password' }}"
                                 [(ngModel)]="user.encryptedPassword"
-                                (change)="passwordChange()"
-                                [disabled]="!isEmailVerified"  
+                                (change)="passwordChange()" maxlength="16"
+                                [disabled]="!isEmailVerified"
                                 placeholder="Enter the strong password"
                             />
                             <span
                                 class="toggle-password"
-                                (click)="togglePasswordVisibility()"
+                                (click)="isEmailVerified ? togglePasswordVisibility() : null"
                                 style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+                                [ngClass]="{ 'disabled': !isEmailVerified }"
                             >
                                 <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                             </span>
                         </div>
                         <div *ngIf="!passwordNameInput" class="error-message">{{ passwordErrorMessage }}</div>
                     </div>
+                    
                     <div style="margin-bottom: 15px;">
                         <div style="font-weight: 500; font-size: 14px;margin-bottom: 5px">Confirm Password</div>
                         <div style="position: relative;">
                             <input
                                 type="{{ isConfirmPasswordVisible ? 'text' : 'password' }}"
                                 [(ngModel)]="user.confirmPassword"
-                                (change)="confirmPasswordChange()"
+                                (change)="confirmPasswordChange()" maxlength="16"
                                 [disabled]="!isEmailVerified"
                                 placeholder="Re-enter the password"
                             />
                             <span
                                 class="toggle-password"
-                                (click)="toggleConfirmPasswordVisibility()"
+                                (click)="isEmailVerified? toggleConfirmPasswordVisibility():null"
                                 style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
                             >
                                 <i  class="fa" [ngClass]="isConfirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
@@ -193,7 +197,7 @@
                       <div style='display: flex;justify-self: flex-end;margin-top: 10px;margin-bottom:10px'>
                        
                         <div>
-                          <button class="btn btn-primary" style="width:150px" (click)="registerUser()" [disabled]="!isEmailVerified">Register</button>
+                          <button class="btn btn-primary" style="width:150px;margin-top: 8px; margin-bottom: 16px;" (click)="registerUser()" [disabled]="!isEmailVerified">Register</button>
                         </div>
                       </div>
   
@@ -245,19 +249,25 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Enter the OTP sent to your registered email and verify the email.</p>
+                <p>Enter the OTP to validate  the email</p>
                 <input type="number" placeholder="Enter your OTP" (keydown)="otpValidation($event)" class="form-control" [(ngModel)]="otp" />
                 <div style="display:flex;justify-content: space-between;flex-direction: row;">
-                    <div *ngIf="timerActive">
+                    <!-- <div *ngIf="timerActive">
                         <p>{{ timerDisplay }}</p>
                       </div>
                       <div *ngIf="!timerActive" style="color:red">
                         <p>{{ errorMessage }}</p>
+                      </div> -->
+                      <div style='display: flex;justify-content: space-between;margin-top: 5px;'>
+                        <div>  <p *ngIf="display !='00:00'" style="color: red;"><label style="color: black;">OTP expires in:</label> {{display}}</p> 
+                          <p *ngIf="display ==='00:00'" style="color: red;padding-right: 40px;">OTP has expired </p> </div>
+                          
                       </div>
+                     
               
                       <div>
-                        <p  *ngIf="!timerActive " style="color: blue;text-decoration: underline;cursor: pointer;" (click)="resendOtp()">Resend OTP</p>
-                        <p  *ngIf="timerActive" style="color: black;">Resend OTP</p>
+                        <p  *ngIf="display==='00:00'" style="color: blue;text-decoration: underline;cursor: pointer;" (click)="resendOtp()">Resend OTP</p>
+                        <p  *ngIf="display!='00:00'" style="color: black;">Resend OTP</p>
                       </div>
                 </div>
                 
