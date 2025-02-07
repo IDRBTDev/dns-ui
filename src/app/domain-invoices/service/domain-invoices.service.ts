@@ -11,7 +11,7 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 export class DomainInvoiceService{
     private domainInvoiceUrl = environment.apiURL+'/dr/billingHistory/all';
-    private invoiceDetailsURL = environment.apiURL+'/invoice/all';
+    private invoiceDetailsURL = environment.apiURL+'/dr/invoice/all';
 
     constructor(private httpClient: HttpClient){}
 
