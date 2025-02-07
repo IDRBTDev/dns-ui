@@ -120,7 +120,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Approval comment</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" id="closeApproveCommentModal" (click)="clearComments()" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -130,7 +130,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary mr-3" (click)="approveOrRejectDocument('Approved')"  data-dismiss="modal">Save
           changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="clearComments()" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -142,7 +142,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Rejection comment</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" id="closeRejectCommentModal" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -150,7 +150,7 @@
         <textarea rows="5" cols="40" [(ngModel)]="documentComment"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="approveOrRejectDocument('Rejected')">Save
+        <button type="button" class="btn btn-primary mr-3" (click)="approveOrRejectDocument('Rejected')">Save
           changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
