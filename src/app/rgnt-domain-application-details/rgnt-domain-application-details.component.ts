@@ -502,6 +502,7 @@ reuploadOrgDocs(documentType){
     this.documentService.updateOrgDocs(file,docName).subscribe({
       next:(response)=>{
         this.toastrService.success("Reuploaded document")
+        document.getElementById("closeUploadModal").click();
       },error:(error)=>{
         this.toastrService.error("Something happened retry after some time")
       }
@@ -510,6 +511,8 @@ reuploadOrgDocs(documentType){
   reUploadDocument(file){
     if(file!=null){
       this.uploadFile(file,this.docName);
+    }else{
+      console.log("file not there")
     }
     this.UploadedDocuments=null;
     this.organisationInputValue='';
