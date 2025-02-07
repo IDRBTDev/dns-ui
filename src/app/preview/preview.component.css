@@ -41,3 +41,7 @@ button {
 .input-group-text{
   height:38px;
 }
+.disabled-text {
+  color: #6c757d; /* grey color to indicate it is disabled */
+  pointer-events: none; /* Prevent interaction */
+}

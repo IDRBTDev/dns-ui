@@ -146,7 +146,7 @@
                             <input
                                 type="{{ isPasswordVisible ? 'text' : 'password' }}"
                                 [(ngModel)]="user.encryptedPassword"
-                                (change)="passwordChange()" maxlength="16"
+                                (input)="passwordChange()" maxlength="16"
                                 [disabled]="!isEmailVerified"
                                 placeholder="Enter the strong password"
                             />
@@ -168,7 +168,7 @@
                             <input
                                 type="{{ isConfirmPasswordVisible ? 'text' : 'password' }}"
                                 [(ngModel)]="user.confirmPassword"
-                                (change)="confirmPasswordChange()" maxlength="16"
+                                (input)="confirmPasswordChange()" maxlength="16"
                                 [disabled]="!isEmailVerified"
                                 placeholder="Re-enter the password"
                             />

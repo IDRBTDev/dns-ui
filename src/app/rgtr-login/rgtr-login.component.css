@@ -285,3 +285,11 @@ margin-bottom: 10px;
     justify-content: space-between;
     align-items: center;
   }
+  input[type="password"]::-ms-reveal {
+    display: none;  /* Edge-specific */
+  }
+  
+  /* Hide the default eye icon in WebKit browsers (including Chrome and Safari) */
+  input[type="password"]::-webkit-credentials-auto-fill-button {
+    display: none !important;
+  }

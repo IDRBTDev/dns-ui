@@ -18,8 +18,14 @@
                 </svg>
         </div>
         <button
-         class="btn btn-info" routerLink="/login" style="width: 300px;background-color: #1C82F2;margin-top: 16px;">Continue to Login</button>
-    </div>
+        class="btn btn-info"
+        routerLink="/login"
+        style="width: 300px; background-color: #1C82F2; margin-top: 16px;"
+        [ngClass]="{'highlighted': isHighlighted}"
+        (click)="toggleHighlight()">
+        Continue to Login
+      </button>
+      
 </div>
 </div>
 
