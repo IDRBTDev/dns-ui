@@ -75,8 +75,9 @@ export class DomainApplicationComponent {
     this.displayedColumns=[
       // 'checkbox',
    'domainId',
-   'organisationName',
+   'organizationName',
    'domainName',
+   'bankName',
    'submissionDate',
    'status',
    'paymentStatus',
@@ -135,10 +136,11 @@ export class DomainApplicationComponent {
           console.log(response)
           this.domainsList = response.body;
           this.domainsDataSource.data = this.domainsList;
-          this.domainsDataSource.paginator = this.paginator;
+         
           setTimeout(() => {
             this.domainsDataSource.sort = this.sort;
           }, 0);
+          this.domainsDataSource.paginator = this.paginator;
         }
       },
       (error) => {
@@ -160,8 +162,9 @@ export class DomainApplicationComponent {
           this.displayedColumns=[
              // 'checkbox',
           'domainId',
-          'organisationName',
+          'organizationName',
           'domainName',
+          'bankName',
           'submissionDate',
           'status',
           'paymentStatus',
@@ -238,6 +241,11 @@ export class DomainApplicationComponent {
           // For date columns, format the date to 'MMM d, y, h:mm a' format
           const dateValue = data[column];
           return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
+        }else if(column === 'domainName'||column ==='organizationName'){
+          const domainName = data.domainName?.toString().toLowerCase() || "";
+                const bankName = data.bankName?.toString().toLowerCase() || "";
+                // console.log(domainName+bankName)
+                return bankName+domainName; // Combine for filtering
         } else {
           // For non-date columns, return the column value
           return data[column];
