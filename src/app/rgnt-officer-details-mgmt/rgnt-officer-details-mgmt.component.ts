@@ -541,9 +541,9 @@ this.emailNameChange();
    */
   navigateToVerifyDocuments(user: any){
     var contactUserType = '';
-    if(user.contactRole === 'AdminOfficer'){
+    if(user.contactRole === 'Administrative Officer'){
       contactUserType = 'Administrative';
-    }else if(user.contactRole === 'TechnicalOfficer'){
+    }else if(user.contactRole === 'Technical Officer'){
       contactUserType = 'Technical';
     }else{
       contactUserType = 'Billing';

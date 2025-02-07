@@ -348,4 +348,5 @@ app-side-menu {
 .ClickDisplayDoc{
   color: #007CF8;
   text-decoration: underline;
+  cursor: pointer;
 }

@@ -46,7 +46,7 @@ export class DomainApplicationComponent {
   constructor(private fb: FormBuilder, private userService:UserService, private domainService: DomainService, private router: Router,private dialog: MatDialog,private domainApplicationService:DomainApplicationService, private http: HttpClient) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
-  organisationId=parseInt(localStorage.getItem('organisationId'));
+  organisationId;
 
   ngOnInit(): void {
   //   console.log(this.role)
@@ -68,62 +68,15 @@ export class DomainApplicationComponent {
   //   }
 
   // this.submitPayment();
+  this.getLoggedInUserDetails();
+ 
 
   console.log(this.role)
   console.log(this.userEmailId)
-  if(this.role !== 'IDRBTADMIN'){
-    console.log('exe')
-    this.getAllDomainsListByOrgId(this.organisationId);
-    this.displayedColumns=[
-       // 'checkbox',
-    'domainId',
-    'organisationName',
-    'domainName',
-    'submissionDate',
-    'status',
-    'paymentStatus',
-    'nsRecordStatus',
-    // 'industry',
-    'tenure',
-    'payment'
-    ]
-  }else{
-    console.log('exe 1')
-    this.displayedColumns=[
-      // 'checkbox',
-   'domainId',
-   'organisationName',
-   'domainName',
-   'submissionDate',
-   'status',
-   'paymentStatus',
-   'nsRecordStatus',
-   // 'industry',
-   'tenure'
-   ]
-   this.getAllDomainsListByOrgId(0)
-  }
-
-    // localStorage.setItem('isBoxVisible', 'false');
-    // console.log(this.role)
-    // console.log(this.userEmailId)
-    // const d=JSON.parse(localStorage.getItem('filters'))
-    // console.log(d.status)
-    // if (this.role !== 'IDRBTADMIN') {
-    //   console.log('exe')
-    //   if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
-    //   this.getAllDomainsList(this.userEmailId);
-    // else
-    // this.getFilteredDomains();
-    // } else {
-    //   console.log('exe 1')
-    //   if(d.status ==="" && d.nsRecordStatus === "" && d.organisationName ==="" && d.submissionDate ==="")
-    //   this.getAllDomainsList("");
-    // else
-    // this.getFilteredDomains();
-    // }
+  
     this.processPayment();
   }
+ 
   async fetchOrgIdAndDomainsOfit(){
     await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
        (response) => {
@@ -177,7 +130,51 @@ export class DomainApplicationComponent {
       }
     );
   }
- 
+  async getLoggedInUserDetails(){
+    await lastValueFrom(this.userService.getUserByEmailId(localStorage.getItem('email'))).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+         this.organisationId=response.body.organisationId;
+         if(this.role !== 'IDRBTADMIN'){
+          console.log('exe')
+          this.getAllDomainsListByOrgId(this.organisationId);
+          this.displayedColumns=[
+             // 'checkbox',
+          'domainId',
+          'organisationName',
+          'domainName',
+          'submissionDate',
+          'status',
+          'paymentStatus',
+          'nsRecordStatus',
+          // 'industry',
+          'tenure',
+          'payment'
+          ]
+        }else{
+          console.log('exe 1')
+          this.displayedColumns=[
+            // 'checkbox',
+         'domainId',
+         'organisationName',
+         'domainName',
+         'submissionDate',
+         'status',
+         'paymentStatus',
+         'nsRecordStatus',
+         // 'industry',
+         'tenure'
+         ]
+         this.getAllDomainsListByOrgId(0)
+        }
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
 
   getFilteredDomains(): void {
     const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
