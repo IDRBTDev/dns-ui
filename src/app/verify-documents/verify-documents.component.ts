@@ -158,13 +158,16 @@ export class VerifyDocumentsComponent implements OnInit {
         this.currentDocument.organisationId,this.currentDocument.contactType, 
         this.currentDocument.documentType, this.documentComment)).then(
       response => {
+        console.log(response);
         if(response.status === HttpStatusCode.Ok){
           console.log(response);
-          this.getContactOfficerDocuments(this.contactType, this.organisationId);
+          
           if(approvalStatus === 'Approved'){
-            this.toastr.success('Document approved.')
+            this.toastr.success('Document approved.');
+            this.clearComments();
           }else{
-            this.toastr.success('Document rejected.')
+            this.toastr.success('Document rejected.');
+            this.clearComments();
           }
         }
       }, error => {
@@ -172,6 +175,17 @@ export class VerifyDocumentsComponent implements OnInit {
           this.navigateToSessionTimeout();
         }
     })
+    this.clearComments();
+    this.getContactOfficerDocuments(this.contactType, this.organisationId);
+    if(approvalStatus === 'Approved'){
+      this.toastr.success('Document approved.');
+      this.clearComments();
+      document.getElementById("closeApproveCommentModal").click();
+    }else{
+      this.toastr.success('Document rejected.');
+      this.clearComments();
+      document.getElementById("closeRejectCommentModal").click();
+    }
   }
 
   storeCurrentDocumentDetails(document: any){
@@ -258,6 +272,8 @@ export class VerifyDocumentsComponent implements OnInit {
   //   }
   // }
 
- 
+  clearComments(){
+    this.documentComment='';
+  }
 
 }
