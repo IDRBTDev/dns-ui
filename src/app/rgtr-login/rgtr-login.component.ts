@@ -65,7 +65,7 @@ export class RgtrLoginComponent {
        error:(error) => {
          console.error('Verification failed', error);
          if (error.status === 404) {
-           this.toastr.error('User not found.');
+           this.toastr.error('invalid credentials');
          } else {
            this.toastr.error('An error occurred while verifying the email.');
          }

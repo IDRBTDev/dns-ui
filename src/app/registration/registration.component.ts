@@ -165,7 +165,7 @@ otp:number;
       this.emailerrorMessage = 'Email ID should not be empty';
     } else if (!emailPattern.test(this.user.userId)) {
       this.emailInput = false;
-      this.emailerrorMessage = 'Please enter a valid email ID';
+      this.emailerrorMessage = 'Please enter your email address';
     } else {
       this.emailInput = true;
       this.emailerrorMessage = '';
@@ -235,6 +235,7 @@ otp:number;
       this.passwordNameInput = true;
       this.passwordErrorMessage = '';
     }
+
   }
 
   confirmPasswordErrorMessage: string = '';

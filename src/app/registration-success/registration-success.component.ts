@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./registration-success.component.css']
 })
 export class RegistrationSuccessComponent {
+  isHighlighted: boolean = false;  // Variable to toggle the highlight
 
+  // Method to toggle the button highlight
+  toggleHighlight(): void {
+    this.isHighlighted = !this.isHighlighted;
+  }
 }
