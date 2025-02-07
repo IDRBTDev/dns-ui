@@ -75,8 +75,9 @@ export class DomainApplicationComponent {
     this.displayedColumns=[
       // 'checkbox',
    'domainId',
-   'organisationName',
+   'organizationName',
    'domainName',
+   'bankName',
    'submissionDate',
    'status',
    'paymentStatus',
@@ -160,8 +161,9 @@ export class DomainApplicationComponent {
           this.displayedColumns=[
              // 'checkbox',
           'domainId',
-          'organisationName',
+          'organizationName',
           'domainName',
+          'bankName',
           'submissionDate',
           'status',
           'paymentStatus',
@@ -230,7 +232,7 @@ export class DomainApplicationComponent {
   // }
   applyFilter() {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Get the filter text
-  
+ 
     this.domainsDataSource.filterPredicate = (data: any, filter: string) => {
    
       const displayedColumnsValues = this.displayedColumns.map(column => {
@@ -238,26 +240,32 @@ export class DomainApplicationComponent {
           // For date columns, format the date to 'MMM d, y, h:mm a' format
           const dateValue = data[column];
           return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
+        }else if(column === 'domainName'||column ==='organizationName'){
+          const domainName = data.domainName?.toString().toLowerCase() || "";
+                const bankName = data.bankName?.toString().toLowerCase() || "";
+                // console.log(domainName+bankName)
+                return bankName+domainName; // Combine for filtering
         } else {
           // For non-date columns, return the column value
           return data[column];
         }
       });
-  
+ 
       // Perform a case-insensitive search across the columns
       return displayedColumnsValues.some(value =>
         value?.toString().toLowerCase().includes(filter)
       );
     };
-  
+ 
     // Apply the filter value to the data source
     this.domainsDataSource.filter = filterValue;
-  
+ 
     // Reset paginator to the first page after filtering
     if (this.domainsDataSource.paginator) {
       this.domainsDataSource.paginator.firstPage();
     }
   }
+
   
   formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
