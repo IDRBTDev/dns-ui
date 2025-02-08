@@ -139,6 +139,10 @@ export class RgtrRgntOfficerDetailsComponent {
 
   async getContactUsers(){
     //if(this.selectedOrganisation < 1){
+    console.log(this.selectedOrganisationId)
+    if(this.selectedOrganisationId===null){
+      this.selectedOrganisationId=0
+    }
       await this.getContactOfficersDetails(this.selectedOrganisationId);
       if(this.selectedOrganisationId === 0){
         this.userInActiveMap = new Map();
