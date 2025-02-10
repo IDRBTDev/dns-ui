@@ -68,7 +68,7 @@
         
                       <ng-container matColumnDef="modifiedBy">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header >Modified By</th>
-                        <td mat-cell *matCellDef="let role"> {{role.modifiedBy}} </td>
+                        <td mat-cell *matCellDef="let role"> {{role.modifiedBy?role.modifiedBy:'NA'}} </td>
                       </ng-container>
         
                       <ng-container matColumnDef="modifiedDateTime" >

@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Roles } from '../model/roles.model';
 import { RolesService } from '../roles/services/roles.service';
 import { RgtrRoleService } from './services/rgtr-role.service';
+import { RgtrRoles } from '../model/rgtrRole.model';
 
 @Component({
   selector: 'app-rgtr-role',
@@ -16,9 +17,9 @@ import { RgtrRoleService } from './services/rgtr-role.service';
 })
 export class RgtrRoleComponent implements OnInit {
   constructor(private roleService:RgtrRoleService,private router:Router,private toastr:ToastrService){
-    this.roleDataSource = new MatTableDataSource<Roles>();
+    this.roleDataSource = new MatTableDataSource<RgtrRoles>();
   }
-  roleDataSource: MatTableDataSource<Roles>;
+  roleDataSource: MatTableDataSource<RgtrRoles>;
   role:Roles=new Roles();
   @ViewChild(MatSort) sort!:MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -57,7 +58,7 @@ export class RgtrRoleComponent implements OnInit {
         $('.subCheckBox').prop('checked', false);
       }
    }
-  roles:Roles[]=[]
+  roles:RgtrRoles[]=[]
   fetchAllRoles(){
     console.log(this.roles)
     this.roleService.getAllRoles().subscribe({
@@ -112,8 +113,8 @@ export class RgtrRoleComponent implements OnInit {
     }
     
     
-    createdRole:Roles
-    existingRole:Roles=new Roles()
+    createdRole:RgtrRoles
+    existingRole:RgtrRoles=new RgtrRoles()
     createRole() {
       let isNameValid = true;
       let isPermissionValid = true;
@@ -128,8 +129,8 @@ export class RgtrRoleComponent implements OnInit {
       // }
       //if no form errors submit the form
       if (isNameValid ) {
-        this.role.roleName=this.role.roleName.toUpperCase();
-        this.role.createdBy =localStorage.getItem('firstName')+' '+localStorage.getItem('lastName'); 
+        this.role.roleName=this.role.roleName;
+        this.role.createdBy =localStorage.getItem('fullName'); 
         this.role.createdByEmailId = localStorage.getItem('email');
         this.roleService.createRole(this.role).subscribe({
           next: (response) => {
@@ -189,19 +190,26 @@ export class RgtrRoleComponent implements OnInit {
       // }
         //if no errors in form, allow to submit
       if(isNameValid){
-      this.existingRole.roleName=this.existingRole.roleName.toUpperCase();
-      this.existingRole.modifiedBy = localStorage.getItem('firstName')+' '+localStorage.getItem('lastName');
+      this.existingRole.roleName=this.existingRole.roleName;
+      this.existingRole.modifiedBy = localStorage.getItem('fullName');
       this.existingRole.modifiedByEmailId = localStorage.getItem('email');
       //this.updatedRole.modifiedDateTime = new Date(Date.now)
       this.roleService.updateRole(this.existingRole).subscribe({
        next: (response) => {
-          if (response.status == HttpStatusCode.Created) {
+        console.log(response)
+          if (response.status == HttpStatusCode.Ok) {
             this.toastr.success("Role updated sucessfully !")
             //close form modal
             document.getElementById('closeUpdateModal').click();
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+            let existingRoleIndex = this.roles.findIndex(role => role.roleId === this.existingRole.roleId);
+
+            if (existingRoleIndex !== -1) {
+              this.roles[existingRoleIndex] = this.existingRole;
+            }
+            
+            // this.role = this.existingRole;
+            this.roleDataSource.data=this.roles
+           
           }
         },error: error =>{
           if(error.status === HttpStatusCode.Unauthorized){
