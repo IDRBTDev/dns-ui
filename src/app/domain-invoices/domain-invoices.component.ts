@@ -16,6 +16,7 @@ import { jsPDF } from "jspdf";
 import * as mammoth from 'mammoth';
 import * as html2pdf from 'html2pdf.js';
 import { DomainObject } from '../invoice-generation/service/invoice.service';
+import { UserService } from '../user/service/user.service';
 @Component({
   selector: 'app-domain-invoices',
   templateUrl: './domain-invoices.component.html',
@@ -35,6 +36,7 @@ export class DomainInvoicesComponent implements OnInit {
 
   userId: string = localStorage.getItem('email');
   role: string = localStorage.getItem('userRole');
+  organisationId : number ;
 
   domainsinvoicesList: DomainInvoices[] = [];
   domainsDataSource: MatTableDataSource<any>;
@@ -42,18 +44,26 @@ export class DomainInvoicesComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   searchText:String=''
   constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService
-    ,private  domainObject : DomainObject
+    ,private  domainObject : DomainObject, private userService:UserService,
   ) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
   
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // if(this.role === 'IDRBTADMIN'){
     //   this.loadBillingHistories("");
     // }else{
     //   this.loadBillingHistories(this.userId);
     // }
+   await this.getLoggedInUserDetails();
+   console.log(this.organisationId)
+   if(this.organisationId == 0 && this.role =='IDRBTADMIN'){
     this.getAllInvoicesData();
+    
+   }else{
+    this.getAllInvoicesDataByOrgId(this.organisationId); 
+   }
+   // this.getAllInvoicesData();
 
     localStorage.setItem('isBoxVisible', 'false');
     
@@ -327,6 +337,49 @@ rupee : string =""
 }
 
 
+async getAllInvoicesDataByOrgId(orgId : number){
+  await lastValueFrom(this.domainInvoiceService.getAllInvoiceDetailsByOrgId(orgId)).then(
+   (response) => {
+     if(response.status === HttpStatusCode.Ok){
+      this.invoiceDetailsList = response.body;
+      console.log(this.invoiceDetailsList)
+      this.domainsDataSource.data = this.invoiceDetailsList; 
+      console.log(this.domainsDataSource.data)
+      this.domainsDataSource.paginator = this.paginator; 
+      this.domainsDataSource.sort = this.sort; 
 
+     }
+
+   }, (error) =>{
+      if(error.status == HttpStatusCode.Unauthorized){
+         this.router.navigateByUrl("/session-timeout")
+      }
+
+   }
+
+  );
+}
+async getLoggedInUserDetails(){
+  await lastValueFrom(this.userService.getUserByEmailId(localStorage.getItem('email'))).then(
+    response => {
+      if(response.status === HttpStatusCode.Ok){
+       this.organisationId=response.body.organisationId;
+       if(this.role !== 'IDRBTADMIN'){
+        console.log('exe')
+        console.log(this.organisationId)
+
+      }
+      }
+    }, error => {
+      if(error.status === HttpStatusCode.Unauthorized){
+        this.navigateToSessionTimeout();
+      }
+    }
+  )
+}
+
+navigateToSessionTimeout() {
+  this.router.navigateByUrl('/session-timeout');
+}
 
 }

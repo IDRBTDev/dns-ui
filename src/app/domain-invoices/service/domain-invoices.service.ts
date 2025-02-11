@@ -11,8 +11,8 @@ import { DomainInvoices } from "src/app/model/domain-invoices.model";
 
 export class DomainInvoiceService{
     private domainInvoiceUrl = environment.apiURL+'/dr/billingHistory/all';
-    private invoiceDetailsURL = environment.apiURL+'/dr/invoice/all';
-
+    private invoiceDetailsURL = environment.apiURL+'/dr/invoice';
+    
     constructor(private httpClient: HttpClient){}
 
    // Method to get all billing histories using GET
@@ -26,7 +26,13 @@ getAllBillingHistories(userId: string): Observable<DomainInvoices[]> {
 }
 
 getAllInvoiceDetails(){
-    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}`,{observe: 'response',headers: new HttpHeaders({
+    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}/all`,{observe: 'response',headers: new HttpHeaders({
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            }) })
+}
+
+getAllInvoiceDetailsByOrgId(orgId : number){
+    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}/getByOrgId/${orgId}`,{observe: 'response',headers: new HttpHeaders({
                 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
             }) })
 }
