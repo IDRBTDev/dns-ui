@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DomainService } from '../rgnt-domain/service/domain.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpStatusCode } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NameServerService } from '../name-server-form/service/name-server.service';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-domain-details',
@@ -14,7 +15,7 @@ export class DomainDetailsComponent implements OnInit {
 
   constructor(private domainService: DomainService, 
     private router: Router, private activatedRouter: ActivatedRoute,
-    private nameServerService: NameServerService
+    private nameServerService: NameServerService,private toastr:ToastrService
   ){
 
   }
@@ -79,4 +80,35 @@ export class DomainDetailsComponent implements OnInit {
   this.router.navigateByUrl('/DomainEditPage', { state: { domainDetail: this.domainDetail } });
 
     }
+
+    addNameServers(domainId){
+      const navigationExtras: NavigationExtras = {
+        state: {
+          organisationId: this.domainDetail.organisationId,
+          domainId: domainId,
+          applicationId: this.domainDetail.applicationId,
+          nameServerLength:this.domainDetail.nameServers?this.domainDetail.nameServers.length:0
+        }
+      };
+      
+      this.router.navigate(['/name-server'], navigationExtras);
+    }
+  
+
+  deleteNameServerById(nameServerId){
+    
+    let  confirmed = window.confirm('Are you sure, you really want to delete this name server record ?');
+   
+  if(confirmed){
+    this.nameServerService.deleteNameServer(nameServerId).subscribe({
+      next:(response)=>{
+        this.toastr.success("Deleted successfully");
+        this.getNameServersByDomainId(this.domainId);
+      },error:(error)=>{
+        console.log(error)
+      }
+    })
   }
+    
+  }
+}

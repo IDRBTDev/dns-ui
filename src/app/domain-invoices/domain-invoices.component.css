@@ -87,3 +87,6 @@ h3 {
     background: #F7F7F7;
 
   }
+  #download{
+     cursor: pointer;
+  }

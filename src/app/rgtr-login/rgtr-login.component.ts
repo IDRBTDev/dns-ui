@@ -64,9 +64,12 @@ export class RgtrLoginComponent {
        },
        error:(error) => {
          console.error('Verification failed', error);
-         if (error.status === 404) {
+         if (error.status === HttpStatusCode.NotFound) {
            this.toastr.error('invalid credentials');
-         } else {
+         } else if(error.status === HttpStatusCode.ServiceUnavailable){
+          this.toastr.error('server is down please try after some time');
+         }
+         else {
            this.toastr.error('An error occurred while verifying the email.');
          }
        }

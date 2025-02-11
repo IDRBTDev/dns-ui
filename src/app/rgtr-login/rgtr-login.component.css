@@ -19,7 +19,11 @@ body {
     height: 100%;
     z-index: -1;
 }
+input:-webkit-autofill {
 
+    background-color: transparent !important; /* Set desired background color */
+  
+  }
 
 #login {
     background-color: white;

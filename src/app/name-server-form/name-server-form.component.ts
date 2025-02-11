@@ -21,6 +21,7 @@ export class NameServerFormComponent implements OnInit {
   @Input() applicationId: string = '';
   @Input() domainId: number = 0;
   @Input() organisationId: number = 0;
+  @Input() nameServerLength:number=0;
   @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>(); // Emit event after form submission
 
@@ -74,9 +75,6 @@ export class NameServerFormComponent implements OnInit {
     });
   }
 
-  async getOrganisationDetails(){
-
-  }
   domain:Domain= new Domain();
   getDomainDetails(){
     this.domainService.getDomainByDomainId(this.domainId).subscribe({
@@ -165,9 +163,9 @@ addNameServer(): void {
   
   this.nameServers.push(this.createNameServer());
   console.log(this.nameServers.length)
-  if(this.nameServers.length>4){
+  if(this.nameServers.length+this.nameServerLength>4){
     //  this.fetchThePriceDetails();
-    this.price=this.getPriceByNsRecordCount(this.nameServers.length);
+    this.price=this.getPriceByNsRecordCount(this.nameServers.length+this.nameServerLength);
    
     console.log(this.price,this.domainId);
   }
@@ -176,6 +174,14 @@ addNameServer(): void {
   removeLastNameServer(): void {
     if (this.nameServers.length > 2) {
       this.nameServers.removeAt(this.nameServers.length - 1);
+    }
+  }
+  updatePrice(){
+    if(this.nameServers?.length+this.nameServerLength>4){
+      //  this.fetchThePriceDetails();
+      this.price=this.getPriceByNsRecordCount(this.nameServers.length+this.nameServerLength);
+     
+      console.log(this.price,this.domainId);
     }
   }
   
@@ -214,6 +220,9 @@ addNameServer(): void {
             this.toastr.success("Address is Valid");
             this.domain.cost=this.price;
             this.updatePriceForDomain(this.domain);
+            if(this.nameServerLength>0){
+              this.router.navigateByUrl("/domain-details?domainId="+this.domainId);
+            }
             // this.router.navigateByUrl("/rgnt-domains");
           }
         },
@@ -226,6 +235,7 @@ addNameServer(): void {
       );
     }
   }
+  
   updatePriceForDomain(domain){
     this.domainService.updateDomainDetails(domain).subscribe({
       next:(response)=>{
@@ -263,6 +273,7 @@ addNameServer(): void {
       next:(response)=>{
         console.log(response.body)
         this.priceDetails=response.body;
+        this.updatePrice()
       },error:(error)=>{
         // console.log(error)
       }

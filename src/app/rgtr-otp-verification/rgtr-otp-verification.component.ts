@@ -91,11 +91,14 @@ export class RgtrOtpVerificationComponent implements OnInit {
           await lastValueFrom(this.loginService.rgtruserLoginToDR(this.user)).then(
             response => {
               console.log("jwtToken",response.headers.get('token'))
+              console.log(response)
               localStorage.setItem('email', response.headers.get('email'));
               localStorage.setItem('userRole',response.headers.get('userRole'));
               localStorage.setItem('active',response.headers.get('active'));
               localStorage.setItem('jwtToken', response.headers.get('token'));
               localStorage.setItem('organisationId', response.headers.get('organisationId'));
+              localStorage.setItem('fullName',response.headers.get('userName'));
+              console.log(response.headers.get('userName'));
               let email = localStorage.getItem('email');
               let role = localStorage.getItem('userRole');
               console.log(role)
