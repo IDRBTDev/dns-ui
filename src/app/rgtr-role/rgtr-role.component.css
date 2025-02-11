@@ -16,6 +16,11 @@
   width: 100%;
   overflow: hidden;
 }
+.modal-title{
+  font-size: 16px;
+  font-weight: 600;
+  align-items: center;
+}
 
 app-side-menu {
   flex: 0 0 250px; 

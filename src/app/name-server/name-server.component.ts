@@ -11,11 +11,12 @@ export class NameServerComponent {
   domainId: number = 0;
   organisationId: number = 0;
   applicationId: string = '';
-
+  nameServerLength:number=0;
   constructor(private router: Router){
     this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
     this.domainId = this.router.getCurrentNavigation().extras?.state['domainId'] | 0;
     this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
+    this.nameServerLength=this.router.getCurrentNavigation().extras?.state['nameServerLength']
     console.log(this.organisationId);
     console.log(this.domainId);
     console.log(this.applicationId);

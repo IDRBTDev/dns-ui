@@ -62,13 +62,16 @@ export class DomainDetailsEditComponent implements OnInit {
 
 
   backDomain() {
+    
     const domainId = this.domainDetail?.domainId;
+    console.log(domainId)
     this.router.navigateByUrl(`/domain-details?domainId=${domainId}`);
   }
   
     crossButton(){
+      const domainId = this.domainDetail?.domainId;
       console.log("cancel button is working good");
-      location.reload();
+      this.router.navigateByUrl(`/domain-details?domainId=${domainId}`);
      
     }
 
@@ -88,6 +91,9 @@ export class DomainDetailsEditComponent implements OnInit {
             if (updateCount === this.domainDetail.nameServers.length) {
               this.toastr.success('All Name Server details updated successfully');
               this.updateLocalState(); 
+              const domainId = this.domainDetail?.domainId;
+              console.log("cancel button is working good");
+              this.router.navigateByUrl(`/domain-details?domainId=${domainId}`);
             }
           },
           error => {
