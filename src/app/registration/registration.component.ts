@@ -224,35 +224,67 @@ otp:number;
   passwordErrorMessage: string = '';
   passwordNameInput: boolean = true;
   passwordChange() {
+    // Remove spaces from the password input
+    this.user.encryptedPassword = this.user.encryptedPassword.replace(/\s+/g, '');
+  
+    // Regex pattern for strong password
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
+  
+    // Check if the password is empty
     if (!this.user.encryptedPassword) {
       this.passwordNameInput = false;
       this.passwordErrorMessage = 'Password should not be empty';
-    } else if (!pattern.test(this.user.encryptedPassword)) {
+    }
+    // Check for spaces in the password
+    else if (/\s/.test(this.user.encryptedPassword)) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password cannot contain spaces';
+    }
+    // Check for password complexity (uppercase, lowercase, digit, special char)
+    else if (!pattern.test(this.user.encryptedPassword)) {
       this.passwordNameInput = false;
       this.passwordErrorMessage = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one digit, and one special character';
     } else {
       this.passwordNameInput = true;
       this.passwordErrorMessage = '';
     }
-
+    // Check for matching password if both are entered
+    this.checkPasswordsMatch();
   }
-
+ 
   confirmPasswordErrorMessage: string = '';
   confirmPasswordInput: boolean = true;
+  
   confirmPasswordChange() {
+    // Remove spaces from the confirm password input
+    this.user.confirmPassword = this.user.confirmPassword.replace(/\s+/g, '');
+  
+    // Check if confirm password is empty
     if (!this.user.confirmPassword) {
       this.confirmPasswordInput = false;
       this.confirmPasswordErrorMessage = 'Confirm password should not be empty';
-    } else if (this.user.encryptedPassword !== this.user.confirmPassword) {
+    } 
+    // Check for spaces in the confirm password
+    else if (/\s/.test(this.user.confirmPassword)) {
       this.confirmPasswordInput = false;
-      this.confirmPasswordErrorMessage = 'Passwords do not match';
+      this.confirmPasswordErrorMessage = 'Confirm password cannot contain spaces';
     } else {
       this.confirmPasswordInput = true;
       this.confirmPasswordErrorMessage = '';
     }
+  
+    // Check if the passwords match
+    this.checkPasswordsMatch();
   }
 
+  checkPasswordsMatch() {
+    if (this.user.encryptedPassword && this.user.confirmPassword && this.user.encryptedPassword !== this.user.confirmPassword) {
+      this.confirmPasswordInput = false;
+      this.confirmPasswordErrorMessage = 'Passwords do not match';
+    } else if (this.user.encryptedPassword && this.user.confirmPassword && this.user.encryptedPassword === this.user.confirmPassword) {
+      this.confirmPasswordInput = true;
+      this.confirmPasswordErrorMessage = '';
+    }}
   isAuthorized: boolean = false;
   showError: boolean = false;
   validateCheckbox() {

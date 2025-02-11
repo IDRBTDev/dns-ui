@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, OnInit, OnChanges, SimpleChanges, Input, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ContactDetailsFormService } from './service/contact-details-form.service';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
@@ -58,30 +58,33 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       // Admin Form Controls
       administrativeContactId: 0,
       adminFullName: ['', [Validators.required]],
-      adminEmail: ['', [Validators.required, Validators.email]],
+      adminEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
       adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       adminAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       adminDesignation: ['', [Validators.required]],
-      adminAddress: [''], 
+      adminAddress: ['',[Validators.required]], 
 
       // Technical Form Controls
       technicalContactId: 0,
       techFullName: ['', [Validators.required]],
-      techEmail: ['', [Validators.required, Validators.email]],
+      techEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
       techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       techAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       techDesignation: ['', [Validators.required]],
-      techAddress: [''],
+      techAddress: ['',[Validators.required]],
 
       // Billing Form Controls
       organisationalContactId: 0,
       billFullName: ['', [Validators.required]],
-      billEmail: ['', [Validators.required, Validators.email]],
+      billEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
       billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       billAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      billDesignation: ['', [Validators.required]],
-      billAddress: [''],
-    });
+      billDesignation: ['', [Validators.required,Validators.maxLength(50)]],
+      billAddress: ['',[Validators.required]],
+    },
+  {
+    validators: this.uniqueEmailValidator() 
+  });
     }
 
   goBack(): void{
@@ -221,7 +224,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           adminPhone: this.fullForm.get('adminPhone')?.value,
           adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
           adminDesignation: this.fullForm.get('adminDesignation')?.value,
-          adminAddress: this.fullForm.value.adminAddress,
+           adminAddress: this.fullForm.value.adminAddress,
+          
           addressLine1: this.addressDetails.address,
           city: this.addressDetails.city,
           state: this.addressDetails.state,
@@ -350,6 +354,7 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
         adminAddress: this.fullForm.value.adminAddress,
+     
         addressLine1: this.addressDetails.address,
         city: this.addressDetails.city,
         state: this.addressDetails.state,
@@ -497,6 +502,80 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     this.imagUrl = null
     this.pdfUrl = pdfUrl
   }
+    allowAlphabetsOnly(event: any): void {
+    // Get the current value of the input field
+    let inputValue = event.target.value;
+
+    // Replace any character that is not an alphabet or a space
+    const validValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+
+    // Update the input field with the valid value
+    event.target.value = validValue;
+
+    // Optionally, you can add any other logic or error handling here
+  }
  
+    uniqueEmailValidator(): ValidatorFn {
+      return (control: AbstractControl): ValidationErrors | null => {
+        const adminEmail = control.get('adminEmail')?.value;
+        const techEmail = control.get('techEmail')?.value;
+        const billEmail = control.get('billEmail')?.value;
+  
+        const errors: ValidationErrors = {};
+  
+        // Check if techEmail is filled
+        if (techEmail && control.get('techEmail')?.touched) {
+          if (adminEmail && techEmail === adminEmail) {
+            errors['emailNotUniqueTech'] = 'Tech email cannot match admin email.';
+          }
+          if (billEmail && techEmail === billEmail) {
+            errors['emailNotUniqueTech'] = 'Tech email cannot match bill email.';
+          }
+        }
+  
+        // Check if adminEmail is filled and touched
+        if (adminEmail && control.get('adminEmail')?.touched) {
+          if (techEmail && adminEmail === techEmail) {
+            errors['emailNotUniqueAdmin'] = 'Admin email cannot match tech email.';
+          }
+          if (billEmail && adminEmail === billEmail) {
+            errors['emailNotUniqueAdmin'] = 'Admin email cannot match bill email.';
+          }
+        }
+  
+        // Check if billEmail is filled and touched
+        if (billEmail && control.get('billEmail')?.touched) {
+          if (adminEmail && billEmail === adminEmail) {
+            errors['emailNotUniqueBill'] = 'Bill email cannot match admin email.';
+          }
+          if (techEmail && billEmail === techEmail) {
+            errors['emailNotUniqueBill'] = 'Bill email cannot match tech email.';
+          }
+        }
+  
+        // Return errors if any
+        return Object.keys(errors).length ? errors : null;
+      };
+    }
+  
+  
+  
+    customEmailValidator(): ValidatorFn {
+      return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value;
+        if (!value) return null;  // Don't validate empty fields
+  
+        // Regular expression to check email format
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
+        // If the value does not match the pattern, return an error
+        if (!emailRegex.test(value)) {
+          return { invalidEmail: 'Please enter a valid email address (e.g., example@gmail.com).' };
+        }
+        return null;  // Valid email format
+      };
+    }
+  
+  
 }
 
