@@ -177,7 +177,7 @@ addNameServer(): void {
     }
   }
   updatePrice(){
-    if(this.nameServers.length+this.nameServerLength>4){
+    if(this.nameServers?.length+this.nameServerLength>4){
       //  this.fetchThePriceDetails();
       this.price=this.getPriceByNsRecordCount(this.nameServers.length+this.nameServerLength);
      
@@ -220,6 +220,9 @@ addNameServer(): void {
             this.toastr.success("Address is Valid");
             this.domain.cost=this.price;
             this.updatePriceForDomain(this.domain);
+            if(this.nameServerLength>0){
+              this.router.navigateByUrl("/domain-details?domainId="+this.domainId);
+            }
             // this.router.navigateByUrl("/rgnt-domains");
           }
         },
@@ -232,6 +235,7 @@ addNameServer(): void {
       );
     }
   }
+  
   updatePriceForDomain(domain){
     this.domainService.updateDomainDetails(domain).subscribe({
       next:(response)=>{
