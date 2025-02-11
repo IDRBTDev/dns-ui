@@ -158,7 +158,12 @@ export class DomainApplicationComponent {
          if(this.role !== 'IDRBTADMIN'){
           console.log('exe')
           console.log(this.organisationId)
-          this.getAllDomainsListByOrgId(this.organisationId);
+          if(this.organisationId>0){
+            this.getAllDomainsListByOrgId(this.organisationId);
+          }else{
+            this.domainsList=[]
+          }
+         
           this.displayedColumns=[
              // 'checkbox',
           'domainId',

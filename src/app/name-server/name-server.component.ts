@@ -16,7 +16,7 @@ export class NameServerComponent {
     this.organisationId = this.router.getCurrentNavigation().extras?.state['organisationId'] | 0;
     this.domainId = this.router.getCurrentNavigation().extras?.state['domainId'] | 0;
     this.applicationId = this.router.getCurrentNavigation().extras?.state['applicationId'];
-    this.nameServerLength=this.router.getCurrentNavigation().extras?.state['nameServerLength']
+    this.nameServerLength=this.router.getCurrentNavigation().extras?.state['nameServerLength']?this.router.getCurrentNavigation().extras?.state['nameServerLength']:0
     console.log(this.organisationId);
     console.log(this.domainId);
     console.log(this.applicationId);
