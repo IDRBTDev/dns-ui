@@ -5,7 +5,7 @@
       <div style="flex: 1;">
           <select id="organisationDocType" class="form-select" [(ngModel)]="organisationSelectedDocType"
               (change)="handleOrganisationDocTypeChange($event)" required>
-              <option value="" disabled selected>Select Document Type</option>
+              <option value="" disabled selected hidden >Select Document Type</option>
               <option *ngFor="let doc of organisationRequiredDocs" [value]="doc"
                   [disabled]="isOrganisationDocUploaded(doc)">
                   {{ doc }}
@@ -122,7 +122,7 @@
       <div style="flex: 1;">
           <select id="adminDocType" class="form-select" [(ngModel)]="adminSelectedDocType"
               (change)="handleAdminDocTypeChange($event)" required>
-              <option value="" disabled selected>Select Document Type</option>
+              <option value="" disabled selected hidden>Select Document Type</option>
               <option *ngFor="let doc of adminRequiredDocs" [value]="doc" [disabled]="isAdminDocUploaded(doc)">
                   {{ doc }}
               </option>
@@ -231,7 +231,7 @@
         (change)="handleTechDocTypeChange($event)"
         required
       >
-        <option value="" disabled selected>Select Document Type</option>
+        <option value="" disabled selected hidden>Select Document Type</option>
         <option
           *ngFor="let doc of techRequiredDocs"
           [value]="doc"
@@ -375,7 +375,7 @@
         (change)="handleBillingDocTypeChange($event)"
         required
       >
-        <option value="" disabled selected>Select Document Type</option>
+        <option value="" disabled selected hidden>Select Document Type</option>
         <option
           *ngFor="let doc of billingRequiredDocs"
           [value]="doc"

@@ -26,6 +26,8 @@
                     class="form-control"
                     formControlName="adminFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -57,6 +59,10 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                 
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueAdmin'] && fullForm.get('adminEmail')?.touched" class="text-danger">
+                    Admin email cannot match bill or tech email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -95,7 +101,7 @@
                     formControlName="adminAltPhone"
                     (input)="sanitizeInput($event, 'adminAltPhone')"
                     maxlength="10"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   /></div>
                   <div
                     *ngIf="
@@ -117,7 +123,12 @@
                     class="form-control"
                     formControlName="adminDesignation"
                     placeholder="Enter your designation"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('adminDesignation')?.hasError('maxlength') && fullForm.get('adminDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('adminDesignation')?.invalid &&
@@ -186,6 +197,8 @@
                     class="form-control"
                     formControlName="techFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -216,6 +229,10 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                 
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueTech'] && fullForm.get('techEmail')?.touched" class="text-danger">
+                    Tech email cannot match admin or bill email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -254,7 +271,7 @@
                     formControlName="techAltPhone"
                     (input)="sanitizeInput($event, 'techAltPhone')"
                     maxlength="10"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   /></div>
                   <div
                     *ngIf="
@@ -276,7 +293,12 @@
                     class="form-control"
                     formControlName="techDesignation"
                     placeholder="Enter your designation"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('techDesignation')?.hasError('maxlength') && fullForm.get('techDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('techDesignation')?.invalid &&
@@ -296,7 +318,7 @@
                     formControlName="techAddress"
                     placeholder="Enter your address"
                     [value]="fullAddress"  
-                    readonly  
+                  
                   />
                   <div *ngIf="fullForm.get('techAddress')?.invalid && fullForm.get('techAddress')?.touched" class="text-danger">
                     Please enter your Address.
@@ -346,6 +368,8 @@
                     class="form-control"
                     formControlName="billFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -376,6 +400,10 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                 
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueBill'] && fullForm.get('billEmail')?.touched" class="text-danger">
+                    Bill email cannot match admin or tech email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -414,7 +442,7 @@
                     formControlName="billAltPhone"
                     maxlength="10"
                     (input)="sanitizeInput($event, 'billAltPhone')"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   /></div>
                   <div
                     *ngIf="
@@ -436,7 +464,12 @@
                     class="form-control"
                     formControlName="billDesignation"
                     placeholder="Enter your designation"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('billDesignation')?.hasError('maxlength') && fullForm.get('billDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('billDesignation')?.invalid &&
@@ -456,7 +489,7 @@
                     formControlName="billAddress"
                     placeholder="Enter your address"
                     [value]="fullAddress"  
-                    readonly  
+                   
                   />
                   <div *ngIf="fullForm.get('billAddress')?.invalid && fullForm.get('billAddress')?.touched" class="text-danger">
                     Please enter your Address.
@@ -492,6 +525,7 @@
               </div>
             </div>
           </div>
+          
 
           <!-- Submit Button for the Entire Form -->
 
@@ -522,6 +556,8 @@
                     class="form-control"
                     formControlName="adminFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -552,6 +588,12 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                  <!-- <div *ngIf="fullForm.get('adminEmail')?.hasError('invalidEmail') && fullForm.get('adminEmail')?.touched" class="text-danger">
+                    Please enter a valid email address
+                  </div> -->
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueAdmin'] && fullForm.get('adminEmail')?.touched" class="text-danger">
+                    Admin email cannot match bill or tech email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -588,7 +630,7 @@
                     formControlName="adminAltPhone"
                     (input)="sanitizeInput($event, 'adminAltPhone')"
                     maxlength="10"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   />
                   <div
                     *ngIf="
@@ -610,7 +652,12 @@
                     class="form-control"
                     formControlName="adminDesignation"
                     placeholder="Enter your designation"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('adminDesignation')?.hasError('maxlength') && fullForm.get('adminDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('adminDesignation')?.invalid &&
@@ -670,6 +717,8 @@
                     class="form-control"
                     formControlName="techFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -700,6 +749,12 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                  <!-- <div *ngIf="fullForm.get('techEmail')?.hasError('invalidEmail') && fullForm.get('techEmail')?.touched" class="text-danger">
+                    Please enter a valid email address
+                  </div> -->
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueTech'] && fullForm.get('techEmail')?.touched" class="text-danger">
+                    Tech email cannot match admin or bill email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -736,7 +791,7 @@
                     formControlName="techAltPhone"
                     (input)="sanitizeInput($event, 'techAltPhone')"
                     maxlength="10"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   />
                   <div
                     *ngIf="
@@ -757,8 +812,13 @@
                     id="techDesignation"
                     class="form-control"
                     formControlName="techDesignation"
+                    (input)="allowAlphabetsOnly($event)" 
                     placeholder="Enter your designation"
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('techDesignation')?.hasError('maxlength') && fullForm.get('techDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('techDesignation')?.invalid &&
@@ -813,6 +873,8 @@
                     class="form-control"
                     formControlName="billFullName"
                     placeholder="Enter full name"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
                   <div
                     *ngIf="
@@ -843,6 +905,10 @@
                     class="text-danger"
                   >
                     Please enter a valid email.
+                  </div>
+                 
+                  <div *ngIf="fullForm.errors?.['emailNotUniqueBill'] && fullForm.get('billEmail')?.touched" class="text-danger">
+                    Bill email cannot match admin or tech email.
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -879,7 +945,7 @@
                     formControlName="billAltPhone"
                     maxlength="10"
                     (input)="sanitizeInput($event, 'billAltPhone')"
-                    placeholder="Enter alternative phone"
+                    placeholder="Enter alternative phone number"
                   />
                   <div
                     *ngIf="
@@ -901,7 +967,12 @@
                     class="form-control"
                     formControlName="billDesignation"
                     placeholder="Enter your designation"
+                    (input)="allowAlphabetsOnly($event)" 
+                    maxlength="50"
                   />
+                  <div *ngIf="fullForm.get('billDesignation')?.hasError('maxlength') && fullForm.get('billDesignation')?.touched" class="text-danger">
+                    Designation cannot exceed 50 characters.
+                  </div>
                   <div
                     *ngIf="
                       fullForm.get('billDesignation')?.invalid &&

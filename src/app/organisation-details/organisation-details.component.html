@@ -44,9 +44,8 @@
 
         <div class="row">
           <div class="col-md-4 mb-3">
-            <label for="pincode" class="form-label">Pincode</label
-            ><span style="color: red">*</span>
-
+            <label for="pincode" class="form-label">Pincode</label><span style="color: red">*</span>
+        
             <input
               type="text"
               id="pincode"
@@ -54,48 +53,42 @@
               placeholder="Enter pincode"
               formControlName="pincode"
               (input)="onPincodeChange()"
-              (input)="sanitizeInput($event, 'pincode')"
               required
               maxlength="6"
             />
-            <div
-              *ngIf="
-                (organisationForm.get('pincode')?.invalid ||
-                  organisationForm.get('city')?.invalid) &&
-                organisationForm.get('pincode')?.touched
-              "
-              class="text-danger"
-            >
+            <div *ngIf="(organisationForm.get('pincode')?.invalid || organisationForm.get('city')?.invalid) && organisationForm.get('pincode')?.touched" class="text-danger">
               Please enter your pincode.
             </div>
           </div>
-
+        
           <div class="col-md-4 mb-3">
-            <label for="city" class="form-label">City</label
-            ><span class="text-danger">*</span>
-
+            <label for="city" class="form-label">City</label><span class="text-danger">*</span>
+        
             <select
               id="city"
               class="form-control"
-              placeholder="Enter City"
               formControlName="city"
+              [disabled]="organisationForm.get('city')?.disabled" 
               required
             >
+            <option *ngIf="organisationForm.get('city')?.disabled" value="" disabled> 
+              Select City
+            </option>
+              <!-- Do not show the "Select City" option when the city form control is disabled -->
               <option *ngFor="let city of cityOptions" [value]="city.name">
                 {{ city.name }}
               </option>
             </select>
           </div>
-
+        
           <div class="col-md-4 mb-3">
-            <label for="state" class="form-label">State</label
-            ><span class="text-danger">*</span>
-
+            <label for="state" class="form-label">State</label><span class="text-danger">*</span>
+        
             <input
               type="text"
               id="state"
               class="form-control"
-              placeholder=" Enter State"
+              placeholder="Enter State"
               formControlName="state"
               [value]="organisationForm.get('state')?.value"
               readonly
@@ -103,6 +96,7 @@
             />
           </div>
         </div>
+        
 
         <!-- Address Section -->
 
