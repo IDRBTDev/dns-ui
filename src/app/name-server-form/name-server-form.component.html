@@ -44,11 +44,11 @@ class="form-card shadow-lg"
                         <div class="ns-input">
 
                            
-                            <label for="{{ i + 1 }}host" class="form-label">Name Server {{ i + 1 }} Host
+                            <label for="{{ i + nameServerLength +1}}host" class="form-label">Name Server {{ i+nameServerLength+ 1 }} Host
                                 Name</label><span class="text-danger">*</span>
 
-                            <input type="text" id="{{ i + 1 }}host" formControlName="hostName" class="custom-text-field"
-                                placeholder="Name Server {{ i + 1 }} - Host Name" required />
+                            <input type="text" id="{{ i+nameServerLength + 1 }}host" formControlName="hostName" class="custom-text-field"
+                                placeholder="Name Server {{ i+nameServerLength + 1 }} - Host Name" required />
 
                             <!-- <div *ngIf="
 
@@ -96,9 +96,9 @@ class="form-card shadow-lg"
                               
                         </div> -->
                         <div class="ns-input">
-                            <label for="{{ i + 1 }}ipAddress" class="form-label">Name Server {{ i + 1 }} IP Address</label><span class="text-danger">*</span>
+                            <label for="{{ i+nameServerLength + 1 }}ipAddress" class="form-label">Name Server {{ i+nameServerLength + 1 }} IP Address</label><span class="text-danger">*</span>
                           
-                            <input type="text" id="{{ i + 1 }}ipAddress" formControlName="ipAddress" class="custom-text-field" placeholder="Name Server {{ i + 1 }} - IP Address" required />
+                            <input type="text" id="{{ i+nameServerLength + 1 }}ipAddress" formControlName="ipAddress" class="custom-text-field" placeholder="Name Server {{ i+nameServerLength + 1 }} - IP Address" required />
                           
                             <div *ngIf="server.get('ipAddress')?.invalid && server.get('ipAddress')?.touched" class="error-message">
                                 <!-- IP address required error -->
@@ -135,7 +135,7 @@ class="form-card shadow-lg"
                     </button>
                 </div>
               
-                <div *ngIf="nameServers.length>4" style="color: rgba(0, 124, 248, 1);font-weight: 500;">
+                <div *ngIf="nameServers.length+nameServerLength>4" style="color: rgba(0, 124, 248, 1);font-weight: 500;">
                     <span style="color:red">*</span> The Price has been updated to {{price}} ₹
 
                 </div>

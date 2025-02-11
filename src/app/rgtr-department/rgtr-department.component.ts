@@ -8,6 +8,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { UserService } from '../user/service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rgtr-department',
@@ -17,7 +18,8 @@ import { UserService } from '../user/service/user.service';
 export class RgtrDepartmentComponent implements OnInit{
 
 
-  constructor(private departmentService:DepartmentService,private toastr:ToastrService,private userService:UserService){
+  constructor(private departmentService:DepartmentService,private toastr:ToastrService,
+    private userService:UserService,private router:Router){
     this.departmentDataSource = new MatTableDataSource<any>();
     
   }
@@ -39,6 +41,7 @@ export class RgtrDepartmentComponent implements OnInit{
       'createdDateTime',
       'modifiedBy',
       'modifiedDateTime',
+      'active',
       'edit',
       'delete'
     ];
@@ -48,6 +51,7 @@ export class RgtrDepartmentComponent implements OnInit{
       this.departmentService.getAllDepartments().subscribe({
         next:(response)=>{
           this.departmentList=response.body;
+          console.log(this.departmentList)
           this.departmentDataSource.data=this.departmentList;
           this.departmentDataSource.sort=this.sort;
           setTimeout(() => {
@@ -119,7 +123,7 @@ export class RgtrDepartmentComponent implements OnInit{
         }
       },error: (error) => {
         if(error.status === HttpStatusCode.Unauthorized){
-          // this.router.navigateByUrl('/session-timeout')
+          this.router.navigateByUrl('/session-timeout')
         }else if(error.status === HttpStatusCode.Found){
           this.toastr.error("Department name '"+this.department.departmentName+ "' already exists")
           //document.getElementById('closeAddModal').click();
@@ -243,7 +247,7 @@ export class RgtrDepartmentComponent implements OnInit{
           }
         },error: (error) => {
           if(error.status === HttpStatusCode.Unauthorized){
-            // this.router.navigateByUrl('/session-timeout')
+            this.router.navigateByUrl('/session-timeout')
           }
           else if(error.status === HttpStatusCode.Found){
             this.toastr.error("Department name '" +this.existingDepartment.departmentName+ "' already exists")
@@ -320,7 +324,7 @@ export class RgtrDepartmentComponent implements OnInit{
           }
         },error: (error) => {
           if(error.status === HttpStatusCode.Unauthorized){
-            // this.router.navigateByUrl('/session-timeout')
+            this.router.navigateByUrl('/session-timeout')
           }
         }
       })
@@ -332,19 +336,23 @@ export class RgtrDepartmentComponent implements OnInit{
       if(isConfirmed){
        this.departmentService.deleteDepartment(departmentId).subscribe({
          next:(response) => {
+          console.log(response)
            if(response.status === HttpStatusCode.Ok){
              var result = response.body;
              this.toastr.success('Department '+departmentId+' deleted successfully')
              setTimeout(()=>{
                window.location.reload();
              },1000)
-           }
+           } else if(response.status === HttpStatusCode.ImUsed){
+            this.toastr.error("Department is already in usage by a user, cannot be deleted.");
+          }
          },error: (error) => {
+          console.log(error)
            if(error.status === HttpStatusCode.Unauthorized){
-            //  this.router.navigateByUrl('/session-timeout')
+             this.router.navigateByUrl('/session-timeout')
            }
            else if(error.status === HttpStatusCode.ImUsed){
-             this.toastr.error("Department is already in usage by an employee, cannot be deleted.");
+             this.toastr.error("Department is already in usage by an user, cannot be deleted.");
            }
            else{
              this.toastr.error('Error occured while deleting department ' + departmentId  +'. Please try again !')
