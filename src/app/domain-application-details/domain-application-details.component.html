@@ -24,7 +24,7 @@
                             </div>
                             <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Application Status</p>
-                                <div class="box-content">{{domainsList?.status}}</div>
+                                <div class="box-content">{{domainsList?.applicationStatus}}</div>
                             </div>
                             <div class="detail-item">
                                 <p style="font-family: Roboto; font-size: 20px;">Organization Name</p>
@@ -112,7 +112,7 @@
                                             <div class="col-4">
                                                 <h5 style="font-size: 16px; color:#000000">NS Status</h5>
                                                     <select
-                                                     class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
+                                                     class="form-control" (change)="updateDomainStatus(domainsList.nsRecordStatus)" [(ngModel)]="domainsList.nsRecordStatus"
                                                       [disabled]="domainsList.paymentStatus !== 'Paid'">
                                                         <option value="" disabled selected>Select Status</option>
                                                        
@@ -128,11 +128,11 @@
                                                 <div>
                                                     <select
                                                      class="form-control" [(ngModel)]="domainsList.status" 
-                                                     [disabled]="domainsList.paymentStatus !== 'Paid'">
+                                                    disabled>
                                                         <option value="" disabled selected>Select Status</option>
-                                                        <option *ngFor="let status of status" [value]="status">{{ status }}</option>
+                                                        <!-- <option *ngFor="let status of status" [value]="status">{{ status }}</option> -->
                                                         <option value="Active">Active</option>
-                                                        <option value="InActive">In Active</option>
+                                                        <option value="Inactive">Inactive</option>
                                                     </select>
                                                 </div>
                                             </div>

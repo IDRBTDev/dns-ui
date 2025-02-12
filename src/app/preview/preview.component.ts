@@ -112,6 +112,7 @@ export class PreviewComponent implements OnInit, OnChanges {
         userName:'',
         userMailId:'',
         isEditing: false,
+        applicationStatus:'Pending'
       },
     },
 
@@ -567,6 +568,9 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async updateNameServers(){
+    this.nameDetails.array.forEach(element => {
+      element.organisationId=this.organisationId;
+    });
     await lastValueFrom(this.namServerService.updateListNameServer(this.nameDetails)).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
@@ -611,12 +615,13 @@ export class PreviewComponent implements OnInit, OnChanges {
    
     await this.getLoggedInUserDetails();
     await this.updateUserOnboradingStatus();
-    this.updateDomainDetails();
+    await this.updateDomainDetails();
     this.updateOrganisationDetails();
     this.updateAdministrativeContactDetails();
     this.updateTechnicalContactDetails();
     this.updateBillingContactDetails();
     this.updateNameServers();
+    await this.createInvoiceforDomain(this.domainId);
    
     this.toastr.success('Details updated successfully');
    // if(this.role === 'IDRBTADMIN'){
@@ -943,5 +948,21 @@ isDisabled: boolean = true;
 // dataToSign: "I " + this.formData.name + ", hereby undertake that I am working with" 
 //                 + this.formData.organisationName + " as" + this.formData.designation 
 //                 + " and I am authorized to sign the legal documents."
+
+async createInvoiceforDomain(domainId : number){
+  //console.log("the domain Id is "+domainId);
+  this.domainService.createInvoice(domainId).subscribe({
+    next :(response)=>{
+      if(response.status == HttpStatusCode.Ok){
+
+      }
+  },
+  error: (error) => {
+    console.error("Error creating invoice:", error);
+  }
+ });
+   
+
+}
 
 }

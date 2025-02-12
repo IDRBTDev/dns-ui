@@ -107,4 +107,43 @@ h3 {
     max-height: 100%; 
   }
 
+  .filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute space between text and icon */
+    padding: 8px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    width: 130px;
+    margin-left: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
   
+  .filter-button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+  }
+  
+  .filter-text {
+    color: #999; /* Light gray color for the text */
+  }
+  
+
+  
+  .filter-icon {
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px; /* Space between text and icon */
+  }
+  
+  .filter-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }

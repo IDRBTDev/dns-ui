@@ -10,14 +10,27 @@
           <ng-template #displayDomains>
             <div *ngIf="domainsList?.length > 0 && role != 'IDRBTADMIN'" class="row" style="padding-top: 100px;">
               <div class="col-sm-12">
-                <h3 class="d-flex align-items-center">
+                <h1 style="margin-bottom: 10px;font-weight:500">
                   Domains
-                  <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" (click)="navigateToAddDomain()">Add Domain</button>
-                  <div style="height: 20%; padding-left: 7px;">
-                    <input  type="text" placeholder="Search" style="margin-left: 0px; padding:8px 12px;height:35px; margin-top: 0px; margin-bottom: 0px;" [(ngModel)]="searchText" 
-                    (ngModelChange)="applyFilter()" matInput #input>
-                </div>
-                </h3>
+                </h1>
+                <div class="d-flex align-items-center" style="margin-left: 0;">
+                 
+                  <button *ngIf="role != 'IDRBTADMIN'" class="btn btn-primary ml-3" style="margin-left: 0px !important;" (click)="navigateToAddDomain()">
+                    <svg width="20" height="20" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 22.5C17.5228 22.5 22 18.0228 22 12.5C22 6.97715 17.5228 2.5 12 2.5C6.47715 2.5 2 6.97715 2 12.5C2 18.0228 6.47715 22.5 12 22.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M2 12.5H22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12 2.5C14.5013 5.23835 15.9228 8.79203 16 12.5C15.9228 16.208 14.5013 19.7616 12 22.5C9.49872 19.7616 8.07725 16.208 8 12.5C8.07725 8.79203 9.49872 5.23835 12 2.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      
+                    Add Domain</button>
+                    <div style="height: 20%; padding-left: 17px; position: relative;width: 200px;">
+                      <i class="fas fa-search" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #ccc; /* Light gray color */"></i>
+                      <input type="text" placeholder="Search"
+                             style="margin-left: 0px; padding: 8px 10px; height: 38px;
+                                   width:100%; margin-top: 0px; margin-bottom: 0px; padding-right: 35px; /* Increased padding-right */"
+                             [(ngModel)]="searchText" (ngModelChange)="applyFilter()" matInput #input>
+                    </div>
+                  </div>
               
                   <!-- <svg  style="margin-left: 20px;" data-toggle="modal" data-target="#exampleModalCenter" width="129" height="42" viewBox="0 0 129 42"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -273,7 +286,8 @@
             <div class="input-group">
               <select type="text" placeholder="Select  Status" class="form-control" [(ngModel)]="filters.status" >
               <option value="Active">Active</option>
-                                                <option value="InActive">InActive</option></select>
+              <option value="Inactive">Inactive</option>
+            </select>
 
             </div>
           </div>
