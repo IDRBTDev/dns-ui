@@ -145,7 +145,7 @@
                         <div style="position: relative;">
                             <input
                                 type="{{ isPasswordVisible ? 'text' : 'password' }}"
-                                [(ngModel)]="user.encryptedPassword"
+                                [(ngModel)]="user.encryptedPassword" 
                                 (input)="passwordChange()" maxlength="16"
                                 [disabled]="!isEmailVerified"
                                 placeholder="Enter the strong password"

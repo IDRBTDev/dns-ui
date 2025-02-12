@@ -158,7 +158,12 @@ export class DomainApplicationComponent {
          if(this.role !== 'IDRBTADMIN'){
           console.log('exe')
           console.log(this.organisationId)
-          this.getAllDomainsListByOrgId(this.organisationId);
+          if(this.organisationId>0){
+            this.getAllDomainsListByOrgId(this.organisationId);
+          }else{
+            this.domainsList=[]
+          }
+         
           this.displayedColumns=[
              // 'checkbox',
           'domainId',
@@ -241,7 +246,7 @@ export class DomainApplicationComponent {
           // For date columns, format the date to 'MMM d, y, h:mm a' format
           const dateValue = data[column];
           return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
-        }else if(column === 'domainName'||column ==='organizationName'){
+        }else if(column === 'domainName'){
           const domainName = data.domainName?.toString().toLowerCase() || "";
                 const bankName = data.bankName?.toString().toLowerCase() || "";
                 // console.log(domainName+bankName)

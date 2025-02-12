@@ -582,22 +582,23 @@ set missingAdminDocs(value:string[]){
   handleOrganisationDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.organisationSelectedDocType = target.value;
-    this.organisationInputValue = '';
+    this.organisationInputValue = null;
     this.organisationErrors = { message: '', type: '' };
   }
 
   handleAdminDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.adminSelectedDocType = target.value;
-    this.adminInputValue = '';
-    this.adminErrors = { message: '', type: '' };
+    this.adminInputValue =null;
+    this.adminInputFieldErrors = { message: '', type: '' };
   }
 
   handleTechDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.techSelectedDocType = target.value;
-    this.techInputValue = '';
-    this.techErrors = { message: '', type: '' };
+    this.techInputValue = null;
+    this.techInputFieldErrors = { message: '', type: '' };  
+
   }
  
   closedForm() {
@@ -636,8 +637,10 @@ set missingAdminDocs(value:string[]){
   handleBillingDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.billingSelectedDocType = target.value;
-    this.billingInputValue = '';
-    this.billingErrors = { message: '', type: '' };
+    this.billingInputValue = null;
+    this.billingInputFieldErrors = { message: '', type: '' };
+   
+    
   }
 
   // Handle input value changes for each section
@@ -691,11 +694,13 @@ set missingAdminDocs(value:string[]){
         return null; // Or a default max length if needed
     }
   }
+  filterInputValue:string='';
   handleAdminInputChange(event: any): void {
+    this.adminInputFieldErrors = { message: '', type: '' };
     if (/^[a-zA-Z0-9\s]*$/.test(event)) {
       // Directly update the adminInputValue from the event
       this.adminInputValue = event;
- 
+     
       // PAN validation
       if (this.adminSelectedDocType === 'PAN') {
         const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);

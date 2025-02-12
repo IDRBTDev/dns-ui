@@ -598,12 +598,12 @@ OrgPanImage:boolean;
   viewDocuments(docType){
     if(docType=='GSTIN'){
       this.gstDoc = this.extractDocument(this.entireOrgDocsObj, 'organisationGstinDocument');
-      if (this.gstDoc?.size > 0 && this.gstDoc.get('fileName').endsWith('.pdf')) {
+      if (this.gstDoc?.size > 0 && this.gstDoc?.get('fileName').endsWith('.pdf')) {
         this.displayPdf(this.gstDoc.get('document'), "organisationGstinDocument"); 
         this.OrgGstDocImage=false
         document.getElementById("gstModal")?.click();
       } else if (this.gstDoc.size > 0) { 
-        this.OrgGstDocImage=false
+        this.OrgGstDocImage=true
         this.gstDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'organisationGstinDocument'); 
         document.getElementById("gstModal")?.click();
       }
@@ -622,7 +622,7 @@ OrgPanImage:boolean;
       }
     }else if(docType=='LICENCE'){
       this.licenseDoc = this.extractDocument(this.entireOrgDocsObj, 'licenseDocument');
-      if (this.licenseDoc?.size > 0 && this.licenseDoc.get('fileName').endsWith('.pdf')) {
+      if (this.licenseDoc?.size > 0 && this.licenseDoc?.get('fileName').endsWith('.pdf')) {
         this.displayPdf(this.licenseDoc.get("document"), "licenseDocument"); // Corrected documentField
         this.OrgLicenceImage=false;
         document.getElementById("licenceModal")?.click(); 

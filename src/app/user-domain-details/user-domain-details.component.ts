@@ -407,6 +407,7 @@ import { OrganisationDetailsService } from '../organisation-details/service/orga
 import { HttpStatusCode } from '@angular/common/http';
 import { ReminderComponent } from '../reminder/reminder.component';
 import { DomainService } from '../rgnt-domain/service/domain.service';
+import { UserService } from '../user/service/user.service';
 
 @Component({
   selector: 'app-user-domain-details',
@@ -418,7 +419,7 @@ export class UserDomainDetailsComponent implements OnInit {
   userDomainForm: FormGroup;
   showResult = false;
   userId: string = localStorage.getItem('email');
-  organisationId: number = parseInt(localStorage.getItem('organisationId'));
+  organisationId: number ;
 
   @ViewChild(ReminderComponent) reminder: ReminderComponent | undefined;
   submissionError: string;
@@ -431,11 +432,8 @@ export class UserDomainDetailsComponent implements OnInit {
       //   zone: ['', Validators.required],
       //   label: ['', Validators.required]
       // });
-      if(this.organisationId > 0){
-        this.getAllDomainsListByOrgId(this.organisationId);
-      }else{
-        this.domainsList = [];
-      }
+      
+     this.loggedInUserDetails();
   }
   
   constructor(
@@ -446,7 +444,9 @@ export class UserDomainDetailsComponent implements OnInit {
     
     private domainService: DomainService,
 
-    public router:Router, private organisationService: OrganisationDetailsService
+    public router:Router, private organisationService: OrganisationDetailsService,
+
+    private userService :UserService
 
   ) {
   
@@ -583,7 +583,25 @@ export class UserDomainDetailsComponent implements OnInit {
       }   
   })
 }
-
+async loggedInUserDetails(){
+  await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
+    response => {
+      if(response.status === HttpStatusCode.Ok){
+        console.log(response.body.organisationId)
+        this.organisationId=response.body.organisationId;
+        if(this.organisationId > 0){
+          this.getAllDomainsListByOrgId(this.organisationId);
+        }else{
+          this.domainsList = [];
+        }
+      }
+    }, error => {
+      if(error.status === HttpStatusCode.Unauthorized){
+        this.navigateToSessionTimeout();
+      }
+    }
+  )
+}
  
 
   // Handle form submission
@@ -763,7 +781,9 @@ export class UserDomainDetailsComponent implements OnInit {
 
               applicationId: response.applicationId,
 
-              organisationId: this.organisationId
+              organisationId: this.organisationId,
+
+              nameServerLength:0
 
             }
 

@@ -47,7 +47,7 @@ export class OrganisationDetailsComponent implements OnInit {
             organisationEmail: ['',[Validators.required, Validators.pattern ('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
             address: ['',Validators.required],
             pincode: ['',[Validators.required, Validators.pattern('^[0-9]{6}$')]],
-            city: [''],
+            city: [{ value: '', disabled: true }, Validators.required], 
             district: [''],
             state: [''],
             userMailId:['']
@@ -79,7 +79,7 @@ export class OrganisationDetailsComponent implements OnInit {
       }
       
       
-
+      isCityDisabled = true;
     fetchCityState(pincode: string): void {
         this.loading = true;
         this.http.get(`https://api.postalpincode.in/pincode/${pincode}`).subscribe(
@@ -101,6 +101,7 @@ export class OrganisationDetailsComponent implements OnInit {
                             city: this.cityOptions[0].name || '',
                             state: this.cityOptions[0].state || '',
                         });
+                        this.enableCityDropdown(); 
                     } else {
                         this.clearCityAndState();
                     }
@@ -116,13 +117,20 @@ export class OrganisationDetailsComponent implements OnInit {
             }
         );
     }
-
+    enableCityDropdown(): void {
+        // Enable city form control programmatically
+        this.organisationForm.get('city')?.enable();
+        this.organisationForm.get('state')?.enable(); // Enable state form control as well
+      }
     clearCityAndState(): void {
         this.cityOptions = [];
+     
         this.organisationForm.patchValue({
             city: '',
             state: '',
         });
+        this.organisationForm.get('city')?.disable();
+        this.organisationForm.get('state')?.disable();
     }
 
     onPincodeChange(): void {
