@@ -29,22 +29,23 @@ export class ChangePasswordComponent {
     private toastr: ToastrService,
   private location: Location){}
   isPasswordVisible: boolean = false;
+  isNewPasswordVisible:boolean=false;
   isConfirmPasswordVisible: boolean = false;
   passwordErrorMessage: string = '';
   passwordNameInput: boolean = true;
-  passwordChange() {
-    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
-    if (!this.user.newPassword) {
-      this.passwordNameInput = false;
-      this.passwordErrorMessage = 'Password should not be empty';
-    } else if (!pattern.test(this.user.newPassword)) {
-      this.passwordNameInput = false;
-      this.passwordErrorMessage = 'Password should not be empty';
-    } else {
-      this.passwordNameInput = true;
-      this.passwordErrorMessage = '';
-    }
-  }
+  // newpasswordChange() {
+  //   const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
+  //   if (!this.user.newPassword) {
+  //     this.passwordNameInput = false;
+  //     this.passwordErrorMessage = 'Password should not be empty';
+  //   } else if (!pattern.test(this.user.newPassword)) {
+  //     this.passwordNameInput = false;
+  //     this.passwordErrorMessage = 'Password should not be empty';
+  //   } else {
+  //     this.passwordNameInput = true;
+  //     this.passwordErrorMessage = '';
+  //   }
+  // }
   CurrentpasswordErrorMessage: string = '';
   CurrentpasswordNameInput: boolean = true;
   CurrentpasswordChange() {
@@ -63,24 +64,78 @@ export class ChangePasswordComponent {
 
   confirmPasswordErrorMessage: string = '';
   confirmPasswordInput: boolean = true;
+ 
+  newpasswordChange() {
+    // Remove spaces from the password input
+    this.user.newPassword = this.user.newPassword.replace(/\s+/g, '');
+  
+    // Regex pattern for strong password
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,}/;
+  
+    // Check if the password is empty
+    if (!this.user.newPassword) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password should not be empty';
+    }
+    // Check for spaces in the password
+    else if (/\s/.test(this.user.newPassword)) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password cannot contain spaces';
+    }
+    // Check for password complexity (uppercase, lowercase, digit, special char)
+    else if (!pattern.test(this.user.newPassword)) {
+      this.passwordNameInput = false;
+      this.passwordErrorMessage = 'Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one digit, and one special character';
+    } else {
+      this.passwordNameInput = true;
+      this.passwordErrorMessage = '';
+    }
+    // Check for matching password if both are entered
+    this.checkPasswordsMatch();
+  }
+ 
+  
   confirmPasswordChange() {
+    // Remove spaces from the confirm password input
+    this.user.confirmPassword = this.user.confirmPassword.replace(/\s+/g, '');
+  
+    // Check if confirm password is empty
     if (!this.user.confirmPassword) {
       this.confirmPasswordInput = false;
       this.confirmPasswordErrorMessage = 'Confirm password should not be empty';
-    } else if (this.user.newPassword !== this.user.confirmPassword) {
+    } 
+    // Check for spaces in the confirm password
+    else if (/\s/.test(this.user.confirmPassword)) {
       this.confirmPasswordInput = false;
-      this.confirmPasswordErrorMessage = 'Passwords do not match';
+      this.confirmPasswordErrorMessage = 'Confirm password cannot contain spaces';
     } else {
       this.confirmPasswordInput = true;
       this.confirmPasswordErrorMessage = '';
     }
-  }
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-    const passwordField = document.getElementById('password') as HTMLInputElement;
-    passwordField.type = this.isPasswordVisible ? 'text' : 'password';
+  
+    // Check if the passwords match
+    this.checkPasswordsMatch();
   }
 
+  checkPasswordsMatch() {
+    if (this.user.newPassword && this.user.confirmPassword && this.user.newPassword !== this.user.confirmPassword) {
+      this.confirmPasswordInput = false;
+      this.confirmPasswordErrorMessage = 'Passwords do not match';
+    } else if (this.user.newPassword && this.user.confirmPassword && this.user.newPassword === this.user.confirmPassword) {
+      this.confirmPasswordInput = true;
+      this.confirmPasswordErrorMessage = '';
+    }}
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+    const passwordField = document.getElementById('oldPassword') as HTMLInputElement;
+    passwordField.type = this.isPasswordVisible ? 'text' : 'password';
+  }
+  toggleNewPasswordVisibility() {
+    this.isNewPasswordVisible = !this.isNewPasswordVisible;
+    const passwordField = document.getElementById('newPassword') as HTMLInputElement;
+    passwordField.type = this.isNewPasswordVisible ? 'text' : 'password';
+  }
   toggleConfirmPasswordVisibility() {
     this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
     const confirmPasswordField = document.getElementById('confirmPassword') as HTMLInputElement;
@@ -115,39 +170,56 @@ email:string='';
       this.errorMessage = 'Passwords do not match.';
       return;
     }
-    this.checkOldPassword();
+   // this.checkOldPassword();
     this.updateNewPassword();
   }
+ 
+    // Declare error message property
+    oldPasswordErrorMessage: string = '';
+    oldPasswordSuccessMessage: string = '';
+    isOldPasswordCorrect:boolean=false;
   checkOldPassword() {
     const email = localStorage.getItem('email');
     console.log(email);
-
+  
+    // Clear previous messages
+    this.oldPasswordErrorMessage = '';
+    this.oldPasswordSuccessMessage = '';
+  
+    // Check if the old password is provided and if the email is available
     if (!email || !this.user.oldPassword) {
       console.error('User ID or Old Password is missing.');
-      this.toastr.error('Please provide both email and old password.', 'Error');
+      this.oldPasswordErrorMessage = 'Please provide the old password.';
       return;
     }
+  
+    // Check if the new password is the same as the old password
     if (this.user.oldPassword === this.user.newPassword) {
-      this.toastr.error('New password cannot be the same as the old password.', 'Error');
+      this.oldPasswordErrorMessage = 'New password cannot be the same as the old password.';
       return;
     }
-    
+  
+    // Call the service to validate the old password
     this.passwordService.validateOldPassword(email, this.user.oldPassword).subscribe({
-      next: (isValid: boolean) => {
+      next: (isValid: string) => {
         if (isValid) {
-         
+          this.isOldPasswordCorrect = true;
+          this.oldPasswordSuccessMessage = 'Old password is correct.';
+          this.oldPasswordSuccessMessage=''
         } else {
-          this.toastr.warning('Old password is incorrect.', 'Error');
+          this.isOldPasswordCorrect = false;
+          this.oldPasswordErrorMessage = 'Old password is incorrect.';
+          this.oldPasswordSuccessMessage=''
         }
       },
       error: (error) => {
-        
         console.error('Error occurred:', error);
-        this.toastr.error('An error occurred while validating the old password. Please try again.', 'Error');
+        this.oldPasswordErrorMessage = 'Old password is incorrect.';
+        this.oldPasswordSuccessMessage=''
       }
     });
   }
-
+  
 
 cancelButton(){
 document.getElementById('clear').click();
@@ -167,7 +239,7 @@ updateNewPassword(): void {
   }
 
   this.passwordService.resetPassword(email, this.user.newPassword, this.user.confirmPassword).subscribe({
-    next: (isUpdated: boolean) => {
+    next: (isUpdated: string) => {
       if (isUpdated) {
         this.toastr.success('Password updated successfully.', 'Success');
        
@@ -194,5 +266,6 @@ goBack(){
   console.log('executed')
   this.location.back();
 }
+
 
 }

@@ -147,4 +147,13 @@ a {
         font-weight: bold;
       }
 
+      .change-password-link {
+        color: #007bff; /* Link color (blue) */
+        text-decoration: none; /* Remove underline by default */
+        cursor: pointer; /* Change cursor to pointer on hover */
+    }
+    
+    .change-password-link:hover {
+        text-decoration: underline; /* Underline when hovered */
+    }
     

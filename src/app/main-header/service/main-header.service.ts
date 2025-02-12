@@ -37,32 +37,75 @@ export class MainHeaderService{
     }
 
 
-    resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<any> {
-      if (newPassword !== confirmPassword) {
-      throw new Error('Passwords do not match');
-    }
+  //   resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<any> {
+  //     const headers = new HttpHeaders({
+  //       'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+  //     });
+  //     if (newPassword !== confirmPassword) {
+  //     throw new Error('Passwords do not match');
+  //   }
+  //   const params = new HttpParams()
+  //     .set('userId', email)
+  //     .set('newPassword', newPassword)
+  //     .set('confirmPassword', confirmPassword); 
+  //   return this.httpClient.post<any>(`${this.resetUrl}`, null, {
+  //     headers: headers,
+  //     params: params,
+  //     observe: 'response'
+  //   });
+  // }
+  resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<string> {
+    // Set authorization headers (if needed, replace with your token)
+    const token = localStorage.getItem('jwtToken');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Prepare the parameters for the POST request
     const params = new HttpParams()
       .set('userId', email)
       .set('newPassword', newPassword)
-      .set('confirmPassword', confirmPassword); 
-    return this.httpClient.post<any>(`${this.resetUrl}`, null, {
+      .set('confirmPassword', confirmPassword);
+
+    return this.httpClient.post<string>(this.resetUrl, null, {
+      headers: headers,
       params: params,
-      observe: 'response'
+     responseType: 'text' as 'json'
+    });
+  }
+
+  
+  // validateOldPassword(email: string, oldPassword: string): Observable<boolean> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+  //   });
+  //   // Prepare query parameters
+  //   const params = new HttpParams()
+  //     .set('userId', email)           // Pass userId (email) as query parameter
+  //     .set('oldPassword', oldPassword); // Pass oldPassword as query parameter
+
+  //   // Make HTTP POST request to the backend
+  //   return this.httpClient.post<boolean>(this.oldUrl, null, { 
+  //     headers: headers,
+  //     params: params,
+  //     observe: 'body'            // Since the response body will be a boolean, we can observe 'body' only
+  //   });
+  // }
+  validateOldPassword(userId: string, oldPassword: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    });
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('oldPassword', oldPassword);
+  
+    return this.httpClient.post<string>(this.oldUrl, null, {
+      params: params,
+      observe: 'body',
+      responseType: 'text' as 'json'  // Set responseType to 'text'
     });
   }
   
-  validateOldPassword(email: string, oldPassword: string): Observable<boolean> {
-    // Prepare query parameters
-    const params = new HttpParams()
-      .set('userId', email)           // Pass userId (email) as query parameter
-      .set('oldPassword', oldPassword); // Pass oldPassword as query parameter
-
-    // Make HTTP POST request to the backend
-    return this.httpClient.post<boolean>(this.oldUrl, null, { 
-      params: params,
-      observe: 'body'            // Since the response body will be a boolean, we can observe 'body' only
-    });
-  }
   deleteProfilePicture(userId: string): Observable<void> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
