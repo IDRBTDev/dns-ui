@@ -104,6 +104,14 @@ export class DomainService{
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         })});
     }
+
+    createInvoice(domainId : number){
+        console.log("the domain Id is"+ domainId)
+        console.log(localStorage.getItem('jwtToken'))
+        return this.httpClient.post<any>(`${this.domainsUrl}/createInvoice/${domainId}`,{},{observe: 'response',headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        })});
+    }
    
    
 }
