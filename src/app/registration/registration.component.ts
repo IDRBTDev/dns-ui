@@ -508,7 +508,7 @@ isReg : boolean = false;
  async saveRegUser() {
   try {
     // Step 1: Check if email (user.userId) is provided
-    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!this.user.userId || this.user.userId.trim() === "") {
       console.log('Error: Email is missing');
       this.toastrService.error('Please provide email ID.');  // Show error message to the user

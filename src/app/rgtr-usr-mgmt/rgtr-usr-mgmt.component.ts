@@ -296,7 +296,7 @@ export class RgtrUsrMgmtComponent implements OnInit{
   emailInput: boolean = true;
   emailerrorMessage: string = '';
   emailChange() {
-    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!this.user.userId) {
       this.emailInput = false;
       this.emailerrorMessage = 'Email ID should not be empty';
@@ -309,7 +309,7 @@ export class RgtrUsrMgmtComponent implements OnInit{
     }
   }
   updateEmailChange() {
-    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!this.updatedUser.userId) {
       this.emailInput = false;
       this.emailerrorMessage = 'Email ID should not be empty';
