@@ -112,6 +112,7 @@ export class PreviewComponent implements OnInit, OnChanges {
         userName:'',
         userMailId:'',
         isEditing: false,
+        applicationStatus:'Pending'
       },
     },
 

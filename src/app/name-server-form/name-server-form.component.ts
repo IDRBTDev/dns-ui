@@ -163,9 +163,9 @@ addNameServer(): void {
   
   this.nameServers.push(this.createNameServer());
   console.log(this.nameServers.length)
-  if(this.nameServers.length+this.nameServerLength>4){
+  if(this.nameServers?.length+this.nameServerLength>2){
     //  this.fetchThePriceDetails();
-    this.price=this.getPriceByNsRecordCount(this.nameServers.length+this.nameServerLength);
+    this.price=this.getPriceByNsRecordCount(this.nameServers?.length+this.nameServerLength);
    
     console.log(this.price,this.domainId);
   }
@@ -177,7 +177,7 @@ addNameServer(): void {
     }
   }
   updatePrice(){
-    if(this.nameServers?.length+this.nameServerLength>4){
+    if(this.nameServers?.length+this.nameServerLength>0){
       //  this.fetchThePriceDetails();
       this.price=this.getPriceByNsRecordCount(this.nameServers.length+this.nameServerLength);
      
@@ -273,7 +273,10 @@ addNameServer(): void {
       next:(response)=>{
         console.log(response.body)
         this.priceDetails=response.body;
+        console.log(this.nameServers)
+        if(this.nameServers.length+this.nameServerLength>0){
         this.updatePrice()
+        }
       },error:(error)=>{
         // console.log(error)
       }

@@ -789,7 +789,7 @@ async loggedInUserDetails(){
 
           }
 
-          console.log(navigationExtras);
+          console.log("orgId"+this.organisationId);
 
           if(this.organisationId < 1){
 

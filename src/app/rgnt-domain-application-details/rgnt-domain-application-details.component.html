@@ -126,28 +126,16 @@
         
                                             <div class="col-6">
                                                 <h5 style="font-size: 16px; color:#000000">NS Status</h5>
-                                                <select  class="form-control" [(ngModel)]="domainsList.nsRecordStatus"
-                                                    disabled="true">
-                                                    <option value="" disabled selected>Select Status</option>
-                                                    <option value="OnHold">OnHold</option>
-                                                    <option value="Inprogress">Inprogress</option>
-                                                    <option value="Approved">Approved</option>
-                                                    <option value="Rejected">Rejected</option>
-                                                </select>
+                                                <div>
+                                                    <input type="text" class="form-control" [value]="domainsList.nsRecordStatus" disabled>
+                                                  </div>
                                             </div>
         
                                                 <div class="col-6">
                                                     <h5 style="font-size: 16px; color:#000000">Domain Status</h5>
                                                     <div>
-                                                        <select class="form-control" [(ngModel)]="domainsList.status"
-                                                            disabled="true">
-                                                            <option value="" disabled selected>Select Status</option>
-                                                            <option *ngFor="let status of status" [value]="status">{{ status }}
-                                                            </option>
-                                                            <option value="Active">Active</option>
-                                                            <option value="InActive">InActive</option>
-                                                        </select>
-                                                    </div>
+                                                        <input type="text" class="form-control" value="{{ domainsList.status }}" disabled>
+                                                      </div>
                                                 </div>
         
         

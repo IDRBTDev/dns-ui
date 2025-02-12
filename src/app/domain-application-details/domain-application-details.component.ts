@@ -46,7 +46,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
     this.setNsStatusOptions();
     
   }
-  domainsList: Domain;
+  domainsList: any;
   async getDomainApplicationDetails(domainId:number) {
    
     console.log("Datal",domainId)
@@ -97,6 +97,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
   updateDomain() {
     console.log('Starting domain update process...');
     console.log(this.domain)
+    console.log(this.domainsList)
     this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
         next: (response) => {
             console.log('Response received:', response);
@@ -261,7 +262,7 @@ viewDocuments(docType){
       this.OrgGstDocImage=false
       document.getElementById("gstModal")?.click();
     } else if (this.gstDoc.size > 0) { 
-      this.OrgGstDocImage=false
+      this.OrgGstDocImage=true
       this.gstDoc = this.extractDocumentImage(this.entireOrgDocsObj, 'organisationGstinDocument'); 
       document.getElementById("gstModal")?.click();
     }
@@ -480,6 +481,24 @@ async displayPaymentPdf(binaryData) {
     const pdfUrl = URL.createObjectURL(blob);
     this.paymentRecieptPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl); 
 } 
+}
+
+updateDomainStatus(nsRecordStatus){
+  console.log(nsRecordStatus)
+if(nsRecordStatus=='OnHold'||nsRecordStatus=='Rejected'||nsRecordStatus=='Inprogress'){
+  this.domainsList.status='Inactive'
+  if(nsRecordStatus=='Rejected'){
+     this.domainsList.applicationStatus='Rejected'
+  }else{
+  this.domainsList.applicationStatus='Pending'
+  }
+}else
+if(nsRecordStatus=='Approved'){
+  console.log(this.domainsList.status)
+  this.domainsList.status='Active'
+  this.domainsList.applicationStatus='Approved'
+
+}
 }
 
 }
