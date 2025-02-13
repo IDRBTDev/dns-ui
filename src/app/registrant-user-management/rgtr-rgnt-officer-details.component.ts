@@ -99,7 +99,8 @@ export class RgtrRgntOfficerDetailsComponent {
   async ngOnInit(): Promise<void> {
     //set table comumns based on role
     //if(this.role === 'IDRBTADMIN'){
-    console.log(typeof(this.route.snapshot.queryParams['data']))
+    // console.log(typeof(this.route.snapshot.queryParams['data']))
+    this.getAllRoles();
     this.selectedOrganisationId=this.route.snapshot.queryParams['data']?Number(this.route.snapshot.queryParams['data']):0;
     if(this.route.snapshot.queryParams['data']){
       this.router.navigate([], {
@@ -124,7 +125,7 @@ export class RgtrRgntOfficerDetailsComponent {
         'actions'
       ]; 
     //}
-    this.getAllRoles();
+   
     await this.getOrganisations();
 
     this.getLoggedInUserDetails();
