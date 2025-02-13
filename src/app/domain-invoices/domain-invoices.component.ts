@@ -31,7 +31,8 @@ export class DomainInvoicesComponent implements OnInit {
     'domainName',
     'finalAmount',
     'taxAmount',
-    'invoice'
+    'invoice',
+    'paymentStatus'
   ]; 
 
   userId: string = localStorage.getItem('email');
