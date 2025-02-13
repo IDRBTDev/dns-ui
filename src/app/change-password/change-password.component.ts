@@ -282,9 +282,11 @@ getUserDetails(){
         this.userService.updateUser(this.loggedInUser).subscribe({
           next:(response)=>{
             this.loggedInUser=response.body;
+            localStorage.clear();
+            sessionStorage.clear();
           },error:(error)=>{
             if(error.status===HttpStatusCode.ServiceUnavailable){
-              this.toastr.error("Server down please try afyter some time");
+              this.toastr.error("Server down please try after some time");
             }
           }
         })
