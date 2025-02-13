@@ -44,4 +44,58 @@ export class OrganisationDetailsService {
         })});
     }
 
-}
+    sendOtpForVerifyingOfficers(role: string, email: string) {
+        let apiUrl;
+        if(role=="Administrative Officer"){
+            apiUrl=environment.apiURL + '/dr/administrativeContact/sendOtpForVerifyOfficer';
+        }else if(role=="Technical Officer"){
+            apiUrl=environment.apiURL + '/dr/technicalContact/sendOtpForVerifyOfficer';
+        }else if(role=="Billing Officer"){
+            apiUrl=environment.apiURL + '/dr/billingContact/sendOtpForVerifyOfficer';
+        }
+       
+
+    
+        const params = {
+          RoleName: role,
+          email: email
+        };
+    
+        return this.http.get<Boolean>(apiUrl, {
+          observe: 'response',
+          headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+          }),
+          params: params // Add the parameters to the request
+        });
+      }
+      verifyOtpForEmailVerification(email: string, otp,role:string) {
+        let apiUrl;
+        if(role=="Administrative Officer"){
+            apiUrl=environment.apiURL + '/dr/administrativeContact/VerifyEmailForOfficer';
+        }else if(role=="Technical Officer"){
+            apiUrl=environment.apiURL + '/dr/technicalContact/VerifyEmailForOfficer';
+        }else if(role=="Billing Officer"){
+            apiUrl=environment.apiURL + '/dr/billingContact/VerifyEmailForOfficer';
+        }
+       
+
+    
+        const params = {
+          RoleName: role,
+          email: email,
+          Otp:otp
+        };
+    
+     return this.http.get<any>(apiUrl, {
+          observe: 'response',
+          headers: new HttpHeaders({
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+          }),
+          params: params // Add the parameters to the request
+        });
+      }
+
+    }
+
+    
