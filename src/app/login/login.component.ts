@@ -60,6 +60,7 @@ export class LoginComponent {
      this.loginService.verifyUserEmail(email).subscribe({
       next:(response) => {
         if(response){
+          console.log(response)
           // this.validatePassword();
           this.verifyEmailAndPassword();
           
