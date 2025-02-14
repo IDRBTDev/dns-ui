@@ -277,7 +277,7 @@
                                                 'approved': adminStatus === 'Approved',
                                                 'notReviewed': adminStatus === 'Not Reviewed'
                                               }">{{adminStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Administrative')">View</p></td>
                                           </tr>
                                           <tr>
                                             <td style="padding-bottom: 15px">Technical Officer</td>
@@ -286,7 +286,7 @@
                                                 'approved': technicalOfficerStatus === 'Approved',
                                                 'notReviewed': technicalOfficerStatus === 'Not Reviewed'
                                               }">{{technicalOfficerStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Technical')">View</p></td>
                                           </tr>
                                           <tr>
                                             <td style="padding-bottom: 15px">Billing Officer</td>
@@ -295,7 +295,7 @@
                                                 'approved': billingOfficerStatus === 'Approved',
                                                 'notReviewed': billingOfficerStatus === 'Not Reviewed'
                                               }">{{billingOfficerStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Billing')">View</p></td>
                                           </tr>
                                         </tbody>
                                       </table>

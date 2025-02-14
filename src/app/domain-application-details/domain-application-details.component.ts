@@ -411,10 +411,12 @@ changeDocStatus(DocType,Status,OrgId){
   }
   )
 }
-navigateToRegistrantOfficersApprove(){
+navigateToRegistrantOfficersApprove(value : string){
   console.log(this.domainsList.bankName)
-  this.router.navigate(['/rgtr-rgnt-ofd'], { queryParams: { data: this.domainsList.organisationId } });
-  // this.router.navigateByUrl('rgtr-rgnt-ofd', { state: { data: this.domainsList.bankName } });
+  this.router.navigate(['/verify-documents'], { queryParams: { organisationId: this.domainsList.organisationId, contactUserType: value} });
+  //this.router.navigate(['/rgtr-rgnt-ofd'], { queryParams: { data: this.domainsList.organisationId } })
+
+  
 }
 
 adminStatus:string;
