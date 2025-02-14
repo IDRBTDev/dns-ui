@@ -429,12 +429,16 @@ previewDocName:any;
         document.getElementById('closePaymentReceipt')?.click();
    $('#updateModal').modal('show');
    this.toastrService.success('Payment receipt uploaded successfully!');
+    
       },
       (error) => {
        // this.fileError = 'Error uploading file: ' + error.message;
       }
     );
+   this.domainsList.paymentStatus="Payment Under Review"
+   this.updateDomain();
   }
+  
 
   updatePaymentReceipt() {
     if (!this.file) {
