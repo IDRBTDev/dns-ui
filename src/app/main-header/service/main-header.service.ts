@@ -56,7 +56,7 @@ export class MainHeaderService{
   // }
   resetPassword(email: string, newPassword: string, confirmPassword: string): Observable<string> {
     // Set authorization headers (if needed, replace with your token)
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('jwtToken')?localStorage.getItem('jwtToken'):localStorage.getItem('tempTok');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

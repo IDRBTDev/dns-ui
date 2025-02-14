@@ -96,7 +96,7 @@
                                                 <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                                 <div style="margin-bottom: 0px;">
                                                     <select 
-                                                    class="form-control" 
+                                                    class="form-control" [disabled]="paymentButtonDisabled"
                                                     [(ngModel)]="domainsList.paymentStatus" 
                                                     (ngModelChange)="onPaymentStatusChange()">
                                                         <option value="" disabled selected>Select Status</option>

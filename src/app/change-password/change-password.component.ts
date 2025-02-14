@@ -1,9 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainHeaderService } from '../main-header/service/main-header.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
+import { UserService } from '../user/service/user.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-change-password',
@@ -27,7 +30,8 @@ export class ChangePasswordComponent {
   constructor(private router:Router,
     private passwordService:MainHeaderService,
     private toastr: ToastrService,
-  private location: Location){}
+  private location: Location,
+private userService:UserService){}
   isPasswordVisible: boolean = false;
   isNewPasswordVisible:boolean=false;
   isConfirmPasswordVisible: boolean = false;
@@ -242,6 +246,13 @@ updateNewPassword(): void {
     next: (isUpdated: string) => {
       if (isUpdated) {
         this.toastr.success('Password updated successfully.', 'Success');
+        if(localStorage.getItem('tempTok')!=null){
+          localStorage.setItem('jwtToken',localStorage.getItem('tempTok'));
+          localStorage.setItem('tempTok',null);
+          this.getUserDetails();
+          this.router.navigateByUrl('/login');
+          
+        }
        
       } else {
         this.toastr.error('Failed to update password. Please try again.', 'Error');
@@ -260,7 +271,36 @@ updateNewPassword(): void {
 //   }, 100);
   
 // }
-
+loggedInUser
+getUserDetails(){
+ 
+     lastValueFrom(this.userService.getUserByEmailId(localStorage.getItem('email'))).then(
+      response => {
+        if(response.status === HttpStatusCode.Ok){
+       this.loggedInUser=response.body;
+       this.loggedInUser.initialLoginStatus=true;
+        this.userService.updateUser(this.loggedInUser).subscribe({
+          next:(response)=>{
+            this.loggedInUser=response.body;
+            localStorage.clear();
+            sessionStorage.clear();
+          },error:(error)=>{
+            if(error.status===HttpStatusCode.ServiceUnavailable){
+              this.toastr.error("Server down please try after some time");
+            }
+          }
+        })
+        }
+      }, error => {
+        if(error.status === HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
+      }
+    )
+  }
+  navigateToSessionTimeout(){
+    this.router.navigateByUrl("/session-timeout");
+  }
 
 goBack(){
   console.log('executed')
