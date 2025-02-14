@@ -22,7 +22,7 @@ import { PreviewComponent } from './preview/preview.component';
 import { NameServerComponent } from './name-server/name-server.component';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-import { RgtrRgntOfficerDetailsComponent } from './registrant-user-management/rgtr-rgnt-officer-details.component';
+
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
 import { ForgotPasswordResetComponent } from './forgot-password-reset/forgot-password-reset.component';
@@ -50,6 +50,7 @@ import { RgtrForgotPasswordEmailVerificationComponent } from './rgtr-forgot-pass
 import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password-otp-validation/rgtr-forgot-password-otp-validation.component';
 import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 import { SessionTimeoutComponent } from './session-timeout/session-timeout.component';
+import { RgtrRgntOfficerDetailsComponent } from './rgtr-rgnt-officer-details/rgtr-rgnt-officer-details.component';
 
 
 

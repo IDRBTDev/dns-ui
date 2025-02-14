@@ -146,7 +146,7 @@ export class RgtrOtpVerificationComponent implements OnInit {
             if(response.status === HttpStatusCode.Ok){
               this.loginUserOtp = response.body;
               console.log(this.loginUserOtp)
-              this.toastr.success('An OTP has been sent to you email.');
+              this.toastr.success('An OTP has been sent to your email.');
               this.resetTimer();
 
               setTimeout(() =>{

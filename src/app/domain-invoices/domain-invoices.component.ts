@@ -30,13 +30,13 @@ export class DomainInvoicesComponent implements OnInit {
     'organisationName',
     'domainName',
     'finalAmount',
-    'taxAmount',
-    'invoice'
+    'invoice',
+    'paymentStatus'
   ]; 
 
   userId: string = localStorage.getItem('email');
   role: string = localStorage.getItem('userRole');
-  organisationId : number ;
+  organisationId : number  = 0;
 
   domainsinvoicesList: DomainInvoices[] = [];
   domainsDataSource: MatTableDataSource<any>;
@@ -57,11 +57,12 @@ export class DomainInvoicesComponent implements OnInit {
     // }
    await this.getLoggedInUserDetails();
    console.log(this.organisationId)
-   if(this.organisationId == 0 && this.role =='IDRBTADMIN'){
-    this.getAllInvoicesData();
-    
+   console.log(this.role)
+   if(this.organisationId == 0 && this.role == 'IDRBTADMIN'){
+     this.getAllInvoicesData();
+
    }else{
-    this.getAllInvoicesDataByOrgId(this.organisationId); 
+     this.getAllInvoicesDataByOrgId(this.organisationId)
    }
    // this.getAllInvoicesData();
 

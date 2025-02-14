@@ -94,7 +94,23 @@ export class DomainApplicationDetailsComponent implements OnInit{
 
   domain : Domain = new Domain()
 
-  updateDomain() {
+  async updateDomain() {
+    if(this.billingOfficerStatus!=this.approved||this.adminStatus!=this.approved||this.technicalOfficerStatus!=this.approved||
+      this.orgBoardStatus!=this.approved||this.orgGstStatus!=this.approved||this.orgLicenceStatus!=this.approved||this.orgPanStatus!=this.approved){
+        this.toastrService.error("Please verify all the docs")
+        return
+      }
+     
+      if(this.domainsList.paymentStatus=="Payment Not Done"){
+      if(this.billingOfficerStatus==this.approved&&this.adminStatus==this.approved&&this.technicalOfficerStatus==this.approved&&
+        this.orgBoardStatus==this.approved&&this.orgGstStatus==this.approved&&this.orgLicenceStatus==this.approved&&this.orgPanStatus==this.approved){
+         if(this.domainsList.paymentStatus!="Approved for payment"){
+          this.toastrService.error("Please change status to approve for payment")
+          return
+         }
+        
+        }
+      }
     console.log('Starting domain update process...');
     console.log(this.domain)
     console.log(this.domainsList)
@@ -131,13 +147,15 @@ export class DomainApplicationDetailsComponent implements OnInit{
             console.error('Full error:', error);
         }
     });
+    await this.createInvoiceforDomain(this.domainId)
+
 }
 
-onPaymentStatusChange() {
+async onPaymentStatusChange() {
 
   this.setNsStatusOptions();
-}
  
+}
 
 nsStatusOptions: string[] = [];
 status:string[]=[];
@@ -158,7 +176,7 @@ this.router.navigateByUrl('applications');
 }
 
 approvePaymentStatus(){
-  this.domainsList.paymentStatus="Paid"
+  this.domainsList.paymentStatus="Payment Approved"
   this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
     next: (response) => {
         console.log('Response received:', response);
@@ -180,11 +198,11 @@ approvePaymentStatus(){
 }
 rejectPaymentStatus(){
   console.log(this.domainsList.paymentStatus)
-if(this.domainsList.paymentStatus=="Paid") {
-  this.toastrService.warning("Already Paid");
+if(this.domainsList.paymentStatus=="Payment Approved") {
+  this.toastrService.warning("Already Approved Payment");
 }else{
-  if(this.domainsList.paymentStatus="Initiated"){
-    this.domainsList.paymentStatus="Unpaid";
+  if(this.domainsList.paymentStatus="Payment Completed"){
+    this.domainsList.paymentStatus="Payment Rejected";
     this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
       next: (response) => {
           console.log('Response received:', response);
@@ -358,35 +376,45 @@ displayPdf(binaryData,docName) {
     }
 } 
 }
+private approved="Approved";
 approveOrgDocs(OrgDoc){
   console.log(OrgDoc)
   if(OrgDoc=='PAN'){
-    this.orgPanStatus="Approved"
+    this.orgPanStatus=this.approved
     this.changeDocStatus(OrgDoc,this.orgPanStatus,this.domainsList.organisationId);
   }else if(OrgDoc=='LICENCE'){
-this.orgLicenceStatus="Approved"
+this.orgLicenceStatus=this.approved
 this.changeDocStatus(OrgDoc,this.orgLicenceStatus,this.domainsList.organisationId);
   }else if(OrgDoc=='BOARD'){
-this.orgBoardStatus="Approved"
+this.orgBoardStatus=this.approved
 this.changeDocStatus(OrgDoc,this.orgBoardStatus,this.domainsList.organisationId);
   }else if(OrgDoc=="GST"){
-this.orgGstStatus="Approved"
+this.orgGstStatus=this.approved
 this.changeDocStatus(OrgDoc,this.orgGstStatus,this.domainsList.organisationId);
   }
+  if(this.billingOfficerStatus==this.approved&&this.adminStatus==this.approved&&this.technicalOfficerStatus==this.approved&&
+    this.orgBoardStatus==this.approved&&this.orgGstStatus==this.approved&&this.orgLicenceStatus==this.approved&&this.orgPanStatus==this.approved){
+     this.paymentButtonDisabled=false;
+
+    }
 }
 rejectOrgDocs(OrgDoc){
 
   if(OrgDoc=='PAN'){
     this.orgPanStatus="Rejected"
+    this.paymentButtonDisabled=true;
     this.changeDocStatus(OrgDoc,this.orgPanStatus,this.domainsList.organisationId);
   }else if(OrgDoc=='LICENCE'){
 this.orgLicenceStatus="Rejected"
+this.paymentButtonDisabled=true;
 this.changeDocStatus(OrgDoc,this.orgLicenceStatus,this.domainsList.organisationId);
   }else if(OrgDoc=='BOARD'){
 this.orgBoardStatus="Rejected"
+this.paymentButtonDisabled=true;
 this.changeDocStatus(OrgDoc,this.orgBoardStatus,this.domainsList.organisationId);
   }else if(OrgDoc=='GST'){
 this.orgGstStatus="Rejected"
+this.paymentButtonDisabled=true;
 this.changeDocStatus(OrgDoc,this.orgGstStatus,this.domainsList.organisationId);
   }
 }
@@ -411,10 +439,12 @@ changeDocStatus(DocType,Status,OrgId){
   }
   )
 }
-navigateToRegistrantOfficersApprove(){
+navigateToRegistrantOfficersApprove(value : string){
   console.log(this.domainsList.bankName)
-  this.router.navigate(['/rgtr-rgnt-ofd'], { queryParams: { data: this.domainsList.organisationId } });
-  // this.router.navigateByUrl('rgtr-rgnt-ofd', { state: { data: this.domainsList.bankName } });
+  this.router.navigate(['/verify-documents'], { queryParams: { organisationId: this.domainsList.organisationId, contactUserType: value} });
+  //this.router.navigate(['/rgtr-rgnt-ofd'], { queryParams: { data: this.domainsList.organisationId } })
+
+  
 }
 
 adminStatus:string;
@@ -423,6 +453,7 @@ billingOfficerStatus:string;
 contactOfficerDetails:any
 
 
+private Rejected='Rejected'
   getContactOfficerDocuments(organisationId: number): void {
   this.contactDocumentsService.getDocStatusOfOfficers(organisationId)
     .subscribe({
@@ -432,6 +463,9 @@ contactOfficerDetails:any
          this.adminStatus=allStatus[0];
          this.technicalOfficerStatus=allStatus[1];
          this.billingOfficerStatus=allStatus[2];
+        if(this.adminStatus===this.Rejected||this.technicalOfficerStatus===this.Rejected||this.billingOfficerStatus===this.Rejected){
+          this.paymentButtonDisabled=true;
+        }  
          this.changeStatusOfpayment();
         }
       },
@@ -442,15 +476,17 @@ contactOfficerDetails:any
       }
     });
 }
+paymentButtonDisabled=true;
 changeStatusOfpayment(){
   console.log(this.domainsList.paymentStatus)
-  if(this.domainsList.paymentStatus=="Unpaid"){
-    console.log(this.billingOfficerStatus=="Approved",this.adminStatus=="Approved",this.technicalOfficerStatus=="Approved",
-      this.orgBoardStatus=="Approved",this.orgGstStatus=="Approved",this.orgLicenceStatus=="Approved",this.orgPanStatus=="Approved")
-    if(this.billingOfficerStatus=="Approved"&&this.adminStatus=="Approved"&&this.technicalOfficerStatus=="Approved"&&
-      this.orgBoardStatus=="Approved"&&this.orgGstStatus=="Approved"&&this.orgLicenceStatus=="Approved"&&this.orgPanStatus=="Approved"){
-        this.domainsList.paymentStatus="Ready for payment"
-      }
+  // if(this.domainsList.paymentStatus=="Unpaid"){
+    console.log(this.billingOfficerStatus==this.approved,this.adminStatus==this.approved,this.technicalOfficerStatus==this.approved,
+      this.orgBoardStatus==this.approved,this.orgGstStatus==this.approved,this.orgLicenceStatus==this.approved,this.orgPanStatus==this.approved)
+    if(this.billingOfficerStatus==this.approved&&this.adminStatus==this.approved&&this.technicalOfficerStatus==this.approved&&
+      this.orgBoardStatus==this.approved&&this.orgGstStatus==this.approved&&this.orgLicenceStatus==this.approved&&this.orgPanStatus==this.approved){
+       this.paymentButtonDisabled=false;
+
+      // }
   }
   
   
@@ -497,8 +533,23 @@ if(nsRecordStatus=='Approved'){
   console.log(this.domainsList.status)
   this.domainsList.status='Active'
   this.domainsList.applicationStatus='Approved'
-
 }
+}
+
+async createInvoiceforDomain(domainId : number){
+  console.log("create invoice is called "+domainId);
+  this.domainService.createInvoice(domainId).subscribe({
+    next :(response)=>{
+      if(response.status == HttpStatusCode.Ok){
+
+      }
+  },
+  error: (error) => {
+    console.error("Error creating invoice:", error);
+  }
+ });
+   
+
 }
 
 }

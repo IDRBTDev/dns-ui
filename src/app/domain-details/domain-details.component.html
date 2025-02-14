@@ -23,6 +23,10 @@
                 <div class="box-content">{{domainDetail.bankName}}{{domainDetail.domainName}}</div>
             </div>
             <div class="detail-item">
+              <p>Domain Status</p>
+              <div class="box-content">{{domainDetail.status}}</div>
+          </div>
+            <div class="detail-item">
                 <p>Organization</p>
                 <div class="box-content">{{domainDetail.organizationName}}</div>
             </div>
@@ -35,10 +39,7 @@
                 <p>Renewal Date</p>
                 <div class="box-content">{{domainDetail.renewalDate|date:'MMM d, y, h:mm a'}}</div>
             </div>
-            <div class="detail-item">
-                <p>Domain Status</p>
-                <div class="box-content">{{domainDetail.status}}</div>
-            </div>
+           
         </div>
       <hr/>
       <div style="display: flex; justify-content: space-between; align-items: center;">

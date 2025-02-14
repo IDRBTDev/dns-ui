@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/app/environments/environment";
@@ -22,17 +22,22 @@ export class RegistrationService{
     }
 
     userRegistationToDR(user: any){
-        return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response'})
+      const regFrom = 'REGISTRATION-FORM';
+      const params = new HttpParams().set('regFrom', regFrom);
+        return this.httpClient.post<void>(this.drRegUrl,user,{observe: 'response',params:params})
     }
     verifyOtp(registrationUserId: string, otp: number): Observable<any> {
         return this.httpClient.get<any>(`${this.getRgntUserFromUsrRegstRUrl}/get/${registrationUserId}/${otp}`);
       }
       
+    
 
-    saveRegUser(regUser: any){
-        const regFrom = 'REGISTRATION-FORM';
-        return this.httpClient.post<boolean>(this.userRegUrl+"?regFrom="+regFrom, regUser, {observe: 'response'});
-    }
+          saveRegUser(regUser: any) {
+            // const regFrom = 'REGISTRATION-FORM';
+            // const params = new HttpParams().set('regFrom', regFrom);
+        
+            return this.httpClient.post<boolean>(this.userRegUrl, regUser, { observe: 'response'});
+        }
     resendOtp(registrationUserId: string): Observable<any> {
         return this.httpClient.get<any>(`${this.getRgntUserFromUsrRegstRUrl}/resend/${registrationUserId}`);
       }

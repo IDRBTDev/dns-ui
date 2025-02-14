@@ -9,10 +9,12 @@ import { ContactDetailsFormService } from '../contact-details-form/service/conta
 import { OrganisationDetailsService } from '../organisation-details/service/organisation-details.service';
 import { ContactDocumentUploadService } from '../contact-document-upload/service/contact-document-upload.service';
 import { lastValueFrom } from 'rxjs';
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import * as bootstrap from 'bootstrap';
 import { ContactDetailsFormComponent } from '../contact-details-form/contact-details-form.component';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
+import { error } from 'jquery';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-rgnt-officer-details-mgmt',
@@ -138,6 +140,7 @@ export class RgntOfficerDetailsMgmtComponent implements OnInit{
         'mobileNumber',
         'emailId',
         'contactRole',
+        // 'verifyEmail',
         'documents',
         //'approveOrReject',
         'loginStatus',
@@ -1010,9 +1013,170 @@ this.emailNameChange();
 
   // Helper function to validate the email format
   isValidEmailFormat(email: string): boolean {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   }
+
+
+  // userObjForEmailVerify:any
+  // sendOtpToVerifyEmail(user){
+  //   this.organisationService.sendOtpForVerifyingOfficers(user.contactRole,user.emailId).subscribe({
+  //     next:(response)=>{
+  //       this.toastr.success("OTP sent to verify the email");
+  //       this.startTimer();
+  //       this.userObjForEmailVerify=user;
+  //       document.getElementById("OtpVerifyEmail").click();
+       
+        
+  //     },error:(error)=>{
+  //       if(error.status===HttpStatusCode.Unauthorized){
+  //         this.navigateToSessionTimeout();
+  //       }
+  //     }
+  //   })
+  // }
+  // otpValidation(event:KeyboardEvent){
+  //   // this.OtpResponseMessage=''
+  //   const invalidChars =['+','-','.','e'];
+  //   const inputElement= event.target as HTMLInputElement;
+  //   if(invalidChars.includes(event.key)|| (inputElement.value.length==6 && event.key!='Backspace')||event.keyCode===40||event.keyCode===38)
+  //   {
+  //       // this.verifyButtonDisabled=false;
+  //       event.preventDefault();
+  //   }
+  // }
+  // display: string;
+  // resetTimer() {
+  //   this.pauseTimer();
+  //   this.time =300;
+  //   this.display = this.transform(this.time);
+  //   this.otpExpired=false;
+  //   this.otp=undefined
+  // }
+//   time: number = 300; // 120 seconds = 2 minutes
   
+//   interval;
+//   startTimer() {
+//     this.display = this.transform(this.time); // Initialize display *before* starting the interval
+
+//     this.interval = setInterval(() => {
+//         if (this.time > 0) {
+//             this.time--;
+//             this.display = this.transform(this.time);
+//         } else {
+//             clearInterval(this.interval);
+//         }
+//     }, 1000);
+// }
+//   transform(value: number): string {
+//     const minutes: number = Math.floor(value / 60);
+//     const seconds: number = value - minutes * 60;
+//     const formattedMinutes: string = minutes < 10 ? `0${minutes}` : `${minutes}`;
+//     const formattedSeconds: string = seconds < 10 ? `0${seconds}` : `${seconds}`;
+//     return formattedMinutes + ':' + formattedSeconds;
+//   }
+  
+//   /**
+//    * Pause the timer
+//    */
+//   pauseTimer() {
+//     clearInterval(this.interval);
+//   }
+//  timerDisplay: string = environment.otpExpiryTimeDisplay;
+//   timerActive: boolean = true;
+//   private countdown: any;
+//   private remainingTime: number = environment.otpExpiryTime; 
+//   otpExpired: boolean = false;
+//   initialTime = environment.otpExpiryTime;
+//   errorMessage: string = '';
+//   successMessage: string = '';
+//   otp:number;
+//   verifyOtp() {
+//       console.log('Starting OTP verification...');
+      
+//       // Step 1: Check if OTP has expired
+//       if (this.otpExpired) {
+//         this.toastr.error('OTP has expired. Please request a new one.');
+//         return;
+//       }
+    
+//       // Step 2: Check if email or OTP is missing
+//       if ( !this.otp) {
+//         console.log('Error: Email or OTP is missing');
+//         this.toastr.error('Please enter OTP.');
+//         this.errorMessage = 'Please enter  OTP.';
+//         this.successMessage = '';
+//         return;
+//       }
+    
+//       console.log('Verifying OTP for User ID:', this.user.userId);
+//       console.log('Entered OTP:', this.otp);
+    
+//       // Step 3: Call backend to verify OTP
+//       this.organisationService.verifyOtpForEmailVerification(this.userObjForEmailVerify.emailId, this.otp,this.userObjForEmailVerify.contactRole).subscribe({
+//         next: (response) => {
+//           console.log('OTP verification response:', response);
+    
+//           // Check if the response is valid
+//           if (response.body === true) {  // Backend returns true if OTP matches
+//             console.log('OTP verification successful');
+//             this.toastr.success("OTP verification successful");
+//             this.successMessage = 'OTP verified successfully!';
+//             this.errorMessage = '';
+            
+//             this.resetTimer();
+//             // this.startTimer();
+//             // this.otpExpired = true; 
+
+//             document.getElementById('closeOtpVerify')?.click();
+          
+//           } else {
+            
+//             console.log('Invalid OTP, response:', response);
+//             this.toastr.error('Invalid OTP. Please try again.');
+//             this.successMessage = '';
+//             this.errorMessage = 'Invalid OTP. Please enter the correct OTP.';
+//           }
+//         },
+//         error: (error: HttpErrorResponse) => {
+//           console.log('Error during OTP verification:', error);
+    
+//           if (error.status === HttpStatusCode.Unauthorized) {
+//             console.log("otp expired")
+//             // If the OTP is expired
+//             this.toastr.error('OTP has expired. Please request a new one.');
+//             this.successMessage = '';
+//             this.errorMessage = 'OTP has expired. Please request a new OTP.';
+//             if (this.errorMessage.includes('OTP expired')) {
+//               this.otpExpired = true; // Mark OTP as expired
+//             }
+//           } else {
+//             // Other errors
+//             this.toastr.error('Failed to verify OTP. Please try again.');
+//             this.successMessage = '';
+//             this.errorMessage = 'Error occurred while verifying OTP.';
+//           }
+//         }
+//       });
+//     }
+    
+//     otpResentMessage: string = '';
+
+//     resendOtp(): void {
+//       this.organisationService.sendOtpForVerifyingOfficers(this.userObjForEmailVerify.contactRole,this.userObjForEmailVerify.emailId).subscribe({
+//         next:(response)=>{
+//           this.toastr.success("OTP sent to verify the email");
+//           this.startTimer();
+//           // this.userObjForEmailVerify=user;
+//           // document.getElementById("OtpVerifyEmail").click();
+         
+          
+//         },error:(error)=>{
+//           if(error.status===HttpStatusCode.Unauthorized){
+//             this.navigateToSessionTimeout();
+//           }
+//         }
+//       })
+//     }
 
 }

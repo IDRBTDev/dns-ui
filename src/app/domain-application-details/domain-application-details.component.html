@@ -15,7 +15,7 @@
                                 <path d="M12 19.5L5 12.5L12 5.5" stroke="black" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <h3 style="font-family: Roboto; font-size: 24px;">Domain Applications Details</h3>
+                            <h3 style="font-family: Roboto; font-size: 24px;">Applications Details</h3>
                         </div>
                         <div class="details-container">
                             <div class="detail-item">
@@ -96,13 +96,15 @@
                                                 <h5 style="font-size: 16px; color:#000000">Payment Status</h5>
                                                 <div style="margin-bottom: 0px;">
                                                     <select 
-                                                    class="form-control" 
+                                                    class="form-control" [disabled]="paymentButtonDisabled"
                                                     [(ngModel)]="domainsList.paymentStatus" 
                                                     (ngModelChange)="onPaymentStatusChange()">
                                                         <option value="" disabled selected>Select Status</option>
-                                                        <option value="Paid">Paid</option>
-                                                        <option value="Unpaid">Unpaid</option>
-                                                        <option value="Initiated">Initiated</option>
+                                                        <option hidden value="Payment Completed">Payment Completed</option>
+                                                        <option hidden value="Payment Not Done">Payment Not Done</option>
+                                                        <option hidden value="Payment Rejected">Payment Rejected</option>
+                                                        <option hidden value="Payment Approved">Payment Approved</option>
+                                                        <option hidden value="Payment Under Review">Payment Under Review</option>
                                                         <option value="Approved for payment">Approved for payment</option>
                                                     </select>
                                                 </div>
@@ -137,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card" *ngIf="domainsList.paymentStatus!=='Unpaid'&&domainsList.paymentStatus!=='Approved for payment'">
+                                        <div class="card" *ngIf="domainsList.paymentStatus=='Payment Under Review'||domainsList.paymentStatus=='Payment Approved'">
                                             <div >
                                                 <div style="display:flex;flex-direction:row">
                                                     <div>
@@ -277,7 +279,7 @@
                                                 'approved': adminStatus === 'Approved',
                                                 'notReviewed': adminStatus === 'Not Reviewed'
                                               }">{{adminStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Administrative')">View</p></td>
                                           </tr>
                                           <tr>
                                             <td style="padding-bottom: 15px">Technical Officer</td>
@@ -286,7 +288,7 @@
                                                 'approved': technicalOfficerStatus === 'Approved',
                                                 'notReviewed': technicalOfficerStatus === 'Not Reviewed'
                                               }">{{technicalOfficerStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Technical')">View</p></td>
                                           </tr>
                                           <tr>
                                             <td style="padding-bottom: 15px">Billing Officer</td>
@@ -295,7 +297,7 @@
                                                 'approved': billingOfficerStatus === 'Approved',
                                                 'notReviewed': billingOfficerStatus === 'Not Reviewed'
                                               }">{{billingOfficerStatus}}</td>
-                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove()">View</p></td>
+                                            <td><p class="ClickDisplayDoc" (click)="navigateToRegistrantOfficersApprove('Billing')">View</p></td>
                                           </tr>
                                         </tbody>
                                       </table>
@@ -349,10 +351,10 @@
                       </div> -->
                     </div>
                     <!-- Modal footer -->
-                    <!-- <div class="modal-footer" role="alert">
+                    <div class="modal-footer" *ngIf="domainsList.paymentStatus!='Payment Approved'"role="alert">
                        <button class="btn btn-primary" (click)="approvePaymentStatus()">Approve</button>
                        <button class="btn btn-danger"(click)="rejectPaymentStatus()">Reject</button>
-                    </div> -->
+                    </div>
                 </div>
             </div>
           </div>

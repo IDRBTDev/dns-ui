@@ -95,11 +95,13 @@ export class RgntOtpVerificationComponent implements OnInit {
             await lastValueFrom(this.loginService.userLoginToDR(this.user)).then(
               response => {
                 console.log(response.headers)
+                localStorage.setItem('initialLoginStatus',response.headers.get('initialLoginStatus'));
                 localStorage.setItem('email', response.headers.get('email'));
                 localStorage.setItem('userRole',response.headers.get('userRole'));
                 localStorage.setItem('active',response.headers.get('active'));
                 localStorage.setItem('jwtToken',response.headers.get('token'));
                 localStorage.setItem('organisationId', response.headers.get('organisationId'));
+                let LoginStatus=localStorage.getItem('initialLoginStatus');
                 let email = localStorage.getItem('email');
                 let role = localStorage.getItem('userRole');
                 let active = localStorage.getItem('active');
@@ -108,18 +110,26 @@ export class RgntOtpVerificationComponent implements OnInit {
                 console.log(email);
                 console.log(role);
                 console.log(organisationId)
+                console.log(LoginStatus);
                 if(active === 'false'){
                   this.toastr.error('User Inactive');
                   return;
                 }
-                if(role === 'IDRBTADMIN'){
-                  this.router.navigateByUrl('/rgtr-dashboard');
-                  this.toastr.success('Login Success');
-                 }else{
-                  this.router.navigateByUrl('/dsc-verification');
-                  localStorage.setItem('pageType','user');
-                  this.toastr.success('Login Success');
+                if(LoginStatus=='true'){
+                  if(role === 'IDRBTADMIN'){
+                    this.router.navigateByUrl('/rgtr-dashboard');
+                    this.toastr.success('Login Success');
+                   }else{
+                    this.router.navigateByUrl('/dsc-verification');
+                    localStorage.setItem('pageType','user');
+                    this.toastr.success('Login Success');
+                  }
+                }else{
+                  localStorage.setItem('tempTok',response.headers.get('token'));
+                  localStorage.removeItem('jwtToken');
+                  this.router.navigateByUrl('change-password');
                 }
+                
               },error => {
                 if(error.status === HttpStatusCode.Unauthorized){
                   console.log('sdsd')
