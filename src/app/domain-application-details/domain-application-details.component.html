@@ -100,11 +100,11 @@
                                                     [(ngModel)]="domainsList.paymentStatus" 
                                                     (ngModelChange)="onPaymentStatusChange()">
                                                         <option value="" disabled selected>Select Status</option>
-                                                        <option value="Payment Completed">Payment Completed</option>
-                                                        <option value="Payment Not Done">Payment Not Done</option>
-                                                        <option value="Payment Rejected">Payment Rejected</option>
-                                                        <option value="Payment Approved">Payment Approved</option>
-                                                        <option value="Payment Under Review">Payment Under Review</option>
+                                                        <option hidden value="Payment Completed">Payment Completed</option>
+                                                        <option hidden value="Payment Not Done">Payment Not Done</option>
+                                                        <option hidden value="Payment Rejected">Payment Rejected</option>
+                                                        <option hidden value="Payment Approved">Payment Approved</option>
+                                                        <option hidden value="Payment Under Review">Payment Under Review</option>
                                                         <option value="Approved for payment">Approved for payment</option>
                                                     </select>
                                                 </div>
@@ -139,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card" *ngIf="domainsList.paymentStatus!=='Payment Not Done'">
+                                        <div class="card" *ngIf="domainsList.paymentStatus=='Payment Under Review'||domainsList.paymentStatus=='Payment Approved'">
                                             <div >
                                                 <div style="display:flex;flex-direction:row">
                                                     <div>
