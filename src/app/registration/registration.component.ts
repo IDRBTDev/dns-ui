@@ -588,6 +588,7 @@ isReg : boolean = false;
 
 openModal() {
   document.getElementById('showModal').click();
+  this.resetTimer();
   this.startTimer();
 }
 
