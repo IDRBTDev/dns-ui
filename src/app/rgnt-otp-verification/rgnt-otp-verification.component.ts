@@ -42,6 +42,10 @@ export class RgntOtpVerificationComponent implements OnInit {
           // if(this.otp === undefined || this.otp === null){
           //   this.otp = 0;
           // }
+          if(this.otp?.toString().length==0 || this.otp ==undefined){
+            this.toastr.error('please enter otp')
+            return;
+          }
           if(this.otp)
           this.user=JSON.parse(localStorage.getItem('rgntUser'));
           console.log(this.user,this.otp)

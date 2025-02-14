@@ -582,8 +582,9 @@ set missingAdminDocs(value:string[]){
   handleOrganisationDocTypeChange(event: any): void {
     const target = event.target as HTMLSelectElement;
     this.organisationSelectedDocType = target.value;
-    this.organisationInputValue = null;
-    this.organisationErrors = { message: '', type: '' };
+
+    this.organisationInputValue =null
+    this.organisationInputFieldErrors = { message: '', type: '' };
   }
 
   handleAdminDocTypeChange(event: any): void {

@@ -144,8 +144,8 @@
     <!-- Main Content Section -->
     <div class="col-md-9 offset-md-1 mt-5 pt-4">
       <section class="m-4">
-        <h2 class="m-4">Domain Validation</h2>
-        <div class="shadow p-3 mb-4 bg-body rounded">
+        <h1 style="font-weight: 500;">Domains</h1>
+        <div class=" shadows p-3 mb-4 bg-body rounded">
           <div class="card">
             <div class="card-body">
               <!-- Bind the form group to the form -->
@@ -153,7 +153,7 @@
                 <div class="row mb-3 justify-content-center">
                   <!-- Label Field with Magnifying Glass Button -->
                   <div class="col-md-4 mb-3">
-                    <label for="labelInput" class="form-label font-weight-bold">Bank Name</label>
+                    <label for="labelInput" class="form-label" style="font-weight: 500;color: black;">Bank Name</label>
                     <input type="text" class="form-control" id="labelInput" placeholder="Enter the Bank Name"
                       formControlName="label" (input)="reset()">
                       <div *ngIf="userDomainForm.get('label')?.invalid && userDomainForm.get('label')?.touched" class="text-danger">
@@ -173,7 +173,7 @@
                       </div>
 </div>
 <div class="col-md-2">
-  <label for="zoneInput" class="form-label font-weight-bold">Domain</label>
+  <label for="zoneInput" class="form-label" style="font-weight: 500;color: black;">Domain</label>
   <div class="d-flex align-items-center">
     <select style="flex-grow: 1; min-width: 150px;" class="form-select" id="zoneInput" formControlName="zone" (change)="reset()">
       <option value="" disabled selected hidden>Select domain</option>
@@ -230,10 +230,10 @@
             </div>
           </div>
         </section> -->
-        <section *ngIf="showResult" class="m-4">
-          <div class="shadow p-3 bg-body rounded" style="height: 200px; max-width: 300px;">
+        <section *ngIf="showResult">
+          <div class=" shadows p-4 bg-body rounded" style="height: 200px; width: 320px; max-width: 350px;">
             <div class="card">
-              <div class="card-body p-3 d-flex flex-column justify-content-left align-items-left">
+              <div class="card-body  d-flex flex-column justify-content-left align-items-left">
                 <div class="card-title fs-4">
                   {{ userDomainForm.get('label')?.value }}{{ userDomainForm.get('zone')?.value }}
                 </div>
@@ -245,7 +245,7 @@
                 </div>
                 <br>
                 <div *ngIf="!isReserved" class="fs-6">
-                  Buy for 5 years at (&#8377;4000 + taxes)/year
+                  Buy for 5 years <br/> at (&#8377;4000 + taxes)/year
                 </div>
               </div>
             </div>
@@ -254,10 +254,10 @@
       </div>
       <!-- Second Section with Guidelines -->
       <section class="m-4">
-        <div class="shadow p-3 mb-5 bg-body rounded">
+        <div class=" shadows p-5 bg-body rounded">
           <div class="card">
-            <h5 class="m-3 mb-1">Keep These Handy</h5>
-            <div class="card-body text-muted">
+            <h3  style="font-weight: 500; margin-bottom: 0%;">Keep These Handy</h3>
+            <div class="card-body text-muted" style="padding-left: 0%;">
               <ul>
                 <li>Submit an authorized letter from your organization, confirming delegation to book the domain.</li>
                 <li>Provide a digital certification issued by IDRBT in the name of the authorized official.</li>
@@ -274,8 +274,8 @@
 
       <!-- Buttons (Back & Submit) -->
       <div class="d-flex justify-content-between m-4">
-        <button class="btn btn-secondary" type="button" aria-label="Go Back" (click)="backButton()">Back</button>
-        <button class="btn btn-primary" (click)="onSubmit()" aria-label="Save and Move to Next Step">Save &
+        <!-- <button class="btn btn-secondary" type="button" aria-label="Go Back" (click)="backButton()">Back</button> -->
+        <button class="btn btn-primary" style="margin-left: auto;" (click)="onSubmit()" aria-label="Save and Move to Next Step">Save &
           Next</button>
       </div>
     </div>

@@ -7,12 +7,14 @@
     <!-- Main Content (Stepper Section) -->
     <div class="row justify-content-center mt-5">
       <div class="col-md-8 mt-5">
-        <div class="shadow p-3 mb-3 bg-body rounded">
+        <h1>Onboarding</h1>
+        <!-- <div class="shadow p-3 mb-3 bg-body rounded">
+         
           <div class="card" style="border: none;">
+           
             <div class="card-body">
-              <!-- Mat Stepper with Bootstrap classes -->
               <mat-horizontal-stepper #stepper [linear]="true" class="w-100" (selectionChange)="onStepChange($event)">
-                <!-- Step 1: Organisation Details -->
+              
                 <ng-template matStepperIcon="edit">
                       <mat-icon>done</mat-icon>
                   </ng-template>
@@ -22,12 +24,10 @@
                   <app-organisation-details (formSubmitted)="onFormSubmitted()"
                   (orgDocDetails)="SubmittedOrgDocs($event)" 
                   (organisationId)="getEmittedOrgIdFromChild($event)"></app-organisation-details>
-                  <!-- <div>
-                    <button mat-button matStepperNext>Next</button>
-                  </div> -->
+                
                 </mat-step>
   
-                <!-- Step 2: Contact Details -->
+                
                 <mat-step [completed]="stepStates[1].completed" [editable]="stepStates[1].editable" label="Contact Details">
                   <app-contact-details-form 
                   [organisationId] ="organisationId" 
@@ -35,24 +35,19 @@
                   (techDocDetails)="submittedTechDocDetails($event)"
                   (billDocDetails)="submittedBillDocDetails($event)"
                   (formSubmitted)="onFormSubmitted()" 
-                  (back)="goBack()"></app-contact-details-form>  <!-- Listen for form submission event -->
-                  <!-- <span>
-                    <button mat-button matStepperPrevious>Back</button>
-                  </span> -->
+                  (back)="goBack()"></app-contact-details-form>  
+                 
                 </mat-step>
   
-                <!-- Step 3: Name Server Details -->
+              
                 <mat-step [completed]="stepStates[2].completed" [editable]="stepStates[2].editable" label="Name Server Details">
                   <app-name-server-form [domainId]="domainId"
                   [applicationId]="applicationId" 
                   (formSubmitted)="onFormSubmitted()" 
                   (back)="goBack()"></app-name-server-form>
-                  <!-- <div>
-                    <button mat-button matStepperNext>Next</button>
-                  </div> -->
+             
                 </mat-step>
   
-                <!-- Step 4: Review -->
                 <mat-step [completed]="stepStates[3].completed" [editable]="stepStates[3].editable" label="Preview">
                   <app-preview 
                   [orgDocDetails]="orgDocDetails"
@@ -61,13 +56,10 @@
                   [billDocDetails]="billDocDetails"
                   [organisationId]="organisationId"
                   [domainId]="domainId"></app-preview>
-                  <!-- <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                  </div> -->
+               
                 </mat-step>
   
-                <!-- Step 5: Submit -->
+               
                 <mat-step [completed]="stepStates[4].completed" [editable]="stepStates[4].editable" label="Submit">
                   <p>Submit the form.</p>
                   <div>
@@ -78,7 +70,61 @@
               </mat-horizontal-stepper>
             </div>
           </div>
+        </div> -->
+        <!-- Mat Stepper with Bootstrap classes -->
+<mat-horizontal-stepper #stepper [linear]="true" class="w-100" (selectionChange)="onStepChange($event)">
+  
+  <!-- Step 1: Organisation Details -->
+  <mat-step [completed]="stepStates[0].completed" [editable]="stepStates[0].editable" label="Organisation Details">
+    <div class="shadows p-3 mb-3 mt-3 bg-body rounded">
+      <div class="card" style="border: none;">
+        <div class="card-body">
+          <app-organisation-details 
+            (formSubmitted)="onFormSubmitted()"
+            (orgDocDetails)="SubmittedOrgDocs($event)" 
+            (organisationId)="getEmittedOrgIdFromChild($event)">
+          </app-organisation-details>
         </div>
+      </div>
+    </div>
+  </mat-step>
+
+  <!-- Step 2: Contact Details -->
+  <mat-step [completed]="stepStates[1].completed" [editable]="stepStates[1].editable" label="Contact Details">
+    <app-contact-details-form 
+      [organisationId]="organisationId" 
+      (adminDocDetails)="SubmittedAdminDocs($event)" 
+      (techDocDetails)="submittedTechDocDetails($event)"
+      (billDocDetails)="submittedBillDocDetails($event)"
+      (formSubmitted)="onFormSubmitted()" 
+      (back)="goBack()">
+    </app-contact-details-form>
+  </mat-step>
+
+  <!-- Step 3: Name Server Details -->
+  <mat-step [completed]="stepStates[2].completed" [editable]="stepStates[2].editable" label="Name Server Details">
+    <app-name-server-form 
+      [domainId]="domainId"
+      [applicationId]="applicationId" 
+      (formSubmitted)="onFormSubmitted()" 
+      (back)="goBack()">
+    </app-name-server-form>
+  </mat-step>
+
+  <!-- Step 4: Review -->
+  <mat-step [completed]="stepStates[3].completed" [editable]="stepStates[3].editable" label="Preview">
+    <app-preview 
+      [orgDocDetails]="orgDocDetails"
+      [adminDocDetails]="adminDocDetails"
+      [techDocDetails]="techDocDetails"
+      [billDocDetails]="billDocDetails"
+      [organisationId]="organisationId"
+      [domainId]="domainId">
+    </app-preview>
+  </mat-step>
+
+</mat-horizontal-stepper>
+
       </div>
     </div>
   </div>

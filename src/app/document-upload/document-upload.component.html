@@ -25,7 +25,7 @@
               (ngModelChange)="handleOrganisationInputChange($event)"
               placeholder="Enter {{ organisationSelectedDocType }}"
               [attr.maxLength]="getMaxLength()" />
-              <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem;">
+              <div *ngIf="organisationInputFieldErrors.type === 'organisationInputValue'" style="color: red; font-size: 0.875rem; position:absolute;">
                 {{ organisationInputFieldErrors.message }}
               </div>
       </div>
