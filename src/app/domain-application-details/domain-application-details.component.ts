@@ -94,7 +94,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
 
   domain : Domain = new Domain()
 
-  updateDomain() {
+  async updateDomain() {
     if(this.billingOfficerStatus!=this.approved||this.adminStatus!=this.approved||this.technicalOfficerStatus!=this.approved||
       this.orgBoardStatus!=this.approved||this.orgGstStatus!=this.approved||this.orgLicenceStatus!=this.approved||this.orgPanStatus!=this.approved){
         this.toastrService.error("Please verify all the docs")
@@ -144,13 +144,15 @@ export class DomainApplicationDetailsComponent implements OnInit{
             console.error('Full error:', error);
         }
     });
+    await this.createInvoiceforDomain(this.domainId)
+
 }
 
-onPaymentStatusChange() {
+async onPaymentStatusChange() {
 
   this.setNsStatusOptions();
-}
  
+}
 
 nsStatusOptions: string[] = [];
 status:string[]=[];
@@ -529,6 +531,22 @@ if(nsRecordStatus=='Approved'){
   this.domainsList.status='Active'
   this.domainsList.applicationStatus='Approved'
 }
+}
+
+async createInvoiceforDomain(domainId : number){
+  console.log("create invoice is called "+domainId);
+  this.domainService.createInvoice(domainId).subscribe({
+    next :(response)=>{
+      if(response.status == HttpStatusCode.Ok){
+
+      }
+  },
+  error: (error) => {
+    console.error("Error creating invoice:", error);
+  }
+ });
+   
+
 }
 
 }
