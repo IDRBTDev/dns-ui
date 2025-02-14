@@ -30,7 +30,6 @@ export class DomainInvoicesComponent implements OnInit {
     'organisationName',
     'domainName',
     'finalAmount',
-    'taxAmount',
     'invoice',
     'paymentStatus'
   ]; 
