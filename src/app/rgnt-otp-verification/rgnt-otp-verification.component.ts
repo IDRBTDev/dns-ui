@@ -39,11 +39,17 @@ export class RgntOtpVerificationComponent implements OnInit {
         isOtpValid: boolean = false;
         async login(){
           //check if OTP is valid
-          if(this.otp === undefined || this.otp === null){
-            this.otp = 0;
+          // if(this.otp === undefined || this.otp === null){
+          //   this.otp = 0;
+          // }
+          if(this.otp?.toString().length==0 || this.otp ==undefined){
+            this.toastr.error('please enter otp')
+            return;
           }
+          if(this.otp)
           this.user=JSON.parse(localStorage.getItem('rgntUser'));
           console.log(this.user,this.otp)
+
           let otpExpired=false;
           await lastValueFrom(this.loginService.verifyOtpForLoginUserByUserId(this.user.email, this.otp)).then(
             response => {

@@ -638,5 +638,21 @@ transform(value: number): string {
 pauseTimer() {
   clearInterval(this.interval);
 }
+validateEmail(event: any) {
+  const email = event.target.value;
+
+  // Match the part of the email after the last period
+  const lastDotIndex = email.lastIndexOf('.');
+  
+  if (lastDotIndex !== -1) {
+    const afterDot = email.slice(lastDotIndex + 1);
+    
+    // Check if the characters after the period exceed 4 characters
+    if (afterDot.length > 4) {
+      // Truncate input to limit it to 4 characters after the period
+      event.target.value = email.slice(0, lastDotIndex + 5);
+    }
+  }
+}
 }
 
