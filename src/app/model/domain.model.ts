@@ -21,4 +21,5 @@ export class Domain{
     paymentStatus : string;
     paymentReceipt: Blob;
     paymentReceiptName:string;
+    applicationStatus:string;
 }
