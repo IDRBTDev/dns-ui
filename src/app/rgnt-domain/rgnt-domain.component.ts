@@ -17,11 +17,11 @@ export class RgntDomainComponent implements OnInit {
   displayedColumns: string[] = [
     // 'checkbox',
     'domainId',
+    'status',
     'domainName',
     'organizationName',
     'registrationDate',
     'renewalDate',
-    'status',
   ]; // Matches matColumnDef values
 
   domainsList: any[];

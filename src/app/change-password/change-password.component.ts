@@ -120,15 +120,25 @@ private userService:UserService){}
     // Check if the passwords match
     this.checkPasswordsMatch();
   }
-
+  newPasswordErrorMessage:string='';
   checkPasswordsMatch() {
+    // Check if newPassword and confirmPassword match
     if (this.user.newPassword && this.user.confirmPassword && this.user.newPassword !== this.user.confirmPassword) {
-      this.confirmPasswordInput = false;
-      this.confirmPasswordErrorMessage = 'Passwords do not match';
+        this.confirmPasswordInput = false;
+        this.confirmPasswordErrorMessage = 'Passwords do not match';
     } else if (this.user.newPassword && this.user.confirmPassword && this.user.newPassword === this.user.confirmPassword) {
-      this.confirmPasswordInput = true;
-      this.confirmPasswordErrorMessage = '';
-    }}
+        this.confirmPasswordInput = true;
+        this.confirmPasswordErrorMessage = ''; // Clear error if they match
+    }
+ 
+    // Check if newPassword and oldPassword are the same
+    if (this.user.newPassword && this.user.oldPassword && this.user.newPassword === this.user.oldPassword) {
+        this.newPasswordErrorMessage = 'New password cannot be the same as the old password';
+    } else if (this.user.newPassword && this.user.oldPassword && this.user.newPassword !== this.user.oldPassword) {
+        // Clear the error if they are not the same
+        this.newPasswordErrorMessage = '';
+    }
+}
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
@@ -158,71 +168,74 @@ private userService:UserService){}
   errorMessage: string | null = null;
 
 email:string='';
-  changePasswordButton(): void {
-    console.log(this.user);
-    console.log(this.user.oldPassword)
-    if (this.email || !this.user.newPassword || !this.user.confirmPassword || !this.user.oldPassword) {
-      this.toastr.error('All fields are required.', 'Error');
-      return;
-    }
-    if (!this.validatePassword(this.user.newPassword)) {
-      this.errorMessage = 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.';
-      return;
-    }
+changePasswordButton(): void {
+  console.log(this.user);
+  console.log(this.user.oldPassword)
+  if (this.email || !this.user.newPassword || !this.user.confirmPassword || !this.user.oldPassword) {
+    this.toastr.error('All fields are required.', 'Error');
+    return;
+  }
+  if (!this.validatePassword(this.user.newPassword)) {
+    this.errorMessage = 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.';
+    return;
+  }
 
-    if (this.user.newPassword !== this.user.confirmPassword) {
-      this.errorMessage = 'Passwords do not match.';
-      return;
-    }
-   // this.checkOldPassword();
-    this.updateNewPassword();
+  if (this.user.newPassword !== this.user.confirmPassword) {
+    this.errorMessage = 'Passwords do not match.';
+    return;
+  }
+
+ 
+  this.updateNewPassword();
+}
+
+  // Declare error message property
+  oldPasswordErrorMessage: string = '';
+  oldPasswordSuccessMessage: string = '';
+  newPasswordSuccessMessage:string='';
+  isOldPasswordCorrect:boolean=false;
+  isNewPasswordCorrect:boolean=false;
+checkOldPassword() {
+  const email = localStorage.getItem('email');
+  console.log(email);
+
+  // Clear previous messages
+  this.oldPasswordErrorMessage = '';
+  this.oldPasswordSuccessMessage = '';
+
+  // Check if the old password is provided and if the email is available
+  if (!email || !this.user.oldPassword) {
+    console.error('User ID or Old Password is missing.');
+    this.oldPasswordErrorMessage = 'Please provide the old password.';
+    return;
   }
  
-    // Declare error message property
-    oldPasswordErrorMessage: string = '';
-    oldPasswordSuccessMessage: string = '';
-    isOldPasswordCorrect:boolean=false;
-  checkOldPassword() {
-    const email = localStorage.getItem('email');
-    console.log(email);
-  
-    // Clear previous messages
-    this.oldPasswordErrorMessage = '';
-    this.oldPasswordSuccessMessage = '';
-  
-    // Check if the old password is provided and if the email is available
-    if (!email || !this.user.oldPassword) {
-      console.error('User ID or Old Password is missing.');
-      this.oldPasswordErrorMessage = 'Please provide the old password.';
-      return;
-    }
-  
-    // Check if the new password is the same as the old password
-    if (this.user.oldPassword === this.user.newPassword) {
-      this.oldPasswordErrorMessage = 'New password cannot be the same as the old password.';
-      return;
-    }
-  
-    // Call the service to validate the old password
-    this.passwordService.validateOldPassword(email, this.user.oldPassword).subscribe({
-      next: (isValid: string) => {
-        if (isValid) {
-          this.isOldPasswordCorrect = true;
-          this.oldPasswordSuccessMessage = 'Old password is correct.';
-          this.oldPasswordSuccessMessage=''
-        } else {
-          this.isOldPasswordCorrect = false;
-          this.oldPasswordErrorMessage = 'Old password is incorrect.';
-          this.oldPasswordSuccessMessage=''
-        }
-      },
-      error: (error) => {
-        console.error('Error occurred:', error);
+  // Check if the new password is the same as the old password
+  // if (this.user.oldPassword === this.user.newPassword) {
+  //   this.oldPasswordErrorMessage = 'New password cannot be the same as the old password.';
+  //   return;
+  // }
+
+  // Call the service to validate the old password
+  this.passwordService.validateOldPassword(email, this.user.oldPassword).subscribe({
+    next: (isValid: string) => {
+      if (isValid) {
+        this.isOldPasswordCorrect = true;
+        this.oldPasswordSuccessMessage = 'Old password is correct.';
+        this.oldPasswordSuccessMessage=''
+      } else {
+        this.isOldPasswordCorrect = false;
         this.oldPasswordErrorMessage = 'Old password is incorrect.';
         this.oldPasswordSuccessMessage=''
       }
-    });
-  }
+    },
+    error: (error) => {
+      console.error('Error occurred:', error);
+      this.oldPasswordErrorMessage = 'Old password is incorrect.';
+      this.oldPasswordSuccessMessage=''
+    }
+  });
+}
   
 
 cancelButton(){
@@ -236,12 +249,17 @@ forgetPasswordPage(){
 }
 
 updateNewPassword(): void {
+ 
   const email = localStorage.getItem('email');
+  this.newPasswordErrorMessage = '';
+    this.newPasswordSuccessMessage = '';
   if ( !email || !this.user.newPassword || !this.user.confirmPassword) {
     this.toastr.error('New password and confirmation are required.', 'Error');
     return;
   }
-
+ 
+ 
+ 
   this.passwordService.resetPassword(email, this.user.newPassword, this.user.confirmPassword).subscribe({
     next: (isUpdated: string) => {
       if (isUpdated) {
