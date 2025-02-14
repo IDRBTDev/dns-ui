@@ -100,14 +100,17 @@ export class DomainApplicationDetailsComponent implements OnInit{
         this.toastrService.error("Please verify all the docs")
         return
       }
-      if(this.billingOfficerStatus==this.approved||this.adminStatus==this.approved||this.technicalOfficerStatus==this.approved||
-        this.orgBoardStatus==this.approved||this.orgGstStatus==this.approved||this.orgLicenceStatus==this.approved||this.orgPanStatus==this.approved){
+     
+      if(this.domainsList.paymentStatus=="Payment Not Done"){
+      if(this.billingOfficerStatus==this.approved&&this.adminStatus==this.approved&&this.technicalOfficerStatus==this.approved&&
+        this.orgBoardStatus==this.approved&&this.orgGstStatus==this.approved&&this.orgLicenceStatus==this.approved&&this.orgPanStatus==this.approved){
          if(this.domainsList.paymentStatus!="Approved for payment"){
           this.toastrService.error("Please change status to approve for payment")
           return
          }
         
         }
+      }
     console.log('Starting domain update process...');
     console.log(this.domain)
     console.log(this.domainsList)
