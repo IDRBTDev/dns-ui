@@ -171,7 +171,7 @@ this.router.navigateByUrl('applications');
 }
 
 approvePaymentStatus(){
-  this.domainsList.paymentStatus="Paid"
+  this.domainsList.paymentStatus="Payment Approved"
   this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
     next: (response) => {
         console.log('Response received:', response);
@@ -193,11 +193,11 @@ approvePaymentStatus(){
 }
 rejectPaymentStatus(){
   console.log(this.domainsList.paymentStatus)
-if(this.domainsList.paymentStatus=="Paid") {
-  this.toastrService.warning("Already Paid");
+if(this.domainsList.paymentStatus=="Payment Approved") {
+  this.toastrService.warning("Already Approved Payment");
 }else{
-  if(this.domainsList.paymentStatus="Initiated"){
-    this.domainsList.paymentStatus="Unpaid";
+  if(this.domainsList.paymentStatus="Payment Completed"){
+    this.domainsList.paymentStatus="Payment Rejected";
     this.oreganizationService.updateDomain(this.domainId, this.domainsList).subscribe({
       next: (response) => {
           console.log('Response received:', response);
@@ -474,14 +474,14 @@ private Rejected='Rejected'
 paymentButtonDisabled=true;
 changeStatusOfpayment(){
   console.log(this.domainsList.paymentStatus)
-  if(this.domainsList.paymentStatus=="Unpaid"){
+  // if(this.domainsList.paymentStatus=="Unpaid"){
     console.log(this.billingOfficerStatus==this.approved,this.adminStatus==this.approved,this.technicalOfficerStatus==this.approved,
       this.orgBoardStatus==this.approved,this.orgGstStatus==this.approved,this.orgLicenceStatus==this.approved,this.orgPanStatus==this.approved)
     if(this.billingOfficerStatus==this.approved&&this.adminStatus==this.approved&&this.technicalOfficerStatus==this.approved&&
       this.orgBoardStatus==this.approved&&this.orgGstStatus==this.approved&&this.orgLicenceStatus==this.approved&&this.orgPanStatus==this.approved){
        this.paymentButtonDisabled=false;
 
-      }
+      // }
   }
   
   
