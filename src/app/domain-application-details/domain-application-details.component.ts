@@ -526,7 +526,7 @@ if(nsRecordStatus=='OnHold'||nsRecordStatus=='Rejected'||nsRecordStatus=='Inprog
   if(nsRecordStatus=='Rejected'){
      this.domainsList.applicationStatus='Rejected'
   }else{
-  this.domainsList.applicationStatus='Pending'
+  this.domainsList.applicationStatus='Under Review'
   }
 }else
 if(nsRecordStatus=='Approved'){

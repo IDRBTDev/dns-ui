@@ -115,7 +115,7 @@
                                                 <h5 style="font-size: 16px; color:#000000">NS Status</h5>
                                                     <select
                                                      class="form-control" (change)="updateDomainStatus(domainsList.nsRecordStatus)" [(ngModel)]="domainsList.nsRecordStatus"
-                                                      [disabled]="domainsList.paymentStatus !== 'Paid'">
+                                                      [disabled]="domainsList.paymentStatus !== 'Payment Approved'">
                                                         <option value="" disabled selected>Select Status</option>
                                                        
                                                         <option value="OnHold">On Hold</option>
