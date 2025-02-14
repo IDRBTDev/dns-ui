@@ -374,8 +374,9 @@ export class DomainApplicationComponent {
         console.error('HTTP Error:', error); 
       } );
     }
-  updatePaymentSatus(domain:Domain) {
-   domain.paymentStatus='processing'
+  updatePaymentSatus(domain:Domain,paymentStatus) {
+  //  domain.paymentStatus='processing'
+  domain.paymentStatus=paymentStatus;
    this.domainService.updateDomainDetails(domain).subscribe({
     next:(response)=>{
       this.getAllDomainsList(this.userEmailId)
@@ -403,7 +404,8 @@ export class DomainApplicationComponent {
     }
   }
 
-  onSubmit2() {     // Code to manually submit the form
+  onSubmit2(domain) {     // Code to manually submit the form
+    this.updatePaymentSatus(domain,'Payment Completed');
     const ecomForm = document.forms['ecom'];     
     if (ecomForm) {       
       ecomForm.submit(); 
@@ -411,6 +413,7 @@ export class DomainApplicationComponent {
   }
 
  async submitPayment() {
+  console.log("entered")
     const paymentData = {
       merchantId: "1000605",
       operatingMode: "DOM",
