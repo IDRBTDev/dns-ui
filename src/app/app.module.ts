@@ -52,7 +52,6 @@ import { NameServerComponent } from './name-server/name-server.component';
 import * as $ from 'jquery';
 import { DomainDetailsEditComponent } from './domain-details-edit/domain-details-edit.component';
 import { RolesComponent } from './roles/roles.component';
-import { RgtrRgntOfficerDetailsComponent } from './registrant-user-management/rgtr-rgnt-officer-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VerifyDocumentsComponent } from './verify-documents/verify-documents.component';
 import { RegistrationSuccessComponent } from './registration-success/registration-success.component';
@@ -85,6 +84,7 @@ import { RgtrForgotPasswordOtpValidationComponent } from './rgtr-forgot-password
 import { RgtrForgotPasswordSuccessComponent } from './rgtr-forgot-password-success/rgtr-forgot-password-success.component';
 import { InvoiceGenerationComponent } from './invoice-generation/invoice-generation.component';
 import { SessionTimeoutComponent } from './session-timeout/session-timeout.component';
+import { RgtrRgntOfficerDetailsComponent } from './rgtr-rgnt-officer-details/rgtr-rgnt-officer-details.component';
 
 
  
@@ -126,10 +126,9 @@ Chart.register(ChartDataLabels);
     NameServerComponent,
     DomainDetailsEditComponent,
     RolesComponent,
-    RgtrRgntOfficerDetailsComponent,
     VerifyDocumentsComponent,
     RegistrationSuccessComponent,
-    ReminderComponent,
+    ReminderComponent, 
     ForgotPasswordResetComponent,
     ForgotPasswordEmailVerificationComponent,
     ForgotPasswordOtpValidationComponent,
@@ -152,7 +151,8 @@ Chart.register(ChartDataLabels);
     RgtrForgotPasswordOtpValidationComponent,
     RgtrForgotPasswordSuccessComponent,
     InvoiceGenerationComponent,
-    SessionTimeoutComponent
+    SessionTimeoutComponent,
+    RgtrRgntOfficerDetailsComponent
   ],
   imports: [
     BrowserModule,
