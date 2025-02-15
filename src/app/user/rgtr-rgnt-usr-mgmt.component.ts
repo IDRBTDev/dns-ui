@@ -405,10 +405,17 @@ if (!this.user.mobileNumber) {
   searchText: string = '';
  
   applyFilter() {
-    this.usersDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
+    const filterValue = (event.target as HTMLInputElement).value?.trim().toLowerCase();
+
+    this.usersDataSource.filterPredicate = (data: any, filter: string) => {
+      const institutionName = data?.organisationDetailsDto?.institutionName?.toLowerCase() || '';
+      return institutionName.includes(filter); // Filter ONLY on institutionName
+    };
+
+    this.usersDataSource.filter = filterValue;
 
     if (this.usersDataSource.paginator) {
-      this.usersDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+      this.usersDataSource.paginator.firstPage();
     }
   }
 }
