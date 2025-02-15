@@ -125,6 +125,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
                 
 
                 this.toastrService.success("Domain data updated successfully.");
+                 this.createInvoiceforDomain(this.domainId);
             } else if (response.status === HttpStatusCode.NotFound) {
                 console.log('Domain not found.');
                 this.toastrService.error("Domain not found.");
@@ -147,7 +148,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
             console.error('Full error:', error);
         }
     });
-    await this.createInvoiceforDomain(this.domainId)
+   
 
 }
 
