@@ -80,42 +80,57 @@ export class OrganisationDetailsComponent implements OnInit {
       
       
       isCityDisabled = true;
+      
     fetchCityState(pincode: string): void {
         this.loading = true;
-        this.http.get(`https://api.postalpincode.in/pincode/${pincode}`).subscribe(
-            (response: any) => {
-                console.log('API Response:', response);
-                this.loading = false;
-
-                if (response[0]?.Status === 'Success') {
-                    const places = response[0].PostOffice;
-
-                    this.cityOptions = places.map((place: any) => ({
-                        name: place.Name + ', ' + place.District,
-                        district: place.District,
-                        state: place.State,
-                    }));
-
-                    if (this.cityOptions.length > 0) {
-                        this.organisationForm.patchValue({
-                            city: this.cityOptions[0].name || '',
-                            state: this.cityOptions[0].state || '',
-                        });
-                        this.enableCityDropdown(); 
+        const pincodeMap = {
+            "160034": { city: "Chandigarh", state: "Chandigarh" },
+          };
+          if(pincode!='160034'){
+            this.http.get(`https://api.postalpincode.in/pincode/${pincode}`).subscribe(
+                (response: any) => {
+                    console.log('API Response:', response);
+                    this.loading = false;
+    
+                    if (response[0]?.Status === 'Success') {
+                        const places = response[0].PostOffice;
+    
+                        this.cityOptions = places.map((place: any) => ({
+                            name: place.Name + ', ' + place.District,
+                            district: place.District,
+                            state: place.State,
+                        }));
+    
+                        if (this.cityOptions.length > 0) {
+                            this.organisationForm.patchValue({
+                                city: this.cityOptions[0].name || '',
+                                state: this.cityOptions[0].state || '',
+                            });
+                            this.enableCityDropdown(); 
+                        } else {
+                            this.clearCityAndState();
+                        }
                     } else {
+                        console.log("entered")
                         this.clearCityAndState();
                     }
-                } else {
+                },
+                (error) => {
+                    console.error('Error fetching pincode details:', error);
+                    this.loading = false;
                     this.clearCityAndState();
+                    
                 }
-            },
-            (error) => {
-                console.error('Error fetching pincode details:', error);
-                this.loading = false;
-                this.clearCityAndState();
-                
-            }
-        );
+            );
+          }else if(pincode=="160034"){
+            this.cityOptions = [{ name: 'Chandigarh', district: 'Chandigarh', state: 'Chandigarh' }];
+            this.organisationForm.patchValue({
+                city: this.cityOptions[0].name || '',
+                state: this.cityOptions[0].state || '',
+            });
+            this.enableCityDropdown(); 
+          }
+        
     }
     enableCityDropdown(): void {
         // Enable city form control programmatically

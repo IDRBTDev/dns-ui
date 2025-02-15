@@ -343,7 +343,7 @@ export class RgtrDepartmentComponent implements OnInit{
              setTimeout(()=>{
                window.location.reload();
              },1000)
-           } else if(response.status === HttpStatusCode.ImUsed){
+           } else if(response.status === HttpStatusCode.Conflict){
             this.toastr.error("Department is already in usage by a user, cannot be deleted.");
           }
          },error: (error) => {
@@ -351,7 +351,7 @@ export class RgtrDepartmentComponent implements OnInit{
            if(error.status === HttpStatusCode.Unauthorized){
              this.router.navigateByUrl('/session-timeout')
            }
-           else if(error.status === HttpStatusCode.ImUsed){
+           else if(error.status === HttpStatusCode.Conflict){
              this.toastr.error("Department is already in usage by an user, cannot be deleted.");
            }
            else{

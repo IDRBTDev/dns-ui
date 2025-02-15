@@ -48,10 +48,10 @@ export class LoginComponent {
       return
     } 
       if (!this.user.email || !this.isValidEmail(this.user.email)) {
-        this.toastr.error('Please enter a valid email address.');
+        this.emailError='Please enter a valid email address.'
         return;
       }
-    await this.checkUserExist(this.user.email);
+    await this.checkUserExist(this.user.email.trim());
     
    
     
@@ -144,6 +144,7 @@ export class LoginComponent {
     }
   }
   isValidEmail(email: string): boolean {
+    email=email.trim();
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   }
