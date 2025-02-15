@@ -130,6 +130,7 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
     console.log('Organisation ID:', organisationId);
     if (isNaN(organisationId) || organisationId <= 1) {
       console.error('Invalid organisationId:', organisationId);
+      organisationId=0
       //return;
     }
     await lastValueFrom(this.userService.getAllUsers(organisationId)).then(
@@ -188,9 +189,11 @@ export class RgtrRgntUserMgmtComponent implements OnInit {
 
   async updateUser(user: any) {
     await lastValueFrom(this.userService.updateUser(user)).then(response => {
-      if (response.status === HttpStatusCode.PartialContent) {
+      console.log(response)
+      if (response.status === HttpStatusCode.Ok) {
         this.toastr.success('User updated successfully.')
         this.getUsersList(parseInt(this.organisationId));
+        document.getElementById('closeTheUpdateUser').click();
       }
     }, error => {
       if (error.status === HttpStatusCode.Unauthorized) {
@@ -408,8 +411,18 @@ if (!this.user.mobileNumber) {
     const filterValue = (event.target as HTMLInputElement).value?.trim().toLowerCase();
 
     this.usersDataSource.filterPredicate = (data: any, filter: string) => {
-      const institutionName = data?.organisationDetailsDto?.institutionName?.toLowerCase() || '';
-      return institutionName.includes(filter); // Filter ONLY on institutionName
+      return this.displayedColumns.some(column => {
+        let value: any;
+
+        if (column === 'institutionName') {
+          value = data?.organisationDetailsDto?.institutionName; // Special handling for institutionName
+        } else {
+          value = data[column]; // Normal handling for other columns
+        }
+
+        const valueAsString = value?.toString().toLowerCase() || '';
+        return valueAsString.includes(filter);
+      });
     };
 
     this.usersDataSource.filter = filterValue;
