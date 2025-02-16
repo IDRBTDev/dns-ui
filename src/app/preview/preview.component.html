@@ -171,35 +171,35 @@
                                     [(ngModel)]="card.details.institutionName"  #instituteNameControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && instituteNameControl.invalid" class="text-danger">
-                                institute Name is required.
+                                Institute name is required.
                             </div>
                             <div class="form-group">
                                 <label for="pincode">Pincode:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control"  maxlength="6" id="pincode"  (input)="restrictNonNumeric($event)" [(ngModel)]="card.details.pincode"  #pincodeControl="ngModel" required pattern="^[0-9]{6}$">
                             </div>
                             <div *ngIf="formSubmitted && pincodeControl.invalid" class="text-danger">
-                                 pincode is required.
+                                 Pincode is required.
                             </div>
                             <div class="form-group">
                                 <label for="city">City:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="city" [(ngModel)]="card.details.city"  (keypress)="preventSpecialChars($event)" maxlength="50" #cityNameControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && cityNameControl.invalid" class="text-danger">
-                                 city is required.
+                                 City is required.
                             </div>
                             <div class="form-group">
                                 <label for="state">State:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="state" [(ngModel)]="card.details.state"  (keypress)="preventSpecialChars($event)" maxlength="50"  #stateNameControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && stateNameControl.invalid" class="text-danger">
-                                state  is required.
+                                State  is required.
                             </div>
                             <div class="form-group">
                                 <label for="address">Address:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="address" [(ngModel)]="card.details.address"  maxlength="50" #addressControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && addressControl.invalid" class="text-danger">
-                                 address is required.
+                                 Address is required.
                             </div>
                             <div class="form-group">
                                 <label for="stdTelephone">STD Telephone:<span style="color:red">*</span></label>
@@ -207,7 +207,7 @@
                                     [(ngModel)]="card.details.stdTelephone"  #telephoneControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && telephoneControl.invalid" class="text-danger">
-                                telephone number is required.
+                                Telephone number is required.
                             </div>
                             <div class="form-group">
                                 <label for="mobileNo">Mobile No:<span style="color:red">*</span></label>
@@ -240,7 +240,7 @@
                                     [(ngModel)]="card.details.organisationEmail"  #organizationEmailControl="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && organizationEmailControl.invalid" class="text-danger">
-                                organization email is required.
+                                Organization email is required.
                             </div>
                             <div *ngIf="orgEmailError!=''" class="text-danger">
                                 {{orgEmailError}}
@@ -265,7 +265,7 @@
                                     [(ngModel)]="card.details.adminFullName" #adminFullName="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && adminFullName.invalid" class="text-danger">
-                                admin full name is required.
+                                Admin full name is required.
                             </div>
                             <div class="form-group">
                                 <label for="adminEmail">Admin Email:<span style="color:red">*</span></label>
@@ -273,7 +273,7 @@
                                     [(ngModel)]="card.details.adminEmail" #adminEmail="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && adminEmail.invalid" class="text-danger">
-                                admin email is required.
+                                Admin email is required.
                             </div>
                             <div *ngIf="orgEmailError!=''" class="text-danger">
                                 {{orgEmailError}}
@@ -433,7 +433,7 @@
                                     [(ngModel)]="card.details.techDesignation" #techDesignation="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && techDesignation.invalid" class="text-danger">
-                                designation is required.
+                                Designation is required.
                              </div>
                             <div class="form-group">
                                 <label for="techDocuments">Tech Documents:<span style="color:red">*</span></label>
@@ -529,7 +529,7 @@
                                     [(ngModel)]="card.details.billDesignation" #billDesignation="ngModel" required>
                             </div>
                             <div *ngIf="formSubmitted && billDesignation.invalid" class="text-danger">
-                                designation is required.
+                                Designation is required.
                              </div>
                             <div class="form-group">
                                 <label for="billDocuments">Bill Documents:<span style="color:red">*</span></label>
