@@ -211,13 +211,29 @@
                             </div>
                             <div class="form-group">
                                 <label for="mobileNo">Mobile No:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="mobileNo" (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.mobileNumber"  #mobilenumberControl="ngModel" required>
-                            </div></div>
-                            <div *ngIf="formSubmitted && mobilenumberControl.invalid" class="text-danger">
-                                mobile number is required.
-                            </div>
+                                <div class="input-group">
+                                  <span class="input-group-text">+91</span>
+                                  <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="mobileNo" 
+                                    (input)="restrictNonNumeric($event)" 
+                                    [(ngModel)]="card.details.mobileNumber"  
+                                    #mobilenumberControl="ngModel"
+                                    name="mobileNumber"
+                                    required
+                                    minlength="10"
+                                    maxlength="10"
+                                    pattern="^\d{10}$">
+                                </div>
+                              </div>
+                              
+                              <!-- Error messages -->
+                              <div *ngIf="formSubmitted && mobilenumberControl.invalid" class="text-danger">
+                                <span *ngIf="mobilenumberControl.errors?.['required']">Mobile number is required.</span>
+                                
+                                <span *ngIf="mobilenumberControl.errors?.['pattern']">Invalid mobile number format.</span>
+                              </div>
                             <div class="form-group">
                                 <label for="email">Organisation Email:<span style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="email" (input)="validateEmail($event)"
@@ -264,22 +280,56 @@
                             </div>
                             <div class="form-group">
                                 <label for="adminPhone">Admin Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="adminPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.adminPhone" #adminPhone="ngModel" required>
-                            </div></div>
-                            <div *ngIf="formSubmitted && adminPhone.invalid" class="text-danger">
-                                admin phone number is required.
-                            </div>
-                            <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-text">+91</span>
+                                  <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="adminPhone"  
+                                    (input)="restrictNonNumeric($event)" 
+                                    [(ngModel)]="card.details.adminPhone"  
+                                    #adminPhone="ngModel"
+                                    name="adminPhone"
+                                    required
+                                    minlength="10"
+                                    maxlength="10"
+                                    pattern="^\d{10}$">
+                                </div>
+                              </div>
+                              
+                              <!-- Error messages -->
+                              <div *ngIf="formSubmitted && adminPhone.invalid" class="text-danger">
+                                <span *ngIf="adminPhone.errors?.['required']">Admin phone number is required.</span>
+                               
+                                <span *ngIf="adminPhone.errors?.['pattern']">Invalid phone number format.</span>
+                              </div>
+                              <div class="form-group">
                                 <label for="adminAltPhone">Admin Alt Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="adminAltPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.adminAltPhone" #adminAltNumber="ngModel" required>
-                            </div></div>
-                            <div *ngIf="formSubmitted && adminAltNumber.invalid" class="text-danger">
-                               alternate number is required.
-                            </div>
+                                <div class="input-group">
+                                  <span class="input-group-text">+91</span>
+                                  <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="adminAltPhone"  
+                                    (input)="restrictNonNumeric($event)" 
+                                    [(ngModel)]="card.details.adminAltPhone"  
+                                    #adminAltNumber="ngModel"
+                                    name="adminAltPhone"
+                                    required
+                                    minlength="10"
+                                    maxlength="10"
+                                    pattern="^\d{10}$">
+                                </div>
+                              </div>
+                              
+                              <!-- Error messages -->
+                              <div *ngIf="formSubmitted && adminAltNumber.invalid" class="text-danger">
+                                <span *ngIf="adminAltNumber.errors?.['required']">Alternate phone number is required.</span>
+                                
+                                <span *ngIf="adminAltNumber.errors?.['pattern']">Invalid phone number format.</span>
+                              </div>
+                              
+                              
                             <div class="form-group">
                                 <label for="adminDesignation">Admin Designation:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="adminDesignation" (keypress)="preventSpecialChars($event)" maxlength="50"
@@ -321,24 +371,62 @@
                              <div *ngIf="orgEmailError!=''" class="text-danger">
                                 {{orgEmailError}}
                             </div>
+                           <!-- Tech Phone -->
                             <div class="form-group">
                                 <label for="techPhone">Tech Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="techPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.techPhone" #techphone="ngModel" required>
-                            </div></div>
+                                <div class="input-group">
+                                <span class="input-group-text">+91</span>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="techPhone"  
+                                    (input)="restrictNonNumeric($event)" 
+                                    [(ngModel)]="card.details.techPhone"  
+                                    #techphone="ngModel"
+                                    name="techPhone"
+                                    required
+                                    minlength="10"
+                                    maxlength="10"
+                                    pattern="^\d{10}$">
+                                </div>
+                            </div>
+                            
+                            <!-- Error messages for Tech Phone -->
                             <div *ngIf="formSubmitted && techphone.invalid" class="text-danger">
-                                phone number is required.
-                             </div>
+                                <span *ngIf="techphone.errors?.['required']">Tech phone number is required.</span>
+                            
+                                <span *ngIf="techphone.errors?.['pattern']">Invalid phone number format.</span>
+                            </div>
+                            
+                            <!-- Tech Alt Phone -->
                             <div class="form-group">
                                 <label for="techAltPhone">Tech Alt Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="techAltPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.techAltPhone" #techAltNumber="ngModel" required>
-                            </div></div>
+                                <div class="input-group">
+                                <span class="input-group-text">+91</span>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="techAltPhone"  
+                                    (input)="restrictNonNumeric($event)" 
+                                    [(ngModel)]="card.details.techAltPhone"  
+                                    #techAltNumber="ngModel"
+                                    name="techAltPhone"
+                                    required
+                                    minlength="10"
+                                    maxlength="10"
+                                    pattern="^\d{10}$">
+                                </div>
+                            </div>
+                            
+                            <!-- Error messages for Tech Alt Phone -->
                             <div *ngIf="formSubmitted && techAltNumber.invalid" class="text-danger">
-                                alternate number is required.
-                             </div>
+                                <span *ngIf="techAltNumber.errors?.['required']">Tech alternate phone number is required.</span>
+                                
+                                <span *ngIf="techAltNumber.errors?.['pattern']">Invalid phone number format.</span>
+                            </div>
+                            
+                            
+  
                             <div class="form-group">
                                 <label for="techDesignation">Tech Designation:<span style="color:red">*</span></label> 
                                 <input type="text" class="form-control" id="techDesignation" (keypress)="preventSpecialChars($event)" maxlength="50"
@@ -378,24 +466,63 @@
                              <div *ngIf="orgEmailError!=''" class="text-danger">
                                 {{orgEmailError}}
                             </div>
-                            <div class="form-group">
-                                <label for="billPhone">Bill Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="billPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.billPhone" #billPhone="ngModel" required>
-                            </div></div>
-                            <div *ngIf="formSubmitted && billPhone.invalid" class="text-danger">
-                                phone number is required.
-                             </div>
-                            <div class="form-group">
-                                <label for="billAltPhone">Bill Alt Phone:<span style="color:red">*</span></label>
-                                <div class="input-group">  <span class="input-group-text">+91</span>
-                                <input type="text" class="form-control" id="billAltPhone"  (input)="restrictNonNumeric($event)" maxlength="10"
-                                    [(ngModel)]="card.details.billAltPhone" #billAltNumber="ngModel" required>
-                            </div></div>
-                            <div *ngIf="formSubmitted && billAltNumber.invalid" class="text-danger">
-                                 alternate number is required.
-                             </div>
+                            <!-- Bill Phone -->
+                    <div class="form-group">
+                        <label for="billPhone">Bill Phone:<span style="color:red">*</span></label>
+                        <div class="input-group">
+                        <span class="input-group-text">+91</span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="billPhone"  
+                            (input)="restrictNonNumeric($event)" 
+                            [(ngModel)]="card.details.billPhone"  
+                            #billPhone="ngModel"
+                            name="billPhone"
+                            required
+                            minlength="10"
+                            maxlength="10"
+                            pattern="^\d{10}$">
+                        </div>
+                    </div>
+                    
+                    <!-- Error messages for Bill Phone -->
+                    <div *ngIf="formSubmitted && billPhone.invalid" class="text-danger">
+                        <span *ngIf="billPhone.errors?.['required']">Bill phone number is required.</span>
+                       
+                        <span *ngIf="billPhone.errors?.['pattern']">Invalid phone number format.</span>
+                    </div>
+                    
+                    <!-- Bill Alt Phone -->
+                    <div class="form-group">
+                        <label for="billAltPhone">Bill Alt Phone:<span style="color:red">*</span></label>
+                        <div class="input-group">
+                        <span class="input-group-text">+91</span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="billAltPhone"  
+                            (input)="restrictNonNumeric($event)" 
+                            [(ngModel)]="card.details.billAltPhone"  
+                            #billAltNumber="ngModel"
+                            name="billAltPhone"
+                            required
+                            minlength="10"
+                            maxlength="10"
+                            pattern="^\d{10}$">
+                        </div>
+                    </div>
+                    
+                    <!-- Error messages for Bill Alt Phone -->
+                    <div *ngIf="formSubmitted && billAltNumber.invalid" class="text-danger">
+                        <span *ngIf="billAltNumber.errors?.['required']">Bill alternate phone number is required.</span>
+                     
+                        <span *ngIf="billAltNumber.errors?.['pattern']">Invalid phone number format.</span>
+                    </div>
+                    
+                    <!-- Error message for duplicate phone numbers -->
+                 
+  
                              <div class="form-group">
                                 <label for="billDesignation">Bill Designation:<span style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="billDesignation" (keypress)="preventSpecialChars($event)" maxlength="50"
@@ -450,7 +577,9 @@
                                     <span *ngIf="ipAddressRef.errors?.['pattern']">Invalid IP Address format.</span>
                                   </div>
                                 </div>
-                          
+                                <div *ngIf="duplicateIPError" class="text-danger">
+                                    {{ duplicateIPError }}
+                                </div>
                                 <div *ngIf="nameServerError!=''" class="text-danger">
                                   {{nameServerError}}
                                 </div>
