@@ -561,7 +561,8 @@ export class PreviewComponent implements OnInit, OnChanges {
   else return false;
   }
   validatemobileNumber(mobileNumber):boolean{
-    this.isMobileNumberValid = mobileNumber === 10;
+    console.log(mobileNumber.length)
+    this.isMobileNumberValid = mobileNumber.length==10;
     return this.isMobileNumberValid;
   }
   nameServerError:string=''
