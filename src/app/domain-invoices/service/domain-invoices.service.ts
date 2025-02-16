@@ -37,6 +37,12 @@ getAllInvoiceDetailsByOrgId(orgId : number){
             }) })
 }
 
+getAllInvoiceDetailsByDomainId(domainId : number){
+    return this.httpClient.get<any[]>(`${this.invoiceDetailsURL}/getBydomainId/${domainId}`,{observe: 'response',headers: new HttpHeaders({
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            }) })
+}
+
    
 
 }

@@ -109,12 +109,12 @@
 
       <div class="row row-cols-4" 
   style="padding-top: 20px;  margin-left: 10px; margin-right: 10px; padding: 16px 24px;"
-  *ngFor="let bh of domainDetail.billingHistory; let i = index" 
+  *ngFor="let bh of invoiceData; let i = index" 
   [ngClass]="{'odd-row': i % 2 === 0, 'even-row': i % 2 !== 0}">
-    <div class="col">{{bh.invoiceNumber}}</div>
-    <div class="col">{{bh.amount | currency: 'INR'}}</div>
-    <div class="col">{{bh.invoiceDate | date:'MMM d, y, h:mm a'}}</div>
-    <div class="col">{{bh.status}}</div>
+    <div class="col">{{bh.id}}</div>
+    <div class="col">{{bh.finalAmount}}</div>
+    <div class="col">{{bh.createdDateTime | date:'MMM d, y, h:mm a'}}</div>
+    <div class="col">{{bh.paymentStatus}}</div>
 </div>
 
       </div>

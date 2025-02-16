@@ -161,6 +161,7 @@ export class DomainInvoicesComponent implements OnInit {
   }
 
   async getInvoiceDetailAndDisplayAsPDF(domain: any) {
+    let invoiceTitle : any ;
     try {
       console.log("Fetching the invoice details...");
   
@@ -174,7 +175,12 @@ export class DomainInvoicesComponent implements OnInit {
   
       // Replace placeholders in HTML with dynamic data
      const rupees =  await this.numberToWords(domain.finalAmount)
-      const populatedHtml = this.replacePlaceholders(html, domain, rupees);
+     if(domain.paymentStatus == 'Approved for payment'){
+         invoiceTitle = 'Proforma Invoice'
+     }else{
+          invoiceTitle = 'Tax Invoice'
+     }
+      const populatedHtml = this.replacePlaceholders(html, domain, rupees,invoiceTitle);
   
      // Add padding to the HTML content
      const contentWithPadding = this.addPaddingToHTML(populatedHtml);
@@ -265,10 +271,22 @@ cleanUpHTML(html: string): string {
   
 rupee : string =""
   // Replace placeholders in HTML with dynamic data
- replacePlaceholders(html: string, domain: any, rupee : string): string {
+ replacePlaceholders(html: string, domain: any, rupee : string, invoiceTitle: string): string {
     let populatedHtml = html.replace(/{amount}/g, domain.finalAmount);
     populatedHtml = populatedHtml.replace(/{rupee}/g, rupee);
     populatedHtml = populatedHtml.replace(/{id}/g, domain.id);
+    populatedHtml = populatedHtml.replace(/{title}/g,`<b>${invoiceTitle}</b>`);
+     
+    const dateObj = new Date(domain.createdDateTime);
+
+    // Format the date
+    const formattedDate = new Intl.DateTimeFormat("en-GB", { 
+        day: "2-digit", month: "short", year: "numeric" 
+    }).format(dateObj);
+
+    populatedHtml = populatedHtml.replace(/{date}/g, formattedDate);
+
+
     // Add more replacements if needed
   
     return populatedHtml;

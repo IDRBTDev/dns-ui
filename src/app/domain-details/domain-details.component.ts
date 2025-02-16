@@ -5,6 +5,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NameServerService } from '../name-server-form/service/name-server.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { DomainInvoiceService } from '../domain-invoices/service/domain-invoices.service';
 
 @Component({
   selector: 'app-domain-details',
@@ -15,7 +16,7 @@ export class DomainDetailsComponent implements OnInit {
 
   constructor(private domainService: DomainService, 
     private router: Router, private activatedRouter: ActivatedRoute,
-    private nameServerService: NameServerService,private toastr:ToastrService
+    private nameServerService: NameServerService,private toastr:ToastrService, private domainInvoiceService: DomainInvoiceService
   ){
 
   }
@@ -29,6 +30,7 @@ export class DomainDetailsComponent implements OnInit {
     console.log(this.domainId)
     await this.getDomainById(this.domainId);
     await this.getNameServersByDomainId(this.domainId);
+    await this.getAllInvoicesDataByDomainId(this.domainId);
   }
 
   domainDetail : any;
@@ -110,5 +112,24 @@ export class DomainDetailsComponent implements OnInit {
     })
   }
     
-  }
+}
+invoiceData : any
+async getAllInvoicesDataByDomainId(domainId : number){
+  await lastValueFrom(this.domainInvoiceService.getAllInvoiceDetailsByDomainId(domainId)).then(
+   (response) => {
+     if(response.status === HttpStatusCode.Ok){
+      this.invoiceData = response.body;
+      console.log(this.invoiceData)
+     
+
+     }
+
+   }, (error) =>{
+      if(error.status == HttpStatusCode.Unauthorized){
+         this.router.navigateByUrl("/session-timeout")
+      }
+
+   });
+}
+
 }
