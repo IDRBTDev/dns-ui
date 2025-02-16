@@ -15,6 +15,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { DscVerificationComponent } from '../dsc-verification/dsc-verification.component';
 import * as bootstrap from 'bootstrap';
 import { environment } from '../environments/environment';
+import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-preview',
@@ -209,7 +210,7 @@ export class PreviewComponent implements OnInit, OnChanges {
       },
     },
   ];
-
+ organisationForm: FormGroup;
   constructor(private http: HttpClient,
     private domainService: DomainService,
     private namServerService: NameServerService,
@@ -219,8 +220,23 @@ export class PreviewComponent implements OnInit, OnChanges {
     private toastr: ToastrService,
     private userService: UserService,
     private notificationService: NotificationService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder
+  ) {
+     this.organisationForm = this.fb.group({
+                organisationDetailsId:0,
+                institutionName: ['',[Validators.required]],
+                stdTelephone: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
+                mobileNumber: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
+                organisationEmail: ['',[Validators.required, Validators.pattern ('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+                address: ['',Validators.required],
+                pincode: ['',[Validators.required, Validators.pattern('^[0-9]{6}$')]],
+                city: [{ value: '', disabled: true }, Validators.required], 
+                district: [''],
+                state: [''],
+                userMailId:['']
+            });
+  }
 
   /**
  
@@ -232,34 +248,48 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   async onSubmit(): Promise<void> {
-    this.formSubmitted.emit();
-    //save the details into DB
-    await this.updatePreviewDetails();
-    this.cards[0].details.organizationName = this.cards[1].details.institutionName;
-
-    const notification = {
-      message: "Application submitted successfully",
-      moduleType: "DocumentUpload",
-      moduleRecordId: 102,
-      notificationTo: this.userId,
-      emailId: this.userId,
-      status: "Unread",
-      createdDateTime:  new Date().toISOString(), // Use ISO 8601 string for date/time
-      createdByEmailId: this.userId,
-      profilepic: null
-    };
-    
-    // Create notification via the notification service
-    this.notificationService.createNotification(notification).subscribe(response => {
-        console.log('Notification created successfully:', response);
-        this.loadNotifications();
-      },
-      error => {
-        console.error('Error creating notification:', error);
-      }
-    );
-
-
+    this.formSubmitted.emit(); // Emit form submission event
+    this.showError = false;    // Reset error message before validation
+  
+    // Validate form fields and checkbox
+    if (!this.isFormValid(this.cards)) {
+      // If form is not valid, show an error message or handle accordingly
+      console.error('Form is invalid. Please correct the errors.');
+      return;  // Return early if validation fails
+    }
+  
+    // Proceed with further actions if the form is valid
+    console.log("Form is valid. Proceeding with submission...");
+  
+    try {
+      // Update preview details
+      await this.updatePreviewDetails();
+  
+      // Synchronize organization name with institution name
+      this.cards[0].details.organizationName = this.cards[1].details.institutionName;
+  
+      // Prepare the notification object
+      const notification = {
+        message: "Application submitted successfully",
+        moduleType: "DocumentUpload",
+        moduleRecordId: 102,
+        notificationTo: this.userId,
+        emailId: this.userId,
+        status: "Unread",
+        createdDateTime: new Date().toISOString(), // Use ISO 8601 string for date/time
+        createdByEmailId: this.userId,
+        profilepic: null
+      };
+  
+      // Create notification via the notification service
+      const response = await this.notificationService.createNotification(notification).toPromise();
+      console.log('Notification created successfully:', response);
+  
+      // Load notifications after successful creation
+      this.loadNotifications();
+    } catch (error) {
+      console.error('Error during submission:', error);
+    }
   }
 
   // Inside the PreviewComponent
@@ -446,34 +476,120 @@ export class PreviewComponent implements OnInit, OnChanges {
   }
 
   // Toggle edit mode for each card
-
+  // nameDetails: any[] = [ // Use 'any' if the objects have varying properties
+  //   { organisationId: 47, applicationId: '', domainId: 103, userMailId: 'pujara@gmail.com', hostName: '', ipAddress: '' },
+  //   { organisationId: 47, applicationId: '', domainId: 103, userMailId: 'pujara@gmail.com', hostName: '', ipAddress: '' },
+  //   // ... more entries as needed
+  // ];
+  clickedcard:any;
+  hideEditButton:boolean=false;
   toggleEdit(card: any) {
+    this.hideEditButton=true;
+    console.log(card)
+    if(card.heading === 'Name Server Details'){
+      this.clickedcard=JSON.stringify(this.nameDetails)
+    }else{
+      this.clickedcard=JSON.stringify(card);
+    }
+ 
+  console.log(this.clickedcard)
     card.details.isEditing = !card.details.isEditing;
+    
   }
 
   // Save changes for a specific card
-
+  formSubmittedd=false;
   onSave(card: any) {
-    console.log(
-      `${card.heading}
-   saved:`,
-      card.details
-    );
+     // Set the flag to true when the user attempts to save
 
-    card.details.isEditing = false;
-
-    // Optionally, send updated data to the backend here
+    // Check if the form is valid before saving
+    if (this.isFormValid(card)) {
+      console.log(`${card.heading} saved:`, card.details);
+      // this.formSubmitted.emit(); 
+      card.details.isEditing = false;
+      this.hideEditButton=false;
+    } else {
+      console.log('Form is invalid. Cannot save.');
+    }
+    
   }
+ 
+  isFormValid(card: any): boolean {
+    if(card.length!=6){
+      if(card.heading==='Organisation Details'){
+        return card.details.institutionName && card.details.pincode && card.details.city && card.details.state && card.details.address && card.details.stdTelephone && card.details.mobileNumber
+         && card.details.organisationEmail 
+        }else if(card.heading==='Administrative Contact'){
+        return  card.details.adminFullName && card.details.adminEmail &&  card.details.adminPhone && card.details.adminAltPhone &&  card.details.adminDesignation
+        }else if(card.heading==='Billing Contact'){
+        return card.details.billDesignation && card.details.billAltPhone &&  card.details.billPhone &&  card.details.billEmail &&  card.details.billFullName
+        }
+        else if(card.heading==='Technical Contact'){
+        return card.details.techFullName && card.details.techEmail && card.details.techPhone && card.details.techAltPhone &&  card.details.techDesignation
+        }else if(card.heading ==='Name Server Details'){
+          return this.nameDetails.every(item => {
+            const hostName = item.hostName ? item.hostName.trim() : "";
+            const ipAddress = item.ipAddress ? item.ipAddress.trim() : "";
+        
+            // Check for missing values or invalid IP addresses
+            if (!hostName || !ipAddress || !this.isValidIP(ipAddress)) {
+              return false; // Invalid if either is missing or IP is invalid
+            }
+        
+            return true; // Valid otherwise
+          });
+        
+      
+        }
+        else return false
+    }else if(card.length==6){
+     
+         console.log(card[5])
+        return card[1].details.institutionName && card[1].details.pincode && card[1].details.city && card[1].details.state && card[1].details.address && card[1].details.stdTelephone && card[1].details.mobileNumber
+         && card[1].details.organisationEmail && card[2].details.adminFullName && card[2].details.adminEmail &&  card[2].details.adminPhone && card[2].details.adminAltPhone &&  card[2].details.adminDesignation
+         && card[3].details.techFullName && card[3].details.techEmail && card[3].details.techPhone && card[3].details.techAltPhone &&  card[3].details.techDesignation 
+         && card[4].details.billDesignation && card[4].details.billAltPhone &&  card[4].details.billPhone &&  card[4].details.billEmail &&  card[4].details.billFullName && this.isNameServerDetailsInvalid();
+    }
+   
+  else return false;
+  }
+  nameServerError:string=''
+  isNameServerDetailsInvalid(): boolean {
+    return this.nameDetails.every(item => {
+      const hostName = item.hostName ? item.hostName.trim() : "";
+      const ipAddress = item.ipAddress ? item.ipAddress.trim() : "";
+  
+      // Check for missing values or invalid IP addresses
+      if (!hostName || !ipAddress || !this.isValidIP(ipAddress)) {
+        return false; // Invalid if either is missing or IP is invalid
+      }
+  
+      return true; // Valid otherwise
+    });
+  }
+  isValidIP(ip: string): boolean {
+    const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return ipPattern.test(ip);
+  }
+  
 
   // Cancel changes for a specific card
 
   onCancel(card: any) {
     // Reset to original state (could use original data if needed)
-
+    // card=this.clickedcard
     card.details.isEditing = false;
-
-    console.log(`${card.heading}
-   changes canceled.`);
+    if(card.heading === 'Name Server Details'){
+      const cards=JSON.parse(this.clickedcard);
+      Object.assign(this.nameDetails,cards);
+    }else{
+      const cards=JSON.parse(this.clickedcard);
+      Object.assign(card,cards);
+    }
+   
+   this.hideEditButton=false;
+  
+    console.log(JSON.parse(this.clickedcard));
   }
 
   async getDomainDetailsByDomainId(domainId: number){
@@ -963,6 +1079,37 @@ async createInvoiceforDomain(domainId : number){
  });
    
 
+}
+
+toggleModalCheckbox: boolean = false;  // Track the checkbox state
+  isAuthorized: boolean = false;  // Whether the user has checked the box
+  showError: boolean = false; 
+checkBoth() {
+  this.isAuthorized = this.toggleModalCheckbox;
+  this.showError=false;
+  //this.validateCheckbox();  // Validate the checkbox status
+}
+preventSpecialChars(event: KeyboardEvent): void {
+  const regex = /^[a-zA-Z\s]+$/; // Only allows alphanumeric characters
+  const key = event.key;
+  if (!regex.test(key)) {
+    event.preventDefault(); // Prevent the default behavior if the character is not allowed
+  }
+}
+restrictNonNumeric(event: any): void {
+  // Replace any non-numeric character with an empty string
+  event.target.value = event.target.value.replace(/[^0-9]/g, '');
+}
+orgEmailError=''
+validateEmail(event) { // Pass the NgModel directive
+  const email = event.target.value.trim();
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Improved regex
+
+  if (email && !emailRegex.test(email)) {
+    this.orgEmailError="Please enter valid email"
+  } else {
+    this.orgEmailError="" // Clear any previous error
+  }
 }
 
 }
