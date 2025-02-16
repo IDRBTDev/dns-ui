@@ -391,6 +391,7 @@ export class VerifyDocumentsComponent implements OnInit {
           console.log(response);
           
           if(approvalStatus === 'Approved'){
+            console.log("entered inside the aprovre reject suucees method")
             this.toastr.success('Document approved.');
             this.clearComments();
             
@@ -407,7 +408,8 @@ export class VerifyDocumentsComponent implements OnInit {
         }
     })
     this.clearComments();
-    await this.getContactOfficerDocuments(this.contactType, this.organisationId);
+    await this.getContactOfficerDocuments(this.contactType, this.organisationId); 
+
     if(approvalStatus === 'Approved'){
       this.toastr.success('Document approved.');
       this.clearComments();
