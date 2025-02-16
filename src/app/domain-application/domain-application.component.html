@@ -133,10 +133,10 @@
               <ng-container matColumnDef="payment">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment</th>
                 <td mat-cell *matCellDef="let domain">
-                  <button (click)='onSubmit2(domain)' *ngIf="domain.paymentStatus==='Approved for payment'" class="btn btn-primary">
+                  <button (click)='onSubmit2(domain)' *ngIf="domain.paymentStatus==='Approved for payment'||domain.paymentStatus==='Payment Rejected'" class="btn btn-primary">
                       Pay Now
                   </button>
-                  <button *ngIf="domain.paymentStatus !='Approved for payment'" disabled class="btn btn-primary">
+                  <button *ngIf="domain.paymentStatus !='Approved for payment'&&domain.paymentStatus !='Payment Rejected'" disabled class="btn btn-primary">
                     Pay Now
                 </button>
                   <!-- style="display: none;" -->
