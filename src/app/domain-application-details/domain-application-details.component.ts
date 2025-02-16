@@ -494,7 +494,8 @@ changeStatusOfpayment(){
 }
 openReciptasPdf:boolean
 async viewThePaymentReceipt(paymentReciept,fileName){
-if(fileName.endsWith('.pdf')){
+  console.log(fileName)
+if(fileName?.endsWith('.pdf')){
   
   await this.displayPaymentPdf(paymentReciept);
   this.openReciptasPdf=true
