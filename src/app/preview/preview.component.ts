@@ -517,16 +517,18 @@ export class PreviewComponent implements OnInit, OnChanges {
   isFormValid(card: any): boolean {
     if(card.length!=6){
       if(card.heading==='Organisation Details'){
-        return card.details.institutionName && card.details.pincode && card.details.city && card.details.state && card.details.address && card.details.stdTelephone && card.details.mobileNumber
+        return card.details.institutionName && card.details.pincode && card.details.city && card.details.state && card.details.address && card.details.stdTelephone && card.details.mobileNumber && this.validatemobileNumber(card.details.mobileNumber)
          && card.details.organisationEmail 
         }else if(card.heading==='Administrative Contact'){
-        return  card.details.adminFullName && card.details.adminEmail &&  card.details.adminPhone && card.details.adminAltPhone &&  card.details.adminDesignation
+        return  card.details.adminFullName && card.details.adminEmail &&  card.details.adminPhone &&this.validatemobileNumber(card.details.adminPhone) && card.details.adminAltPhone &&this.validatemobileNumber(card.details.adminAltPhone) &&  card.details.adminDesignation
         }else if(card.heading==='Billing Contact'){
-        return card.details.billDesignation && card.details.billAltPhone &&  card.details.billPhone &&  card.details.billEmail &&  card.details.billFullName
+        return card.details.billDesignation && card.details.billAltPhone &&  card.details.billPhone &&this.validatemobileNumber(card.details.billAltPhone) && card.details.billPhone &&this.validatemobileNumber(card.details.adminAltPhone) &&  card.details.billEmail &&  card.details.billFullName
         }
         else if(card.heading==='Technical Contact'){
-        return card.details.techFullName && card.details.techEmail && card.details.techPhone && card.details.techAltPhone &&  card.details.techDesignation
+        return card.details.techFullName && card.details.techEmail && card.details.techPhone && card.details.techAltPhone && this.validatemobileNumber(card.details.techPhone) && card.details.adminAltPhone &&this.validatemobileNumber(card.details.techAltPhone) &&  card.details.techDesignation
         }else if(card.heading ==='Name Server Details'){
+          const seenIPs = new Set<string>(); // Store IPs to check for duplicates
+          this.duplicateIPError = "";
           return this.nameDetails.every(item => {
             const hostName = item.hostName ? item.hostName.trim() : "";
             const ipAddress = item.ipAddress ? item.ipAddress.trim() : "";
@@ -535,6 +537,11 @@ export class PreviewComponent implements OnInit, OnChanges {
             if (!hostName || !ipAddress || !this.isValidIP(ipAddress)) {
               return false; // Invalid if either is missing or IP is invalid
             }
+            if (seenIPs.has(ipAddress)) {
+              this.duplicateIPError = "Duplicate IP Address found!";
+              return false;
+            }
+            seenIPs.add(ipAddress);
         
             return true; // Valid otherwise
           });
@@ -553,8 +560,15 @@ export class PreviewComponent implements OnInit, OnChanges {
    
   else return false;
   }
+  validatemobileNumber(mobileNumber):boolean{
+    this.isMobileNumberValid = mobileNumber === 10;
+    return this.isMobileNumberValid;
+  }
   nameServerError:string=''
+  duplicateIPError:string=''
   isNameServerDetailsInvalid(): boolean {
+    const seenIPs = new Set<string>(); // Store IPs to check for duplicates
+    this.duplicateIPError = "";
     return this.nameDetails.every(item => {
       const hostName = item.hostName ? item.hostName.trim() : "";
       const ipAddress = item.ipAddress ? item.ipAddress.trim() : "";
@@ -563,6 +577,11 @@ export class PreviewComponent implements OnInit, OnChanges {
       if (!hostName || !ipAddress || !this.isValidIP(ipAddress)) {
         return false; // Invalid if either is missing or IP is invalid
       }
+      if (seenIPs.has(ipAddress)) {
+        this.duplicateIPError = "Duplicate IP Address found!";
+        return false;
+      }
+      seenIPs.add(ipAddress);
   
       return true; // Valid otherwise
     });
@@ -1096,9 +1115,11 @@ preventSpecialChars(event: KeyboardEvent): void {
     event.preventDefault(); // Prevent the default behavior if the character is not allowed
   }
 }
+isMobileNumberValid;
 restrictNonNumeric(event: any): void {
   // Replace any non-numeric character with an empty string
   event.target.value = event.target.value.replace(/[^0-9]/g, '');
+
 }
 orgEmailError=''
 validateEmail(event) { // Pass the NgModel directive
