@@ -163,6 +163,7 @@ export class VerifyDocumentsComponent implements OnInit {
       // await this.getContactOfficerDocuments("Administrative",this.adminOfficerDetails.organisationId);
       let count = 0;
       console.log('exe')
+      console.log(this.documentsList)
       this.documentsList.forEach(doc => {
         if(doc.documentStatus === 'Approved'){
           count = count + 1;
@@ -192,6 +193,7 @@ export class VerifyDocumentsComponent implements OnInit {
       await this.getContactOfficerDocuments("Technical",this.technicalOfficerDetails.organisationId);
       let count = 0;
       console.log('exe')
+      console.log(this.documentsList)
       this.documentsList.forEach(doc => {
         if(doc.documentStatus === 'Approved'){
           count = count + 1;
@@ -405,7 +407,7 @@ export class VerifyDocumentsComponent implements OnInit {
         }
     })
     this.clearComments();
-    this.getContactOfficerDocuments(this.contactType, this.organisationId);
+    await this.getContactOfficerDocuments(this.contactType, this.organisationId);
     if(approvalStatus === 'Approved'){
       this.toastr.success('Document approved.');
       this.clearComments();
