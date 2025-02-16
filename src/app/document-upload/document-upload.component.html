@@ -57,10 +57,10 @@
         <!-- <ng-container *ngIf="isValidFileName(doc.fileName,doc.type); else invalidFileName"> -->
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#updateModal" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
           <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewOrgDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
         <!-- </ng-container>
         
@@ -166,11 +166,11 @@
                 
                 <!-- Valid file name, clickable for preview -->
                 <span *ngIf="preview === ''" data-toggle="modal" data-target="#adminDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
-                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
                 </span>
                 
                 <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
-                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+                  {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
                 </span>
                 
               <!-- <ng-template #invalidAdminFileName>
@@ -303,11 +303,11 @@
         
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#techDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
           
           <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
           
         <!-- </ng-container> -->
@@ -448,11 +448,11 @@
         
           <!-- Valid file name, clickable for preview -->
           <span *ngIf="preview === ''" data-toggle="modal" data-target="#billDoc" style="cursor: pointer;" (click)="clickedDocument(doc)" class="hover-text-change">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
           
           <span *ngIf="preview !== ''" data-toggle="modal" data-target="#previewAdminDoc" style="cursor: pointer;" (click)="clickedPreviewDoc(doc)">
-            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value }}
+            {{ doc.type }} - {{ doc.fileName }} - {{ doc.value!="null"?doc.value:'' }}
           </span>
           
         <!-- </ng-container>
