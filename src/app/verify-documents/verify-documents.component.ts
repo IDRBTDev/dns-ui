@@ -211,7 +211,7 @@ export class VerifyDocumentsComponent implements OnInit {
         this.technicalOfficerDetails.isActive = false;
         this.technicalOfficerDetails.loginStatus=loginStatus
         await this.updateTechnicalOfficerLoginStatus(this.technicalOfficerDetails);
-        this.toastr.error('Document verification pending');
+        // this.toastr.error('Document verification pending');
         return;
       }
     }else{
@@ -244,7 +244,7 @@ export class VerifyDocumentsComponent implements OnInit {
       this.user.active = true;
     }else{
       this.user.active = false;
-      this.toastr.error('Login Rejected');
+      // this.toastr.error('Login Rejected');
       return;
     }
     this.user.userName = contactOfficerDetails.personName;
@@ -275,7 +275,7 @@ export class VerifyDocumentsComponent implements OnInit {
         console.log(response)
         if(response.status === HttpStatusCode.Created){
           console.log(response);
-          this.toastr.success('Login approved');
+          // this.toastr.success('Login approved');
           //if(this.role === 'IDRBTADMIN'){
              this.getContactOfficersDetails(0);
           // }else if(this.role != 'IDRBTADMIN' && parseInt(this.organisationId) > 0){
