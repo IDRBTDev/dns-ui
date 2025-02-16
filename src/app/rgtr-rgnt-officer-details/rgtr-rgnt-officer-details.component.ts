@@ -501,7 +501,8 @@ export class RgtrRgntOfficerDetailsComponent {
         {
           queryParams:{
             organisationId:user.organisationId,
-            contactUserType: contactUserType
+            contactUserType: contactUserType,
+            email:user.emailId
           }})
     }
   
