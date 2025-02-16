@@ -429,15 +429,15 @@ previewDocName:any;
         document.getElementById('closePaymentReceipt')?.click();
    $('#updateModal').modal('show');
    this.toastrService.success('Payment receipt uploaded successfully!');
+    this.getDomainApplicationDetails(this.domainsList.domainId);
     
       },
       (error) => {
        // this.fileError = 'Error uploading file: ' + error.message;
       }
     );
-    await this.getDomainApplicationDetails(this.domainsList.domainId);
-   this.domainsList.paymentStatus="Payment Under Review"
-   this.updateDomain();
+   
+  
   }
   
 
@@ -453,6 +453,8 @@ previewDocName:any;
         if (response && response.message) {
         this.toastrService.success(' payment receipt updated successfully');
           $('#updateModal').modal('hide');
+          this.domainsList.paymentStatus="Payment Under Review"
+          this.updateDomain();
         } else {
           alert('Unexpected response format');
         }
