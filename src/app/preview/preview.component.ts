@@ -522,10 +522,10 @@ export class PreviewComponent implements OnInit, OnChanges {
         }else if(card.heading==='Administrative Contact'){
         return  card.details.adminFullName && card.details.adminEmail &&  card.details.adminPhone &&this.validatemobileNumber(card.details.adminPhone) && card.details.adminAltPhone &&this.validatemobileNumber(card.details.adminAltPhone) &&  card.details.adminDesignation
         }else if(card.heading==='Billing Contact'){
-        return card.details.billDesignation && card.details.billAltPhone &&  card.details.billPhone &&this.validatemobileNumber(card.details.billAltPhone) && card.details.billPhone &&this.validatemobileNumber(card.details.adminAltPhone) &&  card.details.billEmail &&  card.details.billFullName
+        return card.details.billDesignation && card.details.billAltPhone  &&this.validatemobileNumber(card.details.billAltPhone) && card.details.billPhone &&this.validatemobileNumber(card.details.billPhone) &&  card.details.billEmail &&  card.details.billFullName
         }
         else if(card.heading==='Technical Contact'){
-        return card.details.techFullName && card.details.techEmail && card.details.techPhone && card.details.techAltPhone && this.validatemobileNumber(card.details.techPhone) && card.details.adminAltPhone &&this.validatemobileNumber(card.details.techAltPhone) &&  card.details.techDesignation
+        return card.details.techFullName && card.details.techEmail && card.details.techPhone && card.details.techAltPhone && this.validatemobileNumber(card.details.techPhone) && this.validatemobileNumber(card.details.techAltPhone) &&  card.details.techDesignation
         }else if(card.heading ==='Name Server Details'){
           const seenIPs = new Set<string>(); // Store IPs to check for duplicates
           this.duplicateIPError = "";
