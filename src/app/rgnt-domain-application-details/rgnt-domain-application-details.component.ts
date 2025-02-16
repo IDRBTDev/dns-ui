@@ -250,7 +250,7 @@ updatecancelButton(){
 }
  onFileChange1(event: any) {
   const file = event.target.files[0];  // Get the selected file
-
+console.log("file payment recipt",file)
   if (file) {
     this.fileError = '';
     this.file = file;
