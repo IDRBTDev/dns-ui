@@ -413,7 +413,7 @@ previewDocName:any;
   tempimageUrl:any;
  
 
-  uploadPaymentReceipt() {
+ async uploadPaymentReceipt() {
     if (!this.file) {
       this.fileError = 'Please select a file to upload';
       return;
@@ -435,6 +435,7 @@ previewDocName:any;
        // this.fileError = 'Error uploading file: ' + error.message;
       }
     );
+    await this.getDomainApplicationDetails(this.domainsList.domainId);
    this.domainsList.paymentStatus="Payment Under Review"
    this.updateDomain();
   }
