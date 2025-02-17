@@ -191,8 +191,6 @@ export class RgtrUsrMgmtComponent implements OnInit{
                 return data[sortHeaderId]; // Default sorting for other columns
               }
             };
-            console.log(this.sort)
-            console.log(this.usersDataSource.sort);
           }, 0);
         }
       },
