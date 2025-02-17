@@ -161,7 +161,7 @@ export class DomainInvoicesComponent implements OnInit {
   }
 
   async getInvoiceDetailAndDisplayAsPDF(domain: any) {
-    let invoiceTitle : any ;
+    let invoiceTitle : any  = "";
     try {
       console.log("Fetching the invoice details...");
   
