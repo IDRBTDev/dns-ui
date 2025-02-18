@@ -21,9 +21,4 @@ export class AssetService {
       headers: headers // Include headers if authentication is required
     }).toPromise(); // Use toPromise() to convert Observable to Promise
   }
-
-
-  getInvoicePDF(domain: any): Observable<Blob> {
-    return this.http.post('/api/generateInvoicePDF', domain, { responseType: 'blob' });
-  }
 }
