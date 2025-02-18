@@ -73,11 +73,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-    "ssl": true,
-    "sslCert": "src/cert.pem",
-    "sslKey": "src/key.pem"
-  },
           "configurations": {
             "production": {
               "browserTarget": "dns-ui:build:production"
