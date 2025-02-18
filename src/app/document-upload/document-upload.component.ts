@@ -696,117 +696,218 @@ set missingAdminDocs(value:string[]){
     }
   }
   filterInputValue:string='';
+  // handleAdminInputChange(event: any): void {
+  //   this.adminInputFieldErrors = { message: '', type: '' };
+  //   if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+  //     // Directly update the adminInputValue from the event
+  //     this.adminInputValue = event;
+     
+  //     // PAN validation
+  //     if (this.adminSelectedDocType === 'PAN') {
+  //       const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
+  //       this.adminInputFieldErrors = isValidPAN
+  //         ? { message: '', type: '' }
+  //         : { message: 'Invalid PAN format.', type: 'adminInputValue' };
+  //     }
+ 
+  //     // Aadhaar validation
+  //      else if (this.adminSelectedDocType === 'Aadhaar') {
+  //       let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
+  //       formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
+ 
+  //       this.adminInputValue = formattedAadhaar;
+ 
+  //       const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));
+  //       this.adminInputFieldErrors = isValidAadhaar
+  //         ? { message: '', type: '' }
+  //         : { message: 'Invalid Aadhaar format.', type: 'adminInputValue' };
+  //   }
+ 
+  //     // Reset errors for other cases
+  //     else {
+  //       this.adminInputFieldErrors = { message: '', type: '' };
+  //     }
+ 
+  //   }
+  // }
   handleAdminInputChange(event: any): void {
     this.adminInputFieldErrors = { message: '', type: '' };
-    if (/^[a-zA-Z0-9\s]*$/.test(event)) {
-      // Directly update the adminInputValue from the event
-      this.adminInputValue = event;
-     
-      // PAN validation
-      if (this.adminSelectedDocType === 'PAN') {
-        const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
-        this.adminInputFieldErrors = isValidPAN
-          ? { message: '', type: '' }
-          : { message: 'Invalid PAN format.', type: 'adminInputValue' };
-      }
- 
-      // Aadhaar validation
-       else if (this.adminSelectedDocType === 'Aadhaar') {
-        let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
-        formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
- 
-        this.adminInputValue = formattedAadhaar;
- 
-        const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));
-        this.adminInputFieldErrors = isValidAadhaar
-          ? { message: '', type: '' }
-          : { message: 'Invalid Aadhaar format.', type: 'adminInputValue' };
+  
+    // Step 1: Sanitize the input by removing any special characters, spaces, and hyphens.
+    let sanitizedInput = event.replace(/[^a-zA-Z0-9]/g, '');  // This removes any special characters and spaces.
+  
+    // Directly update the adminInputValue from the sanitized input
+    this.adminInputValue = sanitizedInput;
+  
+    // Step 2: PAN validation
+    if (this.adminSelectedDocType === 'PAN') {
+      // Ensure PAN follows the correct format: 5 letters + 4 digits + 1 letter
+      const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(sanitizedInput);
+      this.adminInputFieldErrors = isValidPAN
+        ? { message: '', type: '' }
+        : { message: 'Invalid PAN format.', type: 'adminInputValue' };
     }
- 
-      // Reset errors for other cases
-      else {
-        this.adminInputFieldErrors = { message: '', type: '' };
-      }
- 
+  
+    // Step 3: Aadhaar validation
+    else if (this.adminSelectedDocType === 'Aadhaar') {
+      // Remove all non-digit characters
+      let aadhaarSanitizedInput = event.replace(/[^0-9]/g, ''); // Remove non-digit characters
+  
+      // Format the sanitized input (limit to 12 digits and add spaces every 4 digits)
+      let formattedAadhaar = aadhaarSanitizedInput.slice(0, 12); // Limit to 12 digits
+      formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
+  
+      // Update the input field with the formatted Aadhaar number
+      this.adminInputValue = formattedAadhaar;
+  
+      // Validate Aadhaar number: it must contain exactly 12 digits (no spaces)
+      const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));
+  
+      this.adminInputFieldErrors = isValidAadhaar
+        ? { message: '', type: '' }
+        : { message: 'Invalid Aadhaar format', type: 'adminInputValue' };
     }
   }
  
  
+  // handleTechInputChange(event: any): void {
+  //   if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+  //     this.techInputValue = event;
+  //     if (this.techSelectedDocType === 'PAN') {
+  //       const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
+  //       this.techInputFieldErrors = isValidPAN
+  //         ? { message: '', type: '' }
+  //         : { message: 'Invalid PAN format.', type: 'techInputValue' };
+  //     } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+  //       this.techInputValue = event;
+  //       if (this.techSelectedDocType === 'Aadhaar') {
+  //         //console.log(event, this.adminSelectedDocType);
+       
+  //         // Remove non-digit characters and limit to 12 digits
+  //         let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
+       
+  //         // Insert a space after every 4 digits
+  //         formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
+       
+  //         // Update the input field with the formatted Aadhaar number
+  //         this.techInputValue = formattedAadhaar;
+       
+  //         // Validate the Aadhaar number format (12 digits, no spaces or hyphens)
+  //         const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));  // Remove spaces for validation
+       
+  //         // Set the error message if the Aadhaar number is invalid
+  //         this.techInputFieldErrors = isValidAadhaar
+  //           ? { message: '', type: '' }
+  //           : { message: 'Invalid Aadhaar format.', type: 'techInputValue' };
+  //       }
+  //     } else {
+  //       this.techInputFieldErrors = { message: '', type: '' };
+ 
+  //       // this.techInputFieldErrors.message = '';
+  //     }
+  //   }
+  // }
+
   handleTechInputChange(event: any): void {
-    if (/^[a-zA-Z0-9\s]*$/.test(event)) {
-      this.techInputValue = event;
+    this.techInputFieldErrors = { message: '', type: '' };
+  
+    // Step 1: Sanitize the input by removing any special characters, spaces, and hyphens.
+    let sanitizedInput = event.replace(/[^a-zA-Z0-9]/g, '');  // This removes any special characters and spaces.
+  
+    // Directly update the adminInputValue from the sanitized input
+    this.techInputValue = sanitizedInput;
       if (this.techSelectedDocType === 'PAN') {
-        const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
+        const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(sanitizedInput);
         this.techInputFieldErrors = isValidPAN
           ? { message: '', type: '' }
           : { message: 'Invalid PAN format.', type: 'techInputValue' };
-      } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
-        this.techInputValue = event;
-        if (this.techSelectedDocType === 'Aadhaar') {
-          //console.log(event, this.adminSelectedDocType);
-       
-          // Remove non-digit characters and limit to 12 digits
-          let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
-       
-          // Insert a space after every 4 digits
-          formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
-       
-          // Update the input field with the formatted Aadhaar number
-          this.techInputValue = formattedAadhaar;
-       
-          // Validate the Aadhaar number format (12 digits, no spaces or hyphens)
-          const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));  // Remove spaces for validation
-       
-          // Set the error message if the Aadhaar number is invalid
-          this.techInputFieldErrors = isValidAadhaar
-            ? { message: '', type: '' }
-            : { message: 'Invalid Aadhaar format.', type: 'techInputValue' };
-        }
-      } else {
-        this.techInputFieldErrors = { message: '', type: '' };
- 
-        // this.techInputFieldErrors.message = '';
-      }
+      } else if (this.techSelectedDocType === 'Aadhaar')  {
+        let aadhaarSanitizedInput = event.replace(/[^0-9]/g, ''); // Remove non-digit characters
+  
+      // Format the sanitized input (limit to 12 digits and add spaces every 4 digits)
+      let formattedAadhaar = aadhaarSanitizedInput.slice(0, 12); // Limit to 12 digits
+      formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
+  
+      // Update the input field with the formatted Aadhaar number
+      this.techInputValue = formattedAadhaar;
+  
+      // Validate Aadhaar number: it must contain exactly 12 digits (no spaces)
+      const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));
+  
+      this.techInputFieldErrors = isValidAadhaar
+        ? { message: '', type: '' }
+        : { message: 'Invalid Aadhaar format', type: 'techInputValue' };
     }
   }
  
+  // handleBillingInputChange(event: any): void {
+  //   if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+  //     this.billingInputValue = event;
+  //     if (this.billingSelectedDocType === 'PAN') {
+  //       const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
+  //       this.billingInputFieldErrors = isValidPAN
+  //         ? { message: '', type: '' }
+  //         : { message: 'Invalid PAN format.', type: 'billingInputValue' };
+  //         localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
+  //     } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
+  //       this.billingInputValue = event;
+  //       if (this.billingSelectedDocType === 'Aadhaar') {
+  //         //console.log(event, this.adminSelectedDocType);
+       
+  //         // Remove non-digit characters and limit to 12 digits
+  //         let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
+       
+  //         // Insert a space after every 4 digits
+  //         formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
+       
+  //         // Update the input field with the formatted Aadhaar number
+  //         this.billingInputValue = formattedAadhaar;
+       
+  //         // Validate the Aadhaar number format (12 digits, no spaces or hyphens)
+  //         const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));  // Remove spaces for validation
+       
+  //         // Set the error message if the Aadhaar number is invalid
+  //         this.billingInputFieldErrors = isValidAadhaar
+  //           ? { message: '', type: '' }
+  //           : { message: 'Invalid Aadhaar format.', type: 'billingInputValue' };
+  //       }
+  //     } else {
+  //       this.billingInputFieldErrors = { message: '', type: '' };
+  //       // localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
+  //     }
+  //   }
+  //   //this.billingInputFieldErrors.message = '';
+  // }
   handleBillingInputChange(event: any): void {
-    if (/^[a-zA-Z0-9\s]*$/.test(event)) {
-      this.billingInputValue = event;
+    this.billingInputFieldErrors = { message: '', type: '' };
+  
+    // Step 1: Sanitize the input by removing any special characters, spaces, and hyphens.
+    let sanitizedInput = event.replace(/[^a-zA-Z0-9]/g, '');  // This removes any special characters and spaces.
+  
+    // Directly update the adminInputValue from the sanitized input
+    this.billingInputValue = sanitizedInput;
       if (this.billingSelectedDocType === 'PAN') {
-        const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(event);
+        const isValidPAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(sanitizedInput);
         this.billingInputFieldErrors = isValidPAN
           ? { message: '', type: '' }
           : { message: 'Invalid PAN format.', type: 'billingInputValue' };
-          localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
-      } else if (/^[a-zA-Z0-9\s]*$/.test(event)) {
-        this.billingInputValue = event;
-        if (this.billingSelectedDocType === 'Aadhaar') {
-          //console.log(event, this.adminSelectedDocType);
-       
-          // Remove non-digit characters and limit to 12 digits
-          let formattedAadhaar = event.replace(/\D/g, '').slice(0, 12);
-       
-          // Insert a space after every 4 digits
-          formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 ');
-       
-          // Update the input field with the formatted Aadhaar number
-          this.billingInputValue = formattedAadhaar;
-       
-          // Validate the Aadhaar number format (12 digits, no spaces or hyphens)
-          const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));  // Remove spaces for validation
-       
-          // Set the error message if the Aadhaar number is invalid
-          this.billingInputFieldErrors = isValidAadhaar
-            ? { message: '', type: '' }
-            : { message: 'Invalid Aadhaar format.', type: 'billingInputValue' };
-        }
-      } else {
-        this.billingInputFieldErrors = { message: '', type: '' };
-        // localStorage.setItem('billFormatError',JSON.stringify(this.billingInputFieldErrors))
+      } else if (this.billingSelectedDocType === 'Aadhaar') {
+        let aadhaarSanitizedInput = event.replace(/[^0-9]/g, ''); // Remove non-digit characters
+  
+        // Format the sanitized input (limit to 12 digits and add spaces every 4 digits)
+        let formattedAadhaar = aadhaarSanitizedInput.slice(0, 12); // Limit to 12 digits
+        formattedAadhaar = formattedAadhaar.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 digits
+    
+        // Update the input field with the formatted Aadhaar number
+        this.billingInputValue = formattedAadhaar;
+    
+        // Validate Aadhaar number: it must contain exactly 12 digits (no spaces)
+        const isValidAadhaar = /^[0-9]{12}$/.test(formattedAadhaar.replace(/\s/g, ''));
+    
+        this.billingInputFieldErrors = isValidAadhaar
+          ? { message: '', type: '' }
+          : { message: 'Invalid Aadhaar format', type: 'billingInputValue' };
       }
-    }
-    //this.billingInputFieldErrors.message = '';
   }
 
 

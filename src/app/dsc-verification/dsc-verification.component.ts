@@ -352,6 +352,13 @@ export class DscVerificationComponent {
       }
     );
   }
+  preventSpecialChars(event: KeyboardEvent): void {
+  const regex = /^[a-zA-Z\s]+$/; // Only allows alphanumeric characters
+  const key = event.key;
+  if (!regex.test(key)) {
+    event.preventDefault(); // Prevent the default behavior if the character is not allowed
+  }
+}
 }
 
 
