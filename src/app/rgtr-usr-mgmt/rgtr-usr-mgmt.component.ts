@@ -110,7 +110,7 @@ export class RgtrUsrMgmtComponent implements OnInit{
         'Sl No',
         'userId',
         'userName',
-        'departmentId',
+        'departmentName',
         'userRoles',
         'access',
         'active',
@@ -183,8 +183,14 @@ export class RgtrUsrMgmtComponent implements OnInit{
           console.log(this.sort)
           setTimeout(() => {
             this.usersDataSource.sort = this.sort;
-            console.log(this.sort)
-            console.log(this.usersDataSource.sort);
+            this.usersDataSource.sortingDataAccessor = (data: User, sortHeaderId: string) => {
+              if (sortHeaderId === 'userRoles') {
+                const roleName = data.userRoles[0]?.roleName; // Use optional chaining
+                return roleName || ''; // Handle null/undefined or empty userRoles
+              } else {
+                return data[sortHeaderId]; // Default sorting for other columns
+              }
+            };
           }, 0);
         }
       },
@@ -499,10 +505,33 @@ getTheRole(role){
   }
   searchText: string = '';
   applyFilter() {
-    this.usersDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
-
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Get the filter text
+  
+    this.usersDataSource.filterPredicate = (data: any, filter: string) => {
+   
+      const displayedColumnsValues = this.displayedColumns.map(column => {
+        if (column === 'userRoles') {
+          const roleName = data.userRoles[0]?.roleName;
+          return roleName ; // Handle cases where userRoles is empty/null
+        }
+      
+          // For non-date columns, return the column value
+          return data[column];
+      
+      });
+  
+      // Perform a case-insensitive search across the columns
+      return displayedColumnsValues.some(value =>
+        value?.toString().toLowerCase().includes(filter)
+      );
+    };
+  
+    // Apply the filter value to the data source
+    this.usersDataSource.filter = filterValue;
+  
+    // Reset paginator to the first page after filtering
     if (this.usersDataSource.paginator) {
-      this.usersDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+      this.usersDataSource.paginator.firstPage();
     }
   }
 }

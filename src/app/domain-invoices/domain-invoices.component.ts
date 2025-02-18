@@ -17,6 +17,7 @@ import * as mammoth from 'mammoth';
 import * as html2pdf from 'html2pdf.js';
 import { DomainObject } from '../invoice-generation/service/invoice.service';
 import { UserService } from '../user/service/user.service';
+import { AssetService } from '../asset.service';
 @Component({
   selector: 'app-domain-invoices',
   templateUrl: './domain-invoices.component.html',
@@ -44,7 +45,7 @@ export class DomainInvoicesComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   searchText:String=''
   constructor(private domainService: DomainService, private router: Router, private domainInvoiceService: DomainInvoiceService
-    ,private  domainObject : DomainObject, private userService:UserService,
+    ,private  domainObject : DomainObject, private userService:UserService, private assetService:AssetService
   ) {
     this.domainsDataSource = new MatTableDataSource<any>();
   }
@@ -165,11 +166,13 @@ export class DomainInvoicesComponent implements OnInit {
     try {
       console.log("Fetching the invoice details...");
   
+      
       // Load DOCX template
-      const templateData = await this.loadTemplate1('/assets/Invoicetemplate.docx');
+      const templateData = await this.assetService.getInvoiceTemplateBlob();
   
+      const arrayBuffer = await new Response(templateData).arrayBuffer();
       // Convert DOCX to HTML using Mammoth
-      const html = await this.convertDocxToHtml(templateData);
+      const html = await this.convertDocxToHtml(arrayBuffer);
   
       console.log("Template converted to HTML");
   

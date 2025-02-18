@@ -19,7 +19,7 @@ export class RgtrDomainComponent {
     'domainId',
     'domainName',
     'orgName',
-    'regDate',
+    'registrationDate',
     'renewalDate',
     'status',
   ]; // Matches matColumnDef values
@@ -106,13 +106,53 @@ export class RgtrDomainComponent {
     this.router.navigateByUrl('/add-domain');
   }
   applyFilter() {
-    this.domainsDataSource.filter = this.searchText.trim().toLowerCase(); // Filters based on search text
-
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Get the filter text
+  
+    this.domainsDataSource.filterPredicate = (data: any, filter: string) => {
+   
+      const displayedColumnsValues = this.displayedColumns.map(column => {
+        if (column === 'registrationDate' || column === 'renewalDate') {
+          // For date columns, format the date to 'MMM d, y, h:mm a' format
+          const dateValue = data[column];
+          console.log(dateValue)
+          return this.formatDate(new Date(dateValue));
+        }else if(column === 'domainName'){
+          const domainName = data.domainName?.toString().toLowerCase() || "";
+                const bankName = data.bankName?.toString().toLowerCase() || "";
+                // console.log(domainName+bankName)
+                return bankName+domainName; // Combine for filtering
+        } else {
+          // For non-date columns, return the column value
+          return data[column];
+        }
+      });
+  
+      // Perform a case-insensitive search across the columns
+      return displayedColumnsValues.some(value =>
+        value?.toString().toLowerCase().includes(filter)
+      );
+    };
+  
+    // Apply the filter value to the data source
+    this.domainsDataSource.filter = filterValue;
+  
+    // Reset paginator to the first page after filtering
     if (this.domainsDataSource.paginator) {
-      this.domainsDataSource.paginator.firstPage(); // Reset paginator to the first page after filtering
+      this.domainsDataSource.paginator.firstPage();
     }
-}
-
+  }
+  formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    };
+    return date.toLocaleDateString('en-US', options);
+ 
+  }
 getFilteredDomains(): void {
   const filters = JSON.parse(localStorage.getItem('filters') || '{}'); // Retrieve filters from localStorage
 

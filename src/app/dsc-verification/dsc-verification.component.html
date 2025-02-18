@@ -13,7 +13,7 @@
             type="text"
             class="form-control inline-field rounded-input"
             [(ngModel)]="formData.name"
-            name="name"
+            name="name" (keypress)="preventSpecialChars($event)" maxlength="50"
             placeholder="Name"
             style="width: 300px"
             required
@@ -23,7 +23,7 @@
             type="text"
             class="form-control inline-field rounded-input"
             [(ngModel)]="formData.fatherName"
-            name="fatherName"
+            name="fatherName" (keypress)="preventSpecialChars($event)" maxlength="50"
             placeholder="Father's Name"
             style="width: 300px"
             required
@@ -44,7 +44,7 @@
             type="text"
             class="form-control inline-field rounded-input"
             [(ngModel)]="formData.organisationName"
-            name="organisationName"
+            name="organisationName" (keypress)="preventSpecialChars($event)" maxlength="50"
             placeholder="Organisation's Name"
             style="width: 300px"
             required
@@ -54,7 +54,7 @@
             type="text"
             class="form-control inline-field rounded-input"
             [(ngModel)]="formData.designation"
-            name="designation"
+            name="designation" (keypress)="preventSpecialChars($event)" maxlength="50"
             placeholder="Designation"
             style="width: 300px"
             required
@@ -64,7 +64,7 @@
             type="text"
             class="form-control inline-field rounded-input"
             [(ngModel)]="formData.authOrganisationName"
-            name="authOrganisationName"
+            name="authOrganisationName" (keypress)="preventSpecialChars($event)" maxlength="50"
             placeholder="Authorised Organisation's Name"
             style="width: 300px"
             required

@@ -18,13 +18,13 @@
 
             <table id="table1" mat-table [dataSource]="documentsListDataSource" matSort matSortActive="id"
               class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
+              <ng-container matColumnDef="contactDocumentId">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-                <td style="cursor: pointer;text-decoration: underline;color: blue;" mat-cell *matCellDef="let document">
+                <td mat-cell *matCellDef="let document">
                   {{document.contactDocumentId}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="document">
+              <ng-container matColumnDef="fileName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Document</th>
                 <td (click)="viewCurrentData(
                       document.documentType === 'Aadhaar' ? document.aadharDocument : 
@@ -44,7 +44,7 @@
               </ng-container>
 
               <ng-container matColumnDef="approveOrReject">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approve/Reject</th>
+                <th mat-header-cell *matHeaderCellDef >Approve/Reject</th>
                 <td style="cursor: pointer;text-decoration: underline;color: blue;" mat-cell *matCellDef="let document">
                   <div>
                     <span class="approved" data-target="#approveCommentModal"
