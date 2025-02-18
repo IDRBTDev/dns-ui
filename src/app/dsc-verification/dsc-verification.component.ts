@@ -64,17 +64,17 @@ export class DscVerificationComponent {
   
   
   affixDSC() {
-    // if (!this.validateForm()||this.ageError) {
-    //   if (!this.formData.agree ) {
-    //   this.validationError = 'You must agree to the terms and conditions.';
-    //   }
-    //   else{
-    //     this.validationError = 'You must fill all the details.';
-    //   }
-    //   return;
-    // }
-    // this.isLoading = true;
-    //this.openPasswordModal();
+    if (!this.validateForm()||this.ageError) {
+      if (!this.formData.agree ) {
+      this.validationError = 'You must agree to the terms and conditions.';
+      }
+      else{
+        this.validationError = 'You must fill all the details.';
+      }
+      return;
+    }
+    this.isLoading = true;
+    this.openPasswordModal();
     // if(!this.isTokenInserted){
     //   this.toastr.warning("Please insert your DSC Token");
     //   this.isLoading = false;
@@ -82,9 +82,9 @@ export class DscVerificationComponent {
     // else{
     //   this.openPasswordModal();
     // }
-  //  this.getDscResponse();
+   this.getDscResponse();
+    //this.router.navigateByUrl("/rgnt-domains")
   //  this.router.navigateByUrl("/rgnt-domains")
-   this.router.navigateByUrl("/rgnt-domains")
   }
 
   openPasswordModal() {
