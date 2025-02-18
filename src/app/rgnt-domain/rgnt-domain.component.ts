@@ -180,7 +180,7 @@ applyFilter() {
       if (column === 'registrationDate' || column === 'renewalDate') {
         // For date columns, format the date to 'MMM d, y, h:mm a' format
         const dateValue = data[column];
-        return this.formatDate(new Date(dateValue.endsWith('Z') ? dateValue : dateValue + 'Z'));
+        return this.formatDate(new Date(dateValue));
       }else if(column === 'domainName'){
         const domainName = data.domainName?.toString().toLowerCase() || "";
               const bankName = data.bankName?.toString().toLowerCase() || "";

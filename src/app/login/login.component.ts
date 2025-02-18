@@ -34,10 +34,15 @@ export class LoginComponent {
     loginState:'',
     loginCountry: ''
   }
-
+  sanitizeInput(input: string): string {
+    console.log("sanitized value",input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+    return input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  
   isOtpValid: boolean = false;
   async login(){
     //check if OTP is valid
+    this.user.email=this.sanitizeInput(this.user.email);
     if(this.user.email==''||this.user.password==''){
       if(this.user.email==''){
         this.emailError="error"
@@ -51,6 +56,7 @@ export class LoginComponent {
         this.emailError='Please enter a valid email address.'
         return;
       }
+      // console.log(this.sanitizeInput(this.user.email.trim()));
     await this.checkUserExist(this.user.email.trim());
     
    
@@ -72,7 +78,7 @@ export class LoginComponent {
       error:(error) => {
         console.error('Verification failed', error);
         if (error.status === 404) {
-          this.toastr.error('invalid credentials');
+          this.toastr.error('Invalid Credentials');
         } else {
           this.toastr.error('An error occurred while verifying the email.');
         }
@@ -98,7 +104,7 @@ export class LoginComponent {
     const MAX_LOGIN_ATTEMPTS = 3; 
   
     try {
-    
+    this.user.password=this.sanitizeInput(this.user.password);
       const response = await lastValueFrom(this.loginService.userLoginToDR(this.user));
   
       this.getOtpForLoginUser();
@@ -144,7 +150,8 @@ export class LoginComponent {
     }
   }
   isValidEmail(email: string): boolean {
-    email=email.trim();
+
+    email=this.sanitizeInput(email.trim());
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   }
@@ -157,7 +164,8 @@ export class LoginComponent {
   
   loginUserOtp: number = 0;
   async getOtpForLoginUser(){
-    await lastValueFrom(this.loginService.getOtpForLoginUserByUserId(this.user.email)).then(
+    
+    await lastValueFrom(this.loginService.getOtpForLoginUserByUserId(this.sanitizeInput(this.user.email))).then(
       response => {
         if(response.status === HttpStatusCode.Ok){
           this.loginUserOtp = response.body;

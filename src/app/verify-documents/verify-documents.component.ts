@@ -56,8 +56,8 @@ export class VerifyDocumentsComponent implements OnInit {
     if(this.role === 'IDRBTADMIN'){
       this.displayedColumns = [
         // 'checkbox',
-        'id',
-        'document',
+        'contactDocumentId',
+        'fileName',
         'documentType',
         'approveOrReject',
         'documentStatus',
@@ -66,8 +66,8 @@ export class VerifyDocumentsComponent implements OnInit {
     }else{
       this.displayedColumns = [
         // 'checkbox',
-        'id',
-        'document',
+        'contactDocumentId',
+        'fileName',
         'documentType',
        // 'approveOrReject',
         'documentStatus',
