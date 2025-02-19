@@ -45,7 +45,7 @@ export class DscVerificationComponent {
 
   embridgeUrl = 'https://localhost.emudhra.com:26769';
   // dscApi = 'http://172.27.10.232:9002';
-  dscApi = 'http://localhost:9002';
+  dscApi =  environment.apiURL;
 
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {}
