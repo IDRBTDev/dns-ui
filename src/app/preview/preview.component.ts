@@ -63,7 +63,7 @@ export class PreviewComponent implements OnInit, OnChanges {
   selectedCertificate: any = null;
   selectedDataType: string = '';
   embridgeUrl = 'https://localhost.emudhra.com:26769';
-  dscApi = 'http://localhost:9002';
+  dscApi = environment.apiURL;
   enable: boolean = true;
 
 
