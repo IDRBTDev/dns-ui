@@ -35,7 +35,7 @@ export class LoginComponent {
     loginCountry: ''
   }
   sanitizeInput(input: string): string {
-    console.log("sanitized value",input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+    // console.log("sanitized value",input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
     return input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
   
