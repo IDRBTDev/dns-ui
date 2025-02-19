@@ -52,6 +52,7 @@ export class DomainApplicationDetailsComponent implements OnInit{
     console.log("Datal",domainId)
     this.domainService.getDomainByDomainId(domainId).subscribe({
       next: (res) => {
+        console.log(res)
         if (res.status === HttpStatusCode.Ok) {
           this.domainsList = res.body;
          console.log("domain data received:",res);
@@ -62,9 +63,14 @@ export class DomainApplicationDetailsComponent implements OnInit{
         }
       },
       error: (error) => {
-        console.error("Error fetching domain data:", error);
+       if(error.status==HttpStatusCode.Unauthorized){
+        this.navigateToSessionTimeOut();
+       }
       }
     });
+  }
+  navigateToSessionTimeOut(){
+    this.router.navigateByUrl("/session-timeout");
   }
 
   organizationsList:any;

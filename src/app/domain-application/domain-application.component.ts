@@ -151,8 +151,13 @@ export class DomainApplicationComponent {
     );
   }
   async getLoggedInUserDetails(){
+    if(localStorage.getItem('email')==null){
+      this.navigateToSessionTimeout();
+      return
+    }
     await lastValueFrom(this.userService.getUserByEmailId(localStorage.getItem('email'))).then(
       response => {
+        console.log(response)
         if(response.status === HttpStatusCode.Ok){
          this.organisationId=response.body.organisationId;
          if(this.role !== 'IDRBTADMIN'){
