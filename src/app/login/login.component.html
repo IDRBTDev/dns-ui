@@ -71,7 +71,7 @@
                   <div style="font-weight: 500; font-size: 16px;margin-bottom: 5px;">Email ID</div>
                   <div class="input-container" style="margin-bottom: 30px;">
                     <input type="text" id="email" [(ngModel)]="user.email" (ngModelChange)="emailValidation()" placeholder="Enter your email">
-                    <div *ngIf="emailError!=''" style="color:red;font-size: 14px;">Enter email</div>
+                    <div *ngIf="emailError!=''" style="color:red;font-size: 14px;">Enter the email</div>
                     <!-- <span class="get-otp" (click)="getOtpForLoginUser()">Get OTP</span> -->
                   </div>
       
@@ -108,7 +108,7 @@
                         <a routerLink="/f-p-e-v">Forgot password?</a>
                       </div>
                       <div>
-                        <button class="btn btn-primary" (click)="login()" style="height: 100%;width:150px">Next</button>
+                        <button class="btn btn-primary" (click)="login()" style="height: 100%;width:150px"z>Next</button>
                       </div>
                     </div>
 

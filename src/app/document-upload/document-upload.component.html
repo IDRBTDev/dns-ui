@@ -31,7 +31,7 @@
       </div>
 
       <!-- Upload Button -->
-      <button class="btn btn-primary" (click)="handleOrganisationFileUploadClick()" 
+      <button class="btn btn-primary" (click)="handleOrganisationFileUploadClick()"
           [disabled]="organisationInputFieldErrors.message !== ''">
           Select File & Upload
       </button>
@@ -134,7 +134,7 @@
       
       <div *ngIf="adminSelectedDocType === 'Aadhaar' ||
                   adminSelectedDocType === 'PAN'" style="flex: 1;">
-          <input  type="text" class="form-control" [(ngModel)]="adminInputValue"
+          <input  type="text" class="form-control" [(ngModel)]="adminInputValue" (keydown)="onKeyDown($event)"
               (ngModelChange)="handleAdminInputChange($event)" placeholder="Enter {{ adminSelectedDocType }}"
               [attr.maxLength]="adminSelectedDocType === 'Aadhaar' ? 14 : adminSelectedDocType === 'PAN' ? 10 : null" />
           <div *ngIf="adminInputFieldErrors.type === 'adminInputValue'" style="color: red; font-size: 0.875rem; position: absolute;">
@@ -227,7 +227,7 @@
       <select
         id="techDocType"
         class="form-select"
-        [(ngModel)]="techSelectedDocType"
+        [(ngModel)]="techSelectedDocType" 
         (change)="handleTechDocTypeChange($event)"
         required
       >
@@ -254,7 +254,7 @@
       <input
         type="text"
         class="form-control"
-        [(ngModel)]="techInputValue"
+        [(ngModel)]="techInputValue" (keydown)="onKeyDown($event)"
         (ngModelChange)="handleTechInputChange($event)"
         placeholder="Enter {{ techSelectedDocType }}"
         [attr.maxLength]="
@@ -371,7 +371,7 @@
       <select
         id="billingDocType"
         class="form-select"
-        [(ngModel)]="billingSelectedDocType"
+        [(ngModel)]="billingSelectedDocType" 
         (change)="handleBillingDocTypeChange($event)"
         required
       >
@@ -400,7 +400,7 @@
       <input
         type="text"
         class="form-control"
-        [(ngModel)]="billingInputValue"
+        [(ngModel)]="billingInputValue" (keydown)="onKeyDown($event)"
         (ngModelChange)="handleBillingInputChange($event)"
         placeholder="Enter {{ billingSelectedDocType }}"
         [attr.maxLength]="

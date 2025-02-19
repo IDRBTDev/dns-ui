@@ -118,11 +118,11 @@ export class RgntOtpVerificationComponent implements OnInit {
                 if(LoginStatus=='true'){
                   if(role === 'IDRBTADMIN'){
                     this.router.navigateByUrl('/rgtr-dashboard');
-                    this.toastr.success('Login Success');
+                    this.toastr.success('Logged in Successfully');
                    }else{
                     this.router.navigateByUrl('/dsc-verification');
                     localStorage.setItem('pageType','user');
-                    this.toastr.success('Login Success');
+                    this.toastr.success('Logged in Successfully');
                   }
                 }else{
                   localStorage.setItem('tempTok',response.headers.get('token'));
