@@ -34,6 +34,7 @@ export class RgtrLoginComponent {
     emailError:string='';
     isOtpValid: boolean = false;
     async login(){
+      this.user.email=this.sanitizeInput(this.user.email);
       if(this.user.email==''||this.user.password==''){
         if(this.user.email==''){
           this.emailError="error"
@@ -49,6 +50,11 @@ export class RgtrLoginComponent {
       }
        await this.checkUserExist(this.user.email);
     
+    }
+
+    sanitizeInput(input: string): string {
+      // console.log("sanitized value",input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+      return input.replace(/<script.*?>.*?<\/script>/gi, "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
     async checkUserExist(email){
       this.rgtrLoginService.verifyUserEmail(email).subscribe({
