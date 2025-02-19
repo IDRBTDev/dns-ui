@@ -56,6 +56,10 @@ export class RgntDomainComponent implements OnInit {
     //}
   }
   async fetchOrgIdAndDomainsOfit(){
+    if(this.userEmailId==null||this.userEmailId==''){
+      this.navigateToSessionTimeout();
+      return
+    }
     await lastValueFrom(this.userService.getUserByEmailId(this.userEmailId)).then(
        (response) => {
        

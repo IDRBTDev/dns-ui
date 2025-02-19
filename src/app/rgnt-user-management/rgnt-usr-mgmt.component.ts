@@ -62,6 +62,9 @@ export class RgntUserManagementComponent {
 
   loggedInUser: any;
   async getLoggedInUserDetails(){
+    if(this.userId == null|| this.userId==''){
+      this.navigateToSessionTimeout()
+    }
    await lastValueFrom(this.userService.getUserByEmailId(this.userId)).then(
     response => {
       if(response.status === HttpStatusCode.Ok){

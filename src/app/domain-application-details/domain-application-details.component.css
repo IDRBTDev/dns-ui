@@ -284,3 +284,13 @@ app-side-menu {
             flex: 1 1 100%;
         }}
 }
+.form-select { /* Or your more specific selector */
+    padding-top: 5px; /* Adjust this value to move the text up or down */
+    padding-bottom: 5px; /* Adjust if needed to maintain consistent height */
+    line-height: 1.5; /* Adjust this if needed for vertical centering */
+}
+.form-control { /* Or your more specific selector */
+    padding-top: 5px; /* Adjust this value to move the text up or down */
+    padding-bottom: 5px; /* Adjust if needed to maintain consistent height */
+    line-height: 1.5; /* Adjust this if needed for vertical centering */
+}
