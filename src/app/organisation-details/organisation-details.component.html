@@ -183,7 +183,20 @@
 
           <div class="col-md-6 mb-3">
             <label for="mobileNumber" class="form-label">Mobile Number</label><span style="color: red">*</span>
-            <div class="input-group">  <span class="input-group-text">+91</span> <input
+            <div style="display: flex;justify-content: space-between;">    
+              <!-- Country Code Dropdown for Bill Phone -->
+              <div class="custom-select-wrapper">
+                <div class="customs-select" formControlName="countryCode">
+                  {{ selectedCountryCode ? selectedCountryCode : 'Country Code' }}
+                  <span class="dropdown-arrow"></span>
+                </div>
+                <select class="real-select" (change)="updateCountryCode($event)">
+                  <option value="" disabled>Select country</option>
+                  <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                    {{ stdNum.name }} -(+{{ stdNum.code }})
+                  </option>
+                </select>
+              </div> <input
                 type="text"
                 id="mobileNumber"
                 class="form-control"

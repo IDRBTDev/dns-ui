@@ -9,6 +9,7 @@ import { DocumentUploadComponent } from '../document-upload/document-upload.comp
 import { OrganisationDetailsService } from './service/organisation-details.service';
 import { lastValueFrom } from 'rxjs';
 import { error } from 'jquery';
+import { AssetService } from '../asset.service';
 
 @Component({
     selector: 'app-organisation-details',
@@ -38,14 +39,16 @@ export class OrganisationDetailsComponent implements OnInit {
         //private router: Router,
         private organisationDetailsService: OrganisationDetailsService,
         private userService: UserService,
+        private assetService:AssetService,
         private router: Router
     ) {
         this.organisationForm = this.fb.group({
             organisationDetailsId:0,
             institutionName: ['',[Validators.required]],
             stdCode:['',[Validators.required]],
+            countryCode:['',[Validators.required]],
             stdTelephone: [{ value: '', disabled: true },[Validators.required, Validators.pattern('^[0-9]{10}$')]],
-            mobileNumber: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
+            mobileNumber: [{ value: '', disabled: true },[Validators.required, Validators.pattern('^[0-9]{10}$')]],
             organisationEmail: ['',[Validators.required, Validators.pattern ('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
             address: ['',Validators.required],
             pincode: ['',[Validators.required, Validators.pattern('^[0-9]{6}$')]],
@@ -60,6 +63,7 @@ export class OrganisationDetailsComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         await this.getCurrentLoggedInUserDetails();
         await this.getAllStdCodes();
+        await this.getAllCountryCodes();
         this.organisationForm.get('userMailId').setValue(this.userId);
         if (this.cityOptions.length > 1) {
             this.organisationForm.get('city')?.setValue(this.cityOptions[1].name);
@@ -81,6 +85,10 @@ export class OrganisationDetailsComponent implements OnInit {
             }
         })
     }
+    countryCodes
+    async getAllCountryCodes(){
+       this.countryCodes= this.assetService.getAllcountryCode()
+    }
 
   
     updateStdCode(event){
@@ -93,6 +101,18 @@ export class OrganisationDetailsComponent implements OnInit {
             this.organisationForm.controls['stdTelephone'].disable();
         }
     }
+    selectedCountryCode
+    updateCountryCode(event){
+        this.selectedCountryCode=event.target.value
+        if(this.selectedCountryCode){
+            this.organisationForm.patchValue({ countryCode: this.selectedCountryCode });
+            console.log(this.organisationForm)
+            this.organisationForm.controls['mobileNumber'].enable();
+        }else{
+            this.organisationForm.controls['mobileNumber'].disable();
+        }
+    }
+   
   
     
     navigateToSessionTimeOut(){
