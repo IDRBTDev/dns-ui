@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit, EventEmitter, Output, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user/service/user.service';
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 import { OrganisationDetailsService } from './service/organisation-details.service';
 import { lastValueFrom } from 'rxjs';
+import { error } from 'jquery';
 
 @Component({
     selector: 'app-organisation-details',
@@ -42,7 +43,8 @@ export class OrganisationDetailsComponent implements OnInit {
         this.organisationForm = this.fb.group({
             organisationDetailsId:0,
             institutionName: ['',[Validators.required]],
-            stdTelephone: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
+            stdCode:['',[Validators.required]],
+            stdTelephone: [{ value: '', disabled: true },[Validators.required, Validators.pattern('^[0-9]{10}$')]],
             mobileNumber: ['',[Validators.required, Validators.pattern('^[0-9]{10}$')]],
             organisationEmail: ['',[Validators.required, Validators.pattern ('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
             address: ['',Validators.required],
@@ -57,12 +59,44 @@ export class OrganisationDetailsComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         await this.getCurrentLoggedInUserDetails();
+        await this.getAllStdCodes();
         this.organisationForm.get('userMailId').setValue(this.userId);
         if (this.cityOptions.length > 1) {
             this.organisationForm.get('city')?.setValue(this.cityOptions[1].name);
         } else {
             this.clearCityAndState();
         }
+    }
+    StdCodes;
+    selectedStdCode:any;
+    async getAllStdCodes(){
+        this.organisationDetailsService.getAllStdCodes().subscribe({
+            next:(response)=>{
+                this.StdCodes=response.body;
+                console.log(this.StdCodes)
+            },error:(error)=>{
+                if(error.status==HttpStatusCode.Unauthorized){
+                    this.navigateToSessionTimeOut();
+                }
+            }
+        })
+    }
+
+  
+    updateStdCode(event){
+        this.selectedStdCode=event.target.value
+        if(this.selectedStdCode){
+            this.organisationForm.patchValue({ stdCode: this.selectedStdCode });
+            console.log(this.organisationForm)
+            this.organisationForm.controls['stdTelephone'].enable();
+        }else{
+            this.organisationForm.controls['stdTelephone'].disable();
+        }
+    }
+  
+    
+    navigateToSessionTimeOut(){
+        this.router.navigateByUrl("/session-timeout");
     }
     preventSpecialChars(event: KeyboardEvent): void {
         const regex = /^[a-zA-Z\s]+$/; // Only allows alphanumeric characters
@@ -87,6 +121,7 @@ export class OrganisationDetailsComponent implements OnInit {
             "160034": { city: "Chandigarh", state: "Chandigarh" },
           };
           if(pincode!='160034'){
+            console.log("entered the fetchcity")
             this.http.get(`https://api.postalpincode.in/pincode/${pincode}`).subscribe(
                 (response: any) => {
                     console.log('API Response:', response);
