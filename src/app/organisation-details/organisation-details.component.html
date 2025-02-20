@@ -129,26 +129,56 @@
           <div class="col-md-6 mb-3">
             <label for="stdTelephone" class="form-label">STD Telephone</label
             ><span style="color: red">*</span>
-
-            <input
-              type="text"
-              id="stdTelephone"
-              class="form-control"
-              placeholder="Enter STD telephone"
-              formControlName="stdTelephone"
-              (input)="sanitizeInput($event, 'stdTelephone')"
-              maxlength="10"
-              required
-            />
-            <div
-              *ngIf="
-                organisationForm.get('stdTelephone')?.invalid &&
-                organisationForm.get('stdTelephone')?.touched
-              "
-              class="text-danger"
-            >
-              Please enter valid stdTelephone.
+            <div style="display: flex;justify-content: space-between;">
+              <div class="custom-select-wrapper">
+                <!-- Styled span that looks like a select box -->
+                <div  class="customs-select" formControlName="stdCode" >{{ selectedStdCode ? selectedStdCode : 'Std Code' }}
+                  <span class="dropdown-arrow"></span>
+                </div>
+              
+                <!-- Fully transparent select on top of the span -->
+                <select #countrySelect class="real-select"  (change)="updateStdCode($event)">
+                  <option value="" disabled selected>Select country</option>
+                  <option *ngFor="let stdNum of StdCodes" [value]="stdNum.stdCode">
+                    {{ stdNum.sdcaName }} - {{ stdNum.stdCode }}
+                  </option>
+                </select>
+                
+              </div>
+              <!-- <span class="input-group-text" *ngIf="optionSelected" >{{ selectedStdCode }}</span> -->
+               <div style="width: 100%;">
+                <input 
+                type="text"
+                id="stdTelephone"
+                class="form-control"
+                placeholder="Enter STD telephone"
+                formControlName="stdTelephone"
+                (input)="sanitizeInput($event, 'stdTelephone')"
+                maxlength="10"
+                required
+              />
+              <div
+                *ngIf="
+                  organisationForm.get('stdTelephone')?.invalid &&
+                  organisationForm.get('stdTelephone')?.touched 
+                "
+                class="text-danger"
+              >
+                Please enter valid std telephone.
+              </div>
+               </div>
+              
             </div>
+            <div
+                *ngIf="
+                  organisationForm.get('stdCode')?.invalid &&
+                  organisationForm.get('stdCode')?.touched 
+                "
+                class="text-danger"
+              >
+                Please enter valid std telephone.
+              </div>
+            
           </div>
 
           <div class="col-md-6 mb-3">

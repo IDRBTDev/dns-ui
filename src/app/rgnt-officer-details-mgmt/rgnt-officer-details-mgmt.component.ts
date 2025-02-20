@@ -172,26 +172,29 @@ export class RgntOfficerDetailsMgmtComponent implements OnInit{
 
   contactDetailsList: any[] = [];
   async getContactOfficersDetails(selectedOrganisationId: number){
-    await lastValueFrom(this.contactDetailsService.getContactOfficersDetails(selectedOrganisationId)).then(
-      response => {
-        if(response.status === HttpStatusCode.Ok){
-          console.log(response.body);
-          this.contactDetailsList = response.body;
-          this.usersDataSource.data = this.contactDetailsList;
-          this.usersDataSource.paginator = this.paginator;
-          console.log(this.sort)
-          setTimeout(() => {
-            this.usersDataSource.sort = this.sort;
+    if(selectedOrganisationId!=0){
+      await lastValueFrom(this.contactDetailsService.getContactOfficersDetails(selectedOrganisationId)).then(
+        response => {
+          if(response.status === HttpStatusCode.Ok){
+            console.log(response.body);
+            this.contactDetailsList = response.body;
+            this.usersDataSource.data = this.contactDetailsList;
+            this.usersDataSource.paginator = this.paginator;
             console.log(this.sort)
-            console.log(this.usersDataSource.sort);
-          }, 0);
+            setTimeout(() => {
+              this.usersDataSource.sort = this.sort;
+              console.log(this.sort)
+              console.log(this.usersDataSource.sort);
+            }, 0);
+          }
+        },error => {
+          if(error.status === HttpStatusCode.Unauthorized){
+            this.navigateToSessionTimeout();
+          }
         }
-      },error => {
-        if(error.status === HttpStatusCode.Unauthorized){
-          this.navigateToSessionTimeout();
-        }
-      }
-    )
+      )
+    }
+    
   }
 
   // async getUsersList(organisationId: number) {

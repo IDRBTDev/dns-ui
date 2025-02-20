@@ -63,7 +63,7 @@ export class DomainInvoicesComponent implements OnInit {
      this.getAllInvoicesData();
 
    }else{
-     this.getAllInvoicesDataByOrgId(this.organisationId)
+     this.getAllInvoicesDataByOrgId(this.organisationId);
    }
    // this.getAllInvoicesData();
 
@@ -139,6 +139,9 @@ export class DomainInvoicesComponent implements OnInit {
   }
   invoiceDetailsList : any[] =[]
   async getAllInvoicesData(){
+    if(localStorage.getItem('jwtToken')==null||localStorage.getItem('jwtToken')==''){
+      this.navigateToSessionTimeout()
+    }
     await lastValueFrom(this.domainInvoiceService.getAllInvoiceDetails()).then(
      (response) => {
        if(response.status === HttpStatusCode.Ok){
@@ -360,6 +363,9 @@ rupee : string =""
 
 
 async getAllInvoicesDataByOrgId(orgId : number){
+  if(localStorage.getItem('jwtToken')==null||localStorage.getItem('jwtToken')==''){
+    this.navigateToSessionTimeout()
+  }
   await lastValueFrom(this.domainInvoiceService.getAllInvoiceDetailsByOrgId(orgId)).then(
    (response) => {
      if(response.status === HttpStatusCode.Ok){

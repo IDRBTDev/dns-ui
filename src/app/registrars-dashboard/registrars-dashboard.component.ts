@@ -76,12 +76,21 @@ export class RegistrarsDashboardComponent implements OnInit {
      this.getAllActiveUsers();
   }
   getAllOrg(){
-    this.organisationService.getAllOrganisations().subscribe({
-      next: response=>{
-        // console.log(response)
-        this.totalRegistrants=response.body.length;
-      },error:error=>{
+    // this.organisationService.getAllOrganisations().subscribe({
+    //   next: response=>{
+    //     console.log(response)
+    //     this.totalRegistrants=response.body.length;
+    //   },error:error=>{
 
+    //   }
+    // })
+    this.domainService.getAllDomainsByOrgId(0).subscribe({
+      next:(response)=>{
+        this.totalRegistrants=response.body.length;
+      },error:(error)=>{
+        if(error.status==HttpStatusCode.Unauthorized){
+          this.navigateToSessionTimeout();
+        }
       }
     })
   }
@@ -697,7 +706,7 @@ export class RegistrarsDashboardComponent implements OnInit {
               order:1
             },
             {
-              label: "Pending",
+              label: "Under Review",
               data: this.TotalApplicationStatusForWeek[1],
               // backgroundColor: dayColors,
               backgroundColor:' #9EDEF8',
@@ -811,7 +820,7 @@ export class RegistrarsDashboardComponent implements OnInit {
               order:1
             },
             {
-              label: "Pending",
+              label: "Under Review",
               data: this.TotalApplicationStatusForMonth[1],
               // backgroundColor: dayColors,
               backgroundColor:'#9EDEF8',
@@ -924,7 +933,7 @@ export class RegistrarsDashboardComponent implements OnInit {
               order:1
             },
             {
-              label: "Pending",
+              label: "Under Review",
               data: this.TotalApplicationStatusForYear[1],
               // backgroundColor: dayColors,
               backgroundColor:'#9EDEF8',

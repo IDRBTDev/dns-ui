@@ -12,6 +12,7 @@ import { environment } from 'src/app/environments/environment';
 })
 
 export class OrganisationDetailsService {
+   
     constructor(private http: HttpClient) { }
     // Method to submit form data to the backend API
     saveOrganisationDetails(formData: any): Observable<any> {
@@ -43,6 +44,13 @@ export class OrganisationDetailsService {
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         })});
     }
+
+    getAllStdCodes(){
+      const apiUrl = environment.apiURL+'/dr/organisationDetails/getAllStdCodes';
+      return this.http.get<any[]>(apiUrl, {observe:'response', headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+      })});
+  }
 
     sendOtpForVerifyingOfficers(role: string, email: string) {
         let apiUrl;
