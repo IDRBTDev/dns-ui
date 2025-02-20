@@ -69,7 +69,21 @@
                   <label for="adminPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="adminCountryCode">
+                        {{ selectedAdminCountryCode ? selectedAdminCountryCode : 'Select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateAdminCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
+       
                   <input
                     type="text"
                     id="adminPhone"
@@ -93,7 +107,21 @@
                   <label for="adminAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="adminAltCountryCode">
+                        {{ selectedAdminAltCountryCode ? selectedAdminAltCountryCode : 'Select Country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateAdminAltCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
+                    
                   <input
                     type="text"
                     id="adminAltPhone"
@@ -239,7 +267,20 @@
                   <label for="techPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="techCountryCode">
+                        {{ selectedTechCountryCode ? selectedTechCountryCode : 'Select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateTechCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="techPhone"
@@ -263,7 +304,20 @@
                   <label for="techAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="techAltCountryCode">
+                        {{ selectedTechAltCountryCode ? selectedTechAltCountryCode : 'Select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateTechAltCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="techAltPhone"
@@ -410,7 +464,20 @@
                   <label for="billPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="billCountryCode">
+                        {{ selectedBillCountryCode ?selectedBillCountryCode : 'select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateBillCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="billPhone"
@@ -434,7 +501,20 @@
                   <label for="billAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
-                  <div class="input-group">  <span class="input-group-text">+91</span> 
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Alternative Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="billAltCountryCode">
+                        {{ selectedBillAltCountryCode ? selectedBillAltCountryCode : 'select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateBillAltCountryCode($event)">
+                        <option value="" disabled selected>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="billAltPhone"
@@ -601,6 +681,20 @@
                   <label for="adminPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="adminCountryCode">
+                        {{ selectedAdminCountryCode ? selectedAdminCountryCode : 'Select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateAdminCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="adminPhone"
@@ -609,7 +703,7 @@
                     (input)="sanitizeInput($event, 'adminPhone')"
                     maxlength="10"
                     placeholder="Enter phone number"
-                  />
+                  /></div>
                   <div
                     *ngIf="
                       fullForm.get('adminPhone')?.invalid &&
@@ -624,6 +718,20 @@
                   <label for="adminAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="adminAltCountryCode">
+                        {{ selectedAdminAltCountryCode ? selectedAdminAltCountryCode : 'Select Country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateAdminAltCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="adminAltPhone"
@@ -642,7 +750,7 @@
                   >
                     Please enter a valid Phone number.
                   </div>
-                </div>
+                </div></div>
                 <div class="col-md-6">
                   <label for="adminDesignation" class="form-label"
                     >Designation</label
@@ -762,6 +870,18 @@
                   <label for="techPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="custom-select-wrapper">
+                    <div class="customs-select" formControlName="techCountryCode">
+                      {{ selectedTechCountryCode ? selectedTechCountryCode : 'Select country' }}
+                      <span class="dropdown-arrow"></span>
+                    </div>
+                    <select class="real-select" (change)="updateTechCountryCode($event)">
+                      <option value="" disabled>Select country</option>
+                      <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                        {{ stdNum.name }} -(+{{ stdNum.code }})
+                      </option>
+                    </select>
+                  </div>
                   <input
                     type="text"
                     id="techPhone"
@@ -785,6 +905,20 @@
                   <label for="techAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="techAltCountryCode">
+                        {{ selectedTechAltCountryCode ? selectedTechAltCountryCode : 'Select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateTechAltCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="techAltPhone"
@@ -803,7 +937,7 @@
                   >
                     Please enter a valid Phone number.
                   </div>
-                </div>
+                </div></div>
                 <div class="col-md-6">
                   <label for="techDesignation" class="form-label"
                     >Designation</label
@@ -916,6 +1050,20 @@
                   <label for="billPhone" class="form-label"
                     >Organization Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="billCountryCode">
+                        {{ selectedBillCountryCode ?selectedBillCountryCode : 'select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateBillCountryCode($event)">
+                        <option value="" disabled>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="billPhone"
@@ -934,11 +1082,25 @@
                   >
                     Please enter a valid Phone number.
                   </div>
-                </div>
+                </div></div>
                 <div class="col-md-6">
                   <label for="billAltPhone" class="form-label"
                     >Alternative Phone No</label
                   ><span class="text-danger">*</span>
+                  <div class="input-group">  
+                    <!-- Country Code Dropdown for Bill Alternative Phone -->
+                    <div class="custom-select-wrapper">
+                      <div class="customs-select" formControlName="billAltCountryCode">
+                        {{ selectedBillAltCountryCode ? selectedBillAltCountryCode : 'select country' }}
+                        <span class="dropdown-arrow"></span>
+                      </div>
+                      <select class="real-select" (change)="updateBillAltCountryCode($event)">
+                        <option value="" disabled selected>Select country</option>
+                        <option *ngFor="let stdNum of countryCodes" [value]="stdNum.code">
+                          {{ stdNum.name }} -(+{{ stdNum.code }})
+                        </option>
+                      </select>
+                    </div>
                   <input
                     type="text"
                     id="billAltPhone"
@@ -957,7 +1119,7 @@
                   >
                     Please enter a valid Phone number.
                   </div>
-                </div>
+                </div></div>
                 <div class="col-md-6">
                   <label for="billDesignation" class="form-label"
                     >Designation</label

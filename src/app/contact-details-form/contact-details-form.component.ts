@@ -59,8 +59,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       administrativeContactId: 0,
       adminFullName: ['', [Validators.required]],
       adminEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
-      adminPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      adminAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      adminPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      adminCountryCode:['',  [Validators.required]],
+      adminAltCountryCode:['', [Validators.required]],
+      adminAltPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       adminDesignation: ['', [Validators.required]],
       adminAddress: ['',[Validators.required]], 
 
@@ -68,8 +70,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       technicalContactId: 0,
       techFullName: ['', [Validators.required]],
       techEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
-      techPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      techAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      techCountryCode:[{value:'',disabled:true}, [Validators.required]],
+      techAltCountryCode:[{value:'',disabled:true}, [Validators.required]],
+      techPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      techAltPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       techDesignation: ['', [Validators.required]],
       techAddress: ['',[Validators.required]],
 
@@ -77,8 +81,10 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       organisationalContactId: 0,
       billFullName: ['', [Validators.required]],
       billEmail: ['', [Validators.required, Validators.email,this.customEmailValidator()]],
-      billPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
-      billAltPhone: ['', [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      billCountryCode:[{value:'',disabled:true}, [Validators.required]],
+      billAltCountryCode:[{value:'',disabled:true}, [Validators.required]],
+      billPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
+      billAltPhone: [{value:'',disabled:true}, [Validators.required,Validators.minLength(10),Validators.pattern('^[0-9]*$')]],
       billDesignation: ['', [Validators.required,Validators.maxLength(50)]],
       billAddress: ['',[Validators.required]],
     },
@@ -223,6 +229,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           adminEmail: this.fullForm.get('adminEmail')?.value,
           adminPhone: this.fullForm.get('adminPhone')?.value,
           adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
+          adminCountryCode:this.fullForm.get('adminCountryCode')?.value,
+          adminAltCountryCode:this.fullForm.get('adminAltCountryCode')?.value,
           adminDesignation: this.fullForm.get('adminDesignation')?.value,
            adminAddress: this.fullForm.value.adminAddress,
           
@@ -257,6 +265,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           techEmail: this.fullForm.get('techEmail')?.value,
           techPhone: this.fullForm.get('techPhone')?.value,
           techAltPhone: this.fullForm.get('techAltPhone')?.value,
+          techCountryCode:this.fullForm.get('techCountryCode')?.value,
+          techAltCountryCode:this.fullForm.get('techAltCountryCode')?.value,
           techDesignation: this.fullForm.get('techDesignation')?.value,
           addressLine1: this.addressDetails.address,
           city: this.addressDetails.city,
@@ -284,6 +294,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
           billEmail: this.fullForm.get('billEmail')?.value,
           billPhone: this.fullForm.get('billPhone')?.value,
           billAltPhone: this.fullForm.get('billAltPhone')?.value,
+          billCountryCode:this.fullForm.get('billCountryCode')?.value,
+          billAltCountryCode:this.fullForm.get('billAltCountryCode')?.value,
           billDesignation: this.fullForm.get('billDesignation')?.value,
           billAddress: this.fullForm.value.billAddress,
           addressLine1: this.addressDetails.address,
@@ -344,6 +356,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
     this.onSubmitNewContact(this.choosenContactType)
     //if(this.adminUploadedDocs.length < )
   //  this.formSubmitted.emit();
+    console.log(this.fullForm.get('adminAltPhone')?.value,this.fullForm.get('adminCountryCode')?.value,
+    this.fullForm.get('techCountryCode')?.value,this.fullForm.get('techAltCountryCode')?.value,this.fullForm.get('billCountryCode')?.value,
+    this.fullForm.get('billAltCountryCode')?.value)
     if (this.fullForm.valid && this.adminUploadedDocs.length>2 && this.techUploadedDocs.length>2 && this.billingUploadedDocs.length>2) {
       
       const adminDetails = {
@@ -351,6 +366,9 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         adminEmail: this.fullForm.get('adminEmail')?.value,
         adminPhone: this.fullForm.get('adminPhone')?.value,
         adminAltPhone: this.fullForm.get('adminAltPhone')?.value,
+        adminCountryCode:this.fullForm.get('adminCountryCode')?.value,
+        
+        adminAltCountryCode:this.fullForm.get('adminAltCountryCode')?.value,
         adminDesignation: this.fullForm.get('adminDesignation')?.value,
         // documents: this.fullForm.get('adminDocuments')?.value,
         adminAddress: this.fullForm.value.adminAddress,
@@ -363,12 +381,14 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         organisationId: this.organisationId,
         isActive : false
       };
-
+console.log(adminDetails.adminCountryCode);
       const technicalDetails = {
         techFullName: this.fullForm.get('techFullName')?.value,
         techEmail: this.fullForm.get('techEmail')?.value,
         techPhone: this.fullForm.get('techPhone')?.value,
         techAltPhone: this.fullForm.get('techAltPhone')?.value,
+        techCountryCode:this.fullForm.get('techCountryCode')?.value,
+          techAltCountryCode:this.fullForm.get('techAltCountryCode')?.value,
         techDesignation: this.fullForm.get('techDesignation')?.value,
         techAddress: this.fullForm.value.techAddress,
         addressLine1: this.addressDetails.address,
@@ -386,6 +406,8 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
         billEmail: this.fullForm.get('billEmail')?.value,
         billPhone: this.fullForm.get('billPhone')?.value,
         billAltPhone: this.fullForm.get('billAltPhone')?.value,
+        billCountryCode:this.fullForm.get('billCountryCode')?.value,
+          billAltCountryCode:this.fullForm.get('billAltCountryCode')?.value,
         billDesignation: this.fullForm.get('billDesignation')?.value,
         billAddress: this.fullForm.value.billAddress,
         addressLine1: this.addressDetails.address,
@@ -576,6 +598,89 @@ export class ContactDetailsFormComponent implements OnInit, OnChanges {
       };
     }
   
+    countryCodes = [
+      { name: 'India', code: '91' },
+      { name: 'United States', code: '1' },
+      { name: 'United Kingdom', code: '44' },
+      { name: 'Canada', code: '1' },
+      { name: 'Australia', code: '61' },
+      // Add more countries as needed
+    ];
+    selectedCountryCode: string = '+91'; // Default country code
+    countryCode: string = '+91'; // Default value for the country code to show in the input
+    phoneNumber: string = ''; // Store the phone number without the country code
+  
+    selectedAdminCountryCode: string = '';  // For billPhone
+    selectedAdminAltCountryCode: string = ''; 
+    updateAdminCountryCode(event) {
+      this.selectedAdminCountryCode = `${event.target.value}`;
+      if (this.selectedAdminCountryCode) {
+        this.fullForm.patchValue({ adminCountryCode: this.selectedAdminCountryCode });
+        this.fullForm.controls['adminPhone'].enable();
+      }
+      else{
+        this.fullForm.controls['adminPhone'].disable();
+      }
+    }
+  
+    // Update country code for billAltPhone
+    updateAdminAltCountryCode(event) {
+      this.selectedAdminAltCountryCode = `${event.target.value}`;
+      if (this.selectedAdminAltCountryCode) {
+        this.fullForm.patchValue({ adminAltCountryCode: this.selectedAdminAltCountryCode });
+        this.fullForm.controls['adminAltPhone'].enable();
+      }
+      else{
+        this.fullForm.controls['adminAltPhone'].disable();
+      }
+    }
+    selectedTechCountryCode: string = '';  // For billPhone
+    selectedTechAltCountryCode: string = ''; 
+    updateTechCountryCode(event) {
+      this.selectedTechCountryCode = `${event.target.value}`;
+      if (this.selectedTechCountryCode) {
+        this.fullForm.patchValue({ techCountryCode: this.selectedTechCountryCode });
+        this.fullForm.controls['techPhone'].enable();
+      }else{
+        this.fullForm.controls['techPhone'].disable();
+      }
+    }
+  
+    // Update country code for billAltPhone
+    updateTechAltCountryCode(event) {
+      this.selectedTechAltCountryCode = `${event.target.value}`;
+      if (this.selectedTechAltCountryCode) {
+        this.fullForm.patchValue({ techAltCountryCode: this.selectedTechAltCountryCode });
+        this.fullForm.controls['techAltPhone'].enable();
+      }else{
+        this.fullForm.controls['techAltPhone'].disable();
+      }
+    }
+ 
+    selectedBillCountryCode: string = '';  // For billPhone
+    selectedBillAltCountryCode: string = ''; 
+    updateBillCountryCode(event) {
+      this.selectedBillCountryCode = `${event.target.value}`;
+      if (this.selectedBillCountryCode) {
+        this.fullForm.patchValue({ billCountryCode: this.selectedBillCountryCode });
+        this.fullForm.controls['billPhone'].enable();
+      }
+      else{
+        this.fullForm.controls['billPhone'].disable();
+      }
+    }
+  
+    // Update country code for billAltPhone
+    updateBillAltCountryCode(event) {
+      this.selectedBillAltCountryCode = `${event.target.value}`;
+      if (this.selectedBillAltCountryCode) {
+        this.fullForm.patchValue({ billAltCountryCode: this.selectedBillAltCountryCode });
+        this.fullForm.controls['billAltPhone'].enable();
+      }else{
+        this.fullForm.controls['billAltPhone'].disable();
+      }
+    }
+
   
 }
 
